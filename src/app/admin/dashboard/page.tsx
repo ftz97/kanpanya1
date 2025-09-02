@@ -36,6 +36,38 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
+      {/* Outils d'Administration */}
+      <div className="bg-blue-50 border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex flex-wrap gap-4">
+            <a
+              href="/admin/quiz-tester"
+              className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
+            >
+              🧠 Testeur de Quiz
+            </a>
+            <a
+              href="/admin/quiz-scratch"
+              className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
+            >
+              🎫 Gestion Scratch Cards
+            </a>
+            <a
+              href="/admin/scratch-cards"
+              className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
+            >
+              ⚙️ Configuration Scratch
+            </a>
+            <a
+              href="/playground"
+              className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
+            >
+              🎮 Playground
+            </a>
+          </div>
+        </div>
+      </div>
+
       {/* Contenu */}
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         {activeTab === 'stats' && <AdminDashboard />}
