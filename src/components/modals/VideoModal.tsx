@@ -10,6 +10,7 @@ export default function VideoModal() {
   const { replace, close } = useModal();
 
   const handleVideoEnd = () => {
+    console.log("🎬 Vidéo terminée, passage au modal de fin");
     // Remplacer par le modal de fin de vidéo
     replace(<VideoEndModal />);
   };
