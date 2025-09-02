@@ -82,20 +82,19 @@ export default function QuizModal({ isOpen, onClose, onComplete }: QuizModalProp
   };
 
   const handleValidate = () => {
+    if (selected === currentQ.correct) {
+      setScore(prev => prev + currentQ.points);
+    }
     setValidated(true);
   };
 
   const handleNext = () => {
     if (isLastQuestion) {
-      // Calculer le score final
-      const totalPoints = questions.reduce((acc, q) => {
-        return acc + (selected === q.correct ? q.points : 0);
-      }, 0);
-      
+      // Utiliser le score accumulé
       onComplete?.({
-        score: selected === currentQ.correct ? 1 : 0,
+        score: score > 0 ? 1 : 0, // 1 si au moins une bonne réponse
         total: questions.length,
-        points: totalPoints
+        points: score
       });
       onClose();
     } else {
