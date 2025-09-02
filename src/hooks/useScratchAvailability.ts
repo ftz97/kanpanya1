@@ -1,6 +1,6 @@
 'use client';
-
 import { useCallback, useEffect, useState } from 'react';
+import { createBrowserSupabase } from '@/lib/supabase-browser';
 
 export type ScratchReward =
   | { type: 'points'; amount: number; label?: string }
@@ -10,60 +10,76 @@ export type ScratchState = {
   available: boolean;
   used: boolean;
   reward?: ScratchReward;
+  ticketId?: string;
 };
 
-const STORAGE_KEY = 'k-scratch';
-
-function readStorage(): ScratchState {
-  if (typeof window === 'undefined') return { available: false, used: true };
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return { available: false, used: true };
-    const data = JSON.parse(raw) as ScratchState;
-    return {
-      available: Boolean(data.available),
-      used: Boolean(data.used),
-      reward: data.reward,
-    };
-  } catch{
-    return { available: false, used: true };
-  }
-}
-
-function writeStorage(next: ScratchState){
-  if (typeof window === 'undefined') return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+function mapReward(row: any): ScratchReward | undefined {
+  if (!row) return undefined;
+  if (row.reward_type === 'points') return { type: 'points', amount: row.reward_amount ?? 0, label: row.reward_label ?? undefined };
+  if (row.reward_type === 'coupon') return { type: 'coupon', label: row.reward_label ?? 'Coupon' };
 }
 
 export function useScratchAvailability(){
-  const [state, setState] = useState<ScratchState>(() => readStorage());
+  const [state, setState] = useState<ScratchState>({ available: false, used: true });
+  const [supabase] = useState(() => createBrowserSupabase());
 
-  useEffect(() => {
-    // synchro onglets
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === STORAGE_KEY) setState(readStorage());
-    };
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
-  }, []);
+  const refresh = useCallback(async () => {
+    try {
+      const { data, error } = await supabase.rpc('get_pending_scratch');
+      if (error) { 
+        console.error('[get_pending_scratch]', error); 
+        setState({ available: false, used: true }); 
+        return; 
+      }
+      if (data) {
+        setState({ available: true, used: false, reward: mapReward(data), ticketId: data.id });
+      } else {
+        setState({ available: false, used: true });
+      }
+    } catch (err) {
+      console.error('[refresh]', err);
+      setState({ available: false, used: true });
+    }
+  }, [supabase]);
 
-  const activate = useCallback((reward: ScratchReward) => {
-    const next: ScratchState = { available: true, used: false, reward };
-    writeStorage(next);
-    setState(next);
-  }, []);
+  useEffect(() => { 
+    refresh(); 
+  }, [refresh]);
 
-  const markUsed = useCallback(() => {
-    const next: ScratchState = { ...state, available: false, used: true };
-    writeStorage(next);
-    setState(next);
-  }, [state]);
+  const activate = useCallback(async (opts: { quizId: string; points?: number; label?: string }) => {
+    try {
+      const { data, error } = await supabase.rpc('grant_scratch_after_quiz', {
+        p_quiz_id: opts.quizId,
+        p_points: opts.points ?? 50,
+        p_label: opts.label ?? `+${opts.points ?? 50} points`
+      });
+      if (error) { 
+        console.error('[grant_scratch_after_quiz]', error); 
+        return; 
+      }
+      if (data) {
+        setState({ available: true, used: false, reward: mapReward(data), ticketId: data.id });
+      }
+    } catch (err) {
+      console.error('[activate]', err);
+    }
+  }, [supabase]);
 
-  const clear = useCallback(() => {
-    const next: ScratchState = { available: false, used: true };
-    writeStorage(next);
-    setState(next);
-  }, []);
+  const markUsed = useCallback(async () => {
+    if (!state.ticketId) return;
+    try {
+      const { data, error } = await supabase.rpc('reveal_scratch', { p_ticket_id: state.ticketId });
+      if (error) { 
+        console.error('[reveal_scratch]', error); 
+        return; 
+      }
+      setState({ available: false, used: true, reward: mapReward(data), ticketId: data?.id });
+    } catch (err) {
+      console.error('[markUsed]', err);
+    }
+  }, [state.ticketId, supabase]);
 
-  return { state, activate, markUsed, clear };
+  const clear = useCallback(() => setState({ available: false, used: true }), []);
+
+  return { state, activate, markUsed, clear, refresh };
 }
