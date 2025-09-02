@@ -45,7 +45,7 @@ export default function Home() {
       
       {/* Navigation Header */}
       <nav className="w-full bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
           {/* Logo */}
           <div className="text-lg font-bold text-[#17BFA0]">Kanpanya</div>
 
@@ -66,13 +66,13 @@ export default function Home() {
       </nav>
 
       {/* Header intro */}
-      <div className="px-4 py-8 sm:px-6 sm:py-10 max-w-5xl mx-auto">
+      <div className="px-4 py-8 sm:px-6 sm:py-10 max-w-7xl mx-auto">
         <PageHeader />
       </div>
 
       {/* Section Ticket à gratter */}
       {state.available && !state.used ? (
-        <div id="scratch-section" className="px-4 py-6 sm:px-6 max-w-5xl mx-auto">
+        <div id="scratch-section" className="px-4 py-6 sm:px-6 max-w-7xl mx-auto">
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <div className="mb-4 flex items-center gap-2">
               <span className="text-2xl">🎫</span>
@@ -88,7 +88,7 @@ export default function Home() {
           </div>
         </div>
       ) : (
-        <div className="px-4 py-6 sm:px-6 max-w-5xl mx-auto">
+        <div className="px-4 py-6 sm:px-6 max-w-7xl mx-auto">
           <div className="bg-white rounded-2xl shadow-md p-6">
             <div className="text-gray-700 font-medium">Pas de ticket pour le moment</div>
             <div className="text-gray-500 text-sm">Termine un quiz pour débloquer un nouveau ticket à gratter.</div>
@@ -96,52 +96,55 @@ export default function Home() {
         </div>
       )}
 
-      {/* Bannière partenaire - Cliquable */}
-      <button
-        onClick={() => setVideoModalOpen(true)}
-        className="max-w-5xl mx-auto mt-8 sm:mt-10 rounded-2xl shadow-lg p-5 sm:p-8 text-[#212E40] w-full text-left hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
-        style={{
-          background:
-            "linear-gradient(90deg, #BCE8DF 0%, #C2F9DD 50%, #BCF7D2 100%)",
-        }}
-      >
-        <h3 className="font-semibold text-lg sm:text-xl">🎥 Mutuelle Locale</h3>
-        <p className="text-xs sm:text-sm mt-1">
-          Cliquez pour découvrir la vidéo interactive et gagner des points !
-        </p>
-        <div className="mt-3 flex items-center text-sm text-teal-700 font-medium">
-          <span>Regarder la vidéo + Quiz nutrition</span>
-          <ChevronRight className="w-4 h-4 ml-1" />
-        </div>
-      </button>
-
-      {/* Carte détail partenaire */}
-      <div className="relative max-w-5xl mx-auto mt-6 sm:mt-8 rounded-2xl shadow-md bg-white p-6 overflow-hidden">
-        {/* Bande verticale gradient */}
-        <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-[#17BFA0] to-[#BCE8DF] rounded-l-2xl"></div>
-
-        <div className="ml-4"> {/* Décale le contenu pour ne pas coller à la bande */}
-          <h3 className="font-semibold text-lg text-[#212E40]">Mutuelle Locale</h3>
-          <p className="text-sm text-gray-500">Partenaire officiel</p>
-          <p className="mt-2 font-bold text-[#17BFA0] text-lg">
-            Points doublés cette semaine ! 🎯
+      {/* Section Partenaire - Wrapper uniforme */}
+      <div className="max-w-7xl mx-auto mt-8 sm:mt-10 px-4 sm:px-6 space-y-4">
+        {/* Bannière partenaire - Cliquable */}
+        <button
+          onClick={() => setVideoModalOpen(true)}
+          className="w-full rounded-xl shadow p-4 text-[#212E40] text-left hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+          style={{
+            background:
+              "linear-gradient(90deg, #BCE8DF 0%, #C2F9DD 50%, #BCF7D2 100%)",
+          }}
+        >
+          <h3 className="font-semibold text-lg sm:text-xl">🎥 Mutuelle Locale</h3>
+          <p className="text-xs sm:text-sm mt-1">
+            Cliquez pour découvrir la vidéo interactive et gagner des points !
           </p>
-          <p className="text-sm text-gray-600 leading-relaxed">
-            Profitez de l'offre spéciale : tous vos achats rapportent 2x plus de points Kanpanya
-          </p>
-          <div className="mt-4 flex gap-3">
-            <button className="px-5 py-2 rounded-lg bg-[#17BFA0] text-white font-semibold shadow-md hover:bg-[#14a58d] transition">
-              Activer l'offre
-            </button>
-            <button className="px-5 py-2 rounded-lg border border-[#17BFA0] text-[#17BFA0] font-semibold hover:bg-[#F9FFFD]">
-              En savoir plus
-            </button>
+          <div className="mt-3 flex items-center text-sm text-teal-700 font-medium">
+            <span>Regarder la vidéo + Quiz nutrition</span>
+            <ChevronRight className="w-4 h-4 ml-1" />
+          </div>
+        </button>
+
+        {/* Carte détail partenaire */}
+        <div className="relative bg-white rounded-xl shadow p-4 overflow-hidden">
+          {/* Bande verticale gradient */}
+          <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-[#17BFA0] to-[#BCE8DF] rounded-l-xl"></div>
+
+          <div className="ml-4"> {/* Décale le contenu pour ne pas coller à la bande */}
+            <h3 className="font-semibold text-lg text-[#212E40]">Mutuelle Locale</h3>
+            <p className="text-sm text-gray-500">Partenaire officiel</p>
+            <p className="mt-2 font-bold text-[#17BFA0] text-lg">
+              Points doublés cette semaine ! 🎯
+            </p>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Profitez de l'offre spéciale : tous vos achats rapportent 2x plus de points Kanpanya
+            </p>
+            <div className="mt-4 flex gap-3">
+              <button className="px-5 py-2 rounded-lg bg-[#17BFA0] text-white font-semibold shadow-md hover:bg-[#14a58d] transition">
+                Activer l'offre
+              </button>
+              <button className="px-5 py-2 rounded-lg border border-[#17BFA0] text-[#17BFA0] font-semibold hover:bg-[#F9FFFD]">
+                En savoir plus
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Section Promos Flash */}
-      <section className="max-w-5xl mx-auto mt-10 px-4 sm:px-6">
+      <section className="max-w-7xl mx-auto mt-10 px-4 sm:px-6">
         <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#212E40]">
           🔥 Promos Flash
         </h2>
@@ -167,7 +170,7 @@ export default function Home() {
       </section>
 
       {/* Explorez par catégorie */}
-      <section className="max-w-5xl mx-auto mt-12 px-4 sm:px-6">
+      <section className="max-w-7xl mx-auto mt-12 px-4 sm:px-6">
         <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#212E40]">
           📂 Explorez par catégorie
         </h2>
@@ -195,7 +198,7 @@ export default function Home() {
 
       {/* Bloc communauté */}
       <section
-        className="max-w-5xl mx-auto mt-12 rounded-2xl shadow-lg p-6 sm:p-10 text-center"
+        className="max-w-7xl mx-auto mt-12 rounded-2xl shadow-lg p-6 sm:p-10 text-center"
         style={{
           background: "linear-gradient(90deg, #E9FFF6 0%, #F2FDFB 100%)",
         }}
@@ -217,7 +220,7 @@ export default function Home() {
       </section>
 
       {/* Stats */}
-      <section className="max-w-5xl mx-auto mt-10 sm:mt-12 px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+      <section className="max-w-7xl mx-auto mt-10 sm:mt-12 px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
         {[
           { icon: "🏬", number: "89", label: "Commerçants" },
           { icon: "👥", number: "1,247", label: "Utilisateurs" },
