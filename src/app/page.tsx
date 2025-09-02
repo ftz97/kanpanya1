@@ -5,14 +5,14 @@ import { InteractiveOfferDialog } from "@/components/InteractiveOfferDialog";
 import BannerMint from "@/components/BannerMint";
 import { SiteHeader } from "@/components/site-header";
 import PageHeader from "@/components/PageHeader";
-import VideoModal from "@/components/VideoModal";
+import OfferFlow from "@/components/OfferFlow";
 import InteractiveOfferQuiz from "@/components/InteractiveOfferQuiz";
 import { ScratchCard } from "@/components/ScratchCard";
 import { useScratchAvailability } from "@/hooks/useScratchAvailability";
 import * as React from "react";
 
 export default function Home() {
-  const [videoModalOpen, setVideoModalOpen] = React.useState(false);
+  const [offerFlowOpen, setOfferFlowOpen] = React.useState(false);
   const [quizOpen, setQuizOpen] = React.useState(false);
   const { state, markUsed } = useScratchAvailability();
 
@@ -22,9 +22,8 @@ export default function Home() {
   };
 
   const handleStartQuiz = () => {
-    // Fermer la modal vidéo et ouvrir le quiz
-    setVideoModalOpen(false);
-    setQuizOpen(true);
+    // Le quiz sera géré par OfferFlow
+    console.log("Quiz démarré via OfferFlow");
   };
 
   const handleQuizComplete = (result: { score: number; total: number; points: number }) => {
@@ -100,7 +99,7 @@ export default function Home() {
       <div className="max-w-7xl mx-auto mt-8 sm:mt-10 px-4 sm:px-6 space-y-4">
         {/* Bannière partenaire - Cliquable */}
         <button
-          onClick={() => setVideoModalOpen(true)}
+          onClick={() => setOfferFlowOpen(true)}
           className="w-full rounded-xl shadow p-4 text-[#212E40] text-left hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
           style={{
             background:
@@ -239,11 +238,12 @@ export default function Home() {
       </section>
 
       {/* Modals */}
-      <VideoModal 
-        open={videoModalOpen} 
-        onOpenChange={setVideoModalOpen}
+      <OfferFlow 
+        isOpen={offerFlowOpen} 
+        onClose={() => setOfferFlowOpen(false)}
         onVideoEnd={handleVideoEnd}
         onStartQuiz={handleStartQuiz}
+        onQuizComplete={handleQuizComplete}
       />
       
       <InteractiveOfferQuiz 
