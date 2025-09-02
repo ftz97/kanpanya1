@@ -41,6 +41,7 @@ export default function VideoModal({ open, onOpenChange, onVideoEnd, onStartQuiz
     setShowEndModal(false);
     setShowQuiz(false); // Pas de quiz dans le VideoModal
     setShowQuizModal(true); // Seulement le QuizModal séparé
+    onOpenChange(false); // Fermer complètement le VideoModal
     onStartQuiz?.();
   };
 
@@ -62,6 +63,10 @@ export default function VideoModal({ open, onOpenChange, onVideoEnd, onStartQuiz
     setShowQuizModal(false);
     setShowQuiz(false);
     // Ici vous pourriez envoyer les données à votre API
+  };
+
+  const handleCloseQuizModal = () => {
+    setShowQuizModal(false);
   };
 
   return (
@@ -176,7 +181,7 @@ export default function VideoModal({ open, onOpenChange, onVideoEnd, onStartQuiz
       {/* Modal de quiz interactif */}
       <QuizModal
         isOpen={showQuizModal}
-        onClose={() => setShowQuizModal(false)}
+        onClose={handleCloseQuizModal}
         onComplete={handleQuizComplete}
       />
     </>
