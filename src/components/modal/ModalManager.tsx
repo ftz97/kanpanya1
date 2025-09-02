@@ -1,6 +1,6 @@
 'use client';
 import React, {createContext, useContext, useCallback, useEffect, useState} from 'react';
-import { Dialog, DialogContent, DialogOverlay, DialogPortal, DialogTitle } from '@/components/ui/dialog'; // shadcn/radix
+import { Dialog, DialogContent, DialogOverlay, DialogPortal, DialogTitle, DialogDescription } from '@/components/ui/dialog'; // shadcn/radix
 import { VisuallyHidden } from '@/components/ui/visually-hidden';
 import { usePathname } from 'next/navigation';
 
@@ -40,23 +40,18 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
     console.log("📝 ModalManager: contenu changé vers:", content);
   }, [content]);
 
-  // Scroll lock + inert background while open
+  // Scroll lock while open
   useEffect(() => {
-    const root = document.getElementById('__next') || document.body;
     if (content) {
       document.documentElement.style.overflow = 'hidden';
       document.body.classList.add('modal-open');
-      // Utiliser inert au lieu d'aria-hidden pour éviter les conflits de focus
-      root.setAttribute('inert', '');
     } else {
       document.documentElement.style.overflow = '';
       document.body.classList.remove('modal-open');
-      root.removeAttribute('inert');
     }
     return () => {
       document.documentElement.style.overflow = '';
       document.body.classList.remove('modal-open');
-      root.removeAttribute('inert');
     };
   }, [content]);
 
@@ -68,12 +63,13 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
           <DialogOverlay className="fixed inset-0 z-[99998] bg-black/60 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out" />
           <DialogContent
             className="fixed left-1/2 top-1/2 z-[99999] -translate-x-1/2 -translate-y-1/2 w-[min(92vw,720px)] rounded-2xl bg-white p-6 shadow-2xl outline-none"
-            aria-describedby="modal-description"
           >
             <DialogTitle asChild>
               <VisuallyHidden>Modal</VisuallyHidden>
             </DialogTitle>
-            <VisuallyHidden id="modal-description">Contenu du modal</VisuallyHidden>
+            <DialogDescription asChild>
+              <VisuallyHidden>Contenu du modal</VisuallyHidden>
+            </DialogDescription>
             {content}
           </DialogContent>
         </DialogPortal>
