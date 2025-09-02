@@ -52,41 +52,39 @@ export default function VideoModalSimple({ isOpen, onOpenChange, onVideoEnd, onS
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="relative bg-gray-100 rounded-2xl aspect-video flex items-center justify-center"
+              className="relative bg-gray-100 rounded-2xl aspect-video overflow-hidden"
             >
-              {/* Placeholder pour la vidéo */}
-              <div className="text-center space-y-4">
-                <motion.div 
+              {/* Zone vidéo avec triangle de lecture superposé */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                {/* Triangle de lecture centré sur la vidéo */}
+                <motion.button
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                  className="w-20 h-20 bg-teal-600 rounded-full flex items-center justify-center mx-auto"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={handleVideoEnd}
+                  className="w-20 h-20 bg-teal-600/90 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto shadow-2xl hover:bg-teal-700/90 transition-colors"
                 >
                   <Play className="w-8 h-8 text-white ml-1" />
-                </motion.div>
+                </motion.button>
+              </div>
+              
+              {/* Informations de la vidéo en bas */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
+                  className="text-white"
                 >
-                  <h3 className="text-xl font-semibold text-gray-800">
+                  <h3 className="text-xl font-semibold">
                     Vidéo Mutuelle Locale
                   </h3>
-                  <p className="text-gray-600 mt-2">
+                  <p className="text-white/80 mt-1">
                     Découvrez nos services et gagnez des points !
                   </p>
                 </motion.div>
-                <motion.button
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleVideoEnd}
-                  className="btn btn-primary"
-                >
-                  Simuler la fin de vidéo
-                </motion.button>
               </div>
             </motion.div>
           ) : (
