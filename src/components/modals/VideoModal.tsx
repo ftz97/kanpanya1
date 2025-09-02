@@ -11,19 +11,7 @@ export default function VideoModal() {
 
   const handleVideoEnd = () => {
     console.log("🎬 Vidéo terminée, passage au modal de fin");
-    // Test simple : remplacer par un div basique
-    replace(
-      <div className="p-6 text-center">
-        <h2 className="text-2xl font-bold mb-4">TEST - Vidéo terminée !</h2>
-        <p className="mb-4">Si vous voyez ceci, le ModalManager fonctionne</p>
-        <button 
-          onClick={close}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Fermer
-        </button>
-      </div>
-    );
+    replace(<VideoEndModal />);
   };
 
   const handleClose = () => {
@@ -52,20 +40,16 @@ export default function VideoModal() {
       >
         {/* Triangle de lecture centré sur la vidéo */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <motion.button
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+          <button
             onClick={() => {
               console.log("🎯 Clic sur le triangle de lecture détecté !");
               handleVideoEnd();
             }}
-            className="w-20 h-20 bg-teal-600/90 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto shadow-2xl hover:bg-teal-700/90 transition-colors"
+            className="w-20 h-20 bg-teal-600/90 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto shadow-2xl hover:bg-teal-700/90 transition-colors z-10"
+            style={{ zIndex: 999 }}
           >
             <Play className="w-8 h-8 text-white ml-1" />
-          </motion.button>
+          </button>
         </div>
         
         {/* Informations de la vidéo en bas */}
