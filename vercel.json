@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    { "source": "http://www.:path*", "destination": "https://:path*", "permanent": true },
+    { "source": "http://:path*", "destination": "https://:path*", "permanent": true },
+    { "source": "https://www.:path*", "destination": "https://:path*", "permanent": true }
+  ]
+}
+
+
+
+
+
+
+
+

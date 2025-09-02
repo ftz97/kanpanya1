@@ -1,0 +1,76 @@
+{
+  "misc": {
+    "status": "Status",
+    "filters": "Filters",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "create": "Create",
+    "search": "Search",
+    "noData": "No data",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "toasts": {
+    "saved": "Saved successfully.",
+    "updated": "Updated successfully.",
+    "deleted": "Deleted successfully.",
+    "error": "Something went wrong."
+  },
+  "status": {
+    "all": "All",
+    "active": "Active",
+    "inactive": "Inactive",
+    "draft": "Draft",
+    "published": "Published",
+    "upcoming": "Upcoming",
+    "ongoing": "Ongoing",
+    "expired": "Expired",
+    "archived": "Archived"
+  },
+  "list": {
+    "offersCount": {
+      "one": "{count} offer",
+      "other": "{count} offers"
+    }
+  },
+  "forms": {
+    "errors": {
+      "required": "This field is required.",
+      "minChars": "At least {count} characters.",
+      "maxChars": "At most {count} characters.",
+      "nonNegative": "The value must be zero or positive.",
+      "dateOrder": "End date must be after the start date."
+    },
+    "isActive": "Active"
+  },
+  "api": {
+    "errors": {
+      "offer": {
+        "missing_title": "Title is required.",
+        "missing_dates": "Dates are required.",
+        "date_invalid": "The provided dates are invalid."
+      },
+      "unknown": "Unknown error.",
+      "supa.network": "Network issue. Check your connection.",
+      "supa.http.unauthorized": "Unauthorized.",
+      "supa.http.forbidden": "Access forbidden.",
+      "supa.http.not_found": "Resource not found.",
+      "supa.http.error": "Server error.",
+      "supa.rls.denied": "Access denied (RLS).",
+      "supa.pg.unique_violation": "A similar record already exists.",
+      "supa.pg.foreign_key_violation": "Foreign key constraint violated.",
+      "supa.pg.not_null_violation": "A required field is missing.",
+      "supa.pg.error": "Database error.",
+      "supa.auth.invalid_credentials": "Incorrect credentials.",
+      "supa.auth.rate_limited": "Too many attempts. Try again later.",
+      "supa.auth.email_not_confirmed": "Email not confirmed.",
+      "supa.auth.error": "Authentication error."
+    }
+  }
+}

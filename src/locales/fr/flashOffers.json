@@ -1,0 +1,68 @@
+{
+  "title": "Offres éclair",
+  "list": {
+    "newOffer": "Nouvelle offre",
+    "archivedTab": "Archives",
+    "activeTab": "Actives",
+    "title": "Mes offres",
+    "back": "← Retour",
+    "noOffers": "Aucune offre pour le moment.",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "discount": "Réduction",
+    "slots": "places",
+    "endsAt": "fin"
+  },
+  "filters": {
+    "title": "Filtres",
+    "byStatus": "Par statut",
+    "byDate": "Par date",
+    "byPrice": "Par prix"
+  },
+  "table": {
+    "title": "Titre",
+    "description": "Description",
+    "startsAt": "Début",
+    "endsAt": "Fin",
+    "price": "Prix",
+    "status": "Statut",
+    "actions": "Actions",
+    "createdAt": "Créé le",
+    "updatedAt": "Mis à jour le"
+  },
+  "new": {
+    "title": "Créer une offre",
+    "submit": "Créer l'offre",
+    "create": "Créer une offre flash",
+    "description": "Définis le titre, la réduction, les places et la fin.",
+    "titleLabel": "Titre",
+    "titlePlaceholder": "Offre spéciale",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Description de l'offre",
+    "startsAt": "Début",
+    "endsAt": "Fin",
+    "price": "Prix",
+    "isActive": "Actif",
+    "cancel": "Annuler",
+    "validate": "Valider",
+    "createdOk": "Offre flash créée ✅",
+    "createdErr": "Erreur création offre."
+  },
+  "edit": {
+    "title": "Éditer l'offre",
+    "submit": "Mettre à jour l'offre"
+  },
+  "empty": {
+    "title": "Aucune offre",
+    "hint": "Créez votre première offre pour la voir ici."
+  },
+  "list": {
+    "title": "Mes offres",
+    "back": "← Retour",
+    "noOffers": "Aucune offre pour le moment.",
+    "delete": "Supprimer",
+    "discount": "Réduction",
+    "slots": "places",
+    "end": "fin"
+  }
+}

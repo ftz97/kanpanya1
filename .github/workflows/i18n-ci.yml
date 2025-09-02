@@ -1,0 +1,61 @@
+name: i18n & Build
+
+on:
+  pull_request:
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      # --- i18n heal + guard ---
+      - name: Run i18n:heal (fills missing keys)
+        run: pnpm i18n:heal
+
+      - name: Fail if i18n:heal changed files (commit required)
+        run: |
+          if ! git diff --quiet --exit-code; then
+            echo "❌ i18n:heal modified files. Please commit generated changes."
+            git status --porcelain
+            exit 1
+          fi
+
+      - name: i18n check
+        run: pnpm check:i18n
+
+      # --- Build (Next.js / etc.) ---
+      - name: Build
+        run: pnpm build
+
+      # --- Playwright (optionnel) ---
+      - name: Install Playwright browsers
+        if: ${{ always() }}
+        run: pnpm exec playwright install --with-deps
+
+      - name: E2E tests
+        if: ${{ always() }}
+        run: pnpm exec playwright test
+
+

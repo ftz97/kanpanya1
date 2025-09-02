@@ -1,0 +1,134 @@
+{
+  "actions": {
+    "activate": "Activar",
+    "apply": "Aplicar",
+    "archive": "Archivar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "create": "Crear",
+    "deactivate": "Desactivar",
+    "delete": "Eliminar",
+    "duplicate": "Duplicar",
+    "edit": "Editar",
+    "new": "Nueva",
+    "reset": "Restablecer",
+    "restore": "Restaurar",
+    "save": "Guardar",
+    "update": "Actualizar",
+    "view": "Ver"
+  },
+  "api": {
+    "errors": {
+      "offer": {
+        "date_invalid": "Las fechas proporcionadas son inválidas.",
+        "missing_dates": "Las fechas son obligatorias.",
+        "missing_title": "El título es obligatorio."
+      },
+      "unknown": "Error desconocido.",
+      "supa.network": "Problema de red. Verifica tu conexión.",
+      "supa.http.unauthorized": "No autorizado.",
+      "supa.http.forbidden": "Acceso prohibido.",
+      "supa.http.not_found": "Recurso no encontrado.",
+      "supa.http.error": "Error del servidor.",
+      "supa.rls.denied": "Acceso denegado (RLS).",
+      "supa.pg.unique_violation": "Un registro similar ya existe.",
+      "supa.pg.foreign_key_violation": "Restricción de clave foránea violada.",
+      "supa.pg.not_null_violation": "Un campo requerido está faltando.",
+      "supa.pg.error": "Error de base de datos.",
+      "supa.auth.invalid_credentials": "Credenciales incorrectas.",
+      "supa.auth.rate_limited": "Demasiados intentos. Intenta más tarde.",
+      "supa.auth.email_not_confirmed": "Email no confirmado.",
+      "supa.auth.error": "Error de autenticación."
+    }
+  },
+  "badges": {
+    "danger": "Error",
+    "info": "Info",
+    "success": "Éxito",
+    "warning": "Aviso"
+  },
+  "dialogs": {
+    "archiveDesc": "Podrás restaurarlo más tarde.",
+    "archiveTitle": "¿Archivar este elemento?",
+    "deleteDesc": "Esta acción no se puede deshacer.",
+    "deleteTitle": "¿Eliminar este elemento?"
+  },
+  "forms": {
+    "dateRange": "Rango de fechas",
+    "endsAt": "Termina",
+    "errors": {
+      "dateOrder": "La fecha de fin debe ser posterior a la de inicio.",
+      "invalidEmail": "Email inválido.",
+      "maxChars": "Como máximo {count} caracteres.",
+      "minChars": "Al menos {count} caracteres.",
+      "nonNegative": "El valor debe ser positivo o cero.",
+      "required": "Este campo es obligatorio."
+    },
+    "isActive": "Activo",
+    "optional": "Opcional",
+    "price": "Precio",
+    "required": "Obligatorio",
+    "search": "Buscar...",
+    "startsAt": "Empieza"
+  },
+  "language": "Español",
+  "list": {
+    "offersCount": {
+      "one": "{count} oferta",
+      "other": "{count} ofertas"
+    }
+  },
+  "misc": {
+    "actions": "Acciones",
+    "empty": "Sin resultados",
+    "filters": "Filtros",
+    "loading": "Cargando...",
+    "no": "No",
+    "status": "Estado",
+    "yes": "Sí",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "create": "Crear",
+    "search": "Buscar",
+    "noData": "Sin datos",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior"
+  },
+  "toasts": {
+    "saved": "Guardado con éxito.",
+    "updated": "Actualizado con éxito.",
+    "deleted": "Eliminado con éxito.",
+    "error": "Ha ocurrido un error."
+  },
+  "pagination": {
+    "next": "Siguiente",
+    "of": "de",
+    "prev": "Anterior",
+    "rowsPerPage": "Filas por página"
+  },
+  "status": {
+    "active": "Activas",
+    "all": "Todos",
+    "archived": "Archivada",
+    "draft": "Borrador",
+    "expired": "Expirada",
+    "inactive": "Inactivas",
+    "ongoing": "En curso",
+    "published": "Publicada",
+    "upcoming": "Próximas"
+  },
+  "toasts": {
+    "archived": "Archivado.",
+    "deleted": "Eliminado con éxito.",
+    "error": "Ha ocurrido un error.",
+    "restored": "Restaurado.",
+    "saved": "Guardado con éxito.",
+    "updated": "Actualizado con éxito."
+  }
+}

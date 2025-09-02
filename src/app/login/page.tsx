@@ -1,0 +1,77 @@
+"use client";
+import { useState } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createBrowserSupabase } from "@/lib/supabase-browser";
+import LangToggle from "@/components/LangToggle";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+
+const schema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+
+export default function LoginPage(){
+  const defaultDict = {
+    login:{ title:"Sign in", email:"Email", password:"Password", signIn:"Sign in", magic:"Magic link", or:"or" },
+    errors:{ required:"Required", invalidEmail:"Invalid email.", authFailed:"Authentication failed." }
+  };
+  
+  const dict = typeof window !== "undefined" ? (window as { __DICT__?: typeof defaultDict }).__DICT__ ?? defaultDict : defaultDict;
+
+  const form = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema) });
+  const { register, handleSubmit } = form;
+  const [loading, setLoading] = useState(false);
+
+  const onPassword = handleSubmit(async ({email, password})=>{
+    setLoading(true);
+    const supabase = createBrowserSupabase();
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    setLoading(false);
+    if (error) toast.error(dict.errors.authFailed);
+    else window.location.href = "/dashboard";
+  });
+
+  const onMagic = async ()=>{
+    const email = form.getValues("email");
+    if (!email) return toast.warning(dict.errors.required);
+    setLoading(true);
+    const supabase = createBrowserSupabase();
+    const { error } = await supabase.auth.signInWithOtp({ email, options:{ emailRedirectTo: `${location.origin}/dashboard` }});
+    setLoading(false);
+    if (error) toast.error(dict.errors.authFailed);
+    else toast.success("Check your inbox.");
+  };
+
+  return (
+    <main className="min-h-screen grid place-items-center p-6">
+      <div className="w-full max-w-sm rounded-2xl border p-6 space-y-4">
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl font-semibold">{dict.login.title}</h1>
+          <LangToggle />
+        </div>
+
+        <div className="grid gap-3">
+          <div className="grid gap-1">
+            <Label htmlFor="email">{dict.login.email}</Label>
+            <Input id="email" type="email" {...register("email")} />
+          </div>
+          <div className="grid gap-1">
+            <Label htmlFor="password">{dict.login.password}</Label>
+            <Input id="password" type="password" {...register("password")} />
+          </div>
+
+        <Button onClick={onPassword} disabled={loading} className="w-full">{dict.login.signIn}</Button>
+          <div className="text-center text-sm text-gray-500">{dict.login.or}</div>
+          <Button variant="outline" onClick={onMagic} disabled={loading} className="w-full">
+            {dict.login.magic}
+          </Button>
+        </div>
+      </div>
+    </main>
+  );
+}

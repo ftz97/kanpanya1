@@ -1,26 +1,119 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* ===== Design System Kanpanya ===== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Fond global */
+  --color-bg: #F2F2F2;
+  --color-card: #FFFFFF;
+
+  /* Textes */
+  --color-text: #212E40;
+  --color-text-secondary: #7B838C;
+
+  /* Primaire (CTA) */
+  --color-primary: #17BFA0;
+  --color-primary-dark: #0D8C75;
+
+  /* Gradients */
+  --gradient-partner: linear-gradient(90deg, #BCE8DF 0%, #C2F9DD 50%, #BCF7D2 100%);
+  --gradient-flash: linear-gradient(90deg, #F2A0A0 0%, #F2C2C2 50%, #F2D5D5 100%);
+
+  /* Design System Kanpanya - Tokens principaux */
+  --k-brand: #14B8A6;     /* Lagon Kanpanya */
+  --k-brand-600: #0D9488;  /* Hover/press */
+  --k-ink: #0f172a;       /* Texte principal */
+  --k-page: #F2F2F2;      /* Fond de page */
+
+  /* Design tokens (shadcn compatible) - maintenus pour compatibilité */
+  --background: 0 0% 95%;         /* #F2F2F2 - gris clair */
+  --foreground: 215 25% 27%;      /* #1E293B - anthracite */
+
+  --card: 0 0% 100%;              /* #FFFFFF - blanc */
+  --card-foreground: 215 25% 27%; /* #1E293B - anthracite */
+
+  --primary: 169 79% 42%;         /* #17BFA0 - turquoise */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 142 67% 85%;       /* #BDF2D0 - vert menthe pastel */
+  --secondary-foreground: 215 25% 27%;
+
+  --muted: 0 0% 95%;              /* #F2F2F2 - gris clair */
+  --muted-foreground: 215 16% 47%;
+
+  --accent: 169 79% 42%;          /* #17BFA0 - turquoise */
+  --accent-foreground: 0 0% 100%;
+
+  --border: 0 0% 90%;             /* bordure subtile */
+  --input: 0 0% 90%;              /* input subtil */
+  --ring: 169 79% 42%;            /* #17BFA0 - turquoise */
+  --radius: 1rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+* { @apply border-gray-200; }
+html, body { height: 100%; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply text-slate-900 antialiased;
+  background-color: #F2F2F2;
 }
+
+/* Design System Kanpanya - Utilitaires */
+@layer base {
+  body { @apply bg-gray-100 text-slate-900; }
+}
+
+/***** Utilitaires *****/
+.text-brand{ color: var(--k-brand); }
+.bg-brand{ background: var(--k-brand); }
+.bg-page{ background: var(--k-page); }
+.border-brand{ border-color: var(--k-brand); }
+
+/***** Cartes *****/
+.k-card{ @apply rounded-2xl shadow-md bg-white p-4; }
+.k-card-lg{ @apply rounded-2xl shadow-lg bg-white p-6; }
+
+/***** Boutons *****/
+.k-btn{ @apply inline-flex items-center justify-center rounded-xl px-4 py-2 font-medium transition; }
+.k-btn-primary{ background: var(--k-brand); color:#fff; }
+.k-btn-primary:hover{ background: var(--k-brand-600); }
+
+/***** Micro-anim pour attirer l'œil *****/
+@keyframes k-pop {
+  0%,100%{ transform: scale(1); }
+  50%{ transform: scale(1.03); }
+}
+.k-pop{ animation: k-pop 1600ms ease-in-out infinite; }
+
+/* Titres des sections */
+h1, h2, h3, h4 { letter-spacing: -0.01em; }
+
+/* Helpers */
+.container-page { @apply container max-w-6xl; }
+.card-soft     { @apply rounded-2xl bg-white border border-gray-200; }
+.btn-pill      { @apply rounded-full px-5 h-11; }
+.badge-soft    { @apply inline-flex items-center rounded-full px-3 py-1 text-sm bg-green-100 text-green-800; }
+
+/* Kanpanya Helpers - Palette Turquoise Pastel */
+.kp-btn-green{
+  background-color:hsl(var(--primary));
+  color:white;
+  box-shadow:0 10px 28px -10px rgba(23,191,160,.55);
+  transition:transform .15s ease, box-shadow .2s ease, background-color .2s ease;
+}
+.kp-btn-green:hover{
+  background:linear-gradient(135deg, #17BFA0 0%, #BDF2D0 100%);
+  box-shadow:0 12px 32px -8px rgba(23,191,160,.65);
+  transform:translateY(-1px);
+}
+/* Nouvelles classes utilitaires turquoise pastel */
+.kp-bg-light-gray{ background-color:#F2F2F2; }
+.kp-text-anthracite{ color:#1E293B; }
+.kp-bg-turquoise{ background-color:#17BFA0; }
+.kp-text-turquoise{ color:#17BFA0; }
+.kp-bg-mint-pastel{ background-color:#BDF2D0; }
+.kp-text-mint-pastel{ color:#BDF2D0; }
+.kp-bg-coral-pastel{ background-color:#F2A0A0; }
+.kp-text-coral-pastel{ color:#F2A0A0; }
+

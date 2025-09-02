@@ -1,0 +1,76 @@
+{
+  "misc": {
+    "status": "Statut",
+    "filters": "Filtres",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "create": "Créer",
+    "search": "Rechercher",
+    "noData": "Aucune donnée",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent"
+  },
+  "toasts": {
+    "saved": "Enregistré avec succès.",
+    "updated": "Mise à jour effectuée.",
+    "deleted": "Supprimé avec succès.",
+    "error": "Une erreur est survenue."
+  },
+  "status": {
+    "all": "Toutes",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "draft": "Brouillon",
+    "published": "Publié",
+    "upcoming": "À venir",
+    "ongoing": "En cours",
+    "expired": "Expiré",
+    "archived": "Archivé"
+  },
+  "list": {
+    "offersCount": {
+      "one": "{count} offre",
+      "other": "{count} offres"
+    }
+  },
+  "forms": {
+    "errors": {
+      "required": "Ce champ est obligatoire.",
+      "minChars": "Au moins {count} caractères.",
+      "maxChars": "Au plus {count} caractères.",
+      "nonNegative": "La valeur doit être positive ou nulle.",
+      "dateOrder": "La date de fin doit être après la date de début."
+    },
+    "isActive": "Actif"
+  },
+  "api": {
+    "errors": {
+      "offer": {
+        "missing_title": "Le titre est requis.",
+        "missing_dates": "Les dates sont requises.",
+        "date_invalid": "Les dates fournies sont invalides."
+      },
+      "unknown": "Erreur inconnue.",
+      "supa.network": "Problème réseau. Vérifiez votre connexion.",
+      "supa.http.unauthorized": "Non autorisé.",
+      "supa.http.forbidden": "Accès interdit.",
+      "supa.http.not_found": "Ressource introuvable.",
+      "supa.http.error": "Erreur serveur.",
+      "supa.rls.denied": "Accès refusé (RLS).",
+      "supa.pg.unique_violation": "Un enregistrement similaire existe déjà.",
+      "supa.pg.foreign_key_violation": "Contrainte de clé étrangère violée.",
+      "supa.pg.not_null_violation": "Un champ requis est manquant.",
+      "supa.pg.error": "Erreur base de données.",
+      "supa.auth.invalid_credentials": "Identifiants incorrects.",
+      "supa.auth.rate_limited": "Trop de tentatives. Réessayez plus tard.",
+      "supa.auth.email_not_confirmed": "E-mail non confirmé.",
+      "supa.auth.error": "Erreur d'authentification."
+    }
+  }
+}
