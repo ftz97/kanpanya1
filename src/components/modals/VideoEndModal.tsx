@@ -6,11 +6,15 @@ import { useModal } from "@/components/modal/ModalManager";
 import QuizModal from "./QuizModal";
 
 export default function VideoEndModal() {
-  const { replace } = useModal();
+  const { replace, close } = useModal();
 
   const handleStartQuiz = () => {
     // Remplacer par le modal de quiz
     replace(<QuizModal />);
+  };
+
+  const handleClose = () => {
+    close();
   };
 
   return (
@@ -53,19 +57,27 @@ export default function VideoEndModal() {
         </p>
       </motion.div>
 
-      {/* Bouton pour commencer le quiz */}
-      <motion.button
+      {/* Boutons d'action */}
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={handleStartQuiz}
-        className="btn btn-primary btn-lg flex items-center gap-2 mx-auto"
+        className="flex gap-3 justify-center"
       >
-        <span className="text-lg">🧠</span>
-        Lancer le quiz nutrition
-      </motion.button>
+        <button
+          onClick={handleClose}
+          className="btn btn-ghost"
+        >
+          Fermer
+        </button>
+        <button
+          onClick={handleStartQuiz}
+          className="btn btn-primary btn-lg flex items-center gap-2"
+        >
+          <span className="text-lg">🧠</span>
+          Lancer le quiz nutrition
+        </button>
+      </motion.div>
     </motion.div>
   );
 }

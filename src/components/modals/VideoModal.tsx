@@ -7,17 +7,15 @@ import { useModal } from "@/components/modal/ModalManager";
 import VideoEndModal from "./VideoEndModal";
 
 export default function VideoModal() {
-  const { replace } = useModal();
-  const [videoEnded, setVideoEnded] = React.useState(false);
+  const { replace, close } = useModal();
 
   const handleVideoEnd = () => {
-    setVideoEnded(true);
     // Remplacer par le modal de fin de vidéo
     replace(<VideoEndModal />);
   };
 
   const handleClose = () => {
-    // Le ModalManager gère la fermeture
+    close();
   };
 
   return (
