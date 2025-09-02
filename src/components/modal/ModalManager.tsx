@@ -25,7 +25,10 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
     // next tick to ensure unmount
     requestAnimationFrame(() => setContent(node));
   }, []);
-  const replace = useCallback((node: ModalNode) => setContent(node), []);
+  const replace = useCallback((node: ModalNode) => {
+    console.log("🔄 ModalManager.replace appelé avec:", node);
+    setContent(node);
+  }, []);
 
   // Close on route change
   useEffect(() => { setContent(null); }, [pathname]);
