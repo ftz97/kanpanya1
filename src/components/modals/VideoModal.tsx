@@ -58,7 +58,10 @@ export default function VideoModal() {
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={handleVideoEnd}
+            onClick={() => {
+              console.log("🎯 Clic sur le triangle de lecture détecté !");
+              handleVideoEnd();
+            }}
             className="w-20 h-20 bg-teal-600/90 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto shadow-2xl hover:bg-teal-700/90 transition-colors"
           >
             <Play className="w-8 h-8 text-white ml-1" />

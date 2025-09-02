@@ -27,11 +27,18 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
   }, []);
   const replace = useCallback((node: ModalNode) => {
     console.log("🔄 ModalManager.replace appelé avec:", node);
+    console.log("🔄 Contenu actuel avant remplacement:", content);
     setContent(node);
-  }, []);
+    console.log("🔄 Contenu défini, nouveau contenu:", node);
+  }, [content]);
 
   // Close on route change
   useEffect(() => { setContent(null); }, [pathname]);
+
+  // Log quand le contenu change
+  useEffect(() => {
+    console.log("📝 ModalManager: contenu changé vers:", content);
+  }, [content]);
 
   // Scroll lock + inert background while open
   useEffect(() => {
