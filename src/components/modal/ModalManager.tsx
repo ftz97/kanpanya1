@@ -1,6 +1,7 @@
 'use client';
 import React, {createContext, useContext, useCallback, useEffect, useState} from 'react';
-import { Dialog, DialogContent, DialogOverlay, DialogPortal } from '@/components/ui/dialog'; // shadcn/radix
+import { Dialog, DialogContent, DialogOverlay, DialogPortal, DialogTitle } from '@/components/ui/dialog'; // shadcn/radix
+import { VisuallyHidden } from '@/components/ui/visually-hidden';
 import { usePathname } from 'next/navigation';
 
 type ModalNode = React.ReactNode;
@@ -57,6 +58,9 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
           <DialogContent
             className="fixed left-1/2 top-1/2 z-[99999] -translate-x-1/2 -translate-y-1/2 w-[min(92vw,720px)] rounded-2xl bg-white p-6 shadow-2xl outline-none"
           >
+            <DialogTitle asChild>
+              <VisuallyHidden>Modal</VisuallyHidden>
+            </DialogTitle>
             {content}
           </DialogContent>
         </DialogPortal>
