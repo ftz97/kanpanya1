@@ -13,7 +13,7 @@ interface OptionProps {
 
 const QuizOption = ({ text, status = "default", onClick }: OptionProps) => {
   const base =
-    "w-full py-3 px-4 rounded-xl border-2 font-semibold transition-all duration-200";
+    "w-full py-3 px-4 rounded-xl border-2 font-semibold transition-all duration-200 focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-white";
 
   const variants: Record<OptionStatus, string> = {
     default: "border-teal-400 text-teal-600 bg-white hover:bg-teal-50",

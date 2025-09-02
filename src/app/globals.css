@@ -117,3 +117,32 @@ h1, h2, h3, h4 { letter-spacing: -0.01em; }
 .kp-bg-coral-pastel{ background-color:#F2A0A0; }
 .kp-text-coral-pastel{ color:#F2A0A0; }
 
+/* ===== Gestion du Focus - Ciblé et Sécurisé ===== */
+/* AVANT (à éviter) */
+/* *:focus-visible { @apply outline-none ring-2 ring-offset-2 ring-offset-background ring-primary/40; } */
+
+/* APRÈS (ciblé) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[role="menuitem"]:focus-visible,
+[role="tab"]:focus-visible,
+[role="switch"]:focus-visible,
+[role="checkbox"]:focus-visible,
+[role="radio"]:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-offset-white ring-primary/40;
+}
+
+/* Désactiver tout focus ring sur les conteneurs structurels (dialog, overlay, sheet…) */
+[role="dialog"]:focus,
+[role="dialog"]:focus-visible,
+[data-radix-dialog-content]:focus,
+[data-radix-dialog-content]:focus-visible,
+[data-radix-portal] *[data-state="open"]:focus {
+  outline: none !important;
+  box-shadow: none !important; /* annule ring-* de Tailwind */
+}
+
