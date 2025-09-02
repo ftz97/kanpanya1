@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 
 export function InteractiveOfferDialog({
@@ -28,6 +29,7 @@ export function InteractiveOfferDialog({
           <DialogTitle className="text-center text-2xl kp-text-mint-600">
             Offre interactive
           </DialogTitle>
+          <DialogDescription className="sr-only">Vidéo interactive et quiz pour gagner des points</DialogDescription>
         </DialogHeader>
 
         {step === "video" ? (

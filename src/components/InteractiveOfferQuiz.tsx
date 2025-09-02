@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 // import { Button } from "@/components/ui/button";
 
 type Question = {
@@ -104,6 +104,7 @@ export default function InteractiveOfferQuiz({
       <DialogContent className="sm:max-w-lg rounded-3xl">
         <DialogHeader>
           <DialogTitle className="text-teal-700 text-center">Offre interactive</DialogTitle>
+          <DialogDescription className="sr-only">Quiz interactif pour gagner des points</DialogDescription>
         </DialogHeader>
 
         {!finished ? (
