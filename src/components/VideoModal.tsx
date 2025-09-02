@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Play, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import VideoEndModal from "./VideoEndModal";
+import QuizModal from "./QuizModal";
 
 type Props = {
   open: boolean;
@@ -18,12 +19,14 @@ export default function VideoModal({ open, onOpenChange, onVideoEnd, onStartQuiz
   const [videoEnded, setVideoEnded] = React.useState(false);
   const [showQuiz, setShowQuiz] = React.useState(false);
   const [showEndModal, setShowEndModal] = React.useState(false);
+  const [showQuizModal, setShowQuizModal] = React.useState(false);
 
   React.useEffect(() => {
     if (open) {
       setVideoEnded(false);
       setShowQuiz(false);
       setShowEndModal(false);
+      setShowQuizModal(false);
     }
   }, [open]);
 
@@ -36,6 +39,7 @@ export default function VideoModal({ open, onOpenChange, onVideoEnd, onStartQuiz
   const handleStartQuiz = () => {
     setShowEndModal(false);
     setShowQuiz(true);
+    setShowQuizModal(true);
     onStartQuiz?.();
   };
 
@@ -49,6 +53,14 @@ export default function VideoModal({ open, onOpenChange, onVideoEnd, onStartQuiz
     setVideoEnded(false);
     setShowQuiz(false);
     setShowEndModal(false);
+    setShowQuizModal(false);
+  };
+
+  const handleQuizComplete = (result: { score: number; total: number; points: number }) => {
+    console.log("Quiz terminé:", result);
+    setShowQuizModal(false);
+    setShowQuiz(false);
+    // Ici vous pourriez envoyer les données à votre API
   };
 
   return (
@@ -111,20 +123,42 @@ export default function VideoModal({ open, onOpenChange, onVideoEnd, onStartQuiz
                 </div>
               </motion.div>
             ) : showQuiz ? (
-              <div className="text-center space-y-4 py-4">
-                <h3 className="text-xl font-semibold text-teal-700">
-                  Quiz Nutrition - Mutuelle Locale
-                </h3>
-                <p className="text-gray-600">
-                  Répondez aux questions pour gagner des points supplémentaires !
-                </p>
-                {/* Le quiz sera intégré ici via props ou context */}
-                <div className="bg-teal-50 border border-teal-200 rounded-xl p-4">
-                  <p className="text-sm text-teal-700">
-                    Le quiz sera lancé dans une nouvelle modal pour une meilleure expérience.
-                  </p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white rounded-2xl p-6 shadow-2xl"
+              >
+                <div className="text-center space-y-4">
+                  <motion.h3 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="text-xl font-semibold text-teal-700"
+                  >
+                    Quiz Nutrition - Mutuelle Locale
+                  </motion.h3>
+                  <motion.p 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="text-gray-600"
+                  >
+                    Répondez aux questions pour gagner des points supplémentaires !
+                  </motion.p>
+                  {/* Le quiz sera intégré ici via props ou context */}
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="bg-teal-50 border border-teal-200 rounded-xl p-4"
+                  >
+                    <p className="text-sm text-teal-700">
+                      Le quiz sera lancé dans une nouvelle modal pour une meilleure expérience.
+                    </p>
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
             ) : null}
           </div>
         </DialogContent>
@@ -136,6 +170,13 @@ export default function VideoModal({ open, onOpenChange, onVideoEnd, onStartQuiz
         onClose={handleCloseEndModal}
         onStartQuiz={handleStartQuiz}
         points={5}
+      />
+
+      {/* Modal de quiz interactif */}
+      <QuizModal
+        isOpen={showQuizModal}
+        onClose={() => setShowQuizModal(false)}
+        onComplete={handleQuizComplete}
       />
     </>
   );
