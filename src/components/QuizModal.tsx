@@ -46,6 +46,7 @@ export default function QuizModal({ isOpen, onClose, onComplete }: QuizModalProp
   const [selected, setSelected] = useState<string | null>(null);
   const [validated, setValidated] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
 
   const questions = [
     {
@@ -105,6 +106,15 @@ export default function QuizModal({ isOpen, onClose, onComplete }: QuizModalProp
     }
   };
 
+  const handleClose = () => {
+    // Réinitialiser tous les états
+    setSelected(null);
+    setValidated(false);
+    setCurrentQuestion(0);
+    setScore(0);
+    onClose();
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -113,7 +123,7 @@ export default function QuizModal({ isOpen, onClose, onComplete }: QuizModalProp
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50"
-      onClick={onClose}
+      onClick={handleClose}
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
