@@ -146,3 +146,11 @@ textarea:focus-visible,
   box-shadow: none !important; /* annule ring-* de Tailwind */
 }
 
+/* ===== Modal Manager - Protection contre les clics derrière ===== */
+body.modal-open #__next > * { 
+  pointer-events: none; 
+}
+body.modal-open [data-radix-dialog-content] { 
+  pointer-events: auto; 
+}
+
