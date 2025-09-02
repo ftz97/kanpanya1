@@ -94,10 +94,10 @@ export default function AdminQuizTesterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             🧠 Testeur de Quiz Administrateur
           </h1>
@@ -105,8 +105,11 @@ export default function AdminQuizTesterPage() {
             Testez le système de quiz et créez des tickets à gratter
           </p>
         </div>
+      </div>
 
-        <div className="bg-white rounded-2xl shadow-lg p-6">
+      {/* Contenu */}
+      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-lg shadow p-6 border border-gray-200">
           {!quizCompleted ? (
             <div className="space-y-6">
               {/* Progress */}
@@ -204,13 +207,13 @@ export default function AdminQuizTesterPage() {
               </div>
 
               {/* Détail des réponses */}
-              <div className="bg-gray-50 rounded-xl p-6 text-left">
+              <div className="bg-white border border-gray-200 rounded-lg p-6 text-left shadow-sm">
                 <h3 className="text-lg font-semibold mb-4">Détail des Réponses</h3>
                 <div className="space-y-3">
                   {SAMPLE_QUESTIONS.map((q, index) => {
                     const isCorrect = selectedAnswers[index] === q.correctIndex;
                     return (
-                      <div key={q.id} className="flex items-center justify-between p-3 bg-white rounded-lg">
+                      <div key={q.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100">
                         <div className="flex items-center">
                           <div className={`w-6 h-6 rounded-full mr-3 flex items-center justify-center text-sm ${
                             isCorrect ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
@@ -255,7 +258,7 @@ export default function AdminQuizTesterPage() {
               </div>
 
               {/* Instructions */}
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-left">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-left">
                 <h4 className="font-semibold text-blue-900 mb-2">📋 Prochaines Étapes</h4>
                 <ol className="text-blue-800 space-y-1 text-sm">
                   <li>1. Cliquez sur "Créer Ticket" pour générer un ticket à gratter</li>
@@ -269,7 +272,7 @@ export default function AdminQuizTesterPage() {
         </div>
 
         {/* Footer avec liens */}
-        <div className="mt-8 bg-white rounded-xl shadow p-6">
+        <div className="mt-8 bg-white rounded-lg shadow p-6 border border-gray-200">
           <h3 className="text-lg font-semibold mb-3">🔗 Navigation</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
             <a href="/admin/quiz-scratch" className="text-primary hover:underline">
