@@ -1,6 +1,6 @@
 'use client';
 import React, {createContext, useContext, useCallback, useEffect, useState} from 'react';
-import { Dialog, DialogContent, DialogOverlay, DialogPortal, DialogTitle } from '@/components/ui/dialog'; // shadcn/radix
+import { Dialog, DialogContent, DialogOverlay, DialogPortal, DialogTitle, DialogDescription } from '@/components/ui/dialog'; // shadcn/radix
 import { VisuallyHidden } from '@/components/ui/visually-hidden';
 import { usePathname } from 'next/navigation';
 
@@ -30,7 +30,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
     console.log("🔄 Contenu actuel avant remplacement:", content);
     setContent(node);
     console.log("🔄 Contenu défini, nouveau contenu:", node);
-  }, [content]);
+  }, []);
 
   // Close on route change
   useEffect(() => { setContent(null); }, [pathname]);
@@ -71,6 +71,9 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
             <DialogTitle asChild>
               <VisuallyHidden>Modal</VisuallyHidden>
             </DialogTitle>
+            <DialogDescription asChild>
+              <VisuallyHidden>Contenu du modal</VisuallyHidden>
+            </DialogDescription>
             {content}
           </DialogContent>
         </DialogPortal>
