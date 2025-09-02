@@ -38,8 +38,8 @@ export default function VideoModal({ open, onOpenChange, onVideoEnd, onStartQuiz
 
   const handleStartQuiz = () => {
     setShowEndModal(false);
-    setShowQuiz(true);
-    setShowQuizModal(true);
+    setShowQuiz(false); // Pas de quiz dans le VideoModal
+    setShowQuizModal(true); // Seulement le QuizModal séparé
     onStartQuiz?.();
   };
 
