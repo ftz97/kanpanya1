@@ -33,6 +33,7 @@ export default function VideoModal({ open, onOpenChange, onVideoEnd, onStartQuiz
   const handleVideoEnd = () => {
     setVideoEnded(true);
     setShowEndModal(true);
+    onOpenChange(false); // Fermer le VideoModal
     onVideoEnd?.();
   };
 
