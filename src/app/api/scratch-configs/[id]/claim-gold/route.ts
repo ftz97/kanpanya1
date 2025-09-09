@@ -1,13 +1,14 @@
 import { supabase } from "@/lib/supabaseClient";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
     // Récupérer la configuration actuelle
     const { data: config, error: fetchError } = await supabase
       .from("scratch_configs")
       .select("gold_prizes")
-      .eq("id", params.id)
+      .eq("id", id)
       .single();
 
     if (fetchError) {
@@ -25,7 +26,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
         gold_prizes: config.gold_prizes - 1,
         updated_at: new Date().toISOString()
       })
-      .eq("id", params.id)
+      .eq("id", id)
       .select("gold_prizes")
       .single();
 

@@ -15,8 +15,9 @@ const CRITICAL_KEYS = [
 ];
 
 export default async function I18nDiagnosticsPage({
-  params: { lang },
-}: { params: { lang: Locale } }) {
+  params,
+}: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
   const { t } = await createAsyncT(lang, ["common", "flashOffers", "auth"]);
 
   // Vérifie les clés côté serveur (avec fallback FR)
