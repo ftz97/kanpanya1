@@ -28,18 +28,21 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
   const lastPos = useRef<{ x: number; y: number } | null>(null);
   const lastCheck = useRef<number>(0);
 
-  // Variantes
+  // Variations de texte
   const WIN_VARIATIONS = [
-    "🎉 Bravo, tu repars avec une récompense !",
-    "🏆 C'est gagné !",
-    "✨ Quelle chance, tu as gagné !",
-    "🥳 Jackpot, félicitations !",
+    "🎉 Félicitations !",
+    "🎊 Bravo !",
+    "🏆 Excellent !",
+    "✨ Incroyable !",
+    "🎯 Parfait !",
   ];
+
   const LOSE_VARIATIONS = [
-    "😢 Pas de chance cette fois...",
-    "💔 Dommage, retente ta chance bientôt !",
-    "🙃 Ce n'est pas gagné aujourd'hui...",
-    "😔 Tu feras mieux la prochaine fois !",
+    "😢 Dommage...",
+    "😞 Pas cette fois...",
+    "😕 Essayez encore !",
+    "🙃 Presque...",
+    "😅 Raté !",
   ];
 
   function getRandomPrize(won: boolean): string {
@@ -49,6 +52,27 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     const pool = Math.random() < 0.5 ? POINTS : REDUCTIONS;
     return pool[Math.floor(Math.random() * pool.length)];
   }
+
+  // Dessiner la surface à gratter
+  const drawScratchSurface = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!ctx) return;
+
+    const size = canvas.width;
+    
+    // Fond rouge
+    ctx.fillStyle = "red";
+    ctx.fillRect(0, 0, size, size);
+    
+    // Texte "Grattez ici"
+    ctx.fillStyle = "#666";
+    ctx.font = `bold ${size * 0.08}px Arial`;
+    ctx.textAlign = "center";
+    ctx.fillText("Grattez ici", size / 2, size / 2);
+  };
 
   // Init client-side seulement
   useEffect(() => {
@@ -79,6 +103,13 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
       setPrize(getRandomPrize(isWinner));
     }
   }, [isWinner, isClient, reward]);
+
+  // Dessiner la surface de grattage après hydratation
+  useEffect(() => {
+    if (isClient) {
+      drawScratchSurface();
+    }
+  }, [isClient]);
 
   // Resize dynamique
   useEffect(() => {
