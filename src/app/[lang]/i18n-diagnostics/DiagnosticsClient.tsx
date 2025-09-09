@@ -127,7 +127,7 @@ export default function DiagnosticsClient() {
             className="border rounded px-2 py-1 w-24"
           />
           <span className="text-sm">
-            {tn("common.list.offersCount", Number.isFinite(count) ? count : 0, { count })}
+            {tn("common.list.offersCount", Number.isFinite(count) ? count : 0)}
           </span>
         </div>
       </div>

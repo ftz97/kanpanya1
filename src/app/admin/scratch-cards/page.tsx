@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import ScratchCardAdmin, { ScratchConfig } from "@/components/ScratchCardAdmin";
+import ScratchCardAdmin from "@/components/ScratchCardAdmin";
+import type { ScratchConfig } from "@/components/ScratchCardAdmin";
 
 export default function ScratchCardsAdminPage() {
   const [configs, setConfigs] = useState<ScratchConfig[]>([]);

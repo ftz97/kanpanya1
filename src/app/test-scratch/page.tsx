@@ -15,8 +15,8 @@ export default function TestScratchPage() {
         const { data, error } = await supabase
           .from("scratch_configs")
           .select("id, badge, sponsor_name, gold_prizes, gold_reward")
-          .eq("valid_from", "<=", new Date().toISOString().split("T")[0])
-          .eq("valid_to", ">=", new Date().toISOString().split("T")[0]);
+          .lte("valid_from", new Date().toISOString().split("T")[0])
+          .gte("valid_to", new Date().toISOString().split("T")[0]);
         
         if (error) {
           console.error("Erreur chargement configs:", error);

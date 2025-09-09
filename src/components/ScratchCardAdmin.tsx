@@ -1,7 +1,24 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import ScratchCard, { ScratchConfig } from "./ScratchCard"; // 👈 importer ton composant joueur
+import ScratchCard from "./ScratchCard"; // 👈 importer ton composant joueur
+
+// Define ScratchConfig interface locally
+export interface ScratchConfig {
+  id: string;
+  badge: string;
+  logos: string[];
+  rewards: string[];
+  probabilities: { win: number; lucky: number; lose: number };
+  sponsorName: string;
+  skin: string;
+  quasiLose: string;
+  validFrom: string;
+  validTo: string;
+  target: Record<string, any>;
+  goldReward?: string;
+  goldPrizes?: number;
+}
 
 interface ScratchCardAdminProps {
   initialConfigs?: ScratchConfig[];

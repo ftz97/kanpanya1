@@ -165,7 +165,7 @@ export default function AdminQuizScratchPage() {
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-primary">
-                      {state.reward?.amount || 0}
+                      {state.reward?.type === 'points' ? state.reward.amount : 0}
                     </div>
                     <div className="text-sm text-gray-600">Points</div>
                   </div>

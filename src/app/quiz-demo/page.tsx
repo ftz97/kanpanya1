@@ -2,7 +2,7 @@
 
 import InteractiveOfferQuiz from "@/components/InteractiveOfferQuiz";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
 
 export default function QuizDemoPage() {
   const [open, setOpen] = useState(false);

@@ -65,11 +65,11 @@ const kanpanyaButtons = plugin(function ({ addComponents, theme }) {
     ".btn-sm": {
       padding: "0.5rem 0.75rem",
       borderRadius: theme("borderRadius.xl"),
-      fontSize: theme("fontSize.sm")[0],
+      fontSize: theme("fontSize.sm")?.[0] || "0.875rem",
     },
     ".btn-lg": {
       padding: "0.875rem 1.25rem",
-      fontSize: theme("fontSize.base")[0],
+      fontSize: theme("fontSize.base")?.[0] || "1rem",
     },
 
     /* Icône seule */

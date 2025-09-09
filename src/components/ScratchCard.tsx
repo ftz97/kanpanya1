@@ -92,6 +92,7 @@ function ScratchCard({
 
     function updatePercent(){
       try{
+        if (!ctx || !canvas) return;
         const { data } = ctx.getImageData(0,0,canvas.width, canvas.height);
         let cleared = 0;
         for (let i = 3; i < data.length; i+=4) { // alpha channel

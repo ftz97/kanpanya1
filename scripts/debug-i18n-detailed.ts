@@ -16,8 +16,8 @@ async function debugI18nDetailed() {
     console.log("\n2. Manual merge test:");
     const merged = { ...frCommon.default, ...frFlashOffers.default };
     console.log("Merged keys:", Object.keys(merged));
-    console.log("flashOffers.title:", merged.flashOffers?.title);
-    console.log("common.forms.errors.required:", merged.common?.forms?.errors?.required);
+    console.log("flashOffers.title:", (merged as any).flashOffers?.title);
+    console.log("common.forms.errors.required:", (merged as any).common?.forms?.errors?.required);
     
     // Test de la fonction getPath
     console.log("\n3. getPath test:");

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import ScratchCard, { ScratchConfig } from "@/components/ScratchCard";
+import ScratchCard from "@/components/ScratchCard";
+import type { ScratchConfig } from "@/components/ScratchCardAdmin";
 
 export default function CartesPage() {
   const [configs, setConfigs] = useState<ScratchConfig[]>([]);
@@ -47,7 +48,10 @@ export default function CartesPage() {
                     <p className="text-sm text-gray-500">Offert par {config.sponsorName}</p>
                   )}
                 </div>
-                <ScratchCard config={config} />
+                <ScratchCard 
+                  reward={{ type: 'points', amount: 100 }}
+                  onReveal={() => console.log('Card revealed!')}
+                />
               </div>
             ))}
           </div>

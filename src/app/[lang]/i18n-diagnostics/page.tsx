@@ -18,7 +18,7 @@ export default async function I18nDiagnosticsPage({
   params,
 }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const { t } = await createAsyncT(lang, ["common", "flashOffers", "auth"]);
+  const { t } = await createAsyncT(lang as Locale, ["common", "flashOffers", "auth"]);
 
   // Vérifie les clés côté serveur (avec fallback FR)
   const checks = CRITICAL_KEYS.map((key) => {
@@ -29,9 +29,9 @@ export default async function I18nDiagnosticsPage({
 
   const now = new Date();
   const samples = {
-    date: formatDate(now, lang),
-    currency: formatCurrency(1200.5, lang, "EUR"),
-    number: formatNumber(1234567.89, lang),
+    date: formatDate(now, lang as Locale),
+    currency: formatCurrency(1200.5, lang as Locale, "EUR"),
+    number: formatNumber(1234567.89, lang as Locale),
   };
 
   return (

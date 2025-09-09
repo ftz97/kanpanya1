@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 import LangToggle from "@/components/LangToggle";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";

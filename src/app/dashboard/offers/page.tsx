@@ -1,5 +1,5 @@
 import { createServerSupabase } from "@/lib/supabase";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
 import Link from "next/link";
 import { createAsyncT } from "@/i18n";
 import { cookies } from "next/headers";
