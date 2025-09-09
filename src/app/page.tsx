@@ -9,12 +9,15 @@ import { useModal } from "@/components/modal/ModalManager";
 import VideoModal from "@/components/modals/VideoModal";
 import InteractiveOfferQuiz from "@/components/InteractiveOfferQuiz";
 import ScratchCard from "@/components/ScratchCard";
+import SponsorFlowModal from "@/components/SponsorFlowModal";
 import { useScratchAvailability } from "@/hooks/useScratchAvailability";
 import * as React from "react";
 
 export default function Home() {
   const { open } = useModal();
   const [quizOpen, setQuizOpen] = React.useState(false);
+  const [sponsorFlowOpen, setSponsorFlowOpen] = React.useState(false);
+  const [isClient, setIsClient] = React.useState(false);
   const { state, markUsed } = useScratchAvailability();
 
   const handleOpenVideo = () => {
@@ -29,11 +32,15 @@ export default function Home() {
   };
 
   React.useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  React.useEffect(() => {
     // Option : scroll vers le ticket si dispo
-    if (state.available) {
+    if (state.available && isClient) {
       document.getElementById('scratch-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }, [state.available]);
+  }, [state.available, isClient]);
 
   return (
     <div className="min-h-screen" style={{ background: "#F2F2F2" }}>
@@ -66,7 +73,7 @@ export default function Home() {
       </div>
 
       {/* Section Ticket à gratter */}
-      {state.available && !state.used ? (
+      {isClient && state.available && !state.used ? (
         <div id="scratch-section" className="px-3 sm:px-4 md:px-6 py-4 sm:py-6 max-w-7xl mx-auto">
           <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6">
             <div className="mb-3 sm:mb-4 flex items-center gap-2">
@@ -82,6 +89,12 @@ export default function Home() {
                 }}
               />
             </div>
+          </div>
+        </div>
+      ) : !isClient ? (
+        <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6 max-w-7xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6">
+            <div className="animate-pulse text-gray-400">Chargement...</div>
           </div>
         </div>
       ) : (
@@ -128,9 +141,12 @@ export default function Home() {
             <p className="text-sm text-gray-600 leading-relaxed">
               Profitez de l'offre spéciale : tous vos achats rapportent 2x plus de points Kanpanya
             </p>
-            <div className="mt-4 flex gap-3">
-              <button className="px-5 py-2 rounded-lg bg-[#17BFA0] text-white font-semibold shadow-md hover:bg-[#14a58d] transition">
-                Activer l'offre
+            <div className="mt-4 flex flex-col sm:flex-row gap-3">
+              <button 
+                onClick={() => setSponsorFlowOpen(true)}
+                className="px-5 py-2 rounded-lg bg-[#17BFA0] text-white font-semibold shadow-md hover:bg-[#14a58d] transition flex items-center justify-center"
+              >
+                🎬 Découvrir le partenaire
               </button>
               <button className="px-5 py-2 rounded-lg border border-[#17BFA0] text-[#17BFA0] font-semibold hover:bg-[#F9FFFD]">
                 En savoir plus
@@ -242,6 +258,12 @@ export default function Home() {
         onOpenChange={setQuizOpen}
         pointsPerCorrect={15}
         onComplete={handleQuizComplete}
+      />
+
+      {/* Sponsor Flow Modal */}
+      <SponsorFlowModal
+        visible={sponsorFlowOpen}
+        onClose={() => setSponsorFlowOpen(false)}
       />
     </div>
   );

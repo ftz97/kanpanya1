@@ -3,17 +3,27 @@
 import { useRef, useState, useEffect } from "react";
 import EmojiRain from "./EmojiRain";
 
-export default function ScratchCard() {
+interface ScratchCardProps {
+  reward?: {
+    type: string;
+    amount: number;
+    label: string;
+  };
+  onReveal?: () => void;
+}
+
+export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // état
-  const [isWinner] = useState<boolean>(Math.random() > 0.5);
+  const [isWinner, setIsWinner] = useState<boolean>(false);
   const [variation, setVariation] = useState<string>("");
   const [revealed, setRevealed] = useState(false);
   const [popupVisible, setPopupVisible] = useState(false);
   const [popupClosing, setPopupClosing] = useState(false);
   const [prize, setPrize] = useState("");
+  const [isClient, setIsClient] = useState(false);
 
   const lastPos = useRef<{ x: number; y: number } | null>(null);
   const lastCheck = useRef<number>(0);
@@ -40,15 +50,35 @@ export default function ScratchCard() {
     return pool[Math.floor(Math.random() * pool.length)];
   }
 
-  // Init texte
+  // Init client-side seulement
   useEffect(() => {
-    setVariation(
-      isWinner
-        ? WIN_VARIATIONS[Math.floor(Math.random() * WIN_VARIATIONS.length)]
-        : LOSE_VARIATIONS[Math.floor(Math.random() * LOSE_VARIATIONS.length)]
-    );
-    setPrize(getRandomPrize(isWinner));
-  }, [isWinner]);
+    setIsClient(true);
+    // Si on a des props reward, on utilise la logique de récompense
+    if (reward) {
+      setIsWinner(true); // Toujours gagnant si on a une récompense
+    } else {
+      setIsWinner(Math.random() > 0.5);
+    }
+  }, [reward]);
+
+  // Init texte après hydratation
+  useEffect(() => {
+    if (!isClient) return;
+    
+    if (reward) {
+      // Utiliser la récompense fournie
+      setVariation(WIN_VARIATIONS[Math.floor(Math.random() * WIN_VARIATIONS.length)]);
+      setPrize(reward.label);
+    } else {
+      // Utiliser la logique par défaut
+      setVariation(
+        isWinner
+          ? WIN_VARIATIONS[Math.floor(Math.random() * WIN_VARIATIONS.length)]
+          : LOSE_VARIATIONS[Math.floor(Math.random() * LOSE_VARIATIONS.length)]
+      );
+      setPrize(getRandomPrize(isWinner));
+    }
+  }, [isWinner, isClient, reward]);
 
   // Resize dynamique
   useEffect(() => {
@@ -129,6 +159,11 @@ export default function ScratchCard() {
       setRevealed(true);
       setPopupVisible(true);
 
+      // Appeler onReveal si fourni
+      if (onReveal) {
+        onReveal();
+      }
+
       setTimeout(() => {
         setPopupClosing(true);
         setTimeout(() => {
@@ -163,6 +198,18 @@ export default function ScratchCard() {
     }
     scratchAt(x, y);
   };
+
+  // Afficher un loader pendant l'hydratation
+  if (!isClient) {
+    return (
+      <div className="flex flex-col items-center justify-center p-6 relative">
+        <h2 className="text-lg font-bold mb-3">🎟️ Gratte ton ticket !</h2>
+        <div className="relative w-[300px] h-[180px] sm:w-[400px] sm:h-[240px] flex items-center justify-center rounded-lg overflow-hidden bg-white text-sm sm:text-base font-bold text-center p-2">
+          <div className="animate-pulse text-gray-400">Chargement...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center p-6 relative">
