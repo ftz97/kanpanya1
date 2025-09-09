@@ -12,12 +12,12 @@ export default function Playground() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-white/80 backdrop-blur border-b">
-        <div className="mx-auto max-w-4xl px-4 py-3 flex items-center justify-between">
-          <h1 className="text-xl font-semibold tracking-tight">Kanpanya — Playground</h1>
-          <nav className="flex gap-2">
+        <div className="mx-auto max-w-4xl px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-between">
+          <h1 className="text-lg sm:text-xl font-semibold tracking-tight">Kanpanya — Playground</h1>
+          <nav className="flex gap-1 sm:gap-2">
             <button
               onClick={() => setTab("quiz")}
-              className={`px-4 py-2 rounded-2xl border transition shadow-sm ${
+              className={`px-2 sm:px-4 py-1.5 sm:py-2 rounded-2xl border transition shadow-sm text-xs sm:text-sm ${
                 tab === "quiz"
                   ? "bg-primary text-white border-primary"
                   : "bg-white hover:bg-gray-100"
@@ -27,7 +27,7 @@ export default function Playground() {
             </button>
             <button
               onClick={() => setTab("scratch")}
-              className={`px-4 py-2 rounded-2xl border transition shadow-sm ${
+              className={`px-2 sm:px-4 py-1.5 sm:py-2 rounded-2xl border transition shadow-sm text-xs sm:text-sm ${
                 tab === "scratch"
                   ? "bg-primary text-white border-primary"
                   : "bg-white hover:bg-gray-100"
@@ -39,7 +39,7 @@ export default function Playground() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-4xl px-4 py-8">
+      <main className="mx-auto max-w-4xl px-3 sm:px-4 py-6 sm:py-8">
         {tab === "quiz" ? <QuizDemo /> : <ScratchDemo />}
       </main>
     </div>

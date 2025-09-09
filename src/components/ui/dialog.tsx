@@ -66,7 +66,8 @@ function DialogContent({
         )}
         onOpenAutoFocus={(e) => {
           // laisse Radix piéger le focus mais évite le 1er halo sur le container
-          const first = e.target?.querySelector?.('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])') as HTMLElement | null
+          const target = e.target as HTMLElement
+          const first = target?.querySelector?.('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])') as HTMLElement | null
           if (first) first.focus()
           else e.preventDefault()
         }}

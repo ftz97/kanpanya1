@@ -1,176 +1,262 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import type { ScratchReward } from '@/hooks/useScratchAvailability';
+import { useRef, useState, useEffect } from "react";
+import EmojiRain from "./EmojiRain";
 
-// Confettis léger (utilise canvas-confetti si dispo, sinon soft fallback)
-async function fireConfetti(){
-  try{
-    const confetti = (await import('canvas-confetti')).default;
-    confetti({ particleCount: 120, spread: 70, origin: { y: 0.7 } });
-  }catch{
-    // Fallback : petite secousse
-    if (typeof window !== 'undefined') {
-      document.body.animate([
-        { transform: 'translateY(0px)' },
-        { transform: 'translateY(-4px)' },
-        { transform: 'translateY(0px)' }
-      ], { duration: 300, iterations: 2 });
-    }
-  }
-}
+export default function ScratchCard() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-function ScratchCard({
-  reward,
-  onReveal,
-  width = 320,
-  height = 180,
-  coverText = 'Gratte ici',
-}: {
-  reward: ScratchReward;
-  onReveal?: () => void;
-  width?: number;
-  height?: number;
-  coverText?: string;
-}){
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  // état
+  const [isWinner] = useState<boolean>(Math.random() > 0.5);
+  const [variation, setVariation] = useState<string>("");
   const [revealed, setRevealed] = useState(false);
-  const [percent, setPercent] = useState(0);
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupClosing, setPopupClosing] = useState(false);
+  const [prize, setPrize] = useState("");
 
+  const lastPos = useRef<{ x: number; y: number } | null>(null);
+  const lastCheck = useRef<number>(0);
+
+  // Variantes
+  const WIN_VARIATIONS = [
+    "🎉 Bravo, tu repars avec une récompense !",
+    "🏆 C'est gagné !",
+    "✨ Quelle chance, tu as gagné !",
+    "🥳 Jackpot, félicitations !",
+  ];
+  const LOSE_VARIATIONS = [
+    "😢 Pas de chance cette fois...",
+    "💔 Dommage, retente ta chance bientôt !",
+    "🙃 Ce n'est pas gagné aujourd'hui...",
+    "😔 Tu feras mieux la prochaine fois !",
+  ];
+
+  function getRandomPrize(won: boolean): string {
+    if (!won) return "Aucun gain, mais merci d'avoir participé 💡";
+    const POINTS = ["+50 points Kanpanya", "+100 points", "+200 points"];
+    const REDUCTIONS = ["-5% réduction", "-10% réduction", "-15% réduction"];
+    const pool = Math.random() < 0.5 ? POINTS : REDUCTIONS;
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  // Init texte
+  useEffect(() => {
+    setVariation(
+      isWinner
+        ? WIN_VARIATIONS[Math.floor(Math.random() * WIN_VARIATIONS.length)]
+        : LOSE_VARIATIONS[Math.floor(Math.random() * LOSE_VARIATIONS.length)]
+    );
+    setPrize(getRandomPrize(isWinner));
+  }, [isWinner]);
+
+  // Resize dynamique
   useEffect(() => {
     const canvas = canvasRef.current;
-    if(!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if(!ctx) return;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-    // Setup overlay
-    canvas.width = width; canvas.height = height;
-    const grd = ctx.createLinearGradient(0,0,width,height);
-    grd.addColorStop(0, '#bfc7cc');
-    grd.addColorStop(1, '#8b959e');
-    ctx.fillStyle = grd;
-    ctx.fillRect(0,0,width,height);
+    const resize = () => {
+      const { width, height } = container.getBoundingClientRect();
+      canvas.width = width;
+      canvas.height = height;
 
-    // Label
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.fillStyle = 'rgba(255,255,255,0.9)';
-    ctx.font = '600 18px system-ui, -apple-system, Segoe UI, Roboto';
-    ctx.textAlign = 'center';
-    ctx.fillText(coverText, width/2, height/2);
-  }, [width, height, coverText]);
+      ctx.fillStyle = "#9ca3af";
+      ctx.fillRect(0, 0, width, height);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if(!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if(!ctx) return;
-
-    let drawing = false;
-    const rect = () => canvas.getBoundingClientRect();
-
-    const scratch = (x:number, y:number) => {
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.beginPath();
-      ctx.arc(x, y, 18, 0, Math.PI*2);
-      ctx.fill();
-      updatePercent();
+      ctx.fillStyle = "#111827";
+      ctx.font = `bold ${Math.floor(width / 18)}px Arial`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("🎁 GRATTE ICI 🎁", width / 2, height / 2);
     };
 
-    const getXY = (e: PointerEvent) => {
-      const r = rect();
-      return { x: e.clientX - r.left, y: e.clientY - r.top };
-    };
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(container);
 
-    const onDown = (e: PointerEvent) => { drawing = true; canvas.setPointerCapture(e.pointerId); scratch(...Object.values(getXY(e)) as [number,number]); };
-    const onMove = (e: PointerEvent) => { if(!drawing) return; scratch(...Object.values(getXY(e)) as [number,number]); };
-    const onUp = (e: PointerEvent) => { drawing = false; try{ canvas.releasePointerCapture(e.pointerId); }catch{} };
-
-    canvas.addEventListener('pointerdown', onDown);
-    canvas.addEventListener('pointermove', onMove);
-    canvas.addEventListener('pointerup', onUp);
-    canvas.addEventListener('pointerleave', onUp);
-
-    function updatePercent(){
-      try{
-        if (!ctx || !canvas) return;
-        const { data } = ctx.getImageData(0,0,canvas.width, canvas.height);
-        let cleared = 0;
-        for (let i = 3; i < data.length; i+=4) { // alpha channel
-          if (data[i] === 0) cleared++;
-        }
-        const p = Math.round((cleared / (canvas.width * canvas.height)) * 100);
-        setPercent(p);
-      }catch{}
-    }
-
-    return () => {
-      canvas.removeEventListener('pointerdown', onDown);
-      canvas.removeEventListener('pointermove', onMove);
-      canvas.removeEventListener('pointerup', onUp);
-      canvas.removeEventListener('pointerleave', onUp);
-    };
+    return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (!revealed && percent >= 60){
-      setRevealed(true);
-      fireConfetti();
-      onReveal?.();
-    }
-  }, [percent, revealed, onReveal]);
+  // Scratch
+  const scratchAt = (x: number, y: number) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-  const rewardBadge = () => {
-    if (reward.type === 'points'){
-      const label = reward.label ?? `+${reward.amount} points`;
-      return <span className="inline-flex items-center rounded-full bg-primary/10 text-primary px-3 py-1 text-sm font-semibold">{label}</span>;
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    ctx.lineWidth = 40;
+
+    ctx.beginPath();
+    if (lastPos.current) {
+      ctx.moveTo(lastPos.current.x, lastPos.current.y);
+      ctx.lineTo(x, y);
+    } else {
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + 0.1, y + 0.1);
     }
-    return <span className="inline-flex items-center rounded-full bg-primary/10 text-primary px-3 py-1 text-sm font-semibold">{reward.label}</span>;
+    ctx.stroke();
+
+    lastPos.current = { x, y };
+
+    // limiter le check
+    const now = Date.now();
+    if (now - lastCheck.current > 200 && !revealed) {
+      lastCheck.current = now;
+      checkProgress();
+    }
+  };
+
+  const checkProgress = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let transparent = 0;
+    for (let i = 3; i < imageData.data.length; i += 4) {
+      if (imageData.data[i] === 0) transparent++;
+    }
+    const percent = transparent / (canvas.width * canvas.height);
+
+    if (percent > 0.3 && !revealed) {
+      setRevealed(true);
+      setPopupVisible(true);
+
+      setTimeout(() => {
+        setPopupClosing(true);
+        setTimeout(() => {
+          setPopupVisible(false);
+          setPopupClosing(false);
+        }, 1000);
+      }, 3000);
+    }
+  };
+
+  const handleDown = (x: number, y: number) => {
+    lastPos.current = { x, y };
+    scratchAt(x, y);
+  };
+
+  const handleUp = () => {
+    lastPos.current = null;
+  };
+
+  const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    let x = 0,
+      y = 0;
+    if ("touches" in e) {
+      x = e.touches[0].clientX - rect.left;
+      y = e.touches[0].clientY - rect.top;
+    } else {
+      x = e.clientX - rect.left;
+      y = e.clientY - rect.top;
+    }
+    scratchAt(x, y);
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 animate-pop">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="font-semibold">Ticket à gratter</h3>
-        <span className="text-xs text-gray-500">{percent}%</span>
+    <div className="flex flex-col items-center justify-center p-6 relative">
+      <h2 className="text-lg font-bold mb-3">🎟️ Gratte ton ticket !</h2>
+
+      {/* Conteneur responsive taille normale */}
+      <div
+        ref={containerRef}
+        className="relative w-[300px] h-[180px] sm:w-[400px] sm:h-[240px] flex items-center justify-center rounded-lg overflow-hidden bg-white text-sm sm:text-base font-bold text-center p-2"
+      >
+        {variation}
+        {!revealed && (
+          <canvas
+            ref={canvasRef}
+            className="absolute inset-0"
+            onMouseMove={handleMove}
+            onMouseDown={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              handleDown(e.clientX - rect.left, e.clientY - rect.top);
+            }}
+            onMouseUp={handleUp}
+            onTouchMove={handleMove}
+            onTouchStart={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const touch = e.touches[0];
+              handleDown(touch.clientX - rect.left, touch.clientY - rect.top);
+            }}
+            onTouchEnd={handleUp}
+          />
+        )}
       </div>
 
-      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-        {/* Récompense (dessous) */}
-        <div className="flex flex-col items-center justify-center min-h-[180px] rounded-xl border border-dashed border-primary">
-          <div className="text-3xl">🎁</div>
-          <div className="mt-2 mb-3 text-center text-gray-700">
-            {reward.type === 'points' ? (
-              <>
-                <div className="text-xl font-semibold">Récompense mystère</div>
-                <div className="text-sm text-gray-500">Gratte pour voir tes points</div>
-              </>
-            ) : (
-              <>
-                <div className="text-xl font-semibold">Coupon mystère</div>
-                <div className="text-sm text-gray-500">Gratte pour révéler le bon plan</div>
-              </>
-            )}
-          </div>
-          <div className={`transition ${revealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'} duration-300`}>{rewardBadge()}</div>
-        </div>
-
-        {/* Overlay à gratter (dessus) */}
-        <div className="relative">
-          <canvas ref={canvasRef} className="rounded-xl w-full h-full touch-none select-none"></canvas>
-          {/* Texture métallique légère par-dessus pour le style */}
-          <div className="pointer-events-none absolute inset-0 rounded-xl" style={{
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0))',
-            mixBlendMode: 'overlay'
-          }} />
-        </div>
-      </div>
-
+      {/* pluie emojis */}
       {revealed && (
-        <div className="mt-4 text-center text-sm text-gray-600">Bien joué ! Ta récompense est dévoilée.</div>
+        <EmojiRain
+          mode={isWinner ? "hearts" : "sad"}
+          running={true}
+          durationMs={5000}
+        />
       )}
+
+      {/* popup */}
+      {popupVisible && (
+        <div
+          className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+            z-[9999] w-80 p-6 rounded-2xl shadow-2xl text-center
+            ${popupClosing ? "animate-slide-out" : "animate-slide-in"}
+            ${isWinner
+              ? "bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-400 text-gray-900"
+              : "bg-gradient-to-r from-red-400 to-red-600 text-white"
+            }`}
+        >
+          <div className="text-4xl mb-2">{isWinner ? "🎁" : "💔"}</div>
+          <h3 className="text-lg font-bold mb-2">
+            {isWinner ? "Félicitations !" : "Pas de chance..."}
+          </h3>
+          <p className="text-sm">{prize}</p>
+        </div>
+      )}
+
+      <style jsx>{`
+        @keyframes slideInBounce {
+          0% {
+            transform: translate(-50%, -200%);
+            opacity: 0;
+          }
+          50% {
+            transform: translate(-50%, -50%);
+            opacity: 1;
+          }
+          70% {
+            transform: translate(-50%, -55%);
+          }
+          100% {
+            transform: translate(-50%, -50%);
+          }
+        }
+        @keyframes slideOutUp {
+          0% {
+            transform: translate(-50%, -50%);
+            opacity: 1;
+          }
+          100% {
+            transform: translate(-50%, -200%);
+            opacity: 0;
+          }
+        }
+        .animate-slide-in {
+          animation: slideInBounce 1.2s ease-out forwards;
+        }
+        .animate-slide-out {
+          animation: slideOutUp 1s ease-in forwards;
+        }
+      `}</style>
     </div>
   );
 }
-
-export { ScratchCard };
-export default ScratchCard;

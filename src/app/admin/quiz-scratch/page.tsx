@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useScratchAvailability } from '@/hooks/useScratchAvailability';
 import { useUserPoints } from '@/hooks/useUserPoints';
-import { ScratchCard } from '@/components/ScratchCard';
+import ScratchCard from '@/components/ScratchCard';
 
 export default function AdminQuizScratchPage() {
   const [activeTab, setActiveTab] = useState<'quiz' | 'scratch' | 'points'>('quiz');

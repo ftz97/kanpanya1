@@ -206,7 +206,9 @@ function CalendarDayButton({
         className
       )}
       {...props}
-    />
+    >
+      {day.date.getDate()}
+    </Button>
   )
 }
 

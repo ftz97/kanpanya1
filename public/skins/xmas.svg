@@ -1,0 +1,95 @@
+<svg width="300" height="180" viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="nightSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="snow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0f2fe;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Night sky background -->
+  <rect width="300" height="180" fill="url(#nightSky)"/>
+  
+  <!-- Stars -->
+  <circle cx="50" cy="30" r="2" fill="#fbbf24"/>
+  <circle cx="80" cy="25" r="1.5" fill="#ffffff"/>
+  <circle cx="120" cy="35" r="1" fill="#fbbf24"/>
+  <circle cx="200" cy="20" r="2" fill="#ffffff"/>
+  <circle cx="250" cy="40" r="1.5" fill="#fbbf24"/>
+  <circle cx="280" cy="15" r="1" fill="#ffffff"/>
+  
+  <!-- Moon -->
+  <circle cx="220" cy="45" r="25" fill="#fbbf24"/>
+  <circle cx="215" cy="40" r="3" fill="#f59e0b"/>
+  <circle cx="225" cy="35" r="2" fill="#f59e0b"/>
+  <circle cx="210" cy="50" r="1.5" fill="#f59e0b"/>
+  
+  <!-- Houses in background -->
+  <rect x="20" y="100" width="40" height="30" fill="#1e40af"/>
+  <polygon points="20,100 40,85 60,100" fill="#dc2626"/>
+  <rect x="25" y="110" width="8" height="12" fill="#fbbf24"/>
+  <rect x="35" y="110" width="8" height="12" fill="#fbbf24"/>
+  
+  <rect x="70" y="95" width="35" height="35" fill="#1e40af"/>
+  <polygon points="70,95 87,80 105,95" fill="#dc2626"/>
+  <rect x="75" y="105" width="6" height="10" fill="#fbbf24"/>
+  <rect x="85" y="105" width="6" height="10" fill="#fbbf24"/>
+  
+  <!-- Smoke from chimney -->
+  <path d="M85,80 Q90,75 95,80 Q100,75 105,80" stroke="#f3f4f6" stroke-width="2" fill="none"/>
+  
+  <!-- Christmas tree -->
+  <polygon points="100,140 120,100 140,140" fill="#16a34a"/>
+  <polygon points="105,130 125,90 145,130" fill="#15803d"/>
+  <polygon points="110,120 130,80 150,120" fill="#166534"/>
+  
+  <!-- Tree decorations -->
+  <circle cx="115" cy="120" r="2" fill="#dc2626"/>
+  <circle cx="125" cy="110" r="1.5" fill="#fbbf24"/>
+  <circle cx="135" cy="125" r="1.5" fill="#dc2626"/>
+  <circle cx="120" cy="100" r="1" fill="#fbbf24"/>
+  <circle cx="130" cy="95" r="1" fill="#dc2626"/>
+  
+  <!-- Star on tree -->
+  <polygon points="125,85 127,90 132,90 128,93 130,98 125,95 120,98 122,93 118,90 123,90" fill="#fbbf24"/>
+  
+  <!-- Snowman -->
+  <circle cx="220" cy="150" r="15" fill="#ffffff"/>
+  <circle cx="220" cy="130" r="12" fill="#ffffff"/>
+  <circle cx="220" cy="115" r="10" fill="#ffffff"/>
+  
+  <!-- Snowman face -->
+  <circle cx="217" cy="112" r="1" fill="#000000"/>
+  <circle cx="223" cy="112" r="1" fill="#000000"/>
+  <path d="M215,118 Q220,120 225,118" stroke="#000000" stroke-width="1" fill="none"/>
+  <polygon points="220,115 222,117 220,119 218,117" fill="#f59e0b"/>
+  
+  <!-- Snowman buttons -->
+  <circle cx="220" cy="130" r="1" fill="#000000"/>
+  <circle cx="220" cy="135" r="1" fill="#000000"/>
+  
+  <!-- Santa hat -->
+  <path d="M210,110 Q220,105 230,110 L225,115 L215,115 Z" fill="#dc2626"/>
+  <circle cx="220" cy="108" r="2" fill="#ffffff"/>
+  
+  <!-- Scarf -->
+  <rect x="215" y="120" width="10" height="3" fill="#dc2626"/>
+  <rect x="225" y="120" width="8" height="2" fill="#dc2626"/>
+  
+  <!-- Arms -->
+  <line x1="210" y1="130" x2="200" y2="125" stroke="#8b4513" stroke-width="2"/>
+  <line x1="230" y1="130" x2="240" y2="125" stroke="#8b4513" stroke-width="2"/>
+  
+  <!-- Snow ground -->
+  <path d="M0,160 Q50,150 100,160 Q150,155 200,160 Q250,150 300,160 L300,180 L0,180 Z" fill="url(#snow)"/>
+  
+  <!-- Snowflakes -->
+  <text x="30" y="50" font-size="8" fill="#ffffff">❄</text>
+  <text x="60" y="70" font-size="6" fill="#ffffff">❄</text>
+  <text x="90" y="45" font-size="7" fill="#ffffff">❄</text>
+  <text x="150" y="60" font-size="6" fill="#ffffff">❄</text>
+  <text x="180" y="80" font-size="8" fill="#ffffff">❄</text>
+</svg>

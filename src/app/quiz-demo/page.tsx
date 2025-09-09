@@ -1,87 +1,146 @@
 "use client";
 
-import InteractiveOfferQuiz from "@/components/InteractiveOfferQuiz";
+import Quiz from "@/components/Quiz";
+import MiniQuiz from "@/components/MiniQuiz";
 import { useState } from "react";
-import Button from "@/components/ui/button";
+
+const SAMPLE_QUESTIONS = [
+  {
+    question: "Quelle est la capitale de la France ?",
+    options: ["Lyon", "Paris", "Marseille", "Toulouse"],
+    correctIndex: 1
+  },
+  {
+    question: "Combien de côtés a un triangle ?",
+    options: ["2", "3", "4", "5"],
+    correctIndex: 1
+  },
+  {
+    question: "Quel est le plus grand océan du monde ?",
+    options: ["Atlantique", "Pacifique", "Indien", "Arctique"],
+    correctIndex: 1
+  },
+  {
+    question: "Qui a peint la Joconde ?",
+    options: ["Michel-Ange", "Léonard de Vinci", "Picasso", "Van Gogh"],
+    correctIndex: 1
+  }
+];
 
 export default function QuizDemoPage() {
-  const [open, setOpen] = useState(false);
-  const [lastResult, setLastResult] = useState<{ score: number; total: number; points: number } | null>(null);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+  const [quizCompleted, setQuizCompleted] = useState(false);
+  const [showMiniQuiz, setShowMiniQuiz] = useState(false);
   
-  const handleQuizComplete = (result: { score: number; total: number; points: number }) => {
-    setLastResult(result);
-    console.log('Quiz terminé:', result);
-    // Ici vous pourriez envoyer les données à votre API, analytics, etc.
+  const handleQuizComplete = () => {
+    if (currentQuestion < SAMPLE_QUESTIONS.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      setQuizCompleted(true);
+    }
   };
   
-  return (
-    <div className="min-h-screen bg-[#F2F2F2] p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-[#212E40] mb-6">
-          Démonstration Quiz Interactif 🎯
-        </h1>
-        
-        <div className="bg-white rounded-2xl shadow-lg p-8 space-y-6">
-          <h2 className="text-xl font-semibold text-[#212E40]">
-            Testez le quiz nutrition
-          </h2>
-          
-          <p className="text-gray-600 leading-relaxed">
-            Cliquez sur le bouton ci-dessous pour lancer le quiz interactif. 
-            Vous répondrez à 4 questions aléatoires sur la nutrition et la santé, 
-            et vous verrez une animation de confettis à la fin ! 🎉
+  const resetQuiz = () => {
+    setCurrentQuestion(0);
+    setScore(0);
+    setQuizCompleted(false);
+    setShowMiniQuiz(false);
+  };
+
+  const handleMiniQuizComplete = () => {
+    setShowMiniQuiz(false);
+    // Ici on pourrait déclencher l'affichage d'une carte à gratter
+    console.log("MiniQuiz terminé ! Carte à gratter débloquée !");
+  };
+  
+  if (quizCompleted) {
+    return (
+      <div className="min-h-screen bg-[#F2F2F2] flex items-center justify-center p-4 sm:p-8">
+        <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 text-center w-full max-w-sm sm:max-w-md mx-auto">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#212E40] mb-4 sm:mb-6">
+            🎉 Quiz Terminé !
+          </h1>
+          <p className="text-base sm:text-lg mb-3 sm:mb-4">
+            Votre score : {score}/{SAMPLE_QUESTIONS.length}
           </p>
-          
-          <div className="flex gap-4">
-            <Button 
-              onClick={() => setOpen(true)}
-              className="bg-[#17BFA0] hover:bg-[#14a58d] text-white px-6 py-3 rounded-xl font-semibold shadow-md"
+          <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
+            {score === SAMPLE_QUESTIONS.length ? "Parfait ! 🏆" : 
+             score >= SAMPLE_QUESTIONS.length * 0.7 ? "Bien joué ! 👍" : 
+             "Pas mal ! Continue comme ça ! 💪"}
+          </p>
+          <div className="space-y-2 sm:space-y-3">
+            <button
+              onClick={resetQuiz}
+              className="w-full bg-[#17BFA0] hover:bg-[#14a58d] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base"
             >
-              🚀 Lancer le quiz (10 pts/bonne réponse)
-            </Button>
-            
-            <Button 
-              variant="outline"
-              onClick={() => setOpen(true)}
-              className="border-[#17BFA0] text-[#17BFA0] hover:bg-[#F9FFFD] px-6 py-3 rounded-xl font-semibold"
+              🔄 Recommencer
+            </button>
+            <button
+              onClick={() => setShowMiniQuiz(true)}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base"
             >
-              📚 Démarrer l'offre interactive
-            </Button>
-          </div>
-          
-          {lastResult && (
-            <div className="bg-[#E9FFF6] border border-[#17BFA0] rounded-xl p-4">
-              <h3 className="font-semibold text-[#17BFA0] mb-2">
-                🎉 Dernier résultat
-              </h3>
-              <p className="text-sm text-gray-600">
-                Score: {lastResult.score}/{lastResult.total} • Points gagnés: {lastResult.points}
-              </p>
-            </div>
-          )}
-          
-          <div className="bg-[#F9FFFD] border border-[#17BFA0] rounded-xl p-4">
-            <h3 className="font-semibold text-[#17BFA0] mb-2">
-              💡 Comment ça marche ?
-            </h3>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>• 4 questions aléatoires sur la nutrition</li>
-              <li>• Répondez en cliquant sur les options</li>
-              <li>• Feedback visuel immédiat (vert/rouge)</li>
-              <li>• 10 points par bonne réponse</li>
-              <li>• Votre score s'affiche à la fin</li>
-              <li>• Animation de confettis pour célébrer !</li>
-            </ul>
+              🎯 Mini Quiz Partenaire
+            </button>
           </div>
         </div>
       </div>
-      
-      <InteractiveOfferQuiz 
-        open={open} 
-        onOpenChange={setOpen}
-        pointsPerCorrect={10}
-        onComplete={handleQuizComplete}
-      />
+    );
+  }
+  
+  if (showMiniQuiz) {
+    return (
+      <div className="min-h-screen bg-[#F2F2F2] flex items-center justify-center p-4 sm:p-8">
+        <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 max-w-sm sm:max-w-md md:max-w-2xl w-full">
+          <div className="mb-4 sm:mb-6 text-center">
+            <h1 className="text-xl sm:text-2xl font-bold text-[#212E40] mb-2">
+              🎯 Mini Quiz Partenaire
+            </h1>
+            <p className="text-sm sm:text-base text-gray-600">
+              Répondez aux questions pour débloquer une carte à gratter !
+            </p>
+          </div>
+          
+          <MiniQuiz onComplete={handleMiniQuizComplete} />
+          
+          <div className="mt-4 sm:mt-6 text-center">
+            <button
+              onClick={() => setShowMiniQuiz(false)}
+              className="w-full sm:w-auto bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium text-sm sm:text-base"
+            >
+              ← Retour au quiz principal
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#F2F2F2] flex items-center justify-center p-4 sm:p-8">
+      <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 max-w-sm sm:max-w-md md:max-w-2xl w-full">
+        <div className="mb-4 sm:mb-6">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#212E40] mb-2">
+            Quiz Démo 🎯
+          </h1>
+          <p className="text-sm sm:text-base text-gray-600">
+            Question {currentQuestion + 1} sur {SAMPLE_QUESTIONS.length}
+          </p>
+          <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+            <div 
+              className="bg-[#17BFA0] h-2 rounded-full transition-all duration-300"
+              style={{ width: `${((currentQuestion + 1) / SAMPLE_QUESTIONS.length) * 100}%` }}
+            ></div>
+          </div>
+        </div>
+        
+        <Quiz
+          question={SAMPLE_QUESTIONS[currentQuestion].question}
+          options={SAMPLE_QUESTIONS[currentQuestion].options}
+          correctIndex={SAMPLE_QUESTIONS[currentQuestion].correctIndex}
+          onComplete={handleQuizComplete}
+        />
+      </div>
     </div>
   );
 }

@@ -8,7 +8,7 @@ import PageHeader from "@/components/PageHeader";
 import { useModal } from "@/components/modal/ModalManager";
 import VideoModal from "@/components/modals/VideoModal";
 import InteractiveOfferQuiz from "@/components/InteractiveOfferQuiz";
-import { ScratchCard } from "@/components/ScratchCard";
+import ScratchCard from "@/components/ScratchCard";
 import { useScratchAvailability } from "@/hooks/useScratchAvailability";
 import * as React from "react";
 
@@ -40,59 +40,61 @@ export default function Home() {
       
       {/* Navigation Header */}
       <nav className="w-full bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-3 sm:px-4 md:px-6 py-2 sm:py-3">
           {/* Logo */}
-          <div className="text-lg font-bold text-[#17BFA0]">Kanpanya</div>
+          <div className="text-base sm:text-lg font-bold text-[#17BFA0]">Kanpanya</div>
 
           {/* Menu desktop */}
-          <div className="hidden sm:flex items-center gap-6 text-[#212E40] font-medium">
-            <a href="#" className="hover:text-[#17BFA0]">Accueil</a>
-            <a href="#" className="hover:text-[#17BFA0]">Commerçants</a>
-            <a href="#" className="hover:text-[#17BFA0]">Offres</a>
-            <a href="#" className="hover:text-[#17BFA0]">Plus</a>
+          <div className="hidden sm:flex items-center gap-4 lg:gap-6 text-[#212E40] font-medium">
+            <a href="#" className="hover:text-[#17BFA0] text-sm lg:text-base">Accueil</a>
+            <a href="#" className="hover:text-[#17BFA0] text-sm lg:text-base">Commerçants</a>
+            <a href="#" className="hover:text-[#17BFA0] text-sm lg:text-base">Offres</a>
+            <a href="#" className="hover:text-[#17BFA0] text-sm lg:text-base">Plus</a>
           </div>
 
           {/* Bouton "Ma carte" */}
-          <button className="flex items-center gap-2 px-4 py-2 rounded-xl shadow-md text-[#212E40] font-semibold bg-white border border-gray-200">
+          <button className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow-md text-[#212E40] font-semibold bg-white border border-gray-200 text-xs sm:text-sm">
             <span className="text-[#0D8C75]">▢</span>
-            Ma carte
+            <span className="hidden xs:inline">Ma carte</span>
           </button>
         </div>
       </nav>
 
       {/* Header intro */}
-      <div className="px-4 py-8 sm:px-6 sm:py-10 max-w-7xl mx-auto">
+      <div className="px-3 sm:px-4 md:px-6 py-6 sm:py-8 md:py-10 max-w-7xl mx-auto">
         <PageHeader />
       </div>
 
       {/* Section Ticket à gratter */}
       {state.available && !state.used ? (
-        <div id="scratch-section" className="px-4 py-6 sm:px-6 max-w-7xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-lg p-6">
-            <div className="mb-4 flex items-center gap-2">
-              <span className="text-2xl">🎫</span>
-              <h3 className="text-xl font-semibold">Ticket à gratter disponible</h3>
+        <div id="scratch-section" className="px-3 sm:px-4 md:px-6 py-4 sm:py-6 max-w-7xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6">
+            <div className="mb-3 sm:mb-4 flex items-center gap-2">
+              <span className="text-xl sm:text-2xl">🎫</span>
+              <h3 className="text-lg sm:text-xl font-semibold">Ticket à gratter disponible</h3>
             </div>
-            <ScratchCard
-              reward={state.reward ?? { type: 'points', amount: 10, label: '+10 points' }}
-              onReveal={() => {
-                // on marque le ticket comme utilisé après 800ms pour laisser le temps au badge/confettis
-                setTimeout(() => markUsed(), 800);
-              }}
-            />
+            <div className="flex justify-center">
+              <ScratchCard
+                reward={state.reward ?? { type: 'points', amount: 10, label: '+10 points' }}
+                onReveal={() => {
+                  // on marque le ticket comme utilisé après 800ms pour laisser le temps au badge/confettis
+                  setTimeout(() => markUsed(), 800);
+                }}
+              />
+            </div>
           </div>
         </div>
       ) : (
-        <div className="px-4 py-6 sm:px-6 max-w-7xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-md p-6">
-            <div className="text-gray-700 font-medium">Pas de ticket pour le moment</div>
-            <div className="text-gray-500 text-sm">Termine un quiz pour débloquer un nouveau ticket à gratter.</div>
+        <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6 max-w-7xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6">
+            <div className="text-gray-700 font-medium text-sm sm:text-base">Pas de ticket pour le moment</div>
+            <div className="text-gray-500 text-xs sm:text-sm">Termine un quiz pour débloquer un nouveau ticket à gratter.</div>
           </div>
         </div>
       )}
 
       {/* Section Partenaire - Wrapper uniforme */}
-      <div className="max-w-7xl mx-auto mt-8 sm:mt-10 px-4 sm:px-6 space-y-4">
+      <div className="max-w-7xl mx-auto mt-6 sm:mt-8 md:mt-10 px-3 sm:px-4 md:px-6 space-y-3 sm:space-y-4">
         {/* Bannière partenaire - Cliquable */}
         <button
           onClick={handleOpenVideo}
