@@ -6,7 +6,8 @@ export async function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));
 }
 
-export async function generateMetadata({ params: { lang: _lang } }: { params: { lang: Locale } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang: _lang } = await params;
   const base = "https://www.exemple.com"; // ← mets ton domaine
   const languages = Object.fromEntries(LOCALES.map((l) => [l, `${base}/${l}`]));
 
@@ -19,10 +20,11 @@ export async function generateMetadata({ params: { lang: _lang } }: { params: { 
 
 export default async function LangLayout({
   children,
-  params: { lang }
+  params
 }: {
   children: React.ReactNode;
-  params: { lang: Locale };
+  params: Promise<{ lang: string }>;
 }) {
-  return <I18nProvider locale={lang}>{children}</I18nProvider>;
+  const { lang } = await params;
+  return <I18nProvider locale={lang as Locale}>{children}</I18nProvider>;
 }

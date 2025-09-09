@@ -20,7 +20,7 @@ async function fireConfetti(){
   }
 }
 
-export default function ScratchCard({
+function ScratchCard({
   reward,
   onReveal,
   width = 320,
@@ -170,3 +170,6 @@ export default function ScratchCard({
     </div>
   );
 }
+
+export { ScratchCard };
+export default ScratchCard;

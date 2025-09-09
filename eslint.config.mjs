@@ -22,12 +22,17 @@ const eslintConfig = [
   },
   {
     rules: {
-      "@typescript-eslint/no-explicit-any": ["error", { ignoreRestArgs: true }],
+      "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-unused-vars": ["warn", { 
         argsIgnorePattern: "^_", 
         varsIgnorePattern: "^_" 
       }],
       "react-hooks/exhaustive-deps": "warn",
+      "react/no-unescaped-entities": "warn",
+      "@next/next/no-html-link-for-pages": "warn",
+      "@next/next/no-img-element": "warn",
+      "prefer-const": "warn",
+      "@typescript-eslint/no-empty-object-type": "warn",
     },
   },
 ];

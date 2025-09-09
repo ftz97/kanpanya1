@@ -16,7 +16,8 @@ const patchSchema = z
   })
   .refine((v) => Object.keys(v).length > 0, { message: "Empty body" });
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
     const cookieStore = cookies();
     const supabase = await createServerClientSafe(cookieStore);
@@ -31,7 +32,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     const { data, error } = await supabase
       .from("flash_offers")
       .update(parsed.data)
-      .eq("id", params.id)
+      .eq("id", id)
       .select("*")
       .single();
 
