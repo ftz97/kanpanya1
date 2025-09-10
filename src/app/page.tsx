@@ -10,6 +10,7 @@ import VideoModal from "@/components/modals/VideoModal";
 import InteractiveOfferQuiz from "@/components/InteractiveOfferQuiz";
 import ScratchCard from "@/components/ScratchCard";
 import SponsorFlowModal from "@/components/SponsorFlowModal";
+import RecommendationSection from "@/components/RecommendationSection";
 import { useScratchAvailability } from "@/hooks/useScratchAvailability";
 import * as React from "react";
 
@@ -81,13 +82,17 @@ export default function Home() {
               <h3 className="text-lg sm:text-xl font-semibold">Ticket à gratter disponible</h3>
             </div>
             <div className="flex justify-center">
-              <ScratchCard
-                reward={state.reward ?? { type: 'points', amount: 10, label: '+10 points' }}
-                onReveal={() => {
-                  // on marque le ticket comme utilisé après 800ms pour laisser le temps au badge/confettis
-                  setTimeout(() => markUsed(), 800);
-                }}
-              />
+                     <ScratchCard
+                       reward={state.reward ? {
+                         type: state.reward.type,
+                         amount: state.reward.type === 'points' ? state.reward.amount : 0,
+                         label: state.reward.label ?? 'Récompense surprise'
+                       } : { type: 'points', amount: 10, label: '+10 points' }}
+                       onReveal={() => {
+                         // on marque le ticket comme utilisé après 800ms pour laisser le temps au badge/confettis
+                         setTimeout(() => markUsed(), 800);
+                       }}
+                     />
             </div>
           </div>
         </div>
@@ -181,6 +186,9 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* Section Recommandations */}
+      <RecommendationSection />
 
       {/* Explorez par catégorie */}
       <section className="max-w-7xl mx-auto mt-12 px-4 sm:px-6">
