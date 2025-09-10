@@ -15,7 +15,6 @@ interface ScratchCardProps {
 
 export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const [isWinner, setIsWinner] = useState<boolean>(false);
   const [variation, setVariation] = useState<string>("");
@@ -51,18 +50,17 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const container = containerRef.current;
-    if (!canvas || !container) return;
+    if (!canvas) return;
 
     const resizeObserver = new ResizeObserver(() => {
-      const rect = container.getBoundingClientRect();
+      const rect = canvas.getBoundingClientRect();
       const size = Math.min(rect.width, rect.height);
       canvas.width = size;
       canvas.height = size;
       drawScratchSurface();
     });
 
-    resizeObserver.observe(container);
+    resizeObserver.observe(canvas);
     return () => resizeObserver.disconnect();
   }, []);
 
@@ -182,14 +180,16 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
 
   return (
     <div className="relative">
-      <div
-        ref={containerRef}
-        className="relative mx-auto my-6 bg-white rounded-xl shadow-lg overflow-hidden w-[300px] md:w-[360px] aspect-[1.6/1] border border-gray-300"
-      >
-        {/* Surface à gratter */}
+      <div className="relative mx-auto my-6 w-[300px] md:w-[360px] aspect-[1.6/1] rounded-xl shadow-lg overflow-hidden">
+        {/* Couche 1 : contenu révélé */}
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-300">
+          <span className="text-6xl">🎁</span>
+        </div>
+
+        {/* Couche 2 : surface à gratter */}
         <canvas
           ref={canvasRef}
-          className="absolute inset-0 w-full h-full cursor-crosshair z-20 rounded-xl"
+          className="absolute inset-0 w-full h-full cursor-crosshair z-20"
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
