@@ -34,10 +34,9 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     return POINTS[Math.floor(Math.random() * POINTS.length)];
   };
 
-  // Init
   useEffect(() => {
     setIsClient(true);
-    setIsWinner(true); // Ici tu peux mettre random si tu veux du perdant/gagnant
+    setIsWinner(true); // tu peux changer ici pour du random
   }, []);
 
   useEffect(() => {
@@ -57,7 +56,7 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
 
     const resizeObserver = new ResizeObserver(() => {
       const rect = container.getBoundingClientRect();
-      const size = Math.min(rect.width, rect.height, 300);
+      const size = Math.min(rect.width, rect.height);
       canvas.width = size;
       canvas.height = size;
       drawScratchSurface();
@@ -76,7 +75,6 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
 
     const size = canvas.width;
 
-    // Dégradé argenté métallique
     const gradient = ctx.createLinearGradient(0, 0, size, size);
     gradient.addColorStop(0, "#d7d7d7");
     gradient.addColorStop(0.3, "#f2f2f2");
@@ -86,17 +84,17 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, size, size);
 
-    // Texte
+    // texte centré
     ctx.fillStyle = "#444";
     ctx.font = `bold ${size * 0.08}px Arial`;
     ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
     ctx.fillText("🎫 Grattez ici", size / 2, size / 2);
   };
 
   const scratchAt = (x: number, y: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
 
@@ -137,7 +135,6 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
 
   const handleMove = (x: number, y: number) => {
     if (!lastPos.current) return;
-
     const ctx = canvasRef.current?.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
 
@@ -159,47 +156,25 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     lastPos.current = null;
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault();
-    handleDown(e.clientX, e.clientY);
-  };
-  const handleMouseMove = (e: React.MouseEvent) => {
-    e.preventDefault();
-    handleMove(e.clientX, e.clientY);
-  };
-  const handleMouseUp = (e: React.MouseEvent) => {
-    e.preventDefault();
-    handleUp();
-  };
+  const handleMouseDown = (e: React.MouseEvent) => handleDown(e.clientX, e.clientY);
+  const handleMouseMove = (e: React.MouseEvent) => handleMove(e.clientX, e.clientY);
+  const handleMouseUp = () => handleUp();
+
   const handleTouchStart = (e: React.TouchEvent) => {
-    e.preventDefault();
     const touch = e.touches[0];
     handleDown(touch.clientX, touch.clientY);
   };
   const handleTouchMove = (e: React.TouchEvent) => {
-    e.preventDefault();
     const touch = e.touches[0];
     handleMove(touch.clientX, touch.clientY);
   };
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    e.preventDefault();
-    handleUp();
-  };
-
-  if (!isClient) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <div className="animate-pulse text-gray-400">Chargement...</div>
-      </div>
-    );
-  }
+  const handleTouchEnd = () => handleUp();
 
   return (
     <div className="relative">
       <div
         ref={containerRef}
-        className="relative mx-auto bg-white rounded-2xl shadow-lg overflow-hidden"
-        style={{ width: "100%", maxWidth: "300px", aspectRatio: "1" }}
+        className="relative mx-auto my-6 bg-white rounded-2xl shadow-lg overflow-hidden w-[200px] md:w-[260px] aspect-square"
       >
         {/* Surface à gratter */}
         <canvas
@@ -215,7 +190,7 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
         />
       </div>
 
-      {/* Popup de gain */}
+      {/* Popup gain */}
       <AnimatePresence>
         {popupVisible && (
           <motion.div
@@ -237,7 +212,6 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 300, damping: 15 }}
                 className="text-3xl font-bold mb-4 text-gray-800"
-                style={{ textShadow: "0 2px 6px rgba(0,0,0,0.25)" }}
               >
                 {variation}
               </motion.h2>
