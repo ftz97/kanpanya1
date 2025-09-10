@@ -76,29 +76,39 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     const width = canvas.width;
     const height = canvas.height;
 
+    // Fond métallisé brossé
     const gradient = ctx.createLinearGradient(0, 0, width, height);
     gradient.addColorStop(0, "#d7d7d7");
     gradient.addColorStop(0.3, "#f2f2f2");
     gradient.addColorStop(0.7, "#c0c0c0");
-    gradient.addColorStop(1, "#e5e5e5");
-
+    gradient.addColorStop(1, "#e0e0e0");
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
 
-    // texte centré avec dégradé premium
-    ctx.font = `600 ${height * 0.1}px 'Poppins', sans-serif`;
+    // Texture de brossage
+    ctx.fillStyle = "rgba(255,255,255,0.08)";
+    for (let i = 0; i < height; i += 4) {
+      ctx.fillRect(0, i, width, 1); // fines lignes horizontales
+    }
+
+    // Texte incrusté dans la matière
+    ctx.font = `600 ${height * 0.12}px 'Poppins', sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    
-    // Dégradé Kanpanya
+
+    // Dégradé métallique sur le texte
     const textGradient = ctx.createLinearGradient(0, 0, width, 0);
-    textGradient.addColorStop(0, "#17BFA0"); // turquoise
-    textGradient.addColorStop(1, "#14a58d"); // vert foncé
+    textGradient.addColorStop(0, "#ffffff");
+    textGradient.addColorStop(0.5, "#b0b0b0");
+    textGradient.addColorStop(1, "#e0e0e0");
     ctx.fillStyle = textGradient;
-    
-    // Ombre légère pour effet embossé
-    ctx.shadowColor = "rgba(0,0,0,0.2)";
-    ctx.shadowBlur = 4;
+
+    // Ombre légère pour effet gravure
+    ctx.shadowColor = "rgba(0,0,0,0.3)";
+    ctx.shadowBlur = 6;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+
     ctx.fillText("Grattez ici", width / 2, height / 2);
     ctx.shadowBlur = 0;
   };
