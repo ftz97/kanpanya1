@@ -86,11 +86,14 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     ctx.fillRect(0, 0, width, height);
 
     // texte centré
-    ctx.fillStyle = "#444";
-    ctx.font = `bold ${height * 0.1}px Arial`;
+    ctx.font = `bold ${height * 0.25}px 'Inter', Arial, sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("🎫 Grattez ici", width / 2, height / 2);
+    ctx.shadowColor = "rgba(0,0,0,0.2)";
+    ctx.shadowBlur = 4;
+    ctx.fillStyle = "#222";
+    ctx.fillText("Grattez ici", width / 2, height / 2);
+    ctx.shadowBlur = 0; // reset après écriture
   };
 
   const scratchAt = (x: number, y: number) => {
