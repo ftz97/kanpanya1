@@ -188,7 +188,7 @@ export default function Home() {
       </section>
 
       {/* Section Recommandations */}
-      <RecommendationSection />
+      <RecommendationSection clientId="550e8400-e29b-41d4-a716-446655440003" />
 
       {/* Explorez par catégorie */}
       <section className="max-w-7xl mx-auto mt-12 px-4 sm:px-6">

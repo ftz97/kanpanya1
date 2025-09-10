@@ -16,7 +16,11 @@ interface RecommendationResponse {
   data: Recommendation[];
 }
 
-export default function RecommendationSection() {
+interface RecommendationSectionProps {
+  clientId: string;
+}
+
+export default function RecommendationSection({ clientId }: RecommendationSectionProps) {
   const [recommendations, setRecommendations] = useState<RecommendationResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,10 +28,6 @@ export default function RecommendationSection() {
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
-        // Pour l'instant, on utilise un clientId fixe
-        // Dans une vraie app, on récupérerait l'ID du client connecté
-        const clientId = "demo-client-123";
-        
         const response = await fetch(`/api/recommandations/${clientId}`);
         
         if (!response.ok) {
@@ -44,7 +44,7 @@ export default function RecommendationSection() {
     };
 
     fetchRecommendations();
-  }, []);
+  }, [clientId]);
 
   if (loading) {
     return (
