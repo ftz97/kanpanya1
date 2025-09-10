@@ -48,6 +48,34 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     if (isClient) drawScratchSurface();
   }, [isClient]);
 
+  // ⚡ Ajoute ce useEffect pour dessiner dès le montage
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!ctx) return;
+
+    // Taille du canvas
+    const size = canvas.width;
+
+    // Fond gris métallisé pour scratch
+    const gradient = ctx.createLinearGradient(0, 0, size, size);
+    gradient.addColorStop(0, "#c0c0c0");
+    gradient.addColorStop(0.5, "#e0e0e0");
+    gradient.addColorStop(1, "#a0a0a0");
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, size, canvas.height);
+
+    // Texte "Grattez" au-dessus
+    ctx.fillStyle = "#555";
+    ctx.font = `bold ${size * 0.1}px Arial`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("🎁", size / 2, canvas.height / 2);
+  }, []);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
