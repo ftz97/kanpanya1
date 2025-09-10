@@ -22,6 +22,8 @@ interface OverallStats {
   avg_ctr: number;
   top_category: string;
   active_merchants: number;
+  total_clients_via_reco: number;
+  monthly_clients_via_reco: number;
 }
 
 export default function AdminRecommendationsPage() {
@@ -82,7 +84,9 @@ export default function AdminRecommendationsPage() {
           total_clicks: 2340,
           avg_ctr: 3.2,
           top_category: "Restauration",
-          active_merchants: 89
+          active_merchants: 89,
+          total_clients_via_reco: 128,
+          monthly_clients_via_reco: 34
         }
       };
 
@@ -139,7 +143,7 @@ export default function AdminRecommendationsPage() {
 
         {/* Stats Globales */}
         {overallStats && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -203,6 +207,45 @@ export default function AdminRecommendationsPage() {
                 </div>
                 <div className="p-3 bg-purple-100 rounded-full">
                   <span className="text-2xl">🏪</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Nouveaux KPIs : Conversions via Recommandations */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="bg-white p-6 rounded-xl shadow-lg"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Clients via Recommandations</p>
+                  <p className="text-3xl font-bold text-emerald-600">
+                    {overallStats?.total_clients_via_reco ?? 0}
+                  </p>
+                </div>
+                <div className="p-3 bg-emerald-100 rounded-full">
+                  <span className="text-2xl">🌟</span>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="bg-white p-6 rounded-xl shadow-lg"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Clients via Reco (mois en cours)</p>
+                  <p className="text-3xl font-bold text-teal-600">
+                    {overallStats?.monthly_clients_via_reco ?? 0}
+                  </p>
+                </div>
+                <div className="p-3 bg-teal-100 rounded-full">
+                  <span className="text-2xl">📅</span>
                 </div>
               </div>
             </motion.div>
