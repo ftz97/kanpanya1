@@ -73,48 +73,46 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
 
-    const width = canvas.width;
-    const height = canvas.height;
+    const size = canvas.width;
 
-    // Fond métallisé avec reflet
-    const gradient = ctx.createLinearGradient(0, 0, width, height);
+    // --- Fond argenté premium ---
+    const gradient = ctx.createLinearGradient(0, 0, size, size);
     gradient.addColorStop(0, "#f8f8f8");
-    gradient.addColorStop(0.4, "#dcdcdc");
-    gradient.addColorStop(0.7, "#eaeaea");
-    gradient.addColorStop(1, "#c8c8c8");
+    gradient.addColorStop(0.3, "#e2e2e2");
+    gradient.addColorStop(0.7, "#d0d0d0");
+    gradient.addColorStop(1, "#f5f5f5");
     ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, width, height);
+    ctx.fillRect(0, 0, size, size);
 
-    // Reflet clair en diagonale
-    const shine = ctx.createLinearGradient(0, 0, width, height);
+    // Reflet diagonale
+    const shine = ctx.createLinearGradient(0, 0, size, size);
     shine.addColorStop(0, "rgba(255,255,255,0.6)");
     shine.addColorStop(0.3, "rgba(255,255,255,0)");
     shine.addColorStop(0.7, "rgba(255,255,255,0)");
     shine.addColorStop(1, "rgba(255,255,255,0.6)");
     ctx.fillStyle = shine;
-    ctx.fillRect(0, 0, width, height);
+    ctx.fillRect(0, 0, size, size);
 
-    // Texte incrusté dans la matière
-    ctx.font = `600 ${height * 0.12}px 'Poppins', sans-serif`;
+    // --- Texte premium + fun ---
+    ctx.font = `600 ${size * 0.14}px 'Fredoka One', 'Poppins', sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    // Dégradé turquoise Kanpanya
-    const textGradient = ctx.createLinearGradient(0, 0, width, 0);
-    textGradient.addColorStop(0, "#17BFA0");
-    textGradient.addColorStop(1, "#14a58d");
+    // Dégradé coloré (turquoise → or → rose)
+    const textGradient = ctx.createLinearGradient(0, 0, size, 0);
+    textGradient.addColorStop(0, "#17BFA0"); // turquoise
+    textGradient.addColorStop(0.5, "#FFD700"); // or
+    textGradient.addColorStop(1, "#FF69B4"); // rose flashy
     ctx.fillStyle = textGradient;
 
-    // Ombre embossée
-    ctx.shadowColor = "rgba(0,0,0,0.25)";
-    ctx.shadowBlur = 4;
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 2;
+    // Glow festif
+    ctx.shadowColor = "rgba(255, 105, 180, 0.6)";
+    ctx.shadowBlur = 8;
 
-    // Texte premium
-    ctx.fillText("🎁 Ta surprise", width / 2, height / 2);
+    // Phrase fun
+    ctx.fillText("🎊 Ta surprise 🎉", size / 2, size / 2);
 
-    ctx.shadowBlur = 0;
+    ctx.shadowBlur = 0; // reset
   };
 
   const scratchAt = (x: number, y: number) => {
