@@ -76,38 +76,41 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     const width = canvas.width;
     const height = canvas.height;
 
-    // Fond métallisé brossé
+    // Fond métallisé avec reflet
     const gradient = ctx.createLinearGradient(0, 0, width, height);
-    gradient.addColorStop(0, "#d7d7d7");
-    gradient.addColorStop(0.3, "#f2f2f2");
-    gradient.addColorStop(0.7, "#c0c0c0");
-    gradient.addColorStop(1, "#e0e0e0");
+    gradient.addColorStop(0, "#f8f8f8");
+    gradient.addColorStop(0.4, "#dcdcdc");
+    gradient.addColorStop(0.7, "#eaeaea");
+    gradient.addColorStop(1, "#c8c8c8");
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
 
-    // Texture de brossage
-    ctx.fillStyle = "rgba(255,255,255,0.08)";
-    for (let i = 0; i < height; i += 4) {
-      ctx.fillRect(0, i, width, 1); // fines lignes horizontales
-    }
+    // Reflet clair en diagonale
+    const shine = ctx.createLinearGradient(0, 0, width, height);
+    shine.addColorStop(0, "rgba(255,255,255,0.6)");
+    shine.addColorStop(0.3, "rgba(255,255,255,0)");
+    shine.addColorStop(0.7, "rgba(255,255,255,0)");
+    shine.addColorStop(1, "rgba(255,255,255,0.6)");
+    ctx.fillStyle = shine;
+    ctx.fillRect(0, 0, width, height);
 
     // Texte incrusté dans la matière
     ctx.font = `600 ${height * 0.12}px 'Poppins', sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    // Dégradé métallique sur le texte
+    // Dégradé métallique argent
     const textGradient = ctx.createLinearGradient(0, 0, width, 0);
-    textGradient.addColorStop(0, "#ffffff");
-    textGradient.addColorStop(0.5, "#b0b0b0");
-    textGradient.addColorStop(1, "#e0e0e0");
+    textGradient.addColorStop(0, "#7f7f7f");
+    textGradient.addColorStop(0.5, "#ffffff");
+    textGradient.addColorStop(1, "#7f7f7f");
     ctx.fillStyle = textGradient;
 
-    // Ombre légère pour effet gravure
-    ctx.shadowColor = "rgba(0,0,0,0.3)";
-    ctx.shadowBlur = 6;
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 2;
+    // Légère ombre embossée
+    ctx.shadowColor = "rgba(0,0,0,0.2)";
+    ctx.shadowBlur = 2;
+    ctx.shadowOffsetX = 1;
+    ctx.shadowOffsetY = 1;
 
     ctx.fillText("Grattez ici", width / 2, height / 2);
     ctx.shadowBlur = 0;
