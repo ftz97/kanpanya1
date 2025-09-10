@@ -75,7 +75,9 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
 
     const size = canvas.width;
 
-    // --- Fond argenté premium ---
+    ctx.clearRect(0, 0, size, size);
+
+    // Fond argenté premium
     const gradient = ctx.createLinearGradient(0, 0, size, size);
     gradient.addColorStop(0, "#f8f8f8");
     gradient.addColorStop(0.3, "#e2e2e2");
@@ -84,7 +86,7 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, size, size);
 
-    // Reflet diagonale
+    // Reflet diagonal
     const shine = ctx.createLinearGradient(0, 0, size, size);
     shine.addColorStop(0, "rgba(255,255,255,0.6)");
     shine.addColorStop(0.3, "rgba(255,255,255,0)");
@@ -93,26 +95,11 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     ctx.fillStyle = shine;
     ctx.fillRect(0, 0, size, size);
 
-    // --- Texte premium + fun ---
-    ctx.font = `600 ${size * 0.14}px 'Fredoka One', 'Poppins', sans-serif`;
+    // Gros emoji cadeau 🎁 centré
+    ctx.font = `${size * 0.4}px 'Segoe UI Emoji', 'Apple Color Emoji', sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-
-    // Dégradé coloré (turquoise → or → rose)
-    const textGradient = ctx.createLinearGradient(0, 0, size, 0);
-    textGradient.addColorStop(0, "#17BFA0"); // turquoise
-    textGradient.addColorStop(0.5, "#FFD700"); // or
-    textGradient.addColorStop(1, "#FF69B4"); // rose flashy
-    ctx.fillStyle = textGradient;
-
-    // Glow festif
-    ctx.shadowColor = "rgba(255, 105, 180, 0.6)";
-    ctx.shadowBlur = 8;
-
-    // Phrase fun
-    ctx.fillText("🎊 Ta surprise 🎉", size / 2, size / 2);
-
-    ctx.shadowBlur = 0; // reset
+    ctx.fillText("🎁", size / 2, size / 2);
   };
 
   const scratchAt = (x: number, y: number) => {
