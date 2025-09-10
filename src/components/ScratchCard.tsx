@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import EmojiRain from "./EmojiRain";
 
 interface ScratchCardProps {
@@ -20,70 +21,35 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
   const [variation, setVariation] = useState<string>("");
   const [revealed, setRevealed] = useState(false);
   const [popupVisible, setPopupVisible] = useState(false);
-  const [popupClosing, setPopupClosing] = useState(false);
   const [prize, setPrize] = useState("");
   const [isClient, setIsClient] = useState(false);
 
   const lastPos = useRef<{ x: number; y: number } | null>(null);
   const lastCheck = useRef<number>(0);
 
-  const WIN_VARIATIONS = [
-    "🎉 Félicitations !",
-    "🎊 Bravo !",
-    "🏆 Excellent !",
-    "✨ Incroyable !",
-    "🎯 Parfait !",
-  ];
+  const WIN_VARIATIONS = ["🎉 Félicitations !", "🎊 Bravo !", "🏆 Excellent !", "✨ Incroyable !"];
 
-  const LOSE_VARIATIONS = [
-    "😢 Dommage...",
-    "😞 Pas cette fois...",
-    "😕 Essayez encore !",
-    "🙃 Presque...",
-    "😅 Raté !",
-  ];
-
-  const getRandomPrize = (winner: boolean) => {
-    if (!winner) return "Pas de gain";
+  const getRandomPrize = () => {
     const POINTS = ["+10 points", "+20 points", "+50 points", "+100 points"];
-    const REDUCTIONS = ["-5% réduction", "-10% réduction", "-15% réduction"];
-    const pool = Math.random() < 0.5 ? POINTS : REDUCTIONS;
-    return pool[Math.floor(Math.random() * pool.length)];
+    return POINTS[Math.floor(Math.random() * POINTS.length)];
   };
 
+  // Init
   useEffect(() => {
     setIsClient(true);
-    if (reward) {
-      setIsWinner(true);
-    } else {
-      setIsWinner(Math.random() > 0.5);
-    }
-  }, [reward]);
+    setIsWinner(true); // Ici tu peux mettre random si tu veux du perdant/gagnant
+  }, []);
 
   useEffect(() => {
     if (!isClient) return;
+    setVariation(WIN_VARIATIONS[Math.floor(Math.random() * WIN_VARIATIONS.length)]);
+    setPrize(reward ? reward.label : getRandomPrize());
+  }, [isClient, reward]);
 
-    if (reward) {
-      setVariation(WIN_VARIATIONS[Math.floor(Math.random() * WIN_VARIATIONS.length)]);
-      setPrize(reward.label);
-    } else {
-      setVariation(
-        isWinner
-          ? WIN_VARIATIONS[Math.floor(Math.random() * WIN_VARIATIONS.length)]
-          : LOSE_VARIATIONS[Math.floor(Math.random() * LOSE_VARIATIONS.length)]
-      );
-      setPrize(getRandomPrize(isWinner));
-    }
-  }, [isWinner, isClient, reward]);
-
-  // Appel direct au montage pour dessiner la surface
   useEffect(() => {
-    if (isClient) {
-      drawScratchSurface();
-    }
+    if (isClient) drawScratchSurface();
   }, [isClient]);
 
-  // Resize dynamique
   useEffect(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
@@ -92,18 +58,14 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     const resizeObserver = new ResizeObserver(() => {
       const rect = container.getBoundingClientRect();
       const size = Math.min(rect.width, rect.height, 300);
-
       canvas.width = size;
       canvas.height = size;
-
-      if (isClient) {
-        drawScratchSurface();
-      }
+      drawScratchSurface();
     });
 
     resizeObserver.observe(container);
     return () => resizeObserver.disconnect();
-  }, [isClient]);
+  }, []);
 
   const drawScratchSurface = () => {
     const canvas = canvasRef.current;
@@ -124,16 +86,8 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, size, size);
 
-    // Motif "hachures"
-    ctx.fillStyle = "rgba(255,255,255,0.2)";
-    for (let i = -size; i < size * 2; i += 20) {
-      ctx.fillRect(i, 0, 10, size);
-      ctx.rotate((20 * Math.PI) / 180);
-    }
-
-    // Texte au centre
-    ctx.resetTransform();
-    ctx.fillStyle = "#555";
+    // Texte
+    ctx.fillStyle = "#444";
     ctx.font = `bold ${size * 0.08}px Arial`;
     ctx.textAlign = "center";
     ctx.fillText("🎫 Grattez ici", size / 2, size / 2);
@@ -172,16 +126,7 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     if (percent > 0.3 && !revealed) {
       setRevealed(true);
       setPopupVisible(true);
-
       if (onReveal) onReveal();
-
-      setTimeout(() => {
-        setPopupClosing(true);
-        setTimeout(() => {
-          setPopupVisible(false);
-          setPopupClosing(false);
-        }, 1000);
-      }, 3000);
     }
   };
 
@@ -218,29 +163,24 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     e.preventDefault();
     handleDown(e.clientX, e.clientY);
   };
-
   const handleMouseMove = (e: React.MouseEvent) => {
     e.preventDefault();
     handleMove(e.clientX, e.clientY);
   };
-
   const handleMouseUp = (e: React.MouseEvent) => {
     e.preventDefault();
     handleUp();
   };
-
   const handleTouchStart = (e: React.TouchEvent) => {
     e.preventDefault();
     const touch = e.touches[0];
     handleDown(touch.clientX, touch.clientY);
   };
-
   const handleTouchMove = (e: React.TouchEvent) => {
     e.preventDefault();
     const touch = e.touches[0];
     handleMove(touch.clientX, touch.clientY);
   };
-
   const handleTouchEnd = (e: React.TouchEvent) => {
     e.preventDefault();
     handleUp();
@@ -261,19 +201,6 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
         className="relative mx-auto bg-white rounded-2xl shadow-lg overflow-hidden"
         style={{ width: "100%", maxWidth: "300px", aspectRatio: "1" }}
       >
-        {/* Contenu en dessous */}
-        <div className="absolute inset-0 p-6 flex flex-col items-center justify-center text-center bg-gradient-to-br from-yellow-100 to-orange-100 z-10">
-          <h3 className="text-xl font-bold text-gray-800 mb-2">Ticket à gratter</h3>
-          <p className="text-sm text-gray-600 mb-4">Grattez pour découvrir votre récompense</p>
-
-          {revealed && (
-            <div className="mt-4 p-4 bg-white rounded-lg shadow-md">
-              <div className="text-2xl font-bold text-green-600 mb-2">{variation}</div>
-              <div className="text-lg font-semibold text-gray-800">{prize}</div>
-            </div>
-          )}
-        </div>
-
         {/* Surface à gratter */}
         <canvas
           ref={canvasRef}
@@ -288,21 +215,52 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
         />
       </div>
 
-      {/* Popup */}
-      {popupVisible && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div
-            className={`bg-white rounded-2xl p-8 text-center shadow-2xl transform transition-all duration-500 ${
-              popupClosing ? "scale-95 opacity-0" : "scale-100 opacity-100"
-            }`}
+      {/* Popup de gain */}
+      <AnimatePresence>
+        {popupVisible && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
           >
-            <div className="text-6xl mb-4">{isWinner ? "🎉" : "😔"}</div>
-            <h2 className="text-3xl font-bold mb-4 text-gray-800">{variation}</h2>
-            <p className="text-xl text-gray-600 mb-6">{prize}</p>
-            {isWinner && <EmojiRain mode="hearts" running={true} />}
-          </div>
-        </div>
-      )}
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className="bg-white rounded-2xl p-8 text-center shadow-2xl max-w-sm w-full relative"
+            >
+              {isWinner && <EmojiRain mode="hearts" running={true} />}
+              <motion.h2
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                className="text-3xl font-bold mb-4 text-gray-800"
+                style={{ textShadow: "0 2px 6px rgba(0,0,0,0.25)" }}
+              >
+                {variation}
+              </motion.h2>
+              <p className="text-xl font-semibold text-gray-700 mb-6">{prize}</p>
+
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={() => setPopupVisible(false)}
+                  className="px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold transition"
+                >
+                  Fermer
+                </button>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="px-6 py-2 rounded-lg bg-green-500 hover:bg-green-600 text-white font-semibold transition"
+                >
+                  Rejouer
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
