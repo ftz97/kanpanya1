@@ -209,12 +209,7 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
   return (
     <div className="relative">
       <div className="relative mx-auto my-6 w-[300px] md:w-[360px] aspect-[1.6/1] rounded-xl shadow-lg overflow-hidden">
-        {/* Couche 1 : contenu révélé */}
-        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-300">
-          <span className="text-6xl">🎁</span>
-        </div>
-
-        {/* Couche 2 : surface à gratter */}
+        {/* Surface à gratter */}
         <canvas
           ref={canvasRef}
           className="absolute inset-0 w-full h-full cursor-crosshair z-20"
