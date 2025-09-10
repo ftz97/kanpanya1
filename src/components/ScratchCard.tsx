@@ -100,32 +100,35 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     if (!ctx) return;
 
     const size = canvas.width;
+    const height = canvas.height;
 
-    ctx.clearRect(0, 0, size, size);
-
-    // Fond argenté premium
-    const gradient = ctx.createLinearGradient(0, 0, size, size);
-    gradient.addColorStop(0, "#f8f8f8");
-    gradient.addColorStop(0.3, "#e2e2e2");
-    gradient.addColorStop(0.7, "#d0d0d0");
-    gradient.addColorStop(1, "#f5f5f5");
+    // --- Fond gris métallisé ---
+    const gradient = ctx.createLinearGradient(0, 0, size, height);
+    gradient.addColorStop(0, "#dcdcdc");
+    gradient.addColorStop(0.4, "#f0f0f0");
+    gradient.addColorStop(0.7, "#c0c0c0");
+    gradient.addColorStop(1, "#e5e5e5");
     ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, size, size);
+    ctx.fillRect(0, 0, size, height);
 
-    // Reflet diagonal
-    const shine = ctx.createLinearGradient(0, 0, size, size);
-    shine.addColorStop(0, "rgba(255,255,255,0.6)");
-    shine.addColorStop(0.3, "rgba(255,255,255,0)");
-    shine.addColorStop(0.7, "rgba(255,255,255,0)");
-    shine.addColorStop(1, "rgba(255,255,255,0.6)");
-    ctx.fillStyle = shine;
-    ctx.fillRect(0, 0, size, size);
-
-    // Gros emoji cadeau 🎁 centré
-    ctx.font = `${size * 0.4}px 'Segoe UI Emoji', 'Apple Color Emoji', sans-serif`;
+    // --- Texte au centre ---
+    ctx.font = `600 ${height * 0.18}px 'Poppins', sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("🎁", size / 2, size / 2);
+
+    // Dégradé turquoise Kanpanya
+    const textGradient = ctx.createLinearGradient(0, 0, size, 0);
+    textGradient.addColorStop(0, "#17BFA0");
+    textGradient.addColorStop(1, "#14a58d");
+    ctx.fillStyle = textGradient;
+
+    // Ombre légère
+    ctx.shadowColor = "rgba(0,0,0,0.25)";
+    ctx.shadowBlur = 4;
+
+    ctx.fillText("À toi de jouer", size / 2, height / 2);
+
+    ctx.shadowBlur = 0;
   };
 
   const scratchAt = (x: number, y: number) => {
