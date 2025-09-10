@@ -99,11 +99,11 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    // Dégradé métallique argent
+    // Dégradé Kanpanya
     const textGradient = ctx.createLinearGradient(0, 0, width, 0);
-    textGradient.addColorStop(0, "#7f7f7f");
-    textGradient.addColorStop(0.5, "#ffffff");
-    textGradient.addColorStop(1, "#7f7f7f");
+    textGradient.addColorStop(0, "#17BFA0");
+    textGradient.addColorStop(0.5, "#14a58d");
+    textGradient.addColorStop(1, "#17BFA0");
     ctx.fillStyle = textGradient;
 
     // Légère ombre embossée
