@@ -2,6 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import SocialPowerSection from "@/components/SocialPowerSection";
+import AttractionQualitySection from "@/components/AttractionQualitySection";
+import LocalFlowsSection from "@/components/LocalFlowsSection";
+import KonpanyaImpactSection from "@/components/KonpanyaImpactSection";
 
 interface RecommendationStats {
   id: string;
@@ -417,6 +421,19 @@ export default function AdminRecommendationsPage() {
                 <p className="text-sm text-gray-500">Analyser les performances</p>
               </div>
             </button>
+          </div>
+        </div>
+
+        {/* Analytics Avancées */}
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            📈 Analytics Avancées
+          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+            <SocialPowerSection />
+            <AttractionQualitySection />
+            <LocalFlowsSection />
+            <KonpanyaImpactSection />
           </div>
         </div>
       </div>
