@@ -114,19 +114,29 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
 
     const size = canvas.width;
 
-    // Dégradé argenté
+    // Dégradé argenté métallique
     const gradient = ctx.createLinearGradient(0, 0, size, size);
-    gradient.addColorStop(0, "#C0C0C0");
-    gradient.addColorStop(0.5, "#E8E8E8");
-    gradient.addColorStop(1, "#A0A0A0");
+    gradient.addColorStop(0, "#d7d7d7");
+    gradient.addColorStop(0.3, "#f2f2f2");
+    gradient.addColorStop(0.7, "#c0c0c0");
+    gradient.addColorStop(1, "#e5e5e5");
 
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, size, size);
 
-    ctx.fillStyle = "#444";
+    // Motif "hachures"
+    ctx.fillStyle = "rgba(255,255,255,0.2)";
+    for (let i = -size; i < size * 2; i += 20) {
+      ctx.fillRect(i, 0, 10, size);
+      ctx.rotate((20 * Math.PI) / 180);
+    }
+
+    // Texte au centre
+    ctx.resetTransform();
+    ctx.fillStyle = "#555";
     ctx.font = `bold ${size * 0.08}px Arial`;
     ctx.textAlign = "center";
-    ctx.fillText("Grattez ici", size / 2, size / 2);
+    ctx.fillText("🎫 Grattez ici", size / 2, size / 2);
   };
 
   const scratchAt = (x: number, y: number) => {
