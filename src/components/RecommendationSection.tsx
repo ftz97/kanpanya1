@@ -9,6 +9,7 @@ interface Recommendation {
   image_url?: string;
   score?: number;
   category?: string;
+  merchant_id?: string;
 }
 
 interface RecommendationResponse {
@@ -26,22 +27,41 @@ export default function RecommendationSection({ clientId }: RecommendationSectio
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchRecommendations = async () => {
-      try {
-        const response = await fetch(`/api/recommandations/${clientId}`);
-        
-        if (!response.ok) {
-          throw new Error("Erreur lors du chargement des recommandations");
-        }
-        
-        const data = await response.json();
-        setRecommendations(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Erreur inconnue");
-      } finally {
-        setLoading(false);
+  const fetchRecommendations = async () => {
+    try {
+      const response = await fetch(`/api/recommandations/${clientId}`);
+      
+      if (!response.ok) {
+        throw new Error("Erreur lors du chargement des recommandations");
       }
-    };
+      
+      const data = await response.json();
+      setRecommendations(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erreur inconnue");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRecommendationClick = async (recommendationId: string, merchantId?: string) => {
+    try {
+      await fetch('/api/recommandations/track-click', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          recommendationId,
+          clientId,
+          merchantId,
+          action: 'click'
+        }),
+      });
+    } catch (error) {
+      console.error('Erreur lors du tracking du clic:', error);
+    }
+  };
 
     fetchRecommendations();
   }, [clientId]);
@@ -79,7 +99,8 @@ export default function RecommendationSection({ clientId }: RecommendationSectio
         {recommendations.data.map((rec) => (
           <div
             key={rec.id}
-            className="bg-white rounded-xl shadow-md p-4 sm:p-6 hover:shadow-lg transition-shadow"
+            className="bg-white rounded-xl shadow-md p-4 sm:p-6 hover:shadow-lg transition-shadow cursor-pointer"
+            onClick={() => handleRecommendationClick(rec.id, rec.merchant_id)}
           >
             {rec.image_url && (
               <div className="w-full h-32 bg-gray-200 rounded-lg mb-4 overflow-hidden">
