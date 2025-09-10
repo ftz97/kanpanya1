@@ -85,13 +85,20 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
 
-    // texte centré
-    ctx.font = `600 ${height * 0.12}px 'Poppins', Arial, sans-serif`;
+    // texte centré avec dégradé premium
+    ctx.font = `600 ${height * 0.1}px 'Poppins', sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = "#222";
-    ctx.shadowColor = "rgba(0,0,0,0.15)";
-    ctx.shadowBlur = 3;
+    
+    // Dégradé Kanpanya
+    const textGradient = ctx.createLinearGradient(0, 0, width, 0);
+    textGradient.addColorStop(0, "#17BFA0"); // turquoise
+    textGradient.addColorStop(1, "#14a58d"); // vert foncé
+    ctx.fillStyle = textGradient;
+    
+    // Ombre légère pour effet embossé
+    ctx.shadowColor = "rgba(0,0,0,0.2)";
+    ctx.shadowBlur = 4;
     ctx.fillText("Grattez ici", width / 2, height / 2);
     ctx.shadowBlur = 0;
   };
