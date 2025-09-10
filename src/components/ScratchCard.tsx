@@ -99,20 +99,21 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    // Dégradé Kanpanya
+    // Dégradé turquoise Kanpanya
     const textGradient = ctx.createLinearGradient(0, 0, width, 0);
     textGradient.addColorStop(0, "#17BFA0");
-    textGradient.addColorStop(0.5, "#14a58d");
-    textGradient.addColorStop(1, "#17BFA0");
+    textGradient.addColorStop(1, "#14a58d");
     ctx.fillStyle = textGradient;
 
-    // Légère ombre embossée
-    ctx.shadowColor = "rgba(0,0,0,0.2)";
-    ctx.shadowBlur = 2;
-    ctx.shadowOffsetX = 1;
-    ctx.shadowOffsetY = 1;
+    // Ombre embossée
+    ctx.shadowColor = "rgba(0,0,0,0.25)";
+    ctx.shadowBlur = 4;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
 
-    ctx.fillText("Grattez ici", width / 2, height / 2);
+    // Texte premium
+    ctx.fillText("🎁 Ta surprise", width / 2, height / 2);
+
     ctx.shadowBlur = 0;
   };
 
