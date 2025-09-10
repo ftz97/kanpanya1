@@ -73,23 +73,24 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
 
-    const size = canvas.width;
+    const width = canvas.width;
+    const height = canvas.height;
 
-    const gradient = ctx.createLinearGradient(0, 0, size, size);
+    const gradient = ctx.createLinearGradient(0, 0, width, height);
     gradient.addColorStop(0, "#d7d7d7");
     gradient.addColorStop(0.3, "#f2f2f2");
     gradient.addColorStop(0.7, "#c0c0c0");
     gradient.addColorStop(1, "#e5e5e5");
 
     ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, size, size);
+    ctx.fillRect(0, 0, width, height);
 
     // texte centré
     ctx.fillStyle = "#444";
-    ctx.font = `bold ${size * 0.08}px Arial`;
+    ctx.font = `bold ${height * 0.1}px Arial`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("🎫 Grattez ici", size / 2, size / 2);
+    ctx.fillText("🎫 Grattez ici", width / 2, height / 2);
   };
 
   const scratchAt = (x: number, y: number) => {
@@ -174,12 +175,12 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps = {})
     <div className="relative">
       <div
         ref={containerRef}
-        className="relative mx-auto my-6 bg-white rounded-2xl shadow-lg overflow-hidden w-[200px] md:w-[260px] aspect-square"
+        className="relative mx-auto my-6 bg-white rounded-xl shadow-lg overflow-hidden w-[300px] md:w-[360px] aspect-[1.6/1] border border-gray-300"
       >
         {/* Surface à gratter */}
         <canvas
           ref={canvasRef}
-          className="absolute inset-0 w-full h-full cursor-crosshair z-20"
+          className="absolute inset-0 w-full h-full cursor-crosshair z-20 rounded-xl"
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
