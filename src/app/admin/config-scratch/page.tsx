@@ -1,9 +1,9 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 
-export default function ConfigScratchPage() {
+function ConfigScratchContent() {
   const router = useRouter();
   const params = useSearchParams();
   const type = params.get("type") || "normal";
@@ -76,5 +76,13 @@ export default function ConfigScratchPage() {
         💾 Enregistrer le Ticket
       </button>
     </div>
+  );
+}
+
+export default function ConfigScratchPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white p-6 flex items-center justify-center">Chargement...</div>}>
+      <ConfigScratchContent />
+    </Suspense>
   );
 }

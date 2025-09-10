@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import ScratchCardAdmin from "@/components/ScratchCardAdmin";
 import type { ScratchConfig } from "@/components/ScratchCardAdmin";
 import Image from "next/image";
 
-export default function ScratchCardsAdminPage() {
+function ScratchCardsAdminContent() {
   const params = useSearchParams();
   const type = params.get("type") || "normal";
 
@@ -127,5 +127,13 @@ export default function ScratchCardsAdminPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function ScratchCardsAdminPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white p-6 flex items-center justify-center">Chargement...</div>}>
+      <ScratchCardsAdminContent />
+    </Suspense>
   );
 }
