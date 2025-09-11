@@ -5,6 +5,8 @@ import {
   LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,
   BarChart, Bar, PieChart, Pie, Cell
 } from "recharts";
+import SankeyChart from "@/components/SankeyChart";
+import SimpleMap from "@/components/SimpleMap";
 
 // ✅ Mock data
 const traficData = [
@@ -81,9 +83,7 @@ export default function MacroView() {
       </div>
 
       {/* Carte interactive */}
-      <div className="h-64 bg-gradient-to-br from-blue-50 to-green-50 rounded-lg border flex items-center justify-center">
-        <p className="text-gray-500">🗺️ [Carte interactive - cliquer sur un quartier]</p>
-      </div>
+      <SimpleMap />
 
       {/* Cartes dynamiques */}
       <div className="space-y-6">
@@ -162,9 +162,9 @@ export default function MacroView() {
         {selectedOptions.includes("Flux") && (
           <div className="bg-white p-4 shadow rounded-lg">
             <h3 className="font-semibold mb-2">🔄 Flux commerciaux</h3>
-            <p className="text-gray-600">
-              [Diagramme Sankey ici — ex: Clients → Commerçants → Réductions / Tickets]
-            </p>
+            <div className="h-80 flex items-center justify-center">
+              <SankeyChart />
+            </div>
           </div>
         )}
 
