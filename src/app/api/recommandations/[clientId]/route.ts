@@ -8,13 +8,15 @@ const supabase = createClient(
 
 export async function GET(
   req: Request,
-  { params }: { params: { clientId: string } }
+  { params }: { params: Promise<{ clientId: string }> }
 ) {
+  const { clientId } = await params;
+  
   // 🔎 Étape 1 : vérifier si le client a déjà scanné
   const { count, error: countError } = await supabase
     .from("scan_logs")
     .select("*", { count: "exact", head: true })
-    .eq("client_id", params.clientId);
+    .eq("client_id", clientId);
 
   if (countError) {
     return NextResponse.json({ error: countError.message }, { status: 500 });
@@ -25,7 +27,7 @@ export async function GET(
     const { data, error } = await supabase
       .from("recommandations")
       .select("*")
-      .eq("client_id", params.clientId)
+      .eq("client_id", clientId)
       .order("score", { ascending: false })
       .limit(5);
 

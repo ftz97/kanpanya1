@@ -1,162 +1,219 @@
 "use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import AIInsightsADM from "@/components/AIInsightsADM";
-import IADescriptive from "@/components/IADescriptive";
-import IAExplicative from "@/components/IAExplicative";
-import IAPredictive from "@/components/IAPredictive";
+import { useState } from "react";
+import {
+  LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,
+  BarChart, Bar, PieChart, Pie, Cell
+} from "recharts";
 
-export default function AdminRecommendationsStaticPage() {
+// ✅ Mock data
+const traficData = [
+  { day: "Lun", scans: 320 },
+  { day: "Mar", scans: 250 },
+  { day: "Mer", scans: 400 },
+  { day: "Jeu", scans: 380 },
+  { day: "Ven", scans: 500 },
+  { day: "Sam", scans: 650 },
+  { day: "Dim", scans: 420 },
+];
+
+const traficHoraire = [
+  { hour: "8h", scans: 50 },
+  { hour: "12h", scans: 200 },
+  { hour: "16h", scans: 180 },
+  { hour: "20h", scans: 120 },
+];
+
+const reductionsData = [
+  { zone: "Centre-ville", used: 120 },
+  { zone: "Quartier Nord", used: 80 },
+  { zone: "Zone Est", used: 60 },
+];
+
+const jeuxData = [
+  { name: "Participants réguliers", value: 300 },
+  { name: "Occasionnels", value: 150 },
+  { name: "Nouveaux", value: 50 },
+];
+
+const COLORS = ["#10B981", "#3B82F6", "#F59E0B"];
+
+const options = [
+  "Trafic",
+  "Réductions",
+  "Jeux",
+  "Flux",
+  "Alertes",
+  "Classements",
+  "Segmentation",
+  "Simulation",
+];
+
+export default function MacroView() {
+  const [selectedOptions, setSelectedOptions] = useState<string[]>(["Trafic"]);
+
+  const toggleOption = (opt: string) => {
+    setSelectedOptions((prev) =>
+      prev.includes(opt) ? prev.filter((o) => o !== opt) : [...prev, opt]
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">
-          📌 Gestion des Recommandations
-        </h1>
-
-        <Tabs defaultValue="stats" className="w-full">
-          {/* Onglets */}
-          <TabsList className="grid grid-cols-4 mb-6">
-            <TabsTrigger value="stats">📊 Statistiques</TabsTrigger>
-            <TabsTrigger value="ia">🤖 Intelligence Artificielle</TabsTrigger>
-            <TabsTrigger value="reco">📋 Recommandations</TabsTrigger>
-            <TabsTrigger value="insights">💡 Insights ADM</TabsTrigger>
-          </TabsList>
-
-          {/* Contenu Statistiques */}
-          <TabsContent value="stats">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="bg-white p-6 rounded-xl shadow-lg">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Total Recommandations</p>
-                    <p className="text-3xl font-bold text-blue-600">156</p>
-                  </div>
-                  <div className="p-3 bg-blue-100 rounded-full">
-                    <span className="text-2xl">📊</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white p-6 rounded-xl shadow-lg">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Total Clics</p>
-                    <p className="text-3xl font-bold text-green-600">2,340</p>
-                  </div>
-                  <div className="p-3 bg-green-100 rounded-full">
-                    <span className="text-2xl">👆</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white p-6 rounded-xl shadow-lg">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">CTR Moyen</p>
-                    <p className="text-3xl font-bold text-purple-600">3.2%</p>
-                  </div>
-                  <div className="p-3 bg-purple-100 rounded-full">
-                    <span className="text-2xl">📈</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white p-6 rounded-xl shadow-lg">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Commerces Actifs</p>
-                    <p className="text-3xl font-bold text-orange-600">89</p>
-                  </div>
-                  <div className="p-3 bg-orange-100 rounded-full">
-                    <span className="text-2xl">🏪</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </TabsContent>
-
-          {/* Contenu IA */}
-          <TabsContent value="ia">
-            <div className="space-y-6">
-              <IADescriptive />
-              <IAExplicative />
-              <IAPredictive />
-            </div>
-          </TabsContent>
-
-          {/* Contenu Recommandations */}
-          <TabsContent value="reco">
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
-                📋 Liste des Recommandations
-              </h2>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left text-gray-500 uppercase border-b">
-                      <th className="pb-3">Titre</th>
-                      <th className="pb-3">Commerce</th>
-                      <th className="pb-3">Catégorie</th>
-                      <th className="pb-3">Clics</th>
-                      <th className="pb-3">CTR</th>
-                      <th className="pb-3">Statut</th>
-                      <th className="pb-3">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b">
-                      <td className="py-3">Pizza Margherita -50%</td>
-                      <td className="py-3">Pizzeria Mario</td>
-                      <td className="py-3">Restauration</td>
-                      <td className="py-3">45</td>
-                      <td className="py-3">4.2%</td>
-                      <td className="py-3">
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
-                          Actif
-                        </span>
-                      </td>
-                      <td className="py-3">
-                        <button className="text-blue-600 hover:text-blue-800 mr-2">
-                          Modifier
-                        </button>
-                        <button className="text-red-600 hover:text-red-800">
-                          Désactiver
-                        </button>
-                      </td>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="py-3">Coupe de cheveux -30%</td>
-                      <td className="py-3">Salon Élégance</td>
-                      <td className="py-3">Beauté</td>
-                      <td className="py-3">32</td>
-                      <td className="py-3">2.8%</td>
-                      <td className="py-3">
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
-                          Actif
-                        </span>
-                      </td>
-                      <td className="py-3">
-                        <button className="text-blue-600 hover:text-blue-800 mr-2">
-                          Modifier
-                        </button>
-                        <button className="text-red-600 hover:text-red-800">
-                          Désactiver
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </TabsContent>
-
-          {/* Contenu Insights ADM */}
-          <TabsContent value="insights">
-            <AIInsightsADM />
-          </TabsContent>
-        </Tabs>
+    <section className="space-y-6">
+      {/* Choix du type d'analyse */}
+      <div>
+        <label className="text-sm font-medium">🎛️ Choisir ce que vous voulez voir</label>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {options.map((opt) => (
+            <button
+              key={opt}
+              onClick={() => toggleOption(opt)}
+              className={`px-3 py-1 rounded-full border text-sm ${
+                selectedOptions.includes(opt)
+                  ? "bg-emerald-600 text-white border-emerald-600"
+                  : "bg-white text-gray-700 border-gray-300"
+              }`}
+            >
+              {opt}
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
+
+      {/* Carte interactive */}
+      <div className="h-64 bg-gradient-to-br from-blue-50 to-green-50 rounded-lg border flex items-center justify-center">
+        <p className="text-gray-500">🗺️ [Carte interactive - cliquer sur un quartier]</p>
+      </div>
+
+      {/* Cartes dynamiques */}
+      <div className="space-y-6">
+        {/* Trafic */}
+        {selectedOptions.includes("Trafic") && (
+          <>
+            <div className="bg-white p-4 shadow rounded-lg">
+              <h3 className="font-semibold mb-2">📈 Trafic journalier</h3>
+              <div className="h-48">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={traficData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="day" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="scans" stroke="#10B981" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div className="bg-white p-4 shadow rounded-lg">
+              <h3 className="font-semibold mb-2">⏰ Répartition horaire</h3>
+              <div className="h-48">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={traficHoraire}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="hour" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="scans" fill="#3B82F6" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* Réductions */}
+        {selectedOptions.includes("Réductions") && (
+          <div className="bg-white p-4 shadow rounded-lg">
+            <h3 className="font-semibold mb-2">🎟️ Réductions utilisées</h3>
+            <div className="h-48">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={reductionsData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="zone" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="used" fill="#F59E0B" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        {/* Jeux */}
+        {selectedOptions.includes("Jeux") && (
+          <div className="bg-white p-4 shadow rounded-lg">
+            <h3 className="font-semibold mb-2">🎲 Participation aux jeux</h3>
+            <div className="h-48">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={jeuxData} dataKey="value" outerRadius={80} label>
+                    {jeuxData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        {/* Flux */}
+        {selectedOptions.includes("Flux") && (
+          <div className="bg-white p-4 shadow rounded-lg">
+            <h3 className="font-semibold mb-2">🔄 Flux commerciaux</h3>
+            <p className="text-gray-600">
+              [Diagramme Sankey ici — ex: Clients → Commerçants → Réductions / Tickets]
+            </p>
+          </div>
+        )}
+
+        {/* Alertes */}
+        {selectedOptions.includes("Alertes") && (
+          <div className="bg-white p-4 shadow rounded-lg">
+            <h3 className="font-semibold mb-2">⚠️ Alertes & Anomalies</h3>
+            <ul className="space-y-2">
+              <li>🚧 Rue Centrale : -28% trafic (travaux)</li>
+              <li>🎉 Quartier Nord : +15% samedi (festival)</li>
+              <li>🌦️ Prévision pluie dimanche → baisse -20% attendue</li>
+            </ul>
+          </div>
+        )}
+
+        {/* Classements */}
+        {selectedOptions.includes("Classements") && (
+          <div className="bg-white p-4 shadow rounded-lg">
+            <h3 className="font-semibold mb-2">🥇 Classements</h3>
+            <ol className="list-decimal ml-6 space-y-1">
+              <li>Barber Black&Gold (320 scans)</li>
+              <li>Pizzeria Bella Vista (280 scans)</li>
+              <li>Boutique Chic (210 scans)</li>
+            </ol>
+          </div>
+        )}
+
+        {/* Segmentation */}
+        {selectedOptions.includes("Segmentation") && (
+          <div className="bg-white p-4 shadow rounded-lg">
+            <h3 className="font-semibold mb-2">👥 Segmentation clients</h3>
+            <ul className="space-y-2 text-gray-700">
+              <li>👩‍👩‍👧‍👦 Familles : 45%</li>
+              <li>👩 Jeunes : 35%</li>
+              <li>🧓 Seniors : 20%</li>
+            </ul>
+          </div>
+        )}
+
+        {/* Simulation */}
+        {selectedOptions.includes("Simulation") && (
+          <div className="bg-white p-4 shadow rounded-lg">
+            <h3 className="font-semibold mb-2">🔮 Simulation IA</h3>
+            <p className="text-gray-600">
+              Scénario : Fermeture Rue Centrale 6 mois → -35% trafic zone, +15% report Quartier Est.
+            </p>
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
