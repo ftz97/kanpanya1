@@ -1,25 +1,6 @@
 "use client";
 
-import * as d3 from "d3";
-import { sankey, sankeyLinkHorizontal } from "d3-sankey";
-import { useEffect, useRef } from "react";
-
-type SankeyNode = { name: string };
-type SankeyLink = { source: number; target: number; value: number };
-
-const data = {
-  nodes: [
-    { name: "Clients" },
-    { name: "Commerçants" },
-    { name: "Réductions" },
-    { name: "Tickets Diamant" },
-  ] as SankeyNode[],
-  links: [
-    { source: 0, target: 1, value: 120 },
-    { source: 1, target: 2, value: 80 },
-    { source: 1, target: 3, value: 40 },
-  ] as SankeyLink[],
-};
+import { useEffect, useRef } from 'react';
 
 export default function SankeyChart() {
   const svgRef = useRef<SVGSVGElement>(null);
@@ -27,64 +8,84 @@ export default function SankeyChart() {
   useEffect(() => {
     if (!svgRef.current) return;
 
-    const width = 500;
+    const svg = svgRef.current;
+    const width = 400;
     const height = 300;
 
-    const svg = d3.select(svgRef.current);
-    svg.selectAll("*").remove(); // reset
+    // Données de démonstration pour le flux commercial
+    const data = {
+      nodes: [
+        { id: 'Centre-ville', x: 50, y: 100, width: 80, height: 40 },
+        { id: 'Quartier Nord', x: 200, y: 50, width: 80, height: 40 },
+        { id: 'Zone Est', x: 200, y: 150, width: 80, height: 40 },
+        { id: 'Pizzeria', x: 350, y: 80, width: 60, height: 30 },
+        { id: 'Coiffeur', x: 350, y: 120, width: 60, height: 30 },
+        { id: 'Boutique', x: 350, y: 160, width: 60, height: 30 }
+      ],
+      links: [
+        { source: 'Centre-ville', target: 'Pizzeria', value: 120 },
+        { source: 'Centre-ville', target: 'Coiffeur', value: 80 },
+        { source: 'Quartier Nord', target: 'Pizzeria', value: 90 },
+        { source: 'Quartier Nord', target: 'Boutique', value: 60 },
+        { source: 'Zone Est', target: 'Coiffeur', value: 70 },
+        { source: 'Zone Est', target: 'Boutique', value: 50 }
+      ]
+    };
 
-    const sankeyGen = sankey<SankeyNode, SankeyLink>()
-      .nodeWidth(20)
-      .nodePadding(20)
-      .extent([
-        [1, 1],
-        [width - 1, height - 6],
-      ]);
+    // Nettoyer le SVG
+    svg.innerHTML = '';
 
-    const { nodes, links } = sankeyGen({
-      nodes: data.nodes.map((d) => Object.assign({}, d)),
-      links: data.links.map((d) => Object.assign({}, d)),
+    // Dessiner les nœuds
+    data.nodes.forEach(node => {
+      const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      rect.setAttribute('x', node.x.toString());
+      rect.setAttribute('y', node.y.toString());
+      rect.setAttribute('width', node.width.toString());
+      rect.setAttribute('height', node.height.toString());
+      rect.setAttribute('fill', '#3B82F6');
+      rect.setAttribute('rx', '4');
+      svg.appendChild(rect);
+
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', (node.x + node.width / 2).toString());
+      text.setAttribute('y', (node.y + node.height / 2).toString());
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('dominant-baseline', 'middle');
+      text.setAttribute('fill', 'white');
+      text.setAttribute('font-size', '10');
+      text.setAttribute('font-weight', 'bold');
+      text.textContent = node.id;
+      svg.appendChild(text);
     });
 
-    // Links
-    svg
-      .append("g")
-      .selectAll("path")
-      .data(links)
-      .join("path")
-      .attr("d", sankeyLinkHorizontal())
-      .attr("stroke", "#9CA3AF")
-      .attr("stroke-width", (d: any) => Math.max(1, d.width))
-      .attr("fill", "none")
-      .attr("opacity", 0.6);
+    // Dessiner les liens (simplifiés)
+    data.links.forEach(link => {
+      const sourceNode = data.nodes.find(n => n.id === link.source);
+      const targetNode = data.nodes.find(n => n.id === link.target);
+      
+      if (sourceNode && targetNode) {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        const d = `M ${sourceNode.x + sourceNode.width} ${sourceNode.y + sourceNode.height / 2} 
+                   L ${targetNode.x} ${targetNode.y + targetNode.height / 2}`;
+        path.setAttribute('d', d);
+        path.setAttribute('stroke', '#10B981');
+        path.setAttribute('stroke-width', Math.max(2, link.value / 20).toString());
+        path.setAttribute('fill', 'none');
+        path.setAttribute('opacity', '0.7');
+        svg.appendChild(path);
+      }
+    });
 
-    // Nodes
-    svg
-      .append("g")
-      .selectAll("rect")
-      .data(nodes)
-      .join("rect")
-      .attr("x", (d: any) => d.x0)
-      .attr("y", (d: any) => d.y0)
-      .attr("height", (d: any) => d.y1 - d.y0)
-      .attr("width", (d: any) => d.x1 - d.x0)
-      .attr("fill", "#10B981");
-
-    // Labels
-    svg
-      .append("g")
-      .selectAll("text")
-      .data(nodes)
-      .join("text")
-      .attr("x", (d: any) => d.x0 - 6)
-      .attr("y", (d: any) => (d.y0 + d.y1) / 2)
-      .attr("dy", "0.35em")
-      .attr("text-anchor", "end")
-      .text((d: any) => d.name)
-      .filter((d: any) => d.x0 < width / 2)
-      .attr("x", (d: any) => d.x1 + 6)
-      .attr("text-anchor", "start");
   }, []);
 
-  return <svg ref={svgRef} width="100%" height="300"></svg>;
+  return (
+    <div className="w-full h-full flex items-center justify-center">
+      <svg
+        ref={svgRef}
+        width="400"
+        height="300"
+        className="border rounded-lg bg-gray-50"
+      />
+    </div>
+  );
 }
