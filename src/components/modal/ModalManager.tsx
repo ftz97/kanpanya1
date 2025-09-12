@@ -1,85 +1,53 @@
-'use client';
-import React, {createContext, useContext, useCallback, useEffect, useState} from 'react';
-import { Dialog, DialogContent, DialogOverlay, DialogPortal, DialogTitle, DialogDescription } from '@/components/ui/dialog'; // shadcn/radix
-import { VisuallyHidden } from '@/components/ui/visually-hidden';
-import { usePathname } from 'next/navigation';
+"use client";
 
-type ModalNode = React.ReactNode;
-type Ctx = {
-  open: (content: ModalNode) => void;
-  replace: (content: ModalNode) => void;
+import React, { createContext, useContext, useState, ReactNode } from 'react';
+
+interface ModalContextType {
+  open: (modal: ReactNode) => void;
   close: () => void;
   isOpen: boolean;
-};
+}
 
-const ModalCtx = createContext<Ctx | null>(null);
+const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
-export function ModalProvider({ children }: { children: React.ReactNode }) {
-  const [content, setContent] = useState<ModalNode | null>(null);
-  const pathname = usePathname();
+export function ModalProvider({ children }: { children: ReactNode }) {
+  const [modal, setModal] = useState<ReactNode>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const close = useCallback(() => setContent(null), []);
-  const open = useCallback((node: ModalNode) => {
-    // 🔥 Drastic: kill anything already open, then open the new one
-    setContent(null);
-    // next tick to ensure unmount
-    requestAnimationFrame(() => setContent(node));
-  }, []);
-  const replace = useCallback((node: ModalNode) => {
-    console.log("🔄 ModalManager.replace appelé avec:", node);
-    console.log("🔄 Contenu actuel avant remplacement:", content);
-    setContent(node);
-    console.log("🔄 Contenu défini, nouveau contenu:", node);
-  }, []);
+  const open = (modalContent: ReactNode) => {
+    setModal(modalContent);
+    setIsOpen(true);
+  };
 
-  // Close on route change
-  useEffect(() => { setContent(null); }, [pathname]);
-
-  // Log quand le contenu change
-  useEffect(() => {
-    console.log("📝 ModalManager: contenu changé vers:", content);
-  }, [content]);
-
-  // Scroll lock while open
-  useEffect(() => {
-    if (content) {
-      document.documentElement.style.overflow = 'hidden';
-      document.body.classList.add('modal-open');
-    } else {
-      document.documentElement.style.overflow = '';
-      document.body.classList.remove('modal-open');
-    }
-    return () => {
-      document.documentElement.style.overflow = '';
-      document.body.classList.remove('modal-open');
-    };
-  }, [content]);
+  const close = () => {
+    setModal(null);
+    setIsOpen(false);
+  };
 
   return (
-    <ModalCtx.Provider value={{ open, replace, close, isOpen: !!content }}>
+    <ModalContext.Provider value={{ open, close, isOpen }}>
       {children}
-      <Dialog open={!!content} onOpenChange={(o)=>!o && close()} modal>
-        <DialogPortal>
-          <DialogOverlay className="fixed inset-0 z-[99998] bg-black/60 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out" />
-          <DialogContent
-            className="fixed left-1/2 top-1/2 z-[99999] -translate-x-1/2 -translate-y-1/2 w-[min(92vw,720px)] rounded-2xl bg-white p-6 shadow-2xl outline-none"
-          >
-            <DialogTitle asChild>
-              <VisuallyHidden>Modal</VisuallyHidden>
-            </DialogTitle>
-            <DialogDescription asChild>
-              <VisuallyHidden>Contenu du modal</VisuallyHidden>
-            </DialogDescription>
-            {content}
-          </DialogContent>
-        </DialogPortal>
-      </Dialog>
-    </ModalCtx.Provider>
+      {isOpen && modal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="relative bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <button
+              onClick={close}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            >
+              ✕
+            </button>
+            {modal}
+          </div>
+        </div>
+      )}
+    </ModalContext.Provider>
   );
 }
 
 export function useModal() {
-  const ctx = useContext(ModalCtx);
-  if (!ctx) throw new Error('useModal must be used inside <ModalProvider>');
-  return ctx;
+  const context = useContext(ModalContext);
+  if (context === undefined) {
+    throw new Error('useModal must be used within a ModalProvider');
+  }
+  return context;
 }
