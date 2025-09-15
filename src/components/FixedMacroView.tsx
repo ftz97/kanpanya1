@@ -6,8 +6,8 @@ import {
   BarChart, Bar, PieChart, Pie, Cell
 } from "recharts";
 import SankeyChart from "@/components/SankeyChart";
-import EnhancedAdvancedSettings from "@/components/EnhancedAdvancedSettings";
-import ForceDrawingMap from "@/components/ForceDrawingMap";
+// EnhancedAdvancedSettings supprimé
+// ForceDrawingMap supprimé pour éviter la duplication de carte
 
 // ✅ Mock data
 const traficData = [
@@ -77,15 +77,10 @@ export default function FixedMacroView() {
     setZones([...zones, { name, polygon: feature, professions }]);
   };
 
-  // Import du composant de carte avec dessin forcé
-  const SimpleMap = () => {
-    return <ForceDrawingMap />;
-  };
+  // Carte supprimée pour éviter la duplication
 
   return (
     <section className="space-y-8 relative">
-      <EnhancedAdvancedSettings />
-      
       {/* Choix du type d'analyse */}
       <div>
         <label className="text-sm font-medium">🎛️ Choisir ce que vous voulez voir</label>
@@ -106,8 +101,48 @@ export default function FixedMacroView() {
         </div>
       </div>
 
-      {/* Carte */}
-      <SimpleMap />
+      {/* Section IA - Pas de carte ici */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">📊 Analyse IA</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200">
+            <div className="flex items-center mb-3">
+              <div className="text-3xl mr-3">🤖</div>
+              <h3 className="text-lg font-semibold text-blue-800">Analyse Automatique</h3>
+            </div>
+            <p className="text-sm text-blue-700">
+              L'IA analyse automatiquement les zones définies et génère des recommandations personnalisées.
+            </p>
+          </div>
+          
+          <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg border border-green-200">
+            <div className="flex items-center mb-3">
+              <div className="text-3xl mr-3">📈</div>
+              <h3 className="text-lg font-semibold text-green-800">Optimisation</h3>
+            </div>
+            <p className="text-sm text-green-700">
+              Optimisez vos campagnes en fonction des données géographiques et comportementales collectées.
+            </p>
+          </div>
+          
+          <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-lg border border-purple-200">
+            <div className="flex items-center mb-3">
+              <div className="text-3xl mr-3">🎯</div>
+              <h3 className="text-lg font-semibold text-purple-800">Prédictions</h3>
+            </div>
+            <p className="text-sm text-purple-700">
+              Prédictions avancées basées sur l'historique et les tendances des zones analysées.
+            </p>
+          </div>
+        </div>
+        
+        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+          <p className="text-sm text-gray-600 text-center">
+            💡 <strong>Conseil :</strong> Définissez d'abord vos zones géographiques avec la carte interactive ci-dessous, 
+            puis l'IA générera automatiquement des analyses et recommandations personnalisées.
+          </p>
+        </div>
+      </div>
 
       {/* Liste des quartiers enregistrés */}
       {zones.length > 0 && (

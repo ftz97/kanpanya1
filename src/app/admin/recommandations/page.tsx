@@ -1,337 +1,327 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import {
-  LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,
-  BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area
-} from "recharts";
-import DirectMap from '@/components/DirectMap';
+import { useEffect, useRef, useState } from "react";
+import mapboxgl from "mapbox-gl";
+// @ts-ignore
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "mapbox-gl/dist/mapbox-gl.css";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
-// ✅ Mock data
-const traficData = [
-  { day: "Lun", scans: 320 },
-  { day: "Mar", scans: 250 },
-  { day: "Mer", scans: 400 },
-  { day: "Jeu", scans: 380 },
-  { day: "Ven", scans: 500 },
-  { day: "Sam", scans: 650 },
-  { day: "Dim", scans: 420 },
-];
+import FixedMacroView from "@/components/FixedMacroView";
 
-const traficHoraire = [
-  { hour: "8h", scans: 50 },
-  { hour: "12h", scans: 200 },
-  { hour: "16h", scans: 180 },
-  { hour: "20h", scans: 120 },
-];
-
-const reductionsData = [
-  { zone: "Centre-ville", used: 120 },
-  { zone: "Quartier Nord", used: 80 },
-  { zone: "Zone Est", used: 60 },
-];
-
-const jeuxData = [
-  { name: "Participants réguliers", value: 300 },
-  { name: "Occasionnels", value: 150 },
-  { name: "Nouveaux", value: 50 },
-];
-
-const COLORS = ["#10B981", "#3B82F6", "#F59E0B"];
-
-const options = [
-  "Trafic",
-  "Réductions",
-  "Jeux",
-  "Flux",
-  "Alertes",
-  "Classements",
-  "Segmentation",
-  "Simulation",
-];
-
-// 🔹 Gestion polygones MapboxDraw
-function DrawControl({ onCreate }: { onCreate: (geojson: any) => void }) {
-  useControl<MapboxDraw>(
-    () =>
-      new MapboxDraw({
-        displayControlsDefault: false,
-        controls: { polygon: true, trash: true },
-      }),
-    ({ map }) => {
-      map.on("draw.create", (e) => {
-        try {
-          if (e.features && e.features.length > 0) {
-            onCreate(e.features[0]);
-          } else {
-            console.warn("Aucun feature trouvé dans l'événement draw.create:", e);
-          }
-        } catch (error) {
-          console.error("Erreur lors de la création du polygone:", error);
-        }
-      });
-    }
-  );
-  return null;
+interface Point {
+  lng: number;
+  lat: number;
+  label: string;
 }
 
-export default function MacroView() {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>(["Trafic"]);
-  const [zones, setZones] = useState<
-    { name: string; polygon: any; professions: Record<string, number> }[]
-  >([]);
+interface Group {
+  id: string;
+  name: string;
+  points: Point[];
+}
 
-  // Token Mapbox depuis l'environnement
-  const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-  
-  // Debug simple
+type Mode = "navigation" | "clic";
+
+export default function MacroAnalysisPage() {
+  // ==== ÉTATS CARTE ====
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<mapboxgl.Map | null>(null);
+  const geocoderRef = useRef<MapboxGeocoder | null>(null);
+
+  const [groups, setGroups] = useState<Group[]>([]);
+  const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
+  const [mode, setMode] = useState<Mode>("navigation");
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => setIsClient(true), []);
+
+  // ==== INIT MAP ====
   useEffect(() => {
-    console.log("🚀 MacroView chargé côté client");
-    console.log("📊 selectedOptions:", selectedOptions);
-  }, [selectedOptions]);
+    if (!isClient || !mapContainer.current) return;
 
-  const toggleOption = (opt: string) => {
-    console.log("🔄 Toggle option:", opt);
-    setSelectedOptions((prev) => {
-      const newOptions = prev.includes(opt) 
-        ? prev.filter((o) => o !== opt) 
-        : [...prev, opt];
-      console.log("📊 Nouvelles options:", newOptions);
-      return newOptions;
+    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+    if (!token) {
+      console.error("❌ Token Mapbox manquant");
+      return;
+    }
+    mapboxgl.accessToken = token;
+
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/mapbox/streets-v12",
+      center: [2.3522, 48.8566],
+      zoom: 12,
     });
+
+    map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+
+    // Geocoder
+    const geocoderContainer = document.getElementById("geocoder");
+    if (geocoderContainer) {
+      geocoderRef.current = new MapboxGeocoder({
+        accessToken: token,
+        mapboxgl,
+        marker: false,
+        placeholder: "Rechercher une adresse...",
+        language: "fr",
+      });
+      geocoderRef.current.addTo(geocoderContainer);
+
+      geocoderRef.current.on("result", (e: any) => {
+        const coords = e.result.center;
+        addPoint({
+          lng: coords[0],
+          lat: coords[1],
+          label: e.result.place_name,
+        });
+        map.current?.flyTo({ center: coords, zoom: 14 });
+      });
+    }
+
+    return () => {
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
+    };
+  }, [isClient]);
+
+  // ==== CLIC SUR CARTE ====
+  useEffect(() => {
+    if (!map.current) return;
+
+    const handleClick = async (e: mapboxgl.MapMouseEvent) => {
+      if (mode !== "clic") return;
+
+      const { lng, lat } = e.lngLat;
+      const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+
+      const res = await fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${token}&language=fr`
+      );
+      const data = await res.json();
+      const label =
+        data.features?.[0]?.place_name ||
+        `Point (${lng.toFixed(4)}, ${lat.toFixed(4)})`;
+
+      addPoint({ lng, lat, label });
+    };
+
+    map.current.on("click", handleClick);
+    return () => {
+      if (map.current) {
+        map.current.off("click", handleClick);
+      }
+    };
+  }, [mode]);
+
+  // ==== GESTION GROUPES ====
+  const addPoint = (point: Point) => {
+    setGroups((prev) => [
+      ...prev,
+      { id: Date.now().toString(), name: point.label, points: [point] },
+    ]);
   };
 
+  const removeGroup = (id: string) => {
+    setGroups((prev) => prev.filter((g) => g.id !== id));
+  };
+
+  const clearAllGroups = () => {
+    setGroups([]);
+    setSelectedGroups([]);
+  };
+
+  const createGroup = () => {
+    if (selectedGroups.length < 2) return alert("Sélectionnez au moins 2 groupes");
+    const selected = groups.filter((g) => selectedGroups.includes(g.id));
+    const mergedPoints = selected.flatMap((g) => g.points);
+
+    const name = prompt("Nom du groupe :", "Nouveau quartier");
+    if (!name) return;
+
+    const newGroup: Group = {
+      id: Date.now().toString(),
+      name,
+      points: mergedPoints,
+    };
+
+    setGroups((prev) => [
+      ...prev.filter((g) => !selectedGroups.includes(g.id)),
+      newGroup,
+    ]);
+    setSelectedGroups([]);
+  };
+
+  // ==== AFFICHAGE SUR CARTE ====
+  useEffect(() => {
+    if (!map.current || !map.current.isStyleLoaded()) return;
+
+    document.querySelectorAll(".mapboxgl-marker").forEach((el) => el.remove());
+
+    groups.forEach((group) => {
+      const coords = group.points.map((p) => [p.lng, p.lat]);
+
+      // Marqueurs
+      group.points.forEach((p) => {
+        new mapboxgl.Marker({ color: "#2563eb" })
+          .setLngLat([p.lng, p.lat])
+          .setPopup(new mapboxgl.Popup().setText(group.name))
+          .addTo(map.current!);
+      });
+
+      // Ligne
+      if (coords.length >= 2) {
+        const lineId = "line-" + group.id;
+        if (!map.current!.getSource(lineId)) {
+          map.current!.addSource(lineId, {
+            type: "geojson",
+            data: {
+              type: "Feature" as const,
+              geometry: { type: "LineString" as const, coordinates: coords },
+              properties: {}
+            },
+          });
+          map.current!.addLayer({
+            id: lineId,
+            type: "line",
+            source: lineId,
+            paint: { "line-color": "#10b981", "line-width": 3 },
+          });
+        }
+      }
+
+      // Polygone
+      if (coords.length >= 3) {
+        const polygonId = "polygon-" + group.id;
+        if (!map.current!.getSource(polygonId)) {
+          map.current!.addSource(polygonId, {
+            type: "geojson",
+            data: {
+              type: "Feature" as const,
+              geometry: { type: "Polygon" as const, coordinates: [[...coords, coords[0]]] },
+              properties: {}
+            },
+          });
+          map.current!.addLayer({
+            id: polygonId,
+            type: "fill",
+            source: polygonId,
+            paint: { "fill-color": "#10b981", "fill-opacity": 0.2 },
+          });
+        }
+      }
+    });
+  }, [groups]);
+
+  if (!isClient) return <div>Chargement...</div>;
+
   return (
-    <section className="space-y-8">
-      {/* Tableau de bord - Statistiques en temps réel */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white p-6 shadow rounded-lg">
-          <div className="flex items-center">
-            <div className="text-2xl text-blue-600 mr-3">📊</div>
-            <div>
-              <p className="text-sm font-medium text-gray-600">Scans aujourd'hui</p>
-              <p className="text-2xl font-bold text-blue-600">1,247</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white p-6 shadow rounded-lg">
-          <div className="flex items-center">
-            <div className="text-2xl text-green-600 mr-3">🎟️</div>
-            <div>
-              <p className="text-sm font-medium text-gray-600">Réductions utilisées</p>
-              <p className="text-2xl font-bold text-green-600">89</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white p-6 shadow rounded-lg">
-          <div className="flex items-center">
-            <div className="text-2xl text-purple-600 mr-3">🎲</div>
-            <div>
-              <p className="text-sm font-medium text-gray-600">Jeux actifs</p>
-              <p className="text-2xl font-bold text-purple-600">12</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white p-6 shadow rounded-lg">
-          <div className="flex items-center">
-            <div className="text-2xl text-orange-600 mr-3">🏪</div>
-            <div>
-              <p className="text-sm font-medium text-gray-600">Commerces actifs</p>
-              <p className="text-2xl font-bold text-orange-600">47</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Choix du type d'analyse */}
-      <div>
-        <label className="text-sm font-medium">🎛️ Choisir ce que vous voulez voir</label>
-        <div className="flex flex-wrap gap-2 mt-2">
-          {options.map((opt) => (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold">📊 Analyse Macro - Collectivités</h1>
+          <div className="flex gap-2">
             <button
-              key={opt}
-              onClick={() => toggleOption(opt)}
-              className={`px-4 py-2 rounded-full border text-sm font-medium transition-colors ${
-                selectedOptions.includes(opt)
-                  ? "bg-emerald-600 text-white border-emerald-600 shadow-md"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+              className={`px-4 py-2 rounded ${
+                mode === "navigation" ? "bg-blue-600 text-white" : "bg-gray-200"
               }`}
+              onClick={() => setMode("navigation")}
             >
-              {opt}
+              Navigation
             </button>
-          ))}
+            <button
+              className={`px-4 py-2 rounded ${
+                mode === "clic" ? "bg-green-600 text-white" : "bg-gray-200"
+              }`}
+              onClick={() => setMode("clic")}
+            >
+              Ajouter des points
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Carte interactive */}
-      <DirectMap />
-
-      {/* Liste des quartiers enregistrés */}
-      {zones.length > 0 && (
-        <div className="grid md:grid-cols-2 gap-4">
-          {zones.map((z) => (
-            <div key={z.name} className="bg-white p-4 shadow rounded">
-              <h3 className="font-semibold text-indigo-700">{z.name}</h3>
-              <p className="text-gray-600">Professions présentes :</p>
-              <ul className="ml-4 list-disc">
-                {Object.entries(z.professions).map(([p, count]) => (
-                  <li key={p}>{p} : {count}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
+      {/* --- Barre de recherche --- */}
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="bg-white rounded-lg shadow p-4">
+          <h3 className="text-lg font-semibold mb-2">🔍 Recherche d'adresse</h3>
+          <div id="geocoder" className="w-full" />
         </div>
-      )}
+            </div>
 
-      {/* Cartes dynamiques - Version simplifiée */}
-      <div className="space-y-6">
-        {selectedOptions.includes("Trafic") && (
-          <>
-            <div className="bg-white p-6 shadow rounded-lg">
-              <h3 className="font-semibold mb-4 text-lg">📈 Trafic journalier</h3>
-              <ResponsiveContainer width="100%" height={300}>
-                <AreaChart data={traficData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="day" />
-                  <YAxis />
-                  <Tooltip />
-                  <Area 
-                    type="monotone" 
-                    dataKey="scans" 
-                    stroke="#3B82F6" 
-                    fill="#3B82F6" 
-                    fillOpacity={0.3}
+      {/* --- Liste Groupes --- */}
+      <div className="max-w-7xl mx-auto px-4 pb-6">
+        <div className="bg-white rounded-lg shadow p-4">
+          <div className="flex justify-between items-center mb-2">
+            <h2 className="font-semibold">📍 Groupes ({groups.length})</h2>
+            <div className="flex gap-2">
+              <button
+                className="px-3 py-1 bg-red-500 text-white rounded"
+                onClick={clearAllGroups}
+              >
+                Tout effacer
+              </button>
+              <button
+                className="px-3 py-1 bg-green-600 text-white rounded"
+                onClick={createGroup}
+                disabled={selectedGroups.length < 2}
+              >
+                Créer un groupe
+              </button>
+            </div>
+          </div>
+          <ul className="space-y-2 text-sm">
+            {groups.map((g) => (
+              <li
+                key={g.id}
+                className="flex justify-between items-center p-2 bg-gray-50 rounded"
+              >
+                <div>
+                  <input
+                    type="checkbox"
+                    className="mr-2"
+                    checked={selectedGroups.includes(g.id)}
+                    onChange={(e) =>
+                      setSelectedGroups((prev) =>
+                        e.target.checked
+                          ? [...prev, g.id]
+                          : prev.filter((id) => id !== g.id)
+                      )
+                    }
                   />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="bg-white p-6 shadow rounded-lg">
-              <h3 className="font-semibold mb-4 text-lg">⏰ Répartition horaire</h3>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={traficHoraire}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="hour" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="scans" fill="#10B981" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </>
-        )}
-
-        {selectedOptions.includes("Réductions") && (
-          <div className="bg-white p-6 shadow rounded-lg">
-            <h3 className="font-semibold mb-4 text-lg">🎟️ Réductions utilisées par zone</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={reductionsData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="zone" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="used" fill="#F59E0B" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        )}
-
-        {selectedOptions.includes("Jeux") && (
-          <div className="bg-white p-6 shadow rounded-lg">
-            <h3 className="font-semibold mb-4 text-lg">🎲 Participation aux jeux</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={jeuxData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
+                  <span className="font-medium">{g.name}</span>
+                  <span className="ml-2 text-gray-500">
+                    ({g.points.length} pts)
+                  </span>
+                </div>
+                <button
+                  className="text-red-500 hover:text-red-700"
+                  onClick={() => removeGroup(g.id)}
                 >
-                  {jeuxData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        )}
-
-        {selectedOptions.includes("Flux") && (
-          <div className="bg-white p-4 shadow rounded-lg">
-            <h3 className="font-semibold mb-2">🔄 Flux commerciaux</h3>
-            <div className="h-80 flex items-center justify-center bg-gray-50 rounded">
-              <div className="text-center">
-                <div className="text-2xl mb-2">🔄</div>
-                <p className="text-gray-600">Diagramme Sankey</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {selectedOptions.includes("Alertes") && (
-          <div className="bg-white p-6 shadow rounded-lg">
-            <h3 className="font-semibold mb-4 text-lg">⚠️ Alertes & Anomalies</h3>
-            <div className="space-y-4">
-              <div className="flex items-center p-3 bg-red-50 border-l-4 border-red-400 rounded">
-                <div className="text-red-400 text-xl mr-3">🚧</div>
-                <div>
-                  <p className="font-medium text-red-800">Rue Centrale</p>
-                  <p className="text-red-600 text-sm">-28% trafic (travaux en cours)</p>
-                </div>
-              </div>
-              <div className="flex items-center p-3 bg-green-50 border-l-4 border-green-400 rounded">
-                <div className="text-green-400 text-xl mr-3">🎉</div>
-                <div>
-                  <p className="font-medium text-green-800">Quartier Nord</p>
-                  <p className="text-green-600 text-sm">+15% samedi (festival local)</p>
-                </div>
-              </div>
-              <div className="flex items-center p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded">
-                <div className="text-yellow-400 text-xl mr-3">🌦️</div>
-                <div>
-                  <p className="font-medium text-yellow-800">Prévision météo</p>
-                  <p className="text-yellow-600 text-sm">Pluie dimanche → baisse -20% attendue</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {selectedOptions.includes("Classements") && (
-          <div className="bg-white p-4 shadow rounded-lg">
-            <h3 className="font-semibold mb-2">🥇 Classements</h3>
-            <ol className="list-decimal ml-6 space-y-1">
-              <li>Barber Black&Gold (320 scans)</li>
-              <li>Pizzeria Bella Vista (280 scans)</li>
-              <li>Boutique Chic (210 scans)</li>
-            </ol>
-          </div>
-        )}
-
-        {selectedOptions.includes("Segmentation") && (
-          <div className="bg-white p-4 shadow rounded-lg">
-            <h3 className="font-semibold mb-2">👥 Segmentation clients</h3>
-            <ul className="space-y-2 text-gray-700">
-              <li>👩‍👩‍👧‍👦 Familles : 45%</li>
-              <li>👩 Jeunes : 35%</li>
-              <li>🧓 Seniors : 20%</li>
+                  ✕
+                </button>
+              </li>
+            ))}
             </ul>
-          </div>
-        )}
+        </div>
+      </div>
 
-        {selectedOptions.includes("Simulation") && (
-          <div className="bg-white p-4 shadow rounded-lg">
-            <h3 className="font-semibold mb-2">🔮 Simulation IA</h3>
-            <p className="text-gray-600">
-              Scénario : Fermeture Rue Centrale 6 mois → -35% trafic zone, +15% report Quartier Est.
-            </p>
+      {/* --- Carte --- */}
+      <div className="max-w-7xl mx-auto px-4 pb-6">
+        <div className="bg-white rounded-lg shadow p-4">
+          <h3 className="text-lg font-semibold mb-4">🗺️ Carte Interactive</h3>
+          <div ref={mapContainer} className="w-full h-[400px] rounded-lg border shadow" />
         </div>
-          )}
-        </div>
-    </section>
+      </div>
+
+      {/* --- Statistiques IA --- */}
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <FixedMacroView />
+      </div>
+
+    </div>
   );
 }
