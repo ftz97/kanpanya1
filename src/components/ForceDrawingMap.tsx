@@ -2,14 +2,19 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+interface Point {
+  id: string;
+  lng: number;
+  lat: number;
+  label: string;
+}
+
 export default function ForceDrawingMap() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<any>(null);
-  const draw = useRef<any>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [drawnPolygons, setDrawnPolygons] = useState<any[]>([]);
-  const [isDrawing, setIsDrawing] = useState(false);
+  const [points, setPoints] = useState<Point[]>([]);
   const [debugInfo, setDebugInfo] = useState<string>('Initialisation...');
 
   useEffect(() => {
@@ -25,10 +30,7 @@ export default function ForceDrawingMap() {
     setDebugInfo('Chargement des modules Mapbox...');
 
     // Import dynamique de Mapbox GL JS
-    Promise.all([
-      import('mapbox-gl'),
-      import('@mapbox/mapbox-gl-draw')
-    ]).then(([mapboxgl, MapboxDraw]) => {
+    import('mapbox-gl').then((mapboxgl) => {
       setDebugInfo('Modules chargés, initialisation de la carte...');
       
       mapboxgl.default.accessToken = token;
@@ -47,77 +49,33 @@ export default function ForceDrawingMap() {
         // Ajouter des contrôles
         map.current.addControl(new mapboxgl.default.NavigationControl(), 'top-right');
 
-        // Configuration MapboxDraw avec mode forcé
-        draw.current = new MapboxDraw.default({
-          displayControlsDefault: false, // Désactiver les contrôles par défaut
-          controls: {
-            polygon: true,
-            trash: true,
-            point: false,
-            line_string: false
-          },
-          // Forcer le mode dessin
-          defaultMode: 'draw_polygon'
-        });
-
-        map.current.addControl(draw.current);
-        setDebugInfo('Contrôles ajoutés, configuration des événements...');
-
-        // Événement de création de polygone
-        map.current.on('draw.create', (e: any) => {
-          console.log('🎉 Polygone créé:', e.features[0]);
-          setDebugInfo('Polygone créé !');
-          const feature = e.features[0];
-          const name = prompt("Nom du quartier ?");
-          if (name) {
-            setDrawnPolygons(prev => [...prev, { name, feature, id: Date.now() }]);
-            setDebugInfo(`Quartier "${name}" ajouté`);
-          }
-          // Remettre en mode dessin après création
-          setTimeout(() => {
-            if (draw.current) {
-              draw.current.changeMode('draw_polygon');
-            }
-          }, 100);
-        });
-
-        // Événement de suppression
-        map.current.on('draw.delete', () => {
-          console.log('🗑️ Polygone supprimé');
-          setDebugInfo('Polygone supprimé');
-          setDrawnPolygons(prev => prev.slice(0, -1));
-        });
-
-        // Événement de début de dessin
-        map.current.on('draw.modechange', (e: any) => {
-          console.log('🔄 Mode changé:', e.mode);
-          setIsDrawing(e.mode === 'draw_polygon');
-          if (e.mode === 'draw_polygon') {
-            setDebugInfo('Mode dessin activé - cliquez sur la carte');
-          } else {
-            setDebugInfo('Mode navigation - redémarrage du dessin...');
-            // Forcer le retour en mode dessin
-            setTimeout(() => {
-              if (draw.current) {
-                draw.current.changeMode('draw_polygon');
-              }
-            }, 100);
-          }
+        // Événement de clic pour ajouter des points
+        map.current.on('click', (e: any) => {
+          const { lng, lat } = e.lngLat;
+          const label = `Point ${points.length + 1}`;
+          
+          const newPoint: Point = {
+            id: Date.now().toString(),
+            lng,
+            lat,
+            label
+          };
+          
+          setPoints(prev => [...prev, newPoint]);
+          setDebugInfo(`Point ajouté: ${label}`);
+          
+          // Créer un marqueur bleu
+          new mapboxgl.default.Marker({ color: '#2563eb' })
+            .setLngLat([lng, lat])
+            .setPopup(new mapboxgl.default.Popup().setText(label))
+            .addTo(map.current);
         });
 
         // Événements de la carte
         map.current.on('load', () => {
           setIsLoaded(true);
-          setDebugInfo('✅ Carte chargée et prête');
+          setDebugInfo('✅ Carte chargée et prête - Cliquez pour ajouter des points bleus');
           console.log('✅ Carte Mapbox chargée avec succès');
-          
-          // Forcer le mode dessin dès le chargement
-          setTimeout(() => {
-            if (draw.current) {
-              draw.current.changeMode('draw_polygon');
-              setDebugInfo('Mode dessin forcé activé');
-            }
-          }, 500);
         });
 
         map.current.on('error', (e: any) => {
@@ -149,83 +107,26 @@ export default function ForceDrawingMap() {
     };
   }, []);
 
-  const startDrawing = () => {
-    console.log('🎨 Forçage du mode dessin...');
-    setDebugInfo('Forçage du mode dessin...');
+  const clearAllPoints = () => {
+    console.log('🗑️ Suppression de tous les points...');
+    setDebugInfo('Suppression de tous les points...');
     
-    if (!map.current) {
-      console.error('❌ map.current est null');
-      setDebugInfo('❌ Carte non initialisée');
-      return;
-    }
-    
-    if (!draw.current) {
-      console.error('❌ draw.current est null');
-      setDebugInfo('❌ Contrôles de dessin non initialisés');
-      return;
-    }
-
-    try {
-      console.log('🔄 Changement de mode vers draw_polygon');
-      draw.current.changeMode('draw_polygon');
-      setIsDrawing(true);
-      setDebugInfo('✅ Mode dessin forcé - cliquez sur la carte');
-      
-      // Désactiver temporairement la navigation
-      map.current.boxZoom.disable();
-      map.current.scrollZoom.disable();
-      map.current.dragPan.disable();
-      map.current.dragRotate.disable();
-      map.current.keyboard.disable();
-      map.current.doubleClickZoom.disable();
-      map.current.touchZoomRotate.disable();
-      
-    } catch (err) {
-      console.error('❌ Erreur lors du démarrage du dessin:', err);
-      setDebugInfo('❌ Erreur lors du démarrage du dessin');
-    }
-  };
-
-  const stopDrawing = () => {
-    console.log('🛑 Arrêt du mode dessin...');
-    setDebugInfo('Arrêt du mode dessin...');
-    
-    if (draw.current && map.current) {
+    if (map.current) {
       try {
-        draw.current.changeMode('simple_select');
-        setIsDrawing(false);
-        
-        // Réactiver la navigation
-        map.current.boxZoom.enable();
-        map.current.scrollZoom.enable();
-        map.current.dragPan.enable();
-        map.current.dragRotate.enable();
-        map.current.keyboard.enable();
-        map.current.doubleClickZoom.enable();
-        map.current.touchZoomRotate.enable();
-        
-        setDebugInfo('✅ Mode navigation réactivé');
-      } catch (err) {
-        console.error('❌ Erreur lors de l\'arrêt du dessin:', err);
-        setDebugInfo('❌ Erreur lors de l\'arrêt du dessin');
-      }
-    }
-  };
-
-  const clearAll = () => {
-    console.log('🗑️ Suppression de tous les polygones...');
-    setDebugInfo('Suppression de tous les polygones...');
-    
-    if (draw.current && map.current) {
-      try {
-        draw.current.deleteAll();
-        setDrawnPolygons([]);
-        setDebugInfo('✅ Tous les polygones supprimés');
+        // Supprimer tous les marqueurs de la carte
+        document.querySelectorAll('.mapboxgl-marker').forEach(marker => marker.remove());
+        setPoints([]);
+        setDebugInfo('✅ Tous les points supprimés');
       } catch (err) {
         console.error('❌ Erreur lors de la suppression:', err);
         setDebugInfo('❌ Erreur lors de la suppression');
       }
     }
+  };
+
+  const removePoint = (pointId: string) => {
+    setPoints(prev => prev.filter(p => p.id !== pointId));
+    setDebugInfo(`Point supprimé`);
   };
 
   if (error) {
@@ -242,18 +143,16 @@ export default function ForceDrawingMap() {
 
   return (
     <div className="space-y-4">
-      {/* Instructions très claires */}
-      <div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-lg border border-green-200">
-        <h3 className="font-semibold text-green-800 mb-3 flex items-center">
-          🎨 Mode Dessin FORCÉ - Instructions
+      {/* Instructions simples */}
+      <div className="bg-gradient-to-r from-blue-50 to-green-50 p-4 rounded-lg border border-blue-200">
+        <h3 className="font-semibold text-blue-800 mb-3 flex items-center">
+          📍 Mode Points Bleus - Instructions
         </h3>
-        <div className="space-y-2 text-sm text-green-700">
+        <div className="space-y-2 text-sm text-blue-700">
           <p><strong>Étape 1:</strong> Attendez que "✅ Carte chargée et prête" apparaisse</p>
-          <p><strong>Étape 2:</strong> Cliquez sur "🎨 FORCER le dessin" (navigation désactivée)</p>
-          <p><strong>Étape 3:</strong> Cliquez sur la carte pour créer des points</p>
-          <p><strong>Étape 4:</strong> Double-cliquez pour fermer le polygone</p>
-          <p><strong>Étape 5:</strong> Donnez un nom à votre quartier</p>
-          <p><strong>Étape 6:</strong> Cliquez sur "🛑 Arrêter le dessin" pour naviguer</p>
+          <p><strong>Étape 2:</strong> Cliquez directement sur la carte pour ajouter des points bleus</p>
+          <p><strong>Étape 3:</strong> Chaque clic ajoute un marqueur bleu avec popup</p>
+          <p><strong>Étape 4:</strong> Utilisez les boutons pour gérer vos points</p>
         </div>
       </div>
 
@@ -266,41 +165,19 @@ export default function ForceDrawingMap() {
       {/* Boutons de contrôle */}
       <div className="flex gap-3 flex-wrap">
         <button
-          onClick={startDrawing}
-          disabled={!isLoaded}
-          className={`px-4 py-2 rounded-lg font-medium transition ${
-            isDrawing
-              ? 'bg-orange-500 text-white animate-pulse'
-              : isLoaded
-              ? 'bg-green-600 text-white hover:bg-green-700'
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-          }`}
-        >
-          {isDrawing ? '🎨 Dessin FORCÉ actif' : '🎨 FORCER le dessin'}
-        </button>
-        
-        <button
-          onClick={stopDrawing}
-          disabled={!isLoaded || !isDrawing}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed transition"
-        >
-          🛑 Arrêter le dessin
-        </button>
-        
-        <button
-          onClick={clearAll}
-          disabled={!isLoaded || drawnPolygons.length === 0}
+          onClick={clearAllPoints}
+          disabled={!isLoaded || points.length === 0}
           className="px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed transition"
         >
-          🗑️ Effacer tout
+          🗑️ Effacer tous les points
         </button>
 
         <div className="px-4 py-2 bg-gray-100 rounded-lg text-sm text-gray-600 flex items-center">
-          📍 Zones: {drawnPolygons.length}
+          📍 Points: {points.length}
         </div>
 
         <div className="px-4 py-2 bg-blue-100 rounded-lg text-sm text-blue-600 flex items-center">
-          {isLoaded ? '✅ Prêt' : '⏳ Chargement...'}
+          {isLoaded ? '✅ Prêt - Cliquez sur la carte' : '⏳ Chargement...'}
         </div>
       </div>
 
@@ -314,50 +191,38 @@ export default function ForceDrawingMap() {
         {!isLoaded && (
           <div className="absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto mb-2"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
               <p className="text-gray-600">Chargement de la carte...</p>
             </div>
           </div>
         )}
 
-        {/* Indicateur de mode dessin forcé */}
-        {isDrawing && (
-          <div className="absolute top-4 left-4 bg-orange-500 text-white px-3 py-2 rounded-lg shadow-lg animate-pulse">
-            <div className="flex items-center gap-2">
-              <div>🎨</div>
-              <span className="font-medium">DESSIN FORCÉ ACTIF</span>
-            </div>
-            <p className="text-xs mt-1 opacity-90">Navigation désactivée - cliquez sur la carte</p>
-          </div>
-        )}
-
         {/* Instructions sur la carte */}
-        {isLoaded && !isDrawing && (
-          <div className="absolute bottom-4 left-4 bg-white bg-opacity-95 p-2 rounded text-xs">
-            <div className="font-medium text-gray-700">Instructions:</div>
-            <div>1. Cliquez sur "🎨 FORCER le dessin"</div>
-            <div>2. Cliquez sur la carte</div>
-            <div>3. Double-cliquez pour fermer</div>
+        {isLoaded && (
+          <div className="absolute bottom-4 left-4 bg-white bg-opacity-95 p-3 rounded-lg shadow-lg text-xs">
+            <div className="font-medium text-gray-700 mb-1">Instructions:</div>
+            <div>1. Cliquez sur la carte</div>
+            <div>2. Un marqueur bleu apparaît</div>
+            <div>3. Cliquez sur le marqueur pour voir les détails</div>
           </div>
         )}
       </div>
 
-      {/* Liste des polygones créés */}
-      {drawnPolygons.length > 0 && (
+      {/* Liste des points créés */}
+      {points.length > 0 && (
         <div className="bg-white p-4 rounded-lg shadow border">
-          <h3 className="font-semibold mb-3 text-gray-800">📍 Quartiers créés ({drawnPolygons.length})</h3>
+          <h3 className="font-semibold mb-3 text-gray-800">📍 Points créés ({points.length})</h3>
           <div className="space-y-2">
-            {drawnPolygons.map((polygon, index) => (
-              <div key={polygon.id} className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded border border-green-200">
+            {points.map((point, index) => (
+              <div key={point.id} className="flex justify-between items-center p-3 bg-gradient-to-r from-blue-50 to-green-50 rounded border border-blue-200">
                 <div>
-                  <span className="font-medium text-gray-800">{polygon.name}</span>
-                  <p className="text-xs text-gray-500 mt-1">Zone #{index + 1}</p>
+                  <span className="font-medium text-gray-800">{point.label}</span>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Coordonnées: {point.lng.toFixed(4)}, {point.lat.toFixed(4)}
+                  </p>
                 </div>
                 <button 
-                  onClick={() => {
-                    setDrawnPolygons(prev => prev.filter((_, i) => i !== index));
-                    setDebugInfo(`Quartier "${polygon.name}" supprimé`);
-                  }}
+                  onClick={() => removePoint(point.id)}
                   className="text-red-600 hover:text-red-800 text-sm font-medium px-2 py-1 rounded hover:bg-red-50 transition"
                 >
                   Supprimer
