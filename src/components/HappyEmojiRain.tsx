@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import React from "react";
 
-const SadEmojiRain = ({ 
+const HappyEmojiRain = ({ 
   count = 20, 
   speedConfig = { duration: 4, delay: 2 } 
 }: { 
@@ -48,7 +48,7 @@ const SadEmojiRain = ({
               opacity: 1
             }}
           >
-            😢
+            🎉
           </motion.div>
         );
       })}
@@ -56,4 +56,4 @@ const SadEmojiRain = ({
   );
 };
 
-export default SadEmojiRain;
+export default HappyEmojiRain;

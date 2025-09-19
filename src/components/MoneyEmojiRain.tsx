@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import React from "react";
 
-const SadEmojiRain = ({ 
+const MoneyEmojiRain = ({ 
   count = 20, 
   speedConfig = { duration: 4, delay: 2 } 
 }: { 
@@ -10,6 +10,7 @@ const SadEmojiRain = ({
   speedConfig?: { duration: number; delay: number };
 }) => {
   const emojis = Array.from({ length: count });
+  const moneyEmojis = ["💎", "💰", "🤑"];
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-50">
@@ -19,6 +20,7 @@ const SadEmojiRain = ({
         const duration = speedConfig.duration + Math.random() * 2;
         const startX = Math.random() * window.innerWidth;
         const size = 20 + Math.random() * 30;
+        const randomEmoji = moneyEmojis[Math.floor(Math.random() * moneyEmojis.length)];
         
         // Variations de timing et vitesse uniquement
         const speedVariation = 0.8 + Math.random() * 0.4; // Variation de vitesse ±20%
@@ -48,7 +50,7 @@ const SadEmojiRain = ({
               opacity: 1
             }}
           >
-            😢
+            {randomEmoji}
           </motion.div>
         );
       })}
@@ -56,4 +58,4 @@ const SadEmojiRain = ({
   );
 };
 
-export default SadEmojiRain;
+export default MoneyEmojiRain;
