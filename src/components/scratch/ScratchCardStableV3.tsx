@@ -208,7 +208,8 @@ export default function ScratchCardStableV3({
       if (imageData.data[i] === 0) transparent++;
     }
     // Calcul correct du pourcentage avec le sampling
-    const sampledPixels = Math.floor((canvas.width * canvas.height) / 100);
+    const totalPixels = canvas.width * canvas.height;
+    const sampledPixels = Math.floor(totalPixels / 100); // 1% des pixels échantillonnés
     const percent = transparent / sampledPixels;
 
     if (percent > threshold && !revealed) {
