@@ -1,0 +1,68 @@
+{
+  "title": "Flash offers",
+  "list": {
+    "newOffer": "New offer",
+    "archivedTab": "Archived",
+    "activeTab": "Active",
+    "title": "My offers",
+    "back": "← Back",
+    "noOffers": "No offers yet.",
+    "delete": "Delete",
+    "edit": "Edit",
+    "discount": "Discount",
+    "slots": "slots",
+    "endsAt": "ends"
+  },
+  "filters": {
+    "title": "Filters",
+    "byStatus": "By status",
+    "byDate": "By date",
+    "byPrice": "By price"
+  },
+  "table": {
+    "title": "Title",
+    "description": "Description",
+    "startsAt": "Start",
+    "endsAt": "End",
+    "price": "Price",
+    "status": "Status",
+    "actions": "Actions",
+    "createdAt": "Created at",
+    "updatedAt": "Updated at"
+  },
+  "new": {
+    "title": "Create offer",
+    "submit": "Create offer",
+    "create": "Create flash offer",
+    "description": "Define title, discount, slots and end.",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Special offer",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Offer description",
+    "startsAt": "Start",
+    "endsAt": "End",
+    "price": "Price",
+    "isActive": "Active",
+    "cancel": "Cancel",
+    "validate": "Submit",
+    "createdOk": "Flash offer created ✅",
+    "createdErr": "Error creating offer."
+  },
+  "edit": {
+    "title": "Edit offer",
+    "submit": "Update offer"
+  },
+  "empty": {
+    "title": "No offers",
+    "hint": "Create your first offer to see it here."
+  },
+  "list": {
+    "title": "My offers",
+    "back": "← Back",
+    "noOffers": "No offers at the moment.",
+    "delete": "Delete",
+    "discount": "Discount",
+    "slots": "slots",
+    "end": "end"
+  }
+}

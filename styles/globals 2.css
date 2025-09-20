@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ----------------------------
+   🌍 Reset de base
+----------------------------- */
+* {
+  @apply m-0 p-0 box-border;
+}
+
+html, body {
+  @apply bg-background text-secondary antialiased;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  min-height: 100%;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ----------------------------
+   🎨 Variables CSS (Design System)
+----------------------------- */
+:root {
+  --color-primary: #17BFA0;
+  --color-primary-dark: #14a58d;
+  --color-secondary: #212E40;
+  --color-background: #F2F2F2;
+  --color-accent: #FFD166;
+  --color-danger: #EF4444;
+
+  --radius-sm: 0.5rem;   /* 8px */
+  --radius-md: 1rem;     /* 16px */
+  --radius-lg: 1.5rem;   /* 24px */
+  --radius-xl: 2rem;     /* 32px */
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.15);
+  --shadow-xl: 0 20px 25px rgba(0,0,0,0.2);
+
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+}
+
+/* ----------------------------
+   🌙 Dark mode
+----------------------------- */
+.dark {
+  --color-background: #111827;
+  --color-secondary: #F9FAFB;
+  --color-primary: #10B981;
+  --color-primary-dark: #059669;
+  --color-accent: #FCD34D;
+  --color-danger: #DC2626;
+}
+
+body.dark {
+  @apply bg-background text-secondary;
+}
+
+/* ----------------------------
+   📦 Classes utilitaires custom
+----------------------------- */
+
+/* Container centralisé */
+.container-kanpa {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Titres principaux */
+.h1-kanpa {
+  @apply text-2xl sm:text-3xl md:text-4xl font-bold text-secondary;
+}
+
+.h2-kanpa {
+  @apply text-xl sm:text-2xl md:text-3xl font-semibold text-secondary;
+}
+
+.h3-kanpa {
+  @apply text-lg sm:text-xl font-semibold text-secondary;
+}
+
+/* Boutons génériques */
+.btn-kanpa {
+  @apply inline-flex items-center justify-center font-semibold rounded-lg px-4 py-2 transition shadow-sm;
+}
+
+.btn-primary {
+  @apply btn-kanpa bg-primary text-white hover:bg-primary-dark;
+}
+
+.btn-outline {
+  @apply btn-kanpa border border-primary text-primary hover:bg-background;
+}
+
+/* Carte standard */
+.card-kanpa {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6;
+}

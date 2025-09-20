@@ -1,0 +1,97 @@
+{
+  "language": "Español",
+  "actions": {
+    "new": "Nueva",
+    "create": "Crear",
+    "edit": "Editar",
+    "update": "Actualizar",
+    "delete": "Eliminar",
+    "duplicate": "Duplicar",
+    "view": "Ver",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "close": "Cerrar",
+    "apply": "Aplicar",
+    "reset": "Restablecer",
+    "archive": "Archivar",
+    "restore": "Restaurar",
+    "activate": "Activar",
+    "deactivate": "Desactivar"
+  },
+  "status": {
+    "all": "Todos",
+    "active": "Activas",
+    "inactive": "Inactivas",
+    "draft": "Borrador",
+    "published": "Publicada",
+    "upcoming": "Próximas",
+    "ongoing": "En curso",
+    "expired": "Expirada",
+    "archived": "Archivada"
+  },
+  "badges": {
+    "success": "Éxito",
+    "warning": "Aviso",
+    "danger": "Error",
+    "info": "Info"
+  },
+  "pagination": {
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "rowsPerPage": "Filas por página",
+    "of": "de"
+  },
+  "dialogs": {
+    "deleteTitle": "¿Eliminar este elemento?",
+    "deleteDesc": "Esta acción no se puede deshacer.",
+    "archiveTitle": "¿Archivar este elemento?",
+    "archiveDesc": "Podrás restaurarlo más tarde."
+  },
+  "toasts": {
+    "saved": "Guardado con éxito.",
+    "updated": "Actualizado con éxito.",
+    "deleted": "Eliminado con éxito.",
+    "archived": "Archivado.",
+    "restored": "Restaurado.",
+    "error": "Ha ocurrido un error."
+  },
+  "forms": {
+    "required": "Obligatorio",
+    "optional": "Opcional",
+    "search": "Buscar...",
+    "dateRange": "Rango de fechas",
+    "startsAt": "Empieza",
+    "endsAt": "Termina",
+    "price": "Precio",
+    "isActive": "Activo",
+    "errors": {
+      "required": "Este campo es obligatorio.",
+      "minChars": "Al menos {count} caracteres.",
+      "maxChars": "Como máximo {count} caracteres.",
+      "invalidEmail": "Email inválido.",
+      "dateOrder": "La fecha de fin debe ser después de la fecha de inicio."
+    }
+  },
+  "misc": {
+    "filters": "Filtros",
+    "status": "Estado",
+    "actions": "Acciones",
+    "loading": "Cargando...",
+    "empty": "Sin resultados",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "list": {
+    "offersCount": {
+      "one": "{count} oferta",
+      "other": "{count} ofertas"
+    }
+  },
+  "api": {
+    "errors": {
+      "offer.missing_title": "El título es obligatorio.",
+      "offer.date_invalid": "Las fechas proporcionadas son inválidas."
+    }
+  }
+}

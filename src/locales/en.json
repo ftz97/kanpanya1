@@ -1,0 +1,119 @@
+{
+  "common": {
+    "language": "English",
+    "actions": {
+      "new": "New",
+      "create": "Create",
+      "edit": "Edit",
+      "update": "Update",
+      "delete": "Delete",
+      "duplicate": "Duplicate",
+      "view": "View",
+      "save": "Save",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "close": "Close",
+      "apply": "Apply",
+      "reset": "Reset",
+      "archive": "Archive",
+      "restore": "Restore",
+      "activate": "Activate",
+      "deactivate": "Deactivate"
+    },
+    "status": {
+      "all": "All",
+      "active": "Active",
+      "inactive": "Inactive",
+      "draft": "Draft",
+      "published": "Published",
+      "upcoming": "Upcoming",
+      "ongoing": "Ongoing",
+      "expired": "Expired",
+      "archived": "Archived"
+    },
+    "badges": {
+      "success": "Success",
+      "warning": "Warning",
+      "danger": "Error",
+      "info": "Info"
+    },
+    "pagination": {
+      "prev": "Previous",
+      "next": "Next",
+      "rowsPerPage": "Rows per page",
+      "of": "of"
+    },
+    "dialogs": {
+      "deleteTitle": "Delete this item?",
+      "deleteDesc": "This action cannot be undone.",
+      "archiveTitle": "Archive this item?",
+      "archiveDesc": "You can restore it later."
+    },
+    "toasts": {
+      "saved": "Saved successfully.",
+      "updated": "Updated successfully.",
+      "deleted": "Deleted successfully.",
+      "archived": "Archived.",
+      "restored": "Restored.",
+      "error": "Something went wrong."
+    },
+    "forms": {
+      "required": "Required",
+      "optional": "Optional",
+      "search": "Search...",
+      "dateRange": "Date range",
+      "startsAt": "Starts at",
+      "endsAt": "Ends at",
+      "price": "Price",
+      "isActive": "Active"
+    },
+    "misc": {
+      "filters": "Filters",
+      "status": "Status",
+      "actions": "Actions",
+      "loading": "Loading...",
+      "empty": "No results",
+      "yes": "Yes",
+      "no": "No"
+    }
+  },
+  "flashOffers": {
+    "title": "Flash offers",
+    "list": {
+      "newOffer": "New offer",
+      "archivedTab": "Archived",
+      "activeTab": "Active"
+    },
+    "filters": {
+      "title": "Filters",
+      "byStatus": "By status",
+      "byDate": "By date",
+      "byPrice": "By price"
+    },
+    "table": {
+      "title": "Title",
+      "description": "Description",
+      "startsAt": "Start",
+      "endsAt": "End",
+      "price": "Price",
+      "status": "Status",
+      "actions": "Actions",
+      "createdAt": "Created at",
+      "updatedAt": "Updated at"
+    },
+    "new": {
+      "title": "Create offer",
+      "submit": "Create offer"
+    },
+    "edit": {
+      "title": "Edit offer",
+      "submit": "Update offer"
+    },
+    "empty": {
+      "title": "No offers",
+      "hint": "Create your first offer to see it here."
+    }
+  }
+}
+
+

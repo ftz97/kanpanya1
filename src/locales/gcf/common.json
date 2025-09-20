@@ -1,0 +1,134 @@
+{
+  "actions": {
+    "activate": "Aktive",
+    "apply": "Aplike",
+    "archive": "Mete an achiv",
+    "cancel": "Anile",
+    "close": "Fèmé",
+    "confirm": "Konfime",
+    "create": "Kréyé",
+    "deactivate": "Dezaktive",
+    "delete": "Efase",
+    "duplicate": "Dublike",
+    "edit": "Modifyé",
+    "new": "Nouvo",
+    "reset": "Rézete",
+    "restore": "Retabli",
+    "save": "Sové",
+    "update": "Miz ajou",
+    "view": "Gadé"
+  },
+  "api": {
+    "errors": {
+      "offer": {
+        "date_invalid": "Dat-yo pa bon.",
+        "missing_dates": "Dat yo obligatwa.",
+        "missing_title": "Tit-la obligatwa."
+      },
+      "unknown": "Erè enkoni.",
+      "supa.network": "Pwoblèm rezo. Chèché koneksyon ou.",
+      "supa.http.unauthorized": "Pa otorizé.",
+      "supa.http.forbidden": "Aksè entèdi.",
+      "supa.http.not_found": "Resous pa jwenn.",
+      "supa.http.error": "Erè sèvè.",
+      "supa.rls.denied": "Aksè refizé (RLS).",
+      "supa.pg.unique_violation": "On anrejistreman menm jan ja ni.",
+      "supa.pg.foreign_key_violation": "Kontrent kle etranje vyolé.",
+      "supa.pg.not_null_violation": "On chan obligatwa mank.",
+      "supa.pg.error": "Erè baz done.",
+      "supa.auth.invalid_credentials": "Mòso idantité pa bon.",
+      "supa.auth.rate_limited": "Twòp tantativ. Eseye pli ta.",
+      "supa.auth.email_not_confirmed": "Imèl pa konfimé.",
+      "supa.auth.error": "Erè otantifikasyon."
+    }
+  },
+  "badges": {
+    "danger": "Erè",
+    "info": "Enfòmasyon",
+    "success": "Siksè",
+    "warning": "Avètisman"
+  },
+  "dialogs": {
+    "archiveDesc": "Ou ké pé rétabli-y pli ta.",
+    "archiveTitle": "Mete atik-la an achiv?",
+    "deleteDesc": "Aksyon-tala pa pé woulé dèyè.",
+    "deleteTitle": "Efase atik-la?"
+  },
+  "forms": {
+    "dateRange": "Dat",
+    "endsAt": "Fini a",
+    "errors": {
+      "dateOrder": "Dat-la pou bout-la dwèt vini apré dat koumansman-an.",
+      "invalidEmail": "Imèl pa bon.",
+      "maxChars": "Oplis {count} karaktè pa posib.",
+      "minChars": "Omwen {count} karaktè.",
+      "nonNegative": "Valè-a dwèt pozitif ousinon zewo.",
+      "required": "Champs-tala obligatwa."
+    },
+    "isActive": "Aktif",
+    "optional": "Opsyonèl",
+    "price": "Pri",
+    "required": "Obligatwa",
+    "search": "Chèché...",
+    "startsAt": "Koumansé a"
+  },
+  "language": "Kréyòl Gwadloup",
+  "list": {
+    "offersCount": {
+      "one": "{count} of",
+      "other": "{count} of"
+    }
+  },
+  "misc": {
+    "actions": "Aksyon",
+    "empty": "Pa ni anyen",
+    "filters": "Filtraj",
+    "loading": "Ka chajé...",
+    "no": "Non",
+    "status": "Léta",
+    "yes": "Wi",
+    "error": "Erè",
+    "success": "Siksè",
+    "cancel": "Anile",
+    "save": "Sové",
+    "edit": "Modifyé",
+    "delete": "Efase",
+    "create": "Kréyé",
+    "search": "Chèché",
+    "noData": "Pa ni done",
+    "back": "Dèyè",
+    "next": "Apré",
+    "previous": "Avan"
+  },
+  "toasts": {
+    "saved": "Byen sové.",
+    "updated": "Miz ajou fèt.",
+    "deleted": "Byen efasé.",
+    "error": "An erè pasé."
+  },
+  "pagination": {
+    "next": "Apré",
+    "of": "asou",
+    "prev": "Avan",
+    "rowsPerPage": "Lign pa paj"
+  },
+  "status": {
+    "active": "Aktif",
+    "all": "Tout",
+    "archived": "Achivé",
+    "draft": "Brouyon",
+    "expired": "Ekspiré",
+    "inactive": "Pa aktif",
+    "ongoing": "An kou",
+    "published": "Pibliyé",
+    "upcoming": "Ka vini"
+  },
+  "toasts": {
+    "archived": "Mété an achiv.",
+    "deleted": "Byen efasé.",
+    "error": "An erè pasé.",
+    "restored": "Rétabli.",
+    "saved": "Byen sové.",
+    "updated": "Miz ajou fèt."
+  }
+}

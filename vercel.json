@@ -1,0 +1,13 @@
+{
+  "redirects": [
+    { "source": "/(.*)", "destination": "https://padavwa.com/$1", "permanent": true }
+  ]
+}
+
+
+
+
+
+
+
+

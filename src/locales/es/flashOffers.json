@@ -1,0 +1,68 @@
+{
+  "title": "Ofertas flash",
+  "list": {
+    "newOffer": "Nueva oferta",
+    "archivedTab": "Archivadas",
+    "activeTab": "Activas",
+    "title": "Mis ofertas",
+    "back": "← Volver",
+    "noOffers": "No hay ofertas por el momento.",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "discount": "Descuento",
+    "slots": "plazas",
+    "endsAt": "termina"
+  },
+  "filters": {
+    "title": "Filtros",
+    "byStatus": "Por estado",
+    "byDate": "Por fecha",
+    "byPrice": "Por precio"
+  },
+  "table": {
+    "title": "Título",
+    "description": "Descripción",
+    "startsAt": "Inicio",
+    "endsAt": "Fin",
+    "price": "Precio",
+    "status": "Estado",
+    "actions": "Acciones",
+    "createdAt": "Creado el",
+    "updatedAt": "Actualizado el"
+  },
+  "new": {
+    "title": "Crear oferta",
+    "submit": "Crear oferta",
+    "create": "Crear oferta flash",
+    "description": "Define título, descuento, plazas y fin.",
+    "titleLabel": "Título",
+    "titlePlaceholder": "Oferta especial",
+    "descriptionLabel": "Descripción",
+    "descriptionPlaceholder": "Descripción de la oferta",
+    "startsAt": "Inicio",
+    "endsAt": "Fin",
+    "price": "Precio",
+    "isActive": "Activo",
+    "cancel": "Cancelar",
+    "validate": "Validar",
+    "createdOk": "Oferta flash creada ✅",
+    "createdErr": "Error al crear la oferta."
+  },
+  "edit": {
+    "title": "Editar oferta",
+    "submit": "Actualizar oferta"
+  },
+  "empty": {
+    "title": "Sin ofertas",
+    "hint": "Crea tu primera oferta para verla aquí."
+  },
+  "list": {
+    "title": "Mis ofertas",
+    "back": "← Volver",
+    "noOffers": "No hay ofertas por el momento.",
+    "delete": "Eliminar",
+    "discount": "Descuento",
+    "slots": "plazas",
+    "end": "fin"
+  }
+}

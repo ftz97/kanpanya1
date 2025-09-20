@@ -1,0 +1,97 @@
+{
+  "language": "Kréyòl Gwadloup",
+  "actions": {
+    "new": "Nouvo",
+    "create": "Kréyé",
+    "edit": "Modifyé",
+    "update": "Miz ajou",
+    "delete": "Efase",
+    "duplicate": "Dublike",
+    "view": "Gadé",
+    "save": "Sové",
+    "cancel": "Anile",
+    "confirm": "Konfime",
+    "close": "Fèmé",
+    "apply": "Aplike",
+    "reset": "Rézete",
+    "archive": "Mete an achiv",
+    "restore": "Retabli",
+    "activate": "Aktive",
+    "deactivate": "Dezaktive"
+  },
+  "status": {
+    "all": "Tout",
+    "active": "Aktif",
+    "inactive": "Pa aktif",
+    "draft": "Brouyon",
+    "published": "Pibliyé",
+    "upcoming": "Ka vini",
+    "ongoing": "An kou",
+    "expired": "Ekspiré",
+    "archived": "Achivé"
+  },
+  "badges": {
+    "success": "Siksè",
+    "warning": "Avètisman",
+    "danger": "Erè",
+    "info": "Enfòmasyon"
+  },
+  "pagination": {
+    "prev": "Avan",
+    "next": "Apré",
+    "rowsPerPage": "Lign pa paj",
+    "of": "asou"
+  },
+  "dialogs": {
+    "deleteTitle": "Efase atik-la?",
+    "deleteDesc": "Aksyon-tala pa pé woulé dèyè.",
+    "archiveTitle": "Mete atik-la an achiv?",
+    "archiveDesc": "Ou ké pé rétabli-y pli ta."
+  },
+  "toasts": {
+    "saved": "Byen sové.",
+    "updated": "Miz ajou fèt.",
+    "deleted": "Byen efasé.",
+    "archived": "Mété an achiv.",
+    "restored": "Rétabli.",
+    "error": "An erè pasé."
+  },
+  "forms": {
+    "required": "Obligatwa",
+    "optional": "Opsyonèl",
+    "search": "Chèché...",
+    "dateRange": "Dat",
+    "startsAt": "Koumansé a",
+    "endsAt": "Fini a",
+    "price": "Pri",
+    "isActive": "Aktif",
+    "errors": {
+      "required": "Chanm-an obligatwa.",
+      "minChars": "Omwen {count} lèt.",
+      "maxChars": "Omwen {count} lèt.",
+      "invalidEmail": "Imèl pa bon.",
+      "dateOrder": "Dat fini fòk apwè dat koumansman."
+    }
+  },
+  "misc": {
+    "filters": "Filtraj",
+    "status": "Léta",
+    "actions": "Aksyon",
+    "loading": "Ka chajé...",
+    "empty": "Pa ni anyen",
+    "yes": "Wi",
+    "no": "Non"
+  },
+  "list": {
+    "offersCount": {
+      "one": "{count} of",
+      "other": "{count} of"
+    }
+  },
+  "api": {
+    "errors": {
+      "offer.missing_title": "Tit-la obligatwa.",
+      "offer.date_invalid": "Dat-yo pa bon."
+    }
+  }
+}

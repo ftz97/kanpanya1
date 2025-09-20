@@ -1,0 +1,60 @@
+{
+  "title": "Of éklè",
+  "list": {
+    "newOffer": "Nouvo of",
+    "archivedTab": "Achiv",
+    "activeTab": "Aktif",
+    "title": "Of mwen",
+    "back": "← Tounen",
+    "noOffers": "Pa ni of pou moman-an.",
+    "delete": "Efase",
+    "edit": "Modifye",
+    "discount": "Rabè",
+    "slots": "plas",
+    "endsAt": "bout",
+    "end": "bout"
+  },
+  "filters": {
+    "title": "Filtraj",
+    "byStatus": "Dapré léta",
+    "byDate": "Dapré dat",
+    "byPrice": "Dapré pri"
+  },
+  "table": {
+    "title": "Tit",
+    "description": "Deskripsyon",
+    "startsAt": "Koumansman",
+    "endsAt": "Bout",
+    "price": "Pri",
+    "status": "Léta",
+    "actions": "Aksyon",
+    "createdAt": "Kréyé a",
+    "updatedAt": "Miz ajou a"
+  },
+  "new": {
+    "title": "Kréyé on of",
+    "submit": "Kréyé of-la",
+    "create": "Kréyé òf flash",
+    "description": "Defini tit, rabè, plas é bout.",
+    "titleLabel": "Tit",
+    "titlePlaceholder": "Òf espesyal",
+    "descriptionLabel": "Deskripsyon",
+    "descriptionPlaceholder": "Deskripsyon òf-la",
+    "startsAt": "Koumansman",
+    "endsAt": "Bout",
+    "price": "Pri",
+    "isActive": "Aktiv",
+    "cancel": "Anilé",
+    "validate": "Válidé",
+    "createdOk": "Òf flash fèt ✅",
+    "createdErr": "Erè lè kréyé òf-la."
+  },
+  "edit": {
+    "title": "Modifyé of-la",
+    "submit": "Miz ajou of-la"
+  },
+  "empty": {
+    "title": "Pa ni of",
+    "hint": "Kréyé pwemyé of-ou pou wè-y isi-a."
+  }
+}

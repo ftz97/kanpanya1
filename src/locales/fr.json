@@ -1,0 +1,119 @@
+{
+  "common": {
+    "language": "Français",
+    "actions": {
+      "new": "Nouveau",
+      "create": "Créer",
+      "edit": "Éditer",
+      "update": "Mettre à jour",
+      "delete": "Supprimer",
+      "duplicate": "Dupliquer",
+      "view": "Voir",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "close": "Fermer",
+      "apply": "Appliquer",
+      "reset": "Réinitialiser",
+      "archive": "Archiver",
+      "restore": "Restaurer",
+      "activate": "Activer",
+      "deactivate": "Désactiver"
+    },
+    "status": {
+      "all": "Tous",
+      "active": "Actives",
+      "inactive": "Inactives",
+      "draft": "Brouillon",
+      "published": "Publiée",
+      "upcoming": "À venir",
+      "ongoing": "En cours",
+      "expired": "Expirée",
+      "archived": "Archivée"
+    },
+    "badges": {
+      "success": "Succès",
+      "warning": "Avertissement",
+      "danger": "Erreur",
+      "info": "Info"
+    },
+    "pagination": {
+      "prev": "Précédent",
+      "next": "Suivant",
+      "rowsPerPage": "Lignes par page",
+      "of": "sur"
+    },
+    "dialogs": {
+      "deleteTitle": "Supprimer cet élément ?",
+      "deleteDesc": "Cette action est irréversible.",
+      "archiveTitle": "Archiver l'élément ?",
+      "archiveDesc": "Vous pourrez le restaurer plus tard."
+    },
+    "toasts": {
+      "saved": "Enregistré avec succès.",
+      "updated": "Mise à jour effectuée.",
+      "deleted": "Supprimé avec succès.",
+      "archived": "Archivé.",
+      "restored": "Restauré.",
+      "error": "Une erreur est survenue."
+    },
+    "forms": {
+      "required": "Obligatoire",
+      "optional": "Optionnel",
+      "search": "Rechercher...",
+      "dateRange": "Période",
+      "startsAt": "Débute le",
+      "endsAt": "Se termine le",
+      "price": "Prix",
+      "isActive": "Actif"
+    },
+    "misc": {
+      "filters": "Filtres",
+      "status": "Statut",
+      "actions": "Actions",
+      "loading": "Chargement...",
+      "empty": "Aucun résultat",
+      "yes": "Oui",
+      "no": "Non"
+    }
+  },
+  "flashOffers": {
+    "title": "Offres éclair",
+    "list": {
+      "newOffer": "Nouvelle offre",
+      "archivedTab": "Archives",
+      "activeTab": "Actives"
+    },
+    "filters": {
+      "title": "Filtres",
+      "byStatus": "Par statut",
+      "byDate": "Par date",
+      "byPrice": "Par prix"
+    },
+    "table": {
+      "title": "Titre",
+      "description": "Description",
+      "startsAt": "Début",
+      "endsAt": "Fin",
+      "price": "Prix",
+      "status": "Statut",
+      "actions": "Actions",
+      "createdAt": "Créé le",
+      "updatedAt": "Mis à jour le"
+    },
+    "new": {
+      "title": "Créer une offre",
+      "submit": "Créer l'offre"
+    },
+    "edit": {
+      "title": "Éditer l'offre",
+      "submit": "Mettre à jour l'offre"
+    },
+    "empty": {
+      "title": "Aucune offre",
+      "hint": "Créez votre première offre pour la voir ici."
+    }
+  }
+}
+
+

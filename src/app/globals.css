@@ -1,0 +1,270 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Animation de pluie d'emojis */
+@keyframes emojiFall {
+  0% { 
+    transform: translateY(-50px) rotate(0deg) scale(0.8); 
+    opacity: 1; 
+  }
+  20% { 
+    transform: translateY(20vh) rotate(72deg) scale(1.2); 
+    opacity: 1; 
+  }
+  80% { 
+    transform: translateY(80vh) rotate(288deg) scale(1); 
+    opacity: 1; 
+  }
+  100% { 
+    transform: translateY(calc(100vh + 50px)) rotate(360deg) scale(0.5); 
+    opacity: 1; 
+  }
+}
+
+
+/* ----------------------------
+   🌍 Reset de base
+----------------------------- */
+* {
+  @apply m-0 p-0 box-border;
+}
+
+html, body {
+  @apply bg-background text-secondary antialiased;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  min-height: 100%;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ----------------------------
+   🎨 Variables CSS (Design System)
+----------------------------- */
+:root {
+  --color-primary: #17BFA0;
+  --color-primary-dark: #14a58d;
+  --color-secondary: #212E40;
+  --color-background: #F2F2F2;
+  --color-accent: #FFD166;
+  --color-danger: #EF4444;
+
+  --radius-sm: 0.5rem;   /* 8px */
+  --radius-md: 1rem;     /* 16px */
+  --radius-lg: 1.5rem;   /* 24px */
+  --radius-xl: 2rem;     /* 32px */
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.15);
+  --shadow-xl: 0 20px 25px rgba(0,0,0,0.2);
+
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+
+  /* Fond global */
+  --color-bg: #F2F2F2;
+  --color-card: #FFFFFF;
+
+  /* Textes */
+  --color-text: #212E40;
+  --color-text-secondary: #7B838C;
+
+  /* Primaire (CTA) */
+  --color-primary: #17BFA0;
+  --color-primary-dark: #0D8C75;
+
+  /* Gradients */
+  --gradient-partner: linear-gradient(90deg, #BCE8DF 0%, #C2F9DD 50%, #BCF7D2 100%);
+  --gradient-flash: linear-gradient(90deg, #F2A0A0 0%, #F2C2C2 50%, #F2D5D5 100%);
+
+  /* Design System Kanpanya - Tokens principaux */
+  --k-brand: #14B8A6;     /* Lagon Kanpanya */
+  --k-brand-600: #0D9488;  /* Hover/press */
+  --k-ink: #0f172a;       /* Texte principal */
+  --k-page: #F2F2F2;      /* Fond de page */
+
+  /* Design tokens (shadcn compatible) - maintenus pour compatibilité */
+  --background: 0 0% 95%;         /* #F2F2F2 - gris clair */
+  --foreground: 215 25% 27%;      /* #1E293B - anthracite */
+
+  --card: 0 0% 100%;              /* #FFFFFF - blanc */
+  --card-foreground: 215 25% 27%; /* #1E293B - anthracite */
+
+  --primary: 169 79% 42%;         /* #17BFA0 - turquoise */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 142 67% 85%;       /* #BDF2D0 - vert menthe pastel */
+  --secondary-foreground: 215 25% 27%;
+
+  --muted: 0 0% 95%;              /* #F2F2F2 - gris clair */
+  --muted-foreground: 215 16% 47%;
+
+  --accent: 169 79% 42%;          /* #17BFA0 - turquoise */
+  --accent-foreground: 0 0% 100%;
+
+  --border: 0 0% 90%;             /* bordure subtile */
+  --input: 0 0% 90%;              /* input subtil */
+  --ring: 169 79% 42%;            /* #17BFA0 - turquoise */
+  --radius: 1rem;
+}
+
+* { @apply border-gray-200; }
+html, body { height: 100%; }
+
+body {
+  @apply text-slate-900 antialiased;
+  background-color: #F2F2F2;
+}
+
+/* Design System Kanpanya - Utilitaires */
+@layer base {
+  body { @apply bg-gray-100 text-slate-900; }
+}
+
+/***** Utilitaires *****/
+.text-brand{ color: var(--k-brand); }
+.bg-brand{ background: var(--k-brand); }
+.bg-page{ background: var(--k-page); }
+.border-brand{ border-color: var(--k-brand); }
+
+/***** Cartes *****/
+.k-card{ @apply rounded-2xl shadow-md bg-white p-4; }
+.k-card-lg{ @apply rounded-2xl shadow-lg bg-white p-6; }
+
+/***** Boutons *****/
+.k-btn{ @apply inline-flex items-center justify-center rounded-xl px-4 py-2 font-medium transition; }
+.k-btn-primary{ background: var(--k-brand); color:#fff; }
+.k-btn-primary:hover{ background: var(--k-brand-600); }
+
+
+/* Titres des sections */
+h1, h2, h3, h4 { letter-spacing: -0.01em; }
+
+/* Helpers */
+.container-page { @apply container max-w-6xl; }
+.card-soft     { @apply rounded-2xl bg-white border border-gray-200; }
+.btn-pill      { @apply rounded-full px-5 h-11; }
+.badge-soft    { @apply inline-flex items-center rounded-full px-3 py-1 text-sm bg-green-100 text-green-800; }
+
+/* Kanpanya Helpers - Palette Turquoise Pastel */
+.kp-btn-green{
+  background-color:hsl(var(--primary));
+  color:white;
+  box-shadow:0 10px 28px -10px rgba(23,191,160,.55);
+  transition:transform .15s ease, box-shadow .2s ease, background-color .2s ease;
+}
+.kp-btn-green:hover{
+  background:linear-gradient(135deg, #17BFA0 0%, #BDF2D0 100%);
+  box-shadow:0 12px 32px -8px rgba(23,191,160,.65);
+  transform:translateY(-1px);
+}
+/* Nouvelles classes utilitaires turquoise pastel */
+.kp-bg-light-gray{ background-color:#F2F2F2; }
+.kp-text-anthracite{ color:#1E293B; }
+.kp-bg-turquoise{ background-color:#17BFA0; }
+.kp-text-turquoise{ color:#17BFA0; }
+.kp-bg-mint-pastel{ background-color:#BDF2D0; }
+.kp-text-mint-pastel{ color:#BDF2D0; }
+
+/* ----------------------------
+   🌙 Dark mode
+----------------------------- */
+.dark {
+  --color-background: #111827;
+  --color-secondary: #F9FAFB;
+  --color-primary: #10B981;
+  --color-primary-dark: #059669;
+  --color-accent: #FCD34D;
+  --color-danger: #DC2626;
+}
+
+body.dark {
+  @apply bg-background text-secondary;
+}
+
+/* ----------------------------
+   📦 Classes utilitaires custom
+----------------------------- */
+
+/* Container centralisé */
+.container-kanpa {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Titres principaux */
+.h1-kanpa {
+  @apply text-2xl sm:text-3xl md:text-4xl font-bold text-secondary;
+}
+
+.h2-kanpa {
+  @apply text-xl sm:text-2xl md:text-3xl font-semibold text-secondary;
+}
+
+.h3-kanpa {
+  @apply text-lg sm:text-xl font-semibold text-secondary;
+}
+
+/* Boutons génériques */
+.btn-kanpa {
+  @apply inline-flex items-center justify-center font-semibold rounded-lg px-4 py-2 transition shadow-sm;
+}
+
+.btn-primary {
+  @apply btn-kanpa bg-primary text-white hover:bg-primaryDark;
+}
+
+.btn-outline {
+  @apply btn-kanpa border border-primary text-primary hover:bg-background;
+}
+
+/* Carte standard */
+.card-kanpa {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6;
+}
+.kp-bg-coral-pastel{ background-color:#F2A0A0; }
+.kp-text-coral-pastel{ color:#F2A0A0; }
+
+/* ===== Gestion du Focus - Ciblé et Sécurisé ===== */
+/* AVANT (à éviter) */
+/* *:focus-visible { @apply outline-none ring-2 ring-offset-2 ring-offset-background ring-primary/40; } */
+
+/* APRÈS (ciblé) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[role="menuitem"]:focus-visible,
+[role="tab"]:focus-visible,
+[role="switch"]:focus-visible,
+[role="checkbox"]:focus-visible,
+[role="radio"]:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-offset-white ring-primary/40;
+}
+
+/* Désactiver tout focus ring sur les conteneurs structurels (dialog, overlay, sheet…) */
+[role="dialog"]:focus,
+[role="dialog"]:focus-visible,
+[data-radix-dialog-content]:focus,
+[data-radix-dialog-content]:focus-visible,
+[data-radix-portal] *[data-state="open"]:focus {
+  outline: none !important;
+  box-shadow: none !important; /* annule ring-* de Tailwind */
+}
+
+/* ===== Modal Manager - Protection contre les clics derrière ===== */
+body.modal-open #__next > * { 
+  pointer-events: none; 
+}
+body.modal-open [data-radix-dialog-content] { 
+  pointer-events: auto; 
+}
+
