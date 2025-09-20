@@ -203,14 +203,16 @@ export default function ScratchCardStableV3({
 
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     let transparent = 0;
-    // Optimisation : sampling plus intelligent (i += 100 au lieu de 40)
+    let totalSampled = 0;
+    
+    // Échantillonnage de 1 pixel sur 100 (1% des pixels)
     for (let i = 3; i < imageData.data.length; i += 100) {
+      totalSampled++;
       if (imageData.data[i] === 0) transparent++;
     }
-    // Calcul correct du pourcentage avec le sampling
-    const totalPixels = canvas.width * canvas.height;
-    const sampledPixels = Math.floor(totalPixels / 100); // 1% des pixels échantillonnés
-    const percent = transparent / sampledPixels;
+    
+    // Calcul correct du pourcentage basé sur l'échantillonnage réel
+    const percent = totalSampled > 0 ? transparent / totalSampled : 0;
 
     if (percent > threshold && !revealed) {
       setRevealed(true);
