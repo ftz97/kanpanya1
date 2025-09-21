@@ -46,7 +46,7 @@ export default function TestDashboard() {
           <div className="flex items-center">
             <div className="text-2xl text-blue-600 mr-3">📊</div>
             <div>
-              <p className="text-sm font-medium text-gray-600">Scans aujourd'hui</p>
+              <p className="text-sm font-medium text-gray-600">Scans aujourd&apos;hui</p>
               <p className="text-2xl font-bold text-blue-600">1,247</p>
             </div>
           </div>

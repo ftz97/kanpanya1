@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import type { SupabaseClient, Session, User } from "@supabase/supabase-js";
+import { createBrowserClient } from "@supabase/ssr";
 
 type UseSupaState = {
   supabase: SupabaseClient | null;
@@ -16,24 +17,19 @@ export function useSupa(): UseSupaState {
   });
 
   useEffect(() => {
-    let mounted = true;
-    (async () => {
-      const { createBrowserClient } = await import("@supabase/ssr"); // @supabase/auth-helpers-nextjs v0.7+ → @supabase/ssr
-      const supabase = createBrowserClient(
-        String(process.env.NEXT_PUBLIC_SUPABASE_URL),
-        String(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
-      );
-      const { data } = await supabase.auth.getSession();
-      if (!mounted) return;
-      setState({
-        supabase,
-        session: data.session ?? null,
-        user: data.session?.user ?? null,
-      });
-    })();
-    return () => {
-      mounted = false;
+    const supabase = createBrowserClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+
+    setState(prev => ({ ...prev, supabase }));
+
+    const getSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setState(prev => ({ ...prev, session, user: session?.user || null }));
     };
+
+    getSession();
   }, []);
 
   return state;

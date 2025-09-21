@@ -61,14 +61,14 @@ export async function createAsyncT(locale: Locale, domains: Domain[]) {
   const dicts = await Promise.all(domains.map((d) => importDict(locale, d)));
   
   // Merge avec les noms de domaines comme préfixes
-  const merged: any = {};
+  const merged: unknown = {};
   for (let i = 0; i < domains.length; i++) {
     merged[domains[i]] = dicts[i];
   }
 
   // FR fallback par domaine si clé manquante
   const frDicts = await Promise.all(domains.map((d) => importDict("fr", d)));
-  const mergedFR: any = {};
+  const mergedFR: unknown = {};
   for (let i = 0; i < domains.length; i++) {
     mergedFR[domains[i]] = frDicts[i];
   }

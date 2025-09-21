@@ -8,24 +8,59 @@ export default function RealWorkingMap() {
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
 
-  useEffect(() => {
-    setIsClient(true);
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    setMapboxToken(token || null);
-    
-    if (token && !token.includes('your_real_token_here')) {
-      // Import dynamique de react-map-gl
-      import('react-map-gl/mapbox')
-        .then((mapbox) => {
-          console.log('Mapbox GL JS chargé avec succès');
-          setMapLoaded(true);
-        })
-        .catch((error) => {
-          console.error('Erreur lors du chargement de react-map-gl:', error);
-          setMapError('Erreur de chargement de Mapbox GL JS');
-        });
-    }
-  }, []);
+  
+const stableSetIsClient = useCallback(() => {
+  setIsClient();
+}, [setIsClient]);
+
+const stableSetMapboxToken = useCallback(() => {
+  setMapboxToken();
+}, [setMapboxToken]);
+
+const stableIncludes = useCallback(() => {
+  includes();
+}, [includes]);
+
+const stableImport = useCallback(() => {
+  import();
+}, [import]);
+
+const stableThen = useCallback(() => {
+  then();
+}, [then]);
+
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
+
+const stableSetMapLoaded = useCallback(() => {
+  setMapLoaded();
+}, [setMapLoaded]);
+
+const stableCatch = useCallback(() => {
+  catch();
+}, [catch]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetMapError = useCallback(() => {
+  setMapError();
+}, [setMapError]);
+
+useEffect(() => {
+  stableSetIsClient();
+  stableSetMapboxToken();
+  stableIncludes();
+  stableImport();
+  stableThen();
+  stableLog();
+  stableSetMapLoaded();
+  stableCatch();
+  stableError();
+  stableSetMapError();
+}, [stableSetIsClient, stableSetMapboxToken, stableIncludes, stableImport, stableThen, stableLog, stableSetMapLoaded, stableCatch, stableError, stableSetMapError]);;
 
   if (!isClient) {
     return (
@@ -86,17 +121,38 @@ function MapboxMapComponent({ token }: { token: string }) {
     zoom: 11,
   });
 
-  const [Map, setMap] = useState<any>(null);
-  const [Source, setSource] = useState<any>(null);
-  const [Layer, setLayer] = useState<any>(null);
+  const [Map, setMap] = useState<unknown>(null);
+  const [Source, setSource] = useState<unknown>(null);
+  const [Layer, setLayer] = useState<unknown>(null);
 
-  useEffect(() => {
-    import('react-map-gl/mapbox').then((mapbox) => {
-      setMap(() => mapbox.default);
-      setSource(() => mapbox.Source);
-      setLayer(() => mapbox.Layer);
-    });
-  }, []);
+  
+const stableImport = useCallback(() => {
+  import();
+}, [import]);
+
+const stableThen = useCallback(() => {
+  then();
+}, [then]);
+
+const stableSetMap = useCallback(() => {
+  setMap();
+}, [setMap]);
+
+const stableSetSource = useCallback(() => {
+  setSource();
+}, [setSource]);
+
+const stableSetLayer = useCallback(() => {
+  setLayer();
+}, [setLayer]);
+
+useEffect(() => {
+  stableImport();
+  stableThen();
+  stableSetMap();
+  stableSetSource();
+  stableSetLayer();
+}, [stableImport, stableThen, stableSetMap, stableSetSource, stableSetLayer]);;
 
   if (!Map || !Source || !Layer) {
     return (
@@ -114,7 +170,7 @@ function MapboxMapComponent({ token }: { token: string }) {
       <Map
         mapboxApiAccessToken={token}
         {...viewState}
-        onMove={(evt: any) => setViewState(evt.viewState)}
+        onMove={(evt: unknown) => setViewState(evt.viewState)}
         style={{ width: "100%", height: "100%" }}
         mapStyle="mapbox://styles/mapbox/light-v11"
       >

@@ -41,10 +41,10 @@ export default function TestClicPage() {
         </div>
 
         <div className="bg-green-50 p-4 rounded-lg mb-6">
-          <h3 className="font-semibold text-green-800 mb-2">✅ Méthodes d'ajout de points :</h3>
+          <h3 className="font-semibold text-green-800 mb-2">✅ Méthodes d&apos;ajout de points :</h3>
           <ul className="text-sm text-green-700 space-y-1">
-            <li>• <strong>Mode Clic</strong> - Activez le bouton "🖱️ Activer Mode Clic" puis cliquez sur la carte</li>
-            <li>• <strong>Bouton Centre</strong> - Cliquez sur "📍 Ajouter au Centre" pour ajouter au centre de la vue</li>
+            <li>• <strong>Mode Clic</strong> - Activez le bouton &quot;🖱️ Activer Mode Clic&quot; puis cliquez sur la carte</li>
+            <li>• <strong>Bouton Centre</strong> - Cliquez sur &quot;📍 Ajouter au Centre&quot; pour ajouter au centre de la vue</li>
             <li>• <strong>Précis</strong> - Choisissez exactement où vous voulez placer vos points</li>
             <li>• <strong>Intuitif</strong> - Interface simple et directe</li>
           </ul>
@@ -53,9 +53,9 @@ export default function TestClicPage() {
         <div className="bg-blue-50 p-4 rounded-lg mb-6">
           <h3 className="font-semibold text-blue-800 mb-2">🎯 Instructions :</h3>
           <ul className="text-sm text-blue-700 space-y-1">
-            <li>1. <strong>Activez le mode clic</strong> - Bouton "🖱️ Activer Mode Clic" (devient vert)</li>
+            <li>1. <strong>Activez le mode clic</strong> - Bouton &quot;🖱️ Activer Mode Clic&quot; (devient vert)</li>
             <li>2. <strong>Cliquez sur la carte</strong> - N'importe où pour ajouter un point</li>
-            <li>3. <strong>Ou utilisez le bouton centre</strong> - "📍 Ajouter au Centre"</li>
+            <li>3. <strong>Ou utilisez le bouton centre</strong> - &quot;📍 Ajouter au Centre&quot;</li>
             <li>4. <strong>Répétez</strong> pour ajouter plusieurs points</li>
             <li>5. <strong>Ligne verte</strong> apparaît dès le 2ème point</li>
             <li>6. <strong>Polygone vert</strong> se forme au 3ème point</li>
@@ -72,7 +72,7 @@ export default function TestClicPage() {
             <li>• <strong>Ligne verte</strong> - Relie tous les points (2+ points)</li>
             <li>• <strong>Polygone translucide</strong> - Zone fermée (3+ points)</li>
             <li>• <strong>Liste interactive</strong> - Clic pour centrer, ✕ pour supprimer</li>
-            <li>• <strong>Reset complet</strong> - "Tout effacer" pour recommencer</li>
+            <li>• <strong>Reset complet</strong> - &quot;Tout effacer&quot; pour recommencer</li>
           </ul>
         </div>
 
@@ -83,7 +83,7 @@ export default function TestClicPage() {
             <li>• <strong>Précision maximale</strong> - Cliquez exactement où vous voulez</li>
             <li>• <strong>Interface claire</strong> - Mode clic activé/désactivé visible</li>
             <li>• <strong>Double option</strong> - Clic libre ou ajout au centre</li>
-            <li>• <strong>Fiable</strong> - Pas de problème de réseau ou d'API</li>
+            <li>• <strong>Fiable</strong> - Pas de problème de réseau ou d&apos;API</li>
           </ul>
         </div>
       </div>

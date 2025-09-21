@@ -91,10 +91,19 @@ interface ModalRootProps {
 function ModalRoot({ isOpen, content, onClose, key }: ModalRootProps) {
   const [mounted, setMounted] = useState(false);
 
-  React.useEffect(() => {
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
+  React.
+const stableSetMounted = useCallback(() => {
+  setMounted();
+}, [setMounted]);
+
+const stableSetMounted = useCallback(() => {
+  setMounted();
+}, [setMounted]);
+
+useEffect(() => {
+  stableSetMounted();
+  stableSetMounted();
+}, [stableSetMounted, stableSetMounted]);;
 
   React.useEffect(() => {
     if (isOpen) {

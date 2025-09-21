@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import ScratchCardStableV3 from './ScratchCardStableV3';
 
 const meta: Meta<typeof ScratchCardStableV3> = {

@@ -192,7 +192,7 @@ export default function Home() {
               Points doublés cette semaine ! 🎯
             </p>
             <p className="text-sm text-gray-600 leading-relaxed">
-              Profitez de l'offre spéciale : tous vos achats rapportent 2x plus de points Kanpanya
+              Profitez de l&apos;offre spéciale : tous vos achats rapportent 2x plus de points Kanpanya
             </p>
             <div className="mt-4 flex flex-col sm:flex-row gap-3">
               <button 
@@ -228,7 +228,7 @@ export default function Home() {
                 Flash
               </span>
               <button className="mt-3 sm:mt-4 w-full py-2 rounded-lg border border-[#17BFA0] text-[#17BFA0] font-medium">                                                                                               
-                Voir l'offre
+                Voir l&apos;offre
               </button>
             </div>
           ))}

@@ -14,7 +14,7 @@ export default function Dashboard() {
       }}>
         <h2 style={{ color: '#1e40af', marginBottom: '15px', fontSize: '1.5rem' }}>✅ Application Fonctionnelle</h2>
         <p style={{ color: '#1e3a8a', fontSize: '1.1rem' }}>
-          Votre tableau de bord d'analyse des données commerciales est opérationnel
+          Votre tableau de bord d&apos;analyse des données commerciales est opérationnel
         </p>
       </div>
 
@@ -145,7 +145,7 @@ export default function Dashboard() {
         borderRadius: '8px',
         border: '1px solid #10b981'
       }}>
-        <h3 style={{ color: '#065f46', marginBottom: '10px' }}>🚀 Status de l'Application</h3>
+        <h3 style={{ color: '#065f46', marginBottom: '10px' }}>🚀 Status de l&apos;Application</h3>
         <div style={{ color: '#047857' }}>
           <p>✅ Serveur Next.js opérationnel</p>
           <p>✅ Interface utilisateur fonctionnelle</p>

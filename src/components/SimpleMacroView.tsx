@@ -100,7 +100,7 @@ export default function SimpleMacroView({
       {selectedAreas.length > 0 && (
         <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
           <h3 className="text-sm font-semibold text-blue-900 mb-2">
-            Zones sélectionnées pour l'analyse :
+            Zones sélectionnées pour l&apos;analyse :
           </h3>
           <div className="text-sm text-blue-800">
             {selectedAreas.map(area => area.label).join(", ")}

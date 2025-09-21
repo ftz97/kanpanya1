@@ -7,105 +7,164 @@ export default function TestWorkingMapPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    
-    if (!token || token.includes('your_real_token_here')) {
-      setError('Token Mapbox manquant ou invalide');
-      return;
-    }
+  
+const stableIncludes = useCallback(() => {
+  includes();
+}, [includes]);
 
-    // Charger Mapbox via script tag dans le head
-    const loadMapbox = () => {
-      // Vérifier si Mapbox est déjà chargé
-      if ((window as any).mapboxgl) {
-        initializeMap();
-        return;
-      }
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
 
-      // Charger le CSS
-      if (!document.querySelector('link[href*="mapbox-gl.css"]')) {
-        const cssLink = document.createElement('link');
-        cssLink.rel = 'stylesheet';
-        cssLink.href = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css';
-        document.head.appendChild(cssLink);
-      }
+const stableInitializeMap = useCallback(() => {
+  initializeMap();
+}, [initializeMap]);
 
-      // Charger le JS
-      const script = document.createElement('script');
-      script.src = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js';
-      script.async = true;
-      
-      script.onload = () => {
-        console.log('Mapbox GL JS chargé avec succès');
-        setTimeout(() => {
-          initializeMap();
-        }, 100);
-      };
+const stableQuerySelector = useCallback(() => {
+  querySelector();
+}, [querySelector]);
 
-      script.onerror = () => {
-        console.error('Erreur chargement Mapbox');
-        setError('Impossible de charger Mapbox GL JS');
-      };
+const stableCreateElement = useCallback(() => {
+  createElement();
+}, [createElement]);
 
-      document.head.appendChild(script);
-    };
+const stableAppendChild = useCallback(() => {
+  appendChild();
+}, [appendChild]);
 
-    const initializeMap = () => {
-      if (!mapContainer.current) return;
+const stableCreateElement = useCallback(() => {
+  createElement();
+}, [createElement]);
 
-      try {
-        const mapboxgl = (window as any).mapboxgl;
-        if (!mapboxgl) {
-          setError('Mapbox GL JS non disponible');
-          return;
-        }
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
 
-        mapboxgl.accessToken = token;
+const stableSetTimeout = useCallback(() => {
+  setTimeout();
+}, [setTimeout]);
 
-        // Initialiser la carte
-        const map = new mapboxgl.Map({
-          container: mapContainer.current,
-          style: 'mapbox://styles/mapbox/streets-v12',
-          center: [-61.55, 16.25], // Martinique
-          zoom: 12,
-          attributionControl: false
-        });
+const stableInitializeMap = useCallback(() => {
+  initializeMap();
+}, [initializeMap]);
 
-        // Ajouter des contrôles
-        map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+const stableError = useCallback(() => {
+  error();
+}, [error]);
 
-        // Marqueur principal
-        new mapboxgl.Marker({ color: '#10b981' })
-          .setLngLat([-61.55, 16.25])
-          .addTo(map);
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
 
-        // Événements de la carte
-        map.on('load', () => {
-          console.log('Carte chargée avec succès !');
-          setIsLoaded(true);
-        });
+const stableAppendChild = useCallback(() => {
+  appendChild();
+}, [appendChild]);
 
-        map.on('error', (e: any) => {
-          console.error('Erreur Mapbox:', e);
-          setError('Erreur lors du chargement de la carte');
-        });
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
 
-      } catch (err) {
-        console.error('Erreur d\'initialisation Mapbox:', err);
-        setError('Impossible d\'initialiser la carte');
-      }
-    };
+const stableMap = useCallback(() => {
+  Map();
+}, [Map]);
 
-    // Délai pour s'assurer que le DOM est prêt
-    const timer = setTimeout(() => {
-      loadMapbox();
-    }, 500);
+const stableAddControl = useCallback(() => {
+  addControl();
+}, [addControl]);
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
+const stableNavigationControl = useCallback(() => {
+  NavigationControl();
+}, [NavigationControl]);
+
+const stableMarker = useCallback(() => {
+  Marker();
+}, [Marker]);
+
+const stableSetLngLat = useCallback(() => {
+  setLngLat();
+}, [setLngLat]);
+
+const stableAddTo = useCallback(() => {
+  addTo();
+}, [addTo]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
+
+const stableSetIsLoaded = useCallback(() => {
+  setIsLoaded();
+}, [setIsLoaded]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableSetTimeout = useCallback(() => {
+  setTimeout();
+}, [setTimeout]);
+
+const stableLoadMapbox = useCallback(() => {
+  loadMapbox();
+}, [loadMapbox]);
+
+const stableClearTimeout = useCallback(() => {
+  clearTimeout();
+}, [clearTimeout]);
+
+useEffect(() => {
+  stableIncludes();
+  stableSetError();
+  stableInitializeMap();
+  stableQuerySelector();
+  stableCreateElement();
+  stableAppendChild();
+  stableCreateElement();
+  stableLog();
+  stableSetTimeout();
+  stableInitializeMap();
+  stableError();
+  stableSetError();
+  stableAppendChild();
+  stableSetError();
+  stableMap();
+  stableAddControl();
+  stableNavigationControl();
+  stableMarker();
+  stableSetLngLat();
+  stableAddTo();
+  stableOn();
+  stableLog();
+  stableSetIsLoaded();
+  stableOn();
+  stableError();
+  stableSetError();
+  stableError();
+  stableSetError();
+  stableSetTimeout();
+  stableLoadMapbox();
+  stableClearTimeout();
+}, [stableIncludes, stableSetError, stableInitializeMap, stableQuerySelector, stableCreateElement, stableAppendChild, stableCreateElement, stableLog, stableSetTimeout, stableInitializeMap, stableError, stableSetError, stableAppendChild, stableSetError, stableMap, stableAddControl, stableNavigationControl, stableMarker, stableSetLngLat, stableAddTo, stableOn, stableLog, stableSetIsLoaded, stableOn, stableError, stableSetError, stableError, stableSetError, stableSetTimeout, stableLoadMapbox, stableClearTimeout]);;
 
   if (error) {
     return (

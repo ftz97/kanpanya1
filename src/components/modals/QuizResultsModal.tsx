@@ -2,12 +2,12 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { useModals } from "@/components/system/ModalManager";
+import { useModal } from "@/components/modal/ModalManager";
 import { ScratchCard } from "@/components/ScratchCard";
 import type { QuizResult, ScratchReward } from "@/types";
 
 export default function QuizResultsModal({ results }: { results: QuizResult }) {
-  const { pop } = useModals();
+  const { close } = useModal();
   const [scratchReward, setScratchReward] = React.useState<ScratchReward | null>(null);
   const [showReward, setShowReward] = React.useState(false);
 

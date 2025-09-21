@@ -21,7 +21,7 @@ export default function TestScratchSimplePage() {
       
       <div className="mt-8 text-center">
         <p className="text-gray-600 mb-4">Ce composant utilise directement ScratchCard avec une récompense fixe</p>
-        <p className="text-sm text-gray-500">L'animation de pluie d'emoji devrait se déclencher après le grattage</p>
+        <p className="text-sm text-gray-500">L&apos;animation de pluie d&apos;emoji devrait se déclencher après le grattage</p>
       </div>
     </div>
   );

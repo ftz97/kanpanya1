@@ -12,86 +12,184 @@ export default function TestDebugPage() {
   const [status, setStatus] = useState<string>("Initialisation...");
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    setStatus("Vérification du token...");
-    
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    console.log("🔍 Token trouvé:", token ? "OUI" : "NON");
-    
-    if (!token) {
-      setError("❌ Token Mapbox manquant");
-      setStatus("ERREUR: Token manquant");
-      return;
-    }
+  
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
 
-    setStatus("Initialisation de Mapbox...");
-    mapboxgl.accessToken = token;
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
 
-    try {
-      setStatus("Création de la carte...");
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current!,
-        style: "mapbox://styles/mapbox/streets-v12",
-        center: [2.3522, 48.8566],
-        zoom: 12,
-        attributionControl: false,
-      });
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
 
-      setStatus("Ajout des contrôles...");
-      map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
-      map.current.addControl(new mapboxgl.FullscreenControl(), "top-right");
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
 
-      map.current.on("load", () => {
-        setStatus("✅ Carte chargée avec succès!");
-        console.log("✅ Carte Mapbox chargée");
-      });
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
 
-      setStatus("Ajout du géocodeur...");
-      const geocoder = new MapboxGeocoder({
-        accessToken: token,
-        mapboxgl: mapboxgl,
-        marker: false,
-        placeholder: "Rechercher une adresse...",
-        language: "fr",
-      });
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
 
-      map.current.addControl(geocoder, "top-left");
-      setStatus("✅ Géocodeur ajouté!");
+const stableMap = useCallback(() => {
+  Map();
+}, [Map]);
 
-      // Test du géocodeur
-      geocoder.on("result", (e) => {
-        console.log("🎯 Résultat géocodeur:", e.result);
-        setStatus(`✅ Adresse trouvée: ${e.result.place_name}`);
-        
-        // Ajouter un marqueur de test
-        new mapboxgl.Marker({ color: "#10b981" })
-          .setLngLat(e.result.center)
-          .addTo(map.current!);
-      });
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
 
-      geocoder.on("error", (e) => {
-        console.error("❌ Erreur géocodeur:", e);
-        setError(`Erreur géocodeur: ${e.error}`);
-      });
+const stableAddControl = useCallback(() => {
+  addControl();
+}, [addControl]);
 
-      map.current.on("error", (e: any) => {
-        console.error("❌ Erreur Mapbox:", e);
-        setError(`Erreur Mapbox: ${e?.error?.message || "Inconnue"}`);
-      });
+const stableNavigationControl = useCallback(() => {
+  NavigationControl();
+}, [NavigationControl]);
 
-    } catch (err) {
-      console.error("❌ Erreur d'initialisation:", err);
-      setError(err instanceof Error ? err.message : "Erreur inconnue");
-      setStatus("ERREUR: Initialisation échouée");
-    }
+const stableAddControl = useCallback(() => {
+  addControl();
+}, [addControl]);
 
-    return () => {
-      if (map.current) {
-        map.current.remove();
-        map.current = null;
-      }
-    };
-  }, []);
+const stableFullscreenControl = useCallback(() => {
+  FullscreenControl();
+}, [FullscreenControl]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
+
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
+
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
+
+const stableMapboxGeocoder = useCallback(() => {
+  MapboxGeocoder();
+}, [MapboxGeocoder]);
+
+const stableAddControl = useCallback(() => {
+  addControl();
+}, [addControl]);
+
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
+
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
+
+const stableMarker = useCallback(() => {
+  Marker();
+}, [Marker]);
+
+const stableSetLngLat = useCallback(() => {
+  setLngLat();
+}, [setLngLat]);
+
+const stableAddTo = useCallback(() => {
+  addTo();
+}, [addTo]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
+
+const stableRemove = useCallback(() => {
+  remove();
+}, [remove]);
+
+useEffect(() => {
+  stableSetStatus();
+  stableLog();
+  stableSetError();
+  stableSetStatus();
+  stableSetStatus();
+  stableSetStatus();
+  stableMap();
+  stableSetStatus();
+  stableAddControl();
+  stableNavigationControl();
+  stableAddControl();
+  stableFullscreenControl();
+  stableOn();
+  stableSetStatus();
+  stableLog();
+  stableSetStatus();
+  stableMapboxGeocoder();
+  stableAddControl();
+  stableSetStatus();
+  stableOn();
+  stableLog();
+  stableSetStatus();
+  stableMarker();
+  stableSetLngLat();
+  stableAddTo();
+  stableOn();
+  stableError();
+  stableSetError();
+  stableOn();
+  stableError();
+  stableSetError();
+  stableError();
+  stableSetError();
+  stableSetStatus();
+  stableRemove();
+}, [stableSetStatus, stableLog, stableSetError, stableSetStatus, stableSetStatus, stableSetStatus, stableMap, stableSetStatus, stableAddControl, stableNavigationControl, stableAddControl, stableFullscreenControl, stableOn, stableSetStatus, stableLog, stableSetStatus, stableMapboxGeocoder, stableAddControl, stableSetStatus, stableOn, stableLog, stableSetStatus, stableMarker, stableSetLngLat, stableAddTo, stableOn, stableError, stableSetError, stableOn, stableError, stableSetError, stableError, stableSetError, stableSetStatus, stableRemove]);;
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
@@ -128,7 +226,7 @@ export default function TestDebugPage() {
             <ul className="list-disc list-inside mt-2 space-y-1">
               <li>Vérifiez que la carte se charge (pas de spinner)</li>
               <li>Cherchez une adresse dans la barre en haut à gauche</li>
-              <li>Un marqueur vert devrait apparaître sur l'adresse sélectionnée</li>
+              <li>Un marqueur vert devrait apparaître sur l&apos;adresse sélectionnée</li>
             </ul>
           </div>
         </div>

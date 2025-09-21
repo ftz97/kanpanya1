@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-export default function RecommendationsTable({ filteredRecommendations }: { filteredRecommendations: any[] }) {
+export default function RecommendationsTable({ filteredRecommendations }: { filteredRecommendations: unknown[] }) {
   return (
     <table className="min-w-full divide-y divide-gray-200">
       <thead className="bg-gray-50">

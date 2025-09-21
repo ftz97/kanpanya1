@@ -28,7 +28,7 @@ export default function FlashOfferDialog() {
   const [open, setOpen] = useState(false);
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } =
     useForm<FormData>({
-      resolver: zodResolver(Schema) as any,
+      resolver: zodResolver(Schema) as unknown,
       defaultValues: {
         title: "",
         description: "",

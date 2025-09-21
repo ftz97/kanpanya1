@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import VideoModal from "./VideoModal";
+import VideoModal from "./modals/VideoModal";
 import Quiz from "./Quiz";
 import ScratchCard from "./ScratchCard";
 import ResultModal from "./ResultModal";

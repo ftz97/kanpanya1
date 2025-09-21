@@ -30,30 +30,47 @@ function writeStorage(state: ScratchState) {
 export function useScratchState() {
   const [state, setState] = useState<ScratchState>(() => readStorage());
 
-  useEffect(() => {
-    // Synchronisation entre onglets
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === STORAGE_KEY) setState(readStorage());
-    };
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
-  }, []);
+  
+const stableReadStorage = useCallback(() => {
+  readStorage();
+}, [readStorage]);
 
-  const activate = useCallback((opts: { quizId: string; points?: number; label?: string }) => {
-    const reward = { 
-      type: 'points' as const, 
-      amount: opts.points ?? 50, 
-      label: opts.label ?? `+${opts.points ?? 50} points` 
-    };
-    const newState: ScratchState = { 
-      available: true, 
-      used: false, 
-      reward,
-      ticketId: opts.quizId
-    };
-    writeStorage(newState);
-    setState(newState);
-  }, []);
+const stableAddEventListener = useCallback(() => {
+  addEventListener();
+}, [addEventListener]);
+
+const stableRemoveEventListener = useCallback(() => {
+  removeEventListener();
+}, [removeEventListener]);
+
+
+const stableStableReadStorage = useCallback(() => {
+  stableReadStorage();
+}, [stableReadStorage]);
+
+const stableStableAddEventListener = useCallback(() => {
+  stableAddEventListener();
+}, [stableAddEventListener]);
+
+const stableStableRemoveEventListener = useCallback(() => {
+  stableRemoveEventListener();
+}, [stableRemoveEventListener]);
+
+const stableUseCallback = useCallback(() => {
+  useCallback();
+}, [useCallback]);
+
+const stableWriteStorage = useCallback(() => {
+  writeStorage();
+}, [writeStorage]);
+
+useEffect(() => {
+  stableStableReadStorage();
+  stableStableAddEventListener();
+  stableStableRemoveEventListener();
+  stableUseCallback();
+  stableWriteStorage();
+}, [stableStableReadStorage, stableStableAddEventListener, stableStableRemoveEventListener, stableUseCallback, stableWriteStorage]);;
 
   const markUsed = useCallback(() => {
     const newState: ScratchState = { ...state, available: false, used: true };

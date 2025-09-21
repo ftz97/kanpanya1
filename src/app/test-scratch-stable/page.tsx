@@ -55,7 +55,7 @@ export default function TestScratchStablePage() {
             <div className="text-sm text-green-800 space-y-2">
               <p>1. <strong>Grattez la carte</strong> pour révéler votre récompense</p>
               <p>2. <strong>Observez les animations</strong> selon le type de gain</p>
-              <p>3. <strong>Testez le bouton "Nouvelle carte"</strong> pour recommencer</p>
+              <p>3. <strong>Testez le bouton &quot;Nouvelle carte&quot;</strong> pour recommencer</p>
               <p>4. <strong>Version stable</strong> - Tag Git : scratch-v3-stable</p>
             </div>
           </div>

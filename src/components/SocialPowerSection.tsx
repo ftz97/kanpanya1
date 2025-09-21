@@ -10,13 +10,14 @@ interface SocialPower {
 export default function SocialPowerSection() {
   const [data, setData] = useState<SocialPower[]>([]);
 
-  useEffect(() => {
-    // à remplacer par un vrai fetch API
-    setData([
-      { source_nom: "Barber Black&Gold", cible_nom: "Snack Latino", nb_clients_partages: 28 },
-      { source_nom: "Pizzeria Mario", cible_nom: "Carrefour Market", nb_clients_partages: 21 },
-    ]);
-  }, []);
+  
+const stableSetData = useCallback(() => {
+  setData();
+}, [setData]);
+
+useEffect(() => {
+  stableSetData();
+}, [stableSetData]);;
 
   return (
     <section className="p-6 bg-white rounded-xl shadow-lg">

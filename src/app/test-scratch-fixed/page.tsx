@@ -151,7 +151,7 @@ export default function TestScratchFixedPage() {
         <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
           <h3 className="font-semibold text-blue-800 mb-2">🎯 Instructions de Test</h3>
           <ul className="text-sm text-blue-700 space-y-1">
-            <li>• <strong>Test 10%</strong> : Le popup devrait s'afficher rapidement</li>
+            <li>• <strong>Test 10%</strong> : Le popup devrait s&apos;afficher rapidement</li>
             <li>• <strong>Test 50%</strong> : Il faut gratter la moitié de la carte</li>
             <li>• <strong>Test 90%</strong> : Il faut gratter presque toute la carte</li>
             <li>• <strong>Test 100%</strong> : Il faut gratter TOUTE la carte</li>

@@ -37,7 +37,7 @@ export default function PartnerSection({ onOpenVideo, onOpenSponsor }: PartnerSe
             Points doublés cette semaine ! 🎯
           </p>
           <p className="text-sm text-gray-600 leading-relaxed">
-            Profitez de l'offre spéciale : tous vos achats rapportent 2x plus de points Kanpanya
+            Profitez de l&apos;offre spéciale : tous vos achats rapportent 2x plus de points Kanpanya
           </p>
           <div className="mt-4 flex flex-col sm:flex-row gap-3">
             <button 

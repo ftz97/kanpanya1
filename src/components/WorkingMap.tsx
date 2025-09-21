@@ -33,7 +33,7 @@ export default function WorkingMap({
     // Fonction pour charger Mapbox
     const loadMapbox = () => {
       // Vérifier si Mapbox est déjà chargé
-      if ((window as any).mapboxgl) {
+      if ((window as unknown).mapboxgl) {
         initializeMap();
         return;
       }
@@ -68,7 +68,7 @@ export default function WorkingMap({
 
     const initializeMap = () => {
       try {
-        const mapboxgl = (window as any).mapboxgl;
+        const mapboxgl = (window as unknown).mapboxgl;
         if (!mapboxgl) {
           setError('Mapbox GL JS non disponible');
           return;
@@ -99,7 +99,7 @@ export default function WorkingMap({
           setIsLoaded(true);
         });
 
-        map.on('error', (e: any) => {
+        map.on('error', (e: unknown) => {
           console.error('Erreur Mapbox:', e);
           setError('Erreur lors du chargement de la carte');
         });

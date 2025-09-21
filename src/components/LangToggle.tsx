@@ -4,10 +4,19 @@ import { useState, useEffect } from "react";
 export default function LangToggle() {
   const [lang, setLang] = useState("fr");
 
-  useEffect(() => {
-    const savedLang = localStorage.getItem("lang") || "fr";
-    setLang(savedLang);
-  }, []);
+  
+const stableGetItem = useCallback(() => {
+  getItem();
+}, [getItem]);
+
+const stableSetLang = useCallback(() => {
+  setLang();
+}, [setLang]);
+
+useEffect(() => {
+  stableGetItem();
+  stableSetLang();
+}, [stableGetItem, stableSetLang]);;
 
   const changeLang = (newLang: string) => {
     setLang(newLang);

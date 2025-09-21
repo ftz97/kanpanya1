@@ -46,7 +46,7 @@ export default function TestQuiz() {
             Votre score : <span className="font-semibold">{score}</span> / {questions.length}
           </p>
           <p className="mt-3 text-green-600 font-medium">+{score * 15} points</p>
-          <p className="mt-2 text-gray-500">Merci d'avoir participé 🙏</p>
+          <p className="mt-2 text-gray-500">Merci d&apos;avoir participé 🙏</p>
           <button
             onClick={() => {
               setCurrentQuestion(0);

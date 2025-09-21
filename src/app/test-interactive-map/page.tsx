@@ -19,7 +19,7 @@ export default function TestInteractiveMapPage() {
             <div className="p-4 bg-blue-50 rounded-lg">
               <h3 className="font-semibold text-blue-800 mb-2">📍 Points</h3>
               <p className="text-blue-700 text-sm">
-                Cliquez sur l'outil Point pour ajouter des marqueurs et obtenir des informations de géocodage
+                Cliquez sur l&apos;outil Point pour ajouter des marqueurs et obtenir des informations de géocodage
               </p>
             </div>
             
@@ -40,7 +40,7 @@ export default function TestInteractiveMapPage() {
         </div>
 
         <div className="mt-8 bg-yellow-50 rounded-lg border border-yellow-200 p-6">
-          <h2 className="text-xl font-semibold mb-4 text-yellow-800">📝 Guide d'utilisation</h2>
+          <h2 className="text-xl font-semibold mb-4 text-yellow-800">📝 Guide d&apos;utilisation</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-yellow-700">
             <div>
               <h3 className="font-semibold mb-2">🎨 Créer des éléments :</h3>
@@ -48,7 +48,7 @@ export default function TestInteractiveMapPage() {
                 <li>1. Cliquez sur un outil de dessin</li>
                 <li>2. Dessinez sur la carte</li>
                 <li>3. Pour les zones : donnez un nom au quartier</li>
-                <li>4. Les éléments s'affichent avec des couleurs uniques</li>
+                <li>4. Les éléments s&apos;affichent avec des couleurs uniques</li>
               </ul>
             </div>
             
@@ -56,7 +56,7 @@ export default function TestInteractiveMapPage() {
               <h3 className="font-semibold mb-2">🔧 Gestion :</h3>
               <ul className="space-y-1 text-sm">
                 <li>• Cliquez sur un quartier pour le sélectionner</li>
-                <li>• Utilisez l'outil poubelle pour supprimer</li>
+                <li>• Utilisez l&apos;outil poubelle pour supprimer</li>
                 <li>• Les points affichent des infos de géocodage</li>
                 <li>• Tous les éléments sont sauvegardés</li>
               </ul>

@@ -4,10 +4,10 @@ import { useState } from 'react';
 import SearchBar from '@/components/SearchBar';
 
 export default function TestSearchPage() {
-  const [selectedLocation, setSelectedLocation] = useState<any>(null);
-  const [searchHistory, setSearchHistory] = useState<any[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<unknown>(null);
+  const [searchHistory, setSearchHistory] = useState<unknown[]>([]);
 
-  const handleLocationSelect = (result: any) => {
+  const handleLocationSelect = (result: unknown) => {
     setSelectedLocation(result);
     setSearchHistory(prev => [result, ...prev.slice(0, 4)]); // Garder les 5 dernières recherches
   };
@@ -106,19 +106,19 @@ export default function TestSearchPage() {
               <div>
                 <h3 className="font-medium mb-2">Recherches avec fautes de frappe :</h3>
                 <ul className="space-y-1">
-                  <li>• "fort de france" (sans tirets)</li>
-                  <li>• "lamentin" (sans majuscule)</li>
-                  <li>• "schoelcher" (sans accent)</li>
-                  <li>• "saint pierre" (sans tiret)</li>
+                  <li>• &quot;fort de france&quot; (sans tirets)</li>
+                  <li>• &quot;lamentin&quot; (sans majuscule)</li>
+                  <li>• &quot;schoelcher&quot; (sans accent)</li>
+                  <li>• &quot;saint pierre&quot; (sans tiret)</li>
                 </ul>
               </div>
               <div>
                 <h3 className="font-medium mb-2">Recherches partielles :</h3>
                 <ul className="space-y-1">
-                  <li>• "fort" → devrait trouver Fort-de-France</li>
-                  <li>• "rue victor" → devrait trouver Rue Victor Hugo</li>
-                  <li>• "anse" → devrait trouver Anse Mitan</li>
-                  <li>• "saint" → devrait trouver Saint-Pierre, Sainte-Marie</li>
+                  <li>• &quot;fort&quot; → devrait trouver Fort-de-France</li>
+                  <li>• &quot;rue victor&quot; → devrait trouver Rue Victor Hugo</li>
+                  <li>• &quot;anse&quot; → devrait trouver Anse Mitan</li>
+                  <li>• &quot;saint&quot; → devrait trouver Saint-Pierre, Sainte-Marie</li>
                 </ul>
               </div>
             </div>

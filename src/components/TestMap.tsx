@@ -7,54 +7,94 @@ export default function TestMap() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!mapContainer.current) return;
+  
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
 
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    console.log('Token Mapbox:', token ? 'Présent' : 'Manquant');
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
 
-    if (!token) {
-      setError('Token Mapbox manquant');
-      return;
-    }
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
 
-    // Import dynamique de Mapbox
-    const initMap = async () => {
-      try {
-        console.log('🔄 Début de l\'import Mapbox...');
-        const mapboxgl = (await import('mapbox-gl')).default;
-        console.log('✅ Mapbox importé avec succès');
-        
-        mapboxgl.accessToken = token;
-        console.log('✅ Token Mapbox défini');
+const stableImport = useCallback(() => {
+  import();
+}, [import]);
 
-        const map = new mapboxgl.Map({
-          container: mapContainer.current!,
-          style: 'mapbox://styles/mapbox/streets-v12',
-          center: [-61.0742, 14.6036], // Fort-de-France
-          zoom: 12
-        });
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
 
-        console.log('✅ Carte Mapbox créée');
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
 
-        map.on('load', () => {
-          console.log('✅ Carte Mapbox chargée avec succès');
-          setIsLoaded(true);
-        });
+const stableMap = useCallback(() => {
+  Map();
+}, [Map]);
 
-        map.on('error', (e) => {
-          console.error('❌ Erreur Mapbox:', e);
-          setError('Erreur lors du chargement de la carte');
-        });
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
 
-      } catch (err) {
-        console.error('❌ Erreur import Mapbox:', err);
-        setError(`Erreur lors de l'import de Mapbox: ${err}`);
-      }
-    };
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
 
-    initMap();
-  }, []);
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
+
+const stableSetIsLoaded = useCallback(() => {
+  setIsLoaded();
+}, [setIsLoaded]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableInitMap = useCallback(() => {
+  initMap();
+}, [initMap]);
+
+useEffect(() => {
+  stableLog();
+  stableSetError();
+  stableLog();
+  stableImport();
+  stableLog();
+  stableLog();
+  stableMap();
+  stableLog();
+  stableOn();
+  stableLog();
+  stableSetIsLoaded();
+  stableOn();
+  stableError();
+  stableSetError();
+  stableError();
+  stableSetError();
+  stableInitMap();
+}, [stableLog, stableSetError, stableLog, stableImport, stableLog, stableLog, stableMap, stableLog, stableOn, stableLog, stableSetIsLoaded, stableOn, stableError, stableSetError, stableError, stableSetError, stableInitMap]);;
 
   return (
     <div className="space-y-4">

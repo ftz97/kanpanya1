@@ -4,38 +4,62 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function ScratchHistory() {
   const supabase = createClientComponentClient();
-  const [logs, setLogs] = useState<any[]>([]);
+  const [logs, setLogs] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        let { data } = await supabase
-          .from("scratch_ticket_logs")
-          .select(`
-            id, 
-            result, 
-            created_at, 
-            user_id,
-            config_id,
-            scratch_configs!inner(badge, sponsor_name)
-          `)
-          .order("created_at", { ascending: false })
-          .limit(50);
-        setLogs(data ?? []);
-      } catch (error) {
-        console.error("Erreur chargement historique:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
+  
+const stableFrom = useCallback(() => {
+  from();
+}, [from]);
+
+const stableSelect = useCallback(() => {
+  select();
+}, [select]);
+
+const stableInner = useCallback(() => {
+  inner();
+}, [inner]);
+
+const stableOrder = useCallback(() => {
+  order();
+}, [order]);
+
+const stableLimit = useCallback(() => {
+  limit();
+}, [limit]);
+
+const stableSetLogs = useCallback(() => {
+  setLogs();
+}, [setLogs]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetLoading = useCallback(() => {
+  setLoading();
+}, [setLoading]);
+
+const stableLoad = useCallback(() => {
+  load();
+}, [load]);
+
+useEffect(() => {
+  stableFrom();
+  stableSelect();
+  stableInner();
+  stableOrder();
+  stableLimit();
+  stableSetLogs();
+  stableError();
+  stableSetLoading();
+  stableLoad();
+}, [stableFrom, stableSelect, stableInner, stableOrder, stableLimit, stableSetLogs, stableError, stableSetLoading, stableLoad]);;
 
   if (loading) {
     return (
       <div className="flex items-center justify-center p-6">
-        <div className="text-xl">Chargement de l'historique...</div>
+        <div className="text-xl">Chargement de l&apos;historique...</div>
       </div>
     );
   }

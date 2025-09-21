@@ -55,7 +55,7 @@ const options = [
 export default function FixedMacroView() {
   const [selectedOptions, setSelectedOptions] = useState<string[]>(["Trafic"]);
   const [zones, setZones] = useState<
-    { name: string; polygon: any; professions: Record<string, number> }[]
+    { name: string; polygon: unknown; professions: Record<string, number> }[]
   >([]);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
@@ -66,7 +66,7 @@ export default function FixedMacroView() {
     );
   };
 
-  const handleCreate = (feature: any) => {
+  const handleCreate = (feature: unknown) => {
     const name = prompt("Nom du quartier ?");
     if (!name) return;
     const professions = {

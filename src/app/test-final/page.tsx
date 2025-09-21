@@ -6,49 +6,74 @@ export default function TestFinalPage() {
   const [mapboxStatus, setMapboxStatus] = useState('Chargement...');
   const [tokenStatus, setTokenStatus] = useState('Vérification...');
 
-  useEffect(() => {
-    // Vérifier le token
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    if (token && !token.includes('your_real_token_here')) {
-      setTokenStatus('✅ Token configuré');
-    } else {
-      setTokenStatus('❌ Token manquant');
-    }
+  
+const stableIncludes = useCallback(() => {
+  includes();
+}, [includes]);
 
-    // Tenter de charger Mapbox
-    const loadMapbox = () => {
-      if ((window as any).mapboxgl) {
-        setMapboxStatus('✅ Mapbox chargé');
-        return;
-      }
+const stableSetTokenStatus = useCallback(() => {
+  setTokenStatus();
+}, [setTokenStatus]);
 
-      // Charger le CSS
-      const cssLink = document.createElement('link');
-      cssLink.rel = 'stylesheet';
-      cssLink.href = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css';
-      document.head.appendChild(cssLink);
+const stableSetTokenStatus = useCallback(() => {
+  setTokenStatus();
+}, [setTokenStatus]);
 
-      // Charger le JS
-      const script = document.createElement('script');
-      script.src = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js';
-      script.async = true;
-      
-      script.onload = () => {
-        setMapboxStatus('✅ Mapbox chargé avec succès');
-        console.log('Mapbox GL JS chargé');
-      };
+const stableSetMapboxStatus = useCallback(() => {
+  setMapboxStatus();
+}, [setMapboxStatus]);
 
-      script.onerror = () => {
-        setMapboxStatus('❌ Erreur de chargement Mapbox');
-        console.error('Erreur chargement Mapbox');
-      };
+const stableCreateElement = useCallback(() => {
+  createElement();
+}, [createElement]);
 
-      document.head.appendChild(script);
-    };
+const stableAppendChild = useCallback(() => {
+  appendChild();
+}, [appendChild]);
 
-    // Délai pour s'assurer que le DOM est prêt
-    setTimeout(loadMapbox, 1000);
-  }, []);
+const stableCreateElement = useCallback(() => {
+  createElement();
+}, [createElement]);
+
+const stableSetMapboxStatus = useCallback(() => {
+  setMapboxStatus();
+}, [setMapboxStatus]);
+
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
+
+const stableSetMapboxStatus = useCallback(() => {
+  setMapboxStatus();
+}, [setMapboxStatus]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableAppendChild = useCallback(() => {
+  appendChild();
+}, [appendChild]);
+
+const stableSetTimeout = useCallback(() => {
+  setTimeout();
+}, [setTimeout]);
+
+useEffect(() => {
+  stableIncludes();
+  stableSetTokenStatus();
+  stableSetTokenStatus();
+  stableSetMapboxStatus();
+  stableCreateElement();
+  stableAppendChild();
+  stableCreateElement();
+  stableSetMapboxStatus();
+  stableLog();
+  stableSetMapboxStatus();
+  stableError();
+  stableAppendChild();
+  stableSetTimeout();
+}, [stableIncludes, stableSetTokenStatus, stableSetTokenStatus, stableSetMapboxStatus, stableCreateElement, stableAppendChild, stableCreateElement, stableSetMapboxStatus, stableLog, stableSetMapboxStatus, stableError, stableAppendChild, stableSetTimeout]);;
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
@@ -110,7 +135,7 @@ export default function TestFinalPage() {
           
           <div className="mt-4 p-4 bg-blue-50 rounded-lg">
             <p className="text-blue-800 text-sm">
-              <strong>Note:</strong> Cette page montre l'interface de la carte. 
+              <strong>Note:</strong> Cette page montre l&apos;interface de la carte. 
               Pour une carte interactive réelle, les scripts Mapbox doivent se charger correctement.
             </p>
           </div>

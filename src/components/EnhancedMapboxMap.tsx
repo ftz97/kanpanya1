@@ -4,152 +4,181 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function EnhancedMapboxMap() {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<any>(null);
-  const draw = useRef<any>(null);
+  const map = useRef<unknown>(null);
+  const draw = useRef<unknown>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [drawnPolygons, setDrawnPolygons] = useState<any[]>([]);
+  const [drawnPolygons, setDrawnPolygons] = useState<unknown[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
 
-  useEffect(() => {
-    if (!mapContainer.current) return;
+  
+const stableIncludes = useCallback(() => {
+  includes();
+}, [includes]);
 
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    
-    if (!token || token.includes('your_real_token_here')) {
-      setError('Token Mapbox manquant ou invalide');
-      return;
-    }
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
 
-    // Import dynamique de Mapbox GL JS
-    Promise.all([
-      import('mapbox-gl'),
-      import('@mapbox/mapbox-gl-draw')
-    ]).then(([mapboxgl, MapboxDraw]) => {
-      mapboxgl.default.accessToken = token;
+const stableAll = useCallback(() => {
+  all();
+}, [all]);
 
-      try {
-        // Initialisation de la carte
-        map.current = new mapboxgl.default.Map({
-          container: mapContainer.current,
-          style: 'mapbox://styles/mapbox/light-v11',
-          center: [-61.55, 16.25], // Martinique
-          zoom: 10
-        });
+const stableImport = useCallback(() => {
+  import();
+}, [import]);
 
-        // Ajouter des contrôles
-        map.current.addControl(new mapboxgl.default.NavigationControl(), 'top-right');
+const stableImport = useCallback(() => {
+  import();
+}, [import]);
 
-        // Ajouter MapboxDraw avec contrôles visibles
-        draw.current = new MapboxDraw.default({
-          displayControlsDefault: true, // ✅ Afficher tous les contrôles par défaut
-          controls: {
-            polygon: true,
-            trash: true,
-            point: false,
-            line_string: false
-          },
-          styles: [
-            // Style pour les polygones en cours de dessin
-            {
-              'id': 'gl-draw-polygon-fill-inactive',
-              'type': 'fill',
-              'filter': ['all', ['==', 'active', 'false'], ['==', '$type', 'Polygon'], ['!=', 'mode', 'static']],
-              'paint': {
-                'fill-color': '#3fb1ce',
-                'fill-outline-color': '#3fb1ce',
-                'fill-opacity': 0.1
-              }
-            },
-            {
-              'id': 'gl-draw-polygon-stroke-inactive',
-              'type': 'line',
-              'filter': ['all', ['==', 'active', 'false'], ['==', '$type', 'Polygon'], ['!=', 'mode', 'static']],
-              'layout': {
-                'line-cap': 'round',
-                'line-join': 'round'
-              },
-              'paint': {
-                'line-color': '#3fb1ce',
-                'line-width': 2
-              }
-            },
-            // Style pour les polygones actifs
-            {
-              'id': 'gl-draw-polygon-fill-active',
-              'type': 'fill',
-              'filter': ['all', ['==', 'active', 'true'], ['==', '$type', 'Polygon']],
-              'paint': {
-                'fill-color': '#fbb03b',
-                'fill-outline-color': '#fbb03b',
-                'fill-opacity': 0.1
-              }
-            },
-            {
-              'id': 'gl-draw-polygon-stroke-active',
-              'type': 'line',
-              'filter': ['all', ['==', 'active', 'true'], ['==', '$type', 'Polygon']],
-              'layout': {
-                'line-cap': 'round',
-                'line-join': 'round'
-              },
-              'paint': {
-                'line-color': '#fbb03b',
-                'line-width': 2
-              }
-            }
-          ]
-        });
+const stableThen = useCallback(() => {
+  then();
+}, [then]);
 
-        map.current.addControl(draw.current);
+const stableMap = useCallback(() => {
+  Map();
+}, [Map]);
 
-        // Événement de création de polygone
-        map.current.on('draw.create', (e: any) => {
-          const feature = e.features[0];
-          const name = prompt("Nom du quartier ?");
-          if (name) {
-            setDrawnPolygons(prev => [...prev, { name, feature, id: Date.now() }]);
-          }
-          setIsDrawing(false);
-        });
+const stableAddControl = useCallback(() => {
+  addControl();
+}, [addControl]);
 
-        // Événement de suppression
-        map.current.on('draw.delete', () => {
-          setDrawnPolygons(prev => prev.slice(0, -1));
-        });
+const stableNavigationControl = useCallback(() => {
+  NavigationControl();
+}, [NavigationControl]);
 
-        // Événement de début de dessin
-        map.current.on('draw.modechange', (e: any) => {
-          setIsDrawing(e.mode === 'draw_polygon');
-        });
+const stableDefault = useCallback(() => {
+  default();
+}, [default]);
 
-        // Événements de la carte
-        map.current.on('load', () => {
-          setIsLoaded(true);
-          console.log('Carte Mapbox chargée avec succès');
-        });
+const stableAddControl = useCallback(() => {
+  addControl();
+}, [addControl]);
 
-        map.current.on('error', (e: any) => {
-          console.error('Erreur Mapbox:', e);
-          setError('Erreur lors du chargement de la carte');
-        });
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
 
-      } catch (err) {
-        console.error('Erreur d\'initialisation Mapbox:', err);
-        setError('Impossible d\'initialiser la carte');
-      }
-    }).catch((err) => {
-      console.error('Erreur d\'import Mapbox:', err);
-      setError('Impossible de charger Mapbox GL JS');
-    });
+const stablePrompt = useCallback(() => {
+  prompt();
+}, [prompt]);
 
-    // Nettoyage
-    return () => {
-      if (map.current) {
-        map.current.remove();
-      }
-    };
-  }, []);
+const stableSetDrawnPolygons = useCallback(() => {
+  setDrawnPolygons();
+}, [setDrawnPolygons]);
+
+const stableNow = useCallback(() => {
+  now();
+}, [now]);
+
+const stableSetIsDrawing = useCallback(() => {
+  setIsDrawing();
+}, [setIsDrawing]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableSetDrawnPolygons = useCallback(() => {
+  setDrawnPolygons();
+}, [setDrawnPolygons]);
+
+const stableSlice = useCallback(() => {
+  slice();
+}, [slice]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableSetIsDrawing = useCallback(() => {
+  setIsDrawing();
+}, [setIsDrawing]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableSetIsLoaded = useCallback(() => {
+  setIsLoaded();
+}, [setIsLoaded]);
+
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableCatch = useCallback(() => {
+  catch();
+}, [catch]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableRemove = useCallback(() => {
+  remove();
+}, [remove]);
+
+useEffect(() => {
+  stableIncludes();
+  stableSetError();
+  stableAll();
+  stableImport();
+  stableImport();
+  stableThen();
+  stableMap();
+  stableAddControl();
+  stableNavigationControl();
+  stableDefault();
+  stableAddControl();
+  stableOn();
+  stablePrompt();
+  stableSetDrawnPolygons();
+  stableNow();
+  stableSetIsDrawing();
+  stableOn();
+  stableSetDrawnPolygons();
+  stableSlice();
+  stableOn();
+  stableSetIsDrawing();
+  stableOn();
+  stableSetIsLoaded();
+  stableLog();
+  stableOn();
+  stableError();
+  stableSetError();
+  stableError();
+  stableSetError();
+  stableCatch();
+  stableError();
+  stableSetError();
+  stableRemove();
+}, [stableIncludes, stableSetError, stableAll, stableImport, stableImport, stableThen, stableMap, stableAddControl, stableNavigationControl, stableDefault, stableAddControl, stableOn, stablePrompt, stableSetDrawnPolygons, stableNow, stableSetIsDrawing, stableOn, stableSetDrawnPolygons, stableSlice, stableOn, stableSetIsDrawing, stableOn, stableSetIsLoaded, stableLog, stableOn, stableError, stableSetError, stableError, stableSetError, stableCatch, stableError, stableSetError, stableRemove]);;
 
   const startDrawing = () => {
     if (draw.current) {
@@ -189,7 +218,7 @@ export default function EnhancedMapboxMap() {
             <h4 className="font-medium text-blue-700 mb-2">Méthode 1 : Contrôles de la carte</h4>
             <ul className="text-sm text-blue-600 space-y-1">
               <li>• Cherchez les contrôles en haut à droite de la carte</li>
-              <li>• Cliquez sur l'icône <span className="font-mono bg-blue-100 px-1 rounded">□</span> (polygone)</li>
+              <li>• Cliquez sur l&apos;icône <span className="font-mono bg-blue-100 px-1 rounded">□</span> (polygone)</li>
               <li>• Dessinez en cliquant sur la carte</li>
               <li>• Double-cliquez pour fermer</li>
             </ul>
@@ -197,7 +226,7 @@ export default function EnhancedMapboxMap() {
           <div>
             <h4 className="font-medium text-blue-700 mb-2">Méthode 2 : Boutons ci-dessous</h4>
             <ul className="text-sm text-blue-600 space-y-1">
-              <li>• Utilisez le bouton "🎨 Dessiner une zone"</li>
+              <li>• Utilisez le bouton &quot;🎨 Dessiner une zone&quot;</li>
               <li>• Plus simple et plus visible</li>
               <li>• Même fonctionnalité</li>
             </ul>

@@ -181,7 +181,7 @@ export default function TestThresholdFixPage() {
             <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
               <h3 className="font-semibold text-blue-800 mb-2">🎯 Instructions de Test</h3>
               <ul className="text-sm text-blue-700 space-y-1">
-                <li>• <strong>Test 10%</strong> : Le popup devrait s'afficher rapidement</li>
+                <li>• <strong>Test 10%</strong> : Le popup devrait s&apos;afficher rapidement</li>
                 <li>• <strong>Test 50%</strong> : Il faut gratter la moitié de la carte</li>
                 <li>• <strong>Test 90%</strong> : Il faut gratter presque toute la carte</li>
                 <li>• <strong>Test 100%</strong> : Il faut gratter TOUTE la carte</li>
@@ -195,7 +195,7 @@ export default function TestThresholdFixPage() {
           <div className="text-sm text-green-700 space-y-1">
             <p><strong>Problème identifié :</strong> Calcul du threshold complètement faux</p>
             <p><strong>Correction appliquée :</strong> Calcul correct du pourcentage de grattage</p>
-            <p><strong>Commit effectué :</strong> f9c4664 - "fix: Correction CRITIQUE du calcul de threshold"</p>
+            <p><strong>Commit effectué :</strong> f9c4664 - &quot;fix: Correction CRITIQUE du calcul de threshold&quot;</p>
             <p><strong>Status :</strong> ✅ Le threshold fonctionne maintenant correctement !</p>
           </div>
         </div>

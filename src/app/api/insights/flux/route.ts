@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import OpenAI from "openai";
 
 // Vérifier si la clé OpenAI est disponible
 const getOpenAI = () => {
@@ -6,7 +7,6 @@ const getOpenAI = () => {
     return null;
   }
   
-  const OpenAI = require("openai");
   return new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     }
 
     // Préparer les données pour l'analyse IA
-    const fluxData = links.map((link: any) => ({
+    const fluxData = links.map((link: unknown) => ({
       source: link.source?.name || "Inconnu",
       target: link.target?.name || "Inconnu", 
       value: link.value || 0,

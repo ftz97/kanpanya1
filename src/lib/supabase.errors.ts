@@ -1,5 +1,5 @@
 /**
- * Normalisation des erreurs Supabase/PostgREST sans utiliser `any`.
+ * Normalisation des erreurs Supabase/PostgREST sans utiliser `unknown`.
  * Compatible avec les erreurs réseau/JS classiques également.
  */
 

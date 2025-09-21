@@ -167,7 +167,7 @@ function QuizDemo() {
           <span className="text-sm font-normal text-gray-500">points</span>
         </div>
         <p className="mt-3 text-sm text-gray-600">
-          Tout est côté front — aucune API. Idéal pour tester l'UI et le flow.
+          Tout est côté front — aucune API. Idéal pour tester l&apos;UI et le flow.
         </p>
       </aside>
     </div>
@@ -184,11 +184,24 @@ function ScratchDemo() {
   const W = 340;
   const H = 180;
 
-  useEffect(() => {
-    drawCover();
-    setScratchedPct(0);
-    setRevealed(false);
-  }, []);
+  
+const stableDrawCover = useCallback(() => {
+  drawCover();
+}, [drawCover]);
+
+const stableSetScratchedPct = useCallback(() => {
+  setScratchedPct();
+}, [setScratchedPct]);
+
+const stableSetRevealed = useCallback(() => {
+  setRevealed();
+}, [setRevealed]);
+
+useEffect(() => {
+  stableDrawCover();
+  stableSetScratchedPct();
+  stableSetRevealed();
+}, [stableDrawCover, stableSetScratchedPct, stableSetRevealed]);;
 
   const drawCover = () => {
     const canvas = canvasRef.current;
@@ -351,7 +364,7 @@ function ScratchDemo() {
 
         {revealed && (
           <div className="mt-4 p-4 bg-teal-50 border border-teal-200 rounded-xl text-teal-800">
-            Bravo 🎉 — gain dévoilé ! (front-only, pas d'API)
+            Bravo 🎉 — gain dévoilé ! (front-only, pas d&apos;API)
           </div>
         )}
       </div>

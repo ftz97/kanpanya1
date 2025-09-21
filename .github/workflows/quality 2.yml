@@ -1,0 +1,79 @@
+name: Quality Gate
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.0
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run TypeScript check
+        run: pnpm run typecheck
+
+      - name: Run ESLint
+        run: pnpm run lint
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Build application
+        run: pnpm run build
+
+      - name: Start application
+        run: pnpm start &
+        env:
+          NODE_ENV: production
+
+      - name: Wait for application
+        run: npx wait-on http://localhost:3000 --timeout 60000
+
+      - name: Run Playwright tests
+        run: pnpm run test:e2e:dot
+        env:
+          BASE_URL: http://localhost:3000
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  quality-summary:
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+    if: always()
+    
+    steps:
+      - name: Quality Gate Summary
+        run: |
+          if [ "${{ needs.lint-and-test.result }}" == "success" ]; then
+            echo "✅ Quality Gate PASSED"
+            echo "🎉 All checks passed successfully!"
+          else
+            echo "❌ Quality Gate FAILED"
+            echo "🚨 Please fix the issues before merging"
+            exit 1
+          fi

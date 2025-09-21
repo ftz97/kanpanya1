@@ -7,25 +7,24 @@ import "mapbox-gl/dist/mapbox-gl.css";
 export default function TestMap() {
   const mapContainer = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!mapContainer.current) return;
+  
+const stableError = useCallback(() => {
+  error();
+}, [error]);
 
-    if (!process.env.NEXT_PUBLIC_MAPBOX_TOKEN) {
-      console.error("❌ Pas de token Mapbox trouvé");
-      return;
-    }
+const stableMap = useCallback(() => {
+  Map();
+}, [Map]);
 
-    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+const stableRemove = useCallback(() => {
+  remove();
+}, [remove]);
 
-    const map = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v12",
-      center: [2.3522, 48.8566], // Paris
-      zoom: 12,
-    });
-
-    return () => map.remove();
-  }, []);
+useEffect(() => {
+  stableError();
+  stableMap();
+  stableRemove();
+}, [stableError, stableMap, stableRemove]);;
 
   return (
     <div

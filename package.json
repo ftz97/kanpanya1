@@ -2,6 +2,7 @@
   "name": "padavwa",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "packageManager": "pnpm@10.15.0",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
@@ -42,7 +43,9 @@
     "test:i18n": "npx tsx scripts/test-i18n-manual.ts",
     "storybook": "storybook dev -p 6007",
     "build-storybook": "storybook build",
-    "chromatic": "chromatic --project-token=$CHROMATIC_PROJECT_TOKEN"
+    "chromatic": "chromatic --project-token=$CHROMATIC_PROJECT_TOKEN",
+      "deploy": "git add -A && git commit -m \"deploy: $(date '+%Y-%m-%d %H:%M:%S')\" && git push origin main",
+      "lint:report": "node scripts/lint-report-simple.js"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.4.0",

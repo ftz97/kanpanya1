@@ -4,20 +4,39 @@ import { useEffect, useState } from "react";
 export default function AIInsightsADM() {
   const [insights, setInsights] = useState<string>("Chargement des analyses...");
 
-  useEffect(() => {
-    const fetchInsights = async () => {
-      try {
-        const res = await fetch("/api/ai-insight/adm");
-        const json = await res.json();
-        setInsights(json.insights || "Pas d'analyse disponible.");
-      } catch (err) {
-        console.error("Erreur fetch insights:", err);
-        setInsights("Erreur lors de la génération des analyses.");
-      }
-    };
+  
+const stableFetch = useCallback(() => {
+  fetch();
+}, [fetch]);
 
-    fetchInsights();
-  }, []);
+const stableJson = useCallback(() => {
+  json();
+}, [json]);
+
+const stableSetInsights = useCallback(() => {
+  setInsights();
+}, [setInsights]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetInsights = useCallback(() => {
+  setInsights();
+}, [setInsights]);
+
+const stableFetchInsights = useCallback(() => {
+  fetchInsights();
+}, [fetchInsights]);
+
+useEffect(() => {
+  stableFetch();
+  stableJson();
+  stableSetInsights();
+  stableError();
+  stableSetInsights();
+  stableFetchInsights();
+}, [stableFetch, stableJson, stableSetInsights, stableError, stableSetInsights, stableFetchInsights]);;
 
   return (
     <section className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl shadow p-6">

@@ -6,7 +6,7 @@ export default function PlusPage() {
   return (
     <div className="container max-w-6xl mx-auto px-4 space-y-8">
       <section className="space-y-4">
-        <h1 className="text-3xl font-bold">Plus d'options</h1>
+        <h1 className="text-3xl font-bold">Plus d&apos;options</h1>
         <p className="text-muted-foreground">
           Gérez votre compte et découvrez toutes les fonctionnalités de Kanpanya
         </p>
@@ -52,7 +52,7 @@ export default function PlusPage() {
       </div>
 
       <section className="rounded-2xl p-8 border bg-white shadow-[0_18px_40px_-16px_rgba(15,23,42,.15)]">
-        <h2 className="text-2xl font-semibold text-center kp-text-mint-600 mb-4">Besoin d'aide ?</h2>
+        <h2 className="text-2xl font-semibold text-center kp-text-mint-600 mb-4">Besoin d&apos;aide ?</h2>
         <p className="text-center text-muted-foreground mb-6">
           Notre équipe est là pour vous accompagner dans votre expérience Kanpanya
         </p>

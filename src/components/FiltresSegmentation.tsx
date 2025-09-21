@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface FiltresSegmentationProps {
-  onFiltresChange: (filtres: any) => void;
+  onFiltresChange: (filtres: unknown) => void;
 }
 
 export default function FiltresSegmentation({ onFiltresChange }: FiltresSegmentationProps) {
@@ -84,9 +84,9 @@ export default function FiltresSegmentation({ onFiltresChange }: FiltresSegmenta
     const currentValues = newFiltres[type][field as keyof typeof newFiltres[typeof type]] as string[];
     
     if (checked) {
-      newFiltres[type][field as keyof typeof newFiltres[typeof type]] = [...currentValues, value] as any;
+      newFiltres[type][field as keyof typeof newFiltres[typeof type]] = [...currentValues, value] as unknown;
     } else {
-      newFiltres[type][field as keyof typeof newFiltres[typeof type]] = currentValues.filter(v => v !== value) as any;
+      newFiltres[type][field as keyof typeof newFiltres[typeof type]] = currentValues.filter(v => v !== value) as unknown;
     }
     
     setFiltres(newFiltres);

@@ -163,9 +163,9 @@ export default function CarteQuartierWorking() {
         <h3 className="font-semibold text-blue-800 mb-2">📝 Instructions :</h3>
         <ul className="text-sm text-blue-700 space-y-1">
           <li>1. Tapez une adresse dans la barre de recherche</li>
-          <li>2. Cliquez sur un résultat pour l'ajouter</li>
+          <li>2. Cliquez sur un résultat pour l&apos;ajouter</li>
           <li>3. Ajoutez au moins 3 adresses</li>
-          <li>4. Cliquez sur "Créer quartier automatiquement"</li>
+          <li>4. Cliquez sur &quot;Créer quartier automatiquement&quot;</li>
         </ul>
       </div>
     </div>

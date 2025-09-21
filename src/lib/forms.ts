@@ -1,4 +1,4 @@
-import { type FormDataEntryValue } from "form-data";
+// Utilisation du type natif FormDataEntryValue du navigateur
 
 // Helper pour extraire les valeurs d'un formulaire de manière typée
 export function extractFormData<T extends Record<string, FormDataEntryValue>>(

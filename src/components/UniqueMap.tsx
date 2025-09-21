@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Map, { Source, Layer } from "react-map-gl/mapbox";
+import Map, { Source, Layer } from "react-map-gl";
 
 const heatLayer = {
   id: "data",

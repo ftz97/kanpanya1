@@ -1,9 +1,9 @@
 "use client";
-import { useModals } from "@/components/system/ModalManager";
+import { useModal } from "@/components/modal/ModalManager";
 import ScratchCard from "@/components/ScratchCard";
 
 function QuizResultModalSimple({ reward }: { reward: string }) {
-  const { pop } = useModals();
+  const { close } = useModal();
   
   return (
     <div className="p-8">

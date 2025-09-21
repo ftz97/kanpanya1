@@ -1,6 +1,6 @@
 "use client";
 
-import { startEmojiRain } from "@/lib/emojiRainTikTok";
+import { startEmojiRain } from "@/lib/emojiRain";
 
 // 🌊 Pluie en vagues TikTok
 export function waveRainTikTok() {

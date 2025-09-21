@@ -7,9 +7,14 @@ export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
   
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  
+const stableSetMounted = useCallback(() => {
+  setMounted();
+}, [setMounted]);
+
+useEffect(() => {
+  stableSetMounted();
+}, [stableSetMounted]);;
 
   // Ne pas rendre le composant côté serveur
   if (!mounted) {

@@ -26,7 +26,7 @@ export default function ScratchAnimePage() {
         
         <div className="mb-8">
           <p className="text-lg text-gray-600 mb-4">
-            Grattez la carte pour voir les animations d'emojis !
+            Grattez la carte pour voir les animations d&apos;emojis !
           </p>
           
           <div className="flex gap-4 justify-center flex-wrap mb-6">
@@ -74,7 +74,7 @@ export default function ScratchAnimePage() {
             <div className="text-center">
               <div className="text-2xl mb-2">💰💎🤑</div>
               <p className="font-medium">Gros gain</p>
-              <p className="text-gray-500">Emojis d'argent</p>
+              <p className="text-gray-500">Emojis d&apos;argent</p>
             </div>
           </div>
         </div>

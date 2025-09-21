@@ -31,7 +31,7 @@ export default function TestMapboxFallbackPage() {
 
     // Fonction pour charger Mapbox
     const loadMapbox = () => {
-      if ((window as any).mapboxgl) {
+      if ((window as unknown).mapboxgl) {
         setStatus('✅ Mapbox déjà chargé, initialisation...');
         initializeMap();
         return;
@@ -71,7 +71,7 @@ export default function TestMapboxFallbackPage() {
       if (!mapContainer.current) return;
 
       try {
-        const mapboxgl = (window as any).mapboxgl;
+        const mapboxgl = (window as unknown).mapboxgl;
         if (!mapboxgl) {
           setError('Mapbox GL JS non disponible');
           setStatus('❌ Mapbox non disponible - affichage du fallback');
@@ -107,7 +107,7 @@ export default function TestMapboxFallbackPage() {
           clearTimeout(fallbackTimer);
         });
 
-        map.on('error', (e: any) => {
+        map.on('error', (e: unknown) => {
           console.error('Erreur Mapbox:', e);
           setError('Erreur lors du chargement de la carte');
           setStatus('❌ Erreur de carte - affichage du fallback');
@@ -190,7 +190,7 @@ export default function TestMapboxFallbackPage() {
                   <p className="text-gray-600 mb-4">Style: Streets</p>
                   <div className="mt-4 p-3 bg-yellow-100 rounded-lg">
                     <p className="text-yellow-800 text-sm">
-                      <strong>Mode Fallback:</strong> Mapbox n'a pas pu se charger
+                      <strong>Mode Fallback:</strong> Mapbox n&apos;a pas pu se charger
                     </p>
                   </div>
                 </div>
@@ -229,7 +229,7 @@ export default function TestMapboxFallbackPage() {
           <div className="space-y-3 text-green-700">
             <p><strong>1.</strong> Cette version inclut un système de fallback automatique</p>
             <p><strong>2.</strong> Si Mapbox ne se charge pas en 5 secondes, affiche une carte statique</p>
-            <p><strong>3.</strong> L'interface reste fonctionnelle même sans Mapbox</p>
+            <p><strong>3.</strong> L&apos;interface reste fonctionnelle même sans Mapbox</p>
             <p><strong>4.</strong> Status en temps réel pour voir ce qui se passe</p>
             <p><strong>5.</strong> Ouvrez la console pour voir les logs détaillés</p>
           </div>

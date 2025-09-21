@@ -161,7 +161,7 @@ export default function SimpleMapboxMap({
       {/* Overlay avec informations */}
       <div className="absolute top-4 left-4 bg-white bg-opacity-90 p-3 rounded-lg shadow">
         <div className="text-sm">
-          <p className="font-semibold text-gray-700">📍 Zone d'activité</p>
+          <p className="font-semibold text-gray-700">📍 Zone d&apos;activité</p>
           <p className="text-blue-600">47 commerces actifs</p>
         </div>
       </div>
@@ -169,7 +169,7 @@ export default function SimpleMapboxMap({
       <div className="absolute bottom-4 right-4 bg-white bg-opacity-90 p-3 rounded-lg shadow">
         <div className="text-sm">
           <p className="font-semibold text-gray-700">🎯 Statistiques</p>
-          <p className="text-green-600">1,247 scans aujourd'hui</p>
+          <p className="text-green-600">1,247 scans aujourd&apos;hui</p>
         </div>
       </div>
     </div>

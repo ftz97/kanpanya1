@@ -9,7 +9,7 @@ export default function TestRealMapPage() {
         </h1>
         
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Carte Mapbox avec gestion d'erreurs</h2>
+          <h2 className="text-xl font-semibold mb-4">Carte Mapbox avec gestion d&apos;erreurs</h2>
           <RealMapboxMap 
             height="600px"
             center={[-61.5314, 16.2412]} // Pointe-à-Pitre, Guadeloupe

@@ -7,31 +7,39 @@ import "mapbox-gl/dist/mapbox-gl.css";
 export default function TestSimplePage() {
   const mapContainer = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!mapContainer.current) return;
+  
+const stableError = useCallback(() => {
+  error();
+}, [error]);
 
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    if (!token) {
-      console.error("❌ Pas de token Mapbox trouvé");
-      return;
-    }
+const stableMap = useCallback(() => {
+  Map();
+}, [Map]);
 
-    mapboxgl.accessToken = token;
+const stableMarker = useCallback(() => {
+  Marker();
+}, [Marker]);
 
-    const map = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v12",
-      center: [2.3522, 48.8566], // Paris
-      zoom: 12,
-    });
+const stableSetLngLat = useCallback(() => {
+  setLngLat();
+}, [setLngLat]);
 
-    // Ajouter un marqueur de test
-    new mapboxgl.Marker({ color: "#10b981" })
-      .setLngLat([2.3522, 48.8566])
-      .addTo(map);
+const stableAddTo = useCallback(() => {
+  addTo();
+}, [addTo]);
 
-    return () => map.remove();
-  }, []);
+const stableRemove = useCallback(() => {
+  remove();
+}, [remove]);
+
+useEffect(() => {
+  stableError();
+  stableMap();
+  stableMarker();
+  stableSetLngLat();
+  stableAddTo();
+  stableRemove();
+}, [stableError, stableMap, stableMarker, stableSetLngLat, stableAddTo, stableRemove]);;
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">

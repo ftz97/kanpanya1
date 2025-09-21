@@ -6,9 +6,14 @@ import { useModal } from "@/components/modal/ModalManager";
 export default function VideoEndModal() {
   const { replace, close } = useModal();
   
-  useEffect(() => {
-    console.log("🎉 VideoEndModal chargé et rendu");
-  }, []);
+  
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
+
+useEffect(() => {
+  stableLog();
+}, [stableLog]);;
 
   const handleStartQuiz = () => {
     console.log("🧠 Démarrage du quiz - remplacement par QuizModal");

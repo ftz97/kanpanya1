@@ -16,7 +16,7 @@ export interface ScratchConfig {
   quasiLose: string;
   validFrom: string;
   validTo: string;
-  target: Record<string, any>;
+  target: Record<string, unknown>;
   goldReward?: string;
   goldPrizes?: number;
   goldChance?: number;
@@ -36,11 +36,19 @@ export default function ScratchCardAdmin({ initialConfigs = [], onSave }: Scratc
 
   // ✅ Charger toutes les cartes
   React.useEffect(() => {
-    fetch("/api/scratch-configs")
-      .then(res => res.json())
-      .then(data => setConfigs(data))
-      .catch(err => console.error("Erreur chargement:", err));
+    const fetchConfigs = async () => {
+      try {
+        const response = await fetch('/api/scratch-configs');
+        const data = await response.json();
+        setConfigs(data);
+      } catch (error) {
+        console.error('Erreur lors du chargement:', error);
+      }
+    };
+
+    fetchConfigs();
   }, []);
+
 
   // ✅ Créer une nouvelle carte vide
   const createNew = () => {
@@ -200,7 +208,7 @@ export default function ScratchCardAdmin({ initialConfigs = [], onSave }: Scratc
                 {/* Sélecteur de skin prédéfini */}
                 <select
                   value={current.skin}
-                  onChange={e => setCurrent({ ...current, skin: e.target.value as any })}
+                  onChange={e => setCurrent({ ...current, skin: e.target.value as unknown })}
                   className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
                 >
                   <option value="classic">Classique ⚪</option>
@@ -352,7 +360,7 @@ export default function ScratchCardAdmin({ initialConfigs = [], onSave }: Scratc
               <h3 className="text-lg font-bold mb-2">👀 Prévisualisation</h3>
               <div className="border p-4 rounded-xl bg-gray-100">
                 <ScratchCard 
-                  skin={current.skin as any}
+                  skin={current.skin as unknown}
                   reward={{ type: 'points', amount: 100, label: '+100 points' }}
                   onReveal={() => console.log('Card revealed!')}
                 />

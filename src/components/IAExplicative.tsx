@@ -26,11 +26,11 @@ export default function IAExplicative() {
         </div>
 
         <div className="bg-white rounded-lg p-4 border-l-4 border-green-400">
-          <h3 className="font-semibold text-gray-800 mb-2">✅ Facteurs d'Augmentation</h3>
+          <h3 className="font-semibold text-gray-800 mb-2">✅ Facteurs d&apos;Augmentation</h3>
           <ul className="space-y-2 text-sm">
             <li className="flex items-start">
               <span className="text-green-500 mr-2 mt-1">🎯</span>
-              <span>Événements locaux : +40% d'affluence les weekends</span>
+              <span>Événements locaux : +40% d&apos;affluence les weekends</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-500 mr-2 mt-1">🌤️</span>
@@ -52,7 +52,7 @@ export default function IAExplicative() {
             </li>
             <li className="flex items-start">
               <span className="text-blue-500 mr-2 mt-1">🛒</span>
-              <span>Comportement d'achat : 67% décident sur place</span>
+              <span>Comportement d&apos;achat : 67% décident sur place</span>
             </li>
             <li className="flex items-start">
               <span className="text-blue-500 mr-2 mt-1">📍</span>

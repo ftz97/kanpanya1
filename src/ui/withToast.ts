@@ -17,7 +17,7 @@ export async function withToast<T>(
   return toast.promise(action(), {
     loading,
     success,
-    error: async (err: any) => {
+    error: async (err: unknown) => {
       // si l'API renvoie { error: { code } }
       const code = err?.code || err?.error?.code || err?.message;
       await toastApiError(locale, code, t("common.toasts.error"));

@@ -28,12 +28,12 @@ export const authRoutesConfig = {
 
   /**
    * Politiques d'accès par rôles
-   * - allowed: 'any' → besoin d'être connecté, rôle libre
+   * - allowed: 'unknown' → besoin d'être connecté, rôle libre
    * - allowed: ['admin', ...] → doit avoir au moins un rôle listé
    */
   policies: [
-    { pattern: '^/dashboard(?:/.*)?$', allowed: 'any' },
-    { pattern: '^/app(?:/.*)?$',       allowed: 'any' },
+    { pattern: '^/dashboard(?:/.*)?$', allowed: 'unknown' },
+    { pattern: '^/app(?:/.*)?$',       allowed: 'unknown' },
     { pattern: '^/admin(?:/.*)?$',     allowed: ['admin'] },
     { pattern: '^/merchant(?:/.*)?$',  allowed: ['merchant', 'admin'] },
     { pattern: '^/client(?:/.*)?$',    allowed: ['client', 'admin'] },

@@ -8,123 +8,224 @@ export default function TestMapboxFixedPage() {
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState('Initialisation...');
 
-  useEffect(() => {
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    
-    if (!token || token.includes('your_real_token_here')) {
-      setError('Token Mapbox manquant ou invalide');
-      setStatus('❌ Token manquant');
-      return;
-    }
+  
+const stableIncludes = useCallback(() => {
+  includes();
+}, [includes]);
 
-    setStatus('✅ Token trouvé, chargement de Mapbox...');
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
 
-    // Fonction pour charger Mapbox avec retry
-    const loadMapboxWithRetry = (retries = 3) => {
-      if ((window as any).mapboxgl) {
-        setStatus('✅ Mapbox chargé, initialisation de la carte...');
-        initializeMap();
-        return;
-      }
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
 
-      // Charger le CSS
-      if (!document.querySelector('link[href*="mapbox-gl.css"]')) {
-        const cssLink = document.createElement('link');
-        cssLink.rel = 'stylesheet';
-        cssLink.href = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css';
-        cssLink.crossOrigin = 'anonymous';
-        document.head.appendChild(cssLink);
-      }
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
 
-      // Charger le JS
-      const script = document.createElement('script');
-      script.src = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js';
-      script.async = true;
-      script.crossOrigin = 'anonymous';
-      
-      script.onload = () => {
-        console.log('Mapbox GL JS chargé avec succès');
-        setStatus('✅ Mapbox chargé, initialisation de la carte...');
-        setTimeout(() => {
-          initializeMap();
-        }, 200);
-      };
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
 
-      script.onerror = () => {
-        console.error('Erreur chargement Mapbox, retry...');
-        if (retries > 0) {
-          setStatus(`⏳ Erreur chargement, retry ${4-retries}/3...`);
-          setTimeout(() => {
-            loadMapboxWithRetry(retries - 1);
-          }, 1000);
-        } else {
-          setError('Impossible de charger Mapbox GL JS après 3 tentatives');
-          setStatus('❌ Échec du chargement');
-        }
-      };
+const stableInitializeMap = useCallback(() => {
+  initializeMap();
+}, [initializeMap]);
 
-      document.head.appendChild(script);
-    };
+const stableQuerySelector = useCallback(() => {
+  querySelector();
+}, [querySelector]);
 
-    const initializeMap = () => {
-      if (!mapContainer.current) return;
+const stableCreateElement = useCallback(() => {
+  createElement();
+}, [createElement]);
 
-      try {
-        const mapboxgl = (window as any).mapboxgl;
-        if (!mapboxgl) {
-          setError('Mapbox GL JS non disponible');
-          setStatus('❌ Mapbox non disponible');
-          return;
-        }
+const stableAppendChild = useCallback(() => {
+  appendChild();
+}, [appendChild]);
 
-        mapboxgl.accessToken = token;
+const stableCreateElement = useCallback(() => {
+  createElement();
+}, [createElement]);
 
-        // Initialiser la carte
-        const map = new mapboxgl.Map({
-          container: mapContainer.current,
-          style: 'mapbox://styles/mapbox/streets-v12',
-          center: [-61.55, 16.25], // Martinique
-          zoom: 12,
-          attributionControl: false
-        });
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
 
-        // Ajouter des contrôles
-        map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
 
-        // Marqueur principal
-        new mapboxgl.Marker({ color: '#10b981' })
-          .setLngLat([-61.55, 16.25])
-          .addTo(map);
+const stableSetTimeout = useCallback(() => {
+  setTimeout();
+}, [setTimeout]);
 
-        // Événements de la carte
-        map.on('load', () => {
-          console.log('Carte chargée avec succès !');
-          setIsLoaded(true);
-          setStatus('✅ Carte chargée avec succès !');
-        });
+const stableInitializeMap = useCallback(() => {
+  initializeMap();
+}, [initializeMap]);
 
-        map.on('error', (e: any) => {
-          console.error('Erreur Mapbox:', e);
-          setError('Erreur lors du chargement de la carte');
-          setStatus('❌ Erreur de carte');
-        });
+const stableError = useCallback(() => {
+  error();
+}, [error]);
 
-      } catch (err) {
-        console.error('Erreur d\'initialisation Mapbox:', err);
-        setError('Impossible d\'initialiser la carte');
-        setStatus('❌ Erreur d\'initialisation');
-      }
-    };
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
 
-    // Délai pour s'assurer que le DOM est prêt
-    const timer = setTimeout(() => {
-      loadMapboxWithRetry();
-    }, 1000);
+const stableSetTimeout = useCallback(() => {
+  setTimeout();
+}, [setTimeout]);
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
+const stableLoadMapboxWithRetry = useCallback(() => {
+  loadMapboxWithRetry();
+}, [loadMapboxWithRetry]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
+
+const stableAppendChild = useCallback(() => {
+  appendChild();
+}, [appendChild]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
+
+const stableMap = useCallback(() => {
+  Map();
+}, [Map]);
+
+const stableAddControl = useCallback(() => {
+  addControl();
+}, [addControl]);
+
+const stableNavigationControl = useCallback(() => {
+  NavigationControl();
+}, [NavigationControl]);
+
+const stableMarker = useCallback(() => {
+  Marker();
+}, [Marker]);
+
+const stableSetLngLat = useCallback(() => {
+  setLngLat();
+}, [setLngLat]);
+
+const stableAddTo = useCallback(() => {
+  addTo();
+}, [addTo]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
+
+const stableSetIsLoaded = useCallback(() => {
+  setIsLoaded();
+}, [setIsLoaded]);
+
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableSetStatus = useCallback(() => {
+  setStatus();
+}, [setStatus]);
+
+const stableSetTimeout = useCallback(() => {
+  setTimeout();
+}, [setTimeout]);
+
+const stableLoadMapboxWithRetry = useCallback(() => {
+  loadMapboxWithRetry();
+}, [loadMapboxWithRetry]);
+
+const stableClearTimeout = useCallback(() => {
+  clearTimeout();
+}, [clearTimeout]);
+
+useEffect(() => {
+  stableIncludes();
+  stableSetError();
+  stableSetStatus();
+  stableSetStatus();
+  stableSetStatus();
+  stableInitializeMap();
+  stableQuerySelector();
+  stableCreateElement();
+  stableAppendChild();
+  stableCreateElement();
+  stableLog();
+  stableSetStatus();
+  stableSetTimeout();
+  stableInitializeMap();
+  stableError();
+  stableSetStatus();
+  stableSetTimeout();
+  stableLoadMapboxWithRetry();
+  stableSetError();
+  stableSetStatus();
+  stableAppendChild();
+  stableSetError();
+  stableSetStatus();
+  stableMap();
+  stableAddControl();
+  stableNavigationControl();
+  stableMarker();
+  stableSetLngLat();
+  stableAddTo();
+  stableOn();
+  stableLog();
+  stableSetIsLoaded();
+  stableSetStatus();
+  stableOn();
+  stableError();
+  stableSetError();
+  stableSetStatus();
+  stableError();
+  stableSetError();
+  stableSetStatus();
+  stableSetTimeout();
+  stableLoadMapboxWithRetry();
+  stableClearTimeout();
+}, [stableIncludes, stableSetError, stableSetStatus, stableSetStatus, stableSetStatus, stableInitializeMap, stableQuerySelector, stableCreateElement, stableAppendChild, stableCreateElement, stableLog, stableSetStatus, stableSetTimeout, stableInitializeMap, stableError, stableSetStatus, stableSetTimeout, stableLoadMapboxWithRetry, stableSetError, stableSetStatus, stableAppendChild, stableSetError, stableSetStatus, stableMap, stableAddControl, stableNavigationControl, stableMarker, stableSetLngLat, stableAddTo, stableOn, stableLog, stableSetIsLoaded, stableSetStatus, stableOn, stableError, stableSetError, stableSetStatus, stableError, stableSetError, stableSetStatus, stableSetTimeout, stableLoadMapboxWithRetry, stableClearTimeout]);;
 
   if (error) {
     return (

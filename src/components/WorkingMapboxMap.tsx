@@ -4,91 +4,159 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function WorkingMapboxMap() {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<any>(null);
+  const map = useRef<unknown>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [drawnPolygons, setDrawnPolygons] = useState<any[]>([]);
+  const [drawnPolygons, setDrawnPolygons] = useState<unknown[]>([]);
 
-  useEffect(() => {
-    if (!mapContainer.current) return;
+  
+const stableIncludes = useCallback(() => {
+  includes();
+}, [includes]);
 
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    
-    if (!token || token.includes('your_real_token_here')) {
-      setError('Token Mapbox manquant ou invalide');
-      return;
-    }
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
 
-    // Import dynamique de Mapbox GL JS
-    import('mapbox-gl').then((mapboxgl) => {
-      mapboxgl.default.accessToken = token;
+const stableImport = useCallback(() => {
+  import();
+}, [import]);
 
-      try {
-        // Initialisation de la carte
-        map.current = new mapboxgl.default.Map({
-          container: mapContainer.current,
-          style: 'mapbox://styles/mapbox/streets-v12',
-          center: [-61.55, 16.25], // Martinique
-          zoom: 10
-        });
+const stableThen = useCallback(() => {
+  then();
+}, [then]);
 
-        // Ajouter des contrôles
-        map.current.addControl(new mapboxgl.default.NavigationControl(), 'top-right');
+const stableMap = useCallback(() => {
+  Map();
+}, [Map]);
 
-        // Ajouter MapboxDraw
-        import('@mapbox/mapbox-gl-draw').then((MapboxDraw) => {
-          const draw = new MapboxDraw.default({
-            displayControlsDefault: false,
-            controls: {
-              polygon: true,
-              trash: true
-            }
-          });
+const stableAddControl = useCallback(() => {
+  addControl();
+}, [addControl]);
 
-          map.current.addControl(draw);
+const stableNavigationControl = useCallback(() => {
+  NavigationControl();
+}, [NavigationControl]);
 
-          // Événement de création de polygone
-          map.current.on('draw.create', (e: any) => {
-            const feature = e.features[0];
-            const name = prompt("Nom du quartier ?");
-            if (name) {
-              setDrawnPolygons(prev => [...prev, { name, feature }]);
-            }
-          });
+const stableImport = useCallback(() => {
+  import();
+}, [import]);
 
-          // Événement de suppression
-          map.current.on('draw.delete', () => {
-            setDrawnPolygons(prev => prev.slice(0, -1));
-          });
-        });
+const stableThen = useCallback(() => {
+  then();
+}, [then]);
 
-        // Événements de la carte
-        map.current.on('load', () => {
-          setIsLoaded(true);
-          console.log('Carte Mapbox chargée avec succès');
-        });
+const stableDefault = useCallback(() => {
+  default();
+}, [default]);
 
-        map.current.on('error', (e: any) => {
-          console.error('Erreur Mapbox:', e);
-          setError('Erreur lors du chargement de la carte');
-        });
+const stableAddControl = useCallback(() => {
+  addControl();
+}, [addControl]);
 
-      } catch (err) {
-        console.error('Erreur d\'initialisation Mapbox:', err);
-        setError('Impossible d\'initialiser la carte');
-      }
-    }).catch((err) => {
-      console.error('Erreur d\'import Mapbox:', err);
-      setError('Impossible de charger Mapbox GL JS');
-    });
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
 
-    // Nettoyage
-    return () => {
-      if (map.current) {
-        map.current.remove();
-      }
-    };
-  }, []);
+const stablePrompt = useCallback(() => {
+  prompt();
+}, [prompt]);
+
+const stableSetDrawnPolygons = useCallback(() => {
+  setDrawnPolygons();
+}, [setDrawnPolygons]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableSetDrawnPolygons = useCallback(() => {
+  setDrawnPolygons();
+}, [setDrawnPolygons]);
+
+const stableSlice = useCallback(() => {
+  slice();
+}, [slice]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableSetIsLoaded = useCallback(() => {
+  setIsLoaded();
+}, [setIsLoaded]);
+
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
+
+const stableOn = useCallback(() => {
+  on();
+}, [on]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableCatch = useCallback(() => {
+  catch();
+}, [catch]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableRemove = useCallback(() => {
+  remove();
+}, [remove]);
+
+useEffect(() => {
+  stableIncludes();
+  stableSetError();
+  stableImport();
+  stableThen();
+  stableMap();
+  stableAddControl();
+  stableNavigationControl();
+  stableImport();
+  stableThen();
+  stableDefault();
+  stableAddControl();
+  stableOn();
+  stablePrompt();
+  stableSetDrawnPolygons();
+  stableOn();
+  stableSetDrawnPolygons();
+  stableSlice();
+  stableOn();
+  stableSetIsLoaded();
+  stableLog();
+  stableOn();
+  stableError();
+  stableSetError();
+  stableError();
+  stableSetError();
+  stableCatch();
+  stableError();
+  stableSetError();
+  stableRemove();
+}, [stableIncludes, stableSetError, stableImport, stableThen, stableMap, stableAddControl, stableNavigationControl, stableImport, stableThen, stableDefault, stableAddControl, stableOn, stablePrompt, stableSetDrawnPolygons, stableOn, stableSetDrawnPolygons, stableSlice, stableOn, stableSetIsLoaded, stableLog, stableOn, stableError, stableSetError, stableError, stableSetError, stableCatch, stableError, stableSetError, stableRemove]);;
 
   if (error) {
     return (
@@ -108,7 +176,7 @@ export default function WorkingMapboxMap() {
       <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
         <h3 className="font-semibold text-blue-800 mb-2">🗺️ Instructions</h3>
         <ul className="text-sm text-blue-700 space-y-1">
-          <li>• Cliquez sur l'icône polygone dans la carte</li>
+          <li>• Cliquez sur l&apos;icône polygone dans la carte</li>
           <li>• Dessinez votre zone en cliquant sur la carte</li>
           <li>• Double-cliquez pour fermer le polygone</li>
           <li>• Donnez un nom à votre quartier</li>

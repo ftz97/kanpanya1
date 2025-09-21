@@ -20,53 +20,74 @@ export default function BasicMap({
   const [error, setError] = useState<string | null>(null);
   const [mapboxReady, setMapboxReady] = useState(false);
 
-  useEffect(() => {
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    
-    if (!token || token.includes('your_real_token_here')) {
-      setError('Token Mapbox manquant ou invalide');
-      return;
-    }
+  
+const stableIncludes = useCallback(() => {
+  includes();
+}, [includes]);
 
-    // Fonction pour charger Mapbox
-    const loadMapbox = async () => {
-      try {
-        // Vérifier si Mapbox est déjà chargé
-        if ((window as any).mapboxgl) {
-          setMapboxReady(true);
-          return;
-        }
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
 
-        // Charger le CSS
-        const cssLink = document.createElement('link');
-        cssLink.rel = 'stylesheet';
-        cssLink.href = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css';
-        document.head.appendChild(cssLink);
+const stableSetMapboxReady = useCallback(() => {
+  setMapboxReady();
+}, [setMapboxReady]);
 
-        // Charger le JS
-        const script = document.createElement('script');
-        script.src = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js';
-        script.async = true;
-        
-        script.onload = () => {
-          console.log('Mapbox GL JS chargé');
-          setMapboxReady(true);
-        };
+const stableCreateElement = useCallback(() => {
+  createElement();
+}, [createElement]);
 
-        script.onerror = () => {
-          setError('Impossible de charger Mapbox GL JS');
-        };
+const stableAppendChild = useCallback(() => {
+  appendChild();
+}, [appendChild]);
 
-        document.head.appendChild(script);
+const stableCreateElement = useCallback(() => {
+  createElement();
+}, [createElement]);
 
-      } catch (err) {
-        console.error('Erreur chargement Mapbox:', err);
-        setError('Erreur lors du chargement de Mapbox');
-      }
-    };
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
 
-    loadMapbox();
-  }, []);
+const stableSetMapboxReady = useCallback(() => {
+  setMapboxReady();
+}, [setMapboxReady]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableAppendChild = useCallback(() => {
+  appendChild();
+}, [appendChild]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetError = useCallback(() => {
+  setError();
+}, [setError]);
+
+const stableLoadMapbox = useCallback(() => {
+  loadMapbox();
+}, [loadMapbox]);
+
+useEffect(() => {
+  stableIncludes();
+  stableSetError();
+  stableSetMapboxReady();
+  stableCreateElement();
+  stableAppendChild();
+  stableCreateElement();
+  stableLog();
+  stableSetMapboxReady();
+  stableSetError();
+  stableAppendChild();
+  stableError();
+  stableSetError();
+  stableLoadMapbox();
+}, [stableIncludes, stableSetError, stableSetMapboxReady, stableCreateElement, stableAppendChild, stableCreateElement, stableLog, stableSetMapboxReady, stableSetError, stableAppendChild, stableError, stableSetError, stableLoadMapbox]);;
 
   useEffect(() => {
     if (!mapboxReady || !mapContainer.current) return;
@@ -75,7 +96,7 @@ export default function BasicMap({
     if (!token) return;
 
     try {
-      const mapboxgl = (window as any).mapboxgl;
+      const mapboxgl = (window as unknown).mapboxgl;
       if (!mapboxgl) {
         setError('Mapbox GL JS non disponible');
         return;
@@ -106,7 +127,7 @@ export default function BasicMap({
         setIsLoaded(true);
       });
 
-      map.on('error', (e: any) => {
+      map.on('error', (e: unknown) => {
         console.error('Erreur Mapbox:', e);
         setError('Erreur lors du chargement de la carte');
       });

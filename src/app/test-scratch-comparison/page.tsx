@@ -53,52 +53,99 @@ function OldScratchCard() {
   }
 
   // Init texte
-  React.useEffect(() => {
-    setVariation(
-      isWinner
-        ? WIN_VARIATIONS[Math.floor(Math.random() * WIN_VARIATIONS.length)]
-        : LOSE_VARIATIONS[Math.floor(Math.random() * LOSE_VARIATIONS.length)]
-    );
-    const chosenReward = getRandomPrize(isWinner);
-    setReward(chosenReward);
-    setPrize(
-      chosenReward.type === "points"
-        ? `+${chosenReward.amount} points Kanpanya`
-        : chosenReward.type === "reduction"
-        ? `-${chosenReward.amount}% réduction`
-        : "Aucun gain, mais merci d'avoir participé 💡"
-    );
-  }, [isWinner]);
+  React.
+const stableSetVariation = useCallback(() => {
+  setVariation();
+}, [setVariation]);
 
-  // Resize dynamique
-  React.useEffect(() => {
-    const canvas = canvasRef.current;
-    const container = containerRef.current;
-    if (!canvas || !container) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+const stableFloor = useCallback(() => {
+  floor();
+}, [floor]);
 
-    const resize = () => {
-      const { width, height } = container.getBoundingClientRect();
-      canvas.width = width;
-      canvas.height = height;
+const stableRandom = useCallback(() => {
+  random();
+}, [random]);
 
-      ctx.fillStyle = "#9ca3af";
-      ctx.fillRect(0, 0, width, height);
+const stableFloor = useCallback(() => {
+  floor();
+}, [floor]);
 
-      ctx.fillStyle = "#111827";
-      ctx.font = `bold ${Math.floor(width / 18)}px Arial`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText("🎁 GRATTE ICI 🎁", width / 2, height / 2);
-    };
+const stableRandom = useCallback(() => {
+  random();
+}, [random]);
 
-    resize();
-    const observer = new ResizeObserver(resize);
-    observer.observe(container);
+const stableGetRandomPrize = useCallback(() => {
+  getRandomPrize();
+}, [getRandomPrize]);
 
-    return () => observer.disconnect();
-  }, []);
+const stableSetReward = useCallback(() => {
+  setReward();
+}, [setReward]);
+
+const stableSetPrize = useCallback(() => {
+  setPrize();
+}, [setPrize]);
+
+const stableUseEffect = useCallback(() => {
+  useEffect();
+}, [useEffect]);
+
+const stableGetContext = useCallback(() => {
+  getContext();
+}, [getContext]);
+
+const stableGetBoundingClientRect = useCallback(() => {
+  getBoundingClientRect();
+}, [getBoundingClientRect]);
+
+const stableFillRect = useCallback(() => {
+  fillRect();
+}, [fillRect]);
+
+const stableFloor = useCallback(() => {
+  floor();
+}, [floor]);
+
+const stableFillText = useCallback(() => {
+  fillText();
+}, [fillText]);
+
+const stableResize = useCallback(() => {
+  resize();
+}, [resize]);
+
+const stableResizeObserver = useCallback(() => {
+  ResizeObserver();
+}, [ResizeObserver]);
+
+const stableObserve = useCallback(() => {
+  observe();
+}, [observe]);
+
+const stableDisconnect = useCallback(() => {
+  disconnect();
+}, [disconnect]);
+
+useEffect(() => {
+  stableSetVariation();
+  stableFloor();
+  stableRandom();
+  stableFloor();
+  stableRandom();
+  stableGetRandomPrize();
+  stableSetReward();
+  stableSetPrize();
+  stableUseEffect();
+  stableGetContext();
+  stableGetBoundingClientRect();
+  stableFillRect();
+  stableFloor();
+  stableFillText();
+  stableResize();
+  stableResizeObserver();
+  stableObserve();
+  stableDisconnect();
+}, [stableSetVariation, stableFloor, stableRandom, stableFloor, stableRandom, stableGetRandomPrize, stableSetReward, stableSetPrize, stableUseEffect, stableGetContext, stableGetBoundingClientRect, stableFillRect, stableFloor, stableFillText, stableResize, stableResizeObserver, stableObserve, stableDisconnect]);;
 
   // Scratch
   const scratchAt = (x: number, y: number) => {
@@ -345,7 +392,7 @@ export default function TestScratchComparison() {
             🎟️ Comparaison des Codes Scratch
           </h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Testez côte à côte l'ancien code (Canvas custom) et le nouveau code (Librairie react-scratchcard-v2)
+            Testez côte à côte l&apos;ancien code (Canvas custom) et le nouveau code (Librairie react-scratchcard-v2)
           </p>
         </div>
 
@@ -360,7 +407,7 @@ export default function TestScratchComparison() {
                 <p>• ~250 lignes de code</p>
                 <p>• Gestion manuelle des événements</p>
                 <p>• Calculs optimisés (échantillonnage)</p>
-                <p>• Animations d'emojis intégrées</p>
+                <p>• Animations d&apos;emojis intégrées</p>
                 <p>• Système de récompenses avancé</p>
                 <p>• Bouton de fermeture popup</p>
               </div>
@@ -413,7 +460,7 @@ export default function TestScratchComparison() {
                 <li>• Calculs de pourcentage intensifs</li>
                 <li>• ResizeObserver avec logique custom</li>
                 <li>• Animations CSS inline avec styled-jsx</li>
-                <li>• Gestion d'état complexe</li>
+                <li>• Gestion d&apos;état complexe</li>
                 <li>• Bugs potentiels sur mobile</li>
                 <li>• Performance dégradée</li>
               </ul>
@@ -427,7 +474,7 @@ export default function TestScratchComparison() {
                 <li>• Optimisations de performance intégrées</li>
                 <li>• Configuration déclarative</li>
                 <li>• Animations confettis + emojis</li>
-                <li>• Gestion d'état simplifiée</li>
+                <li>• Gestion d&apos;état simplifiée</li>
                 <li>• Compatibilité mobile native</li>
                 <li>• Maintenance réduite</li>
               </ul>
@@ -439,8 +486,8 @@ export default function TestScratchComparison() {
         <div className="mt-8 bg-blue-50 rounded-2xl p-6">
           <h3 className="text-lg font-semibold text-blue-900 mb-3">🎯 Instructions de Test</h3>
           <div className="text-sm text-blue-800 space-y-2">
-            <p>1. <strong>Testez l'ancien code :</strong> Grattez la zone grise pour révéler le contenu</p>
-            <p>2. <strong>Testez le nouveau code :</strong> Grattez l'image overlay pour révéler les points</p>
+            <p>1. <strong>Testez l&apos;ancien code :</strong> Grattez la zone grise pour révéler le contenu</p>
+            <p>2. <strong>Testez le nouveau code :</strong> Grattez l&apos;image overlay pour révéler les points</p>
             <p>3. <strong>Comparez :</strong> Fluidité, réactivité, animations</p>
             <p>4. <strong>Mobile :</strong> Testez sur mobile pour voir la différence</p>
             <p>5. <strong>Performance :</strong> Ouvrez les DevTools pour comparer les performances</p>

@@ -8,16 +8,19 @@ export default function CartesPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/scratch-configs")
-      .then(res => res.json())
-      .then(data => {
+    const fetchConfigs = async () => {
+      try {
+        const response = await fetch('/api/scratch-configs');
+        const data = await response.json();
         setConfigs(data);
+      } catch (error) {
+        console.error('Erreur lors du chargement des cartes:', error);
+      } finally {
         setLoading(false);
-      })
-      .catch(err => {
-        console.error("Erreur chargement:", err);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchConfigs();
   }, []);
 
   if (loading) {
@@ -36,7 +39,7 @@ export default function CartesPage() {
         {configs.length === 0 ? (
           <div className="text-center text-gray-500">
             <p className="text-xl">Aucune carte disponible</p>
-            <p className="mt-2">Créez des cartes dans l'<a href="/admin/scratch-cards" className="text-blue-600 hover:underline">interface d'administration</a></p>
+            <p className="mt-2">Créez des cartes dans l&apos;<a href="/admin/scratch-cards" className="text-blue-600 hover:underline">interface d&apos;administration</a></p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

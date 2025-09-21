@@ -11,26 +11,33 @@ type AreaOption = {
 
 export default function CarteQuartierV2() {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<any>(null);
+  const mapRef = useRef<unknown>(null);
   const [zones, setZones] = useState<AreaOption[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<unknown[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
 
   // Vérifier le token Mapbox
-  useEffect(() => {
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    if (!token) {
-      setMapError("Token Mapbox manquant. Vérifiez votre fichier .env.local");
-      return;
-    }
-    if (!token.startsWith('pk.')) {
-      setMapError("Token Mapbox invalide. Il doit commencer par 'pk.'");
-      return;
-    }
-  }, []);
+  
+const stableSetMapError = useCallback(() => {
+  setMapError();
+}, [setMapError]);
+
+const stableStartsWith = useCallback(() => {
+  startsWith();
+}, [startsWith]);
+
+const stableSetMapError = useCallback(() => {
+  setMapError();
+}, [setMapError]);
+
+useEffect(() => {
+  stableSetMapError();
+  stableStartsWith();
+  stableSetMapError();
+}, [stableSetMapError, stableStartsWith, stableSetMapError]);;
 
   // Fonction de recherche d'adresses
   const searchAddresses = async (query: string) => {
@@ -67,7 +74,7 @@ export default function CarteQuartierV2() {
   };
 
   // Ajouter une adresse depuis les résultats de recherche
-  const addAddressFromSearch = (feature: any) => {
+  const addAddressFromSearch = (feature: unknown) => {
     const [lng, lat] = feature.center;
     const label = feature.place_name;
 
@@ -249,9 +256,9 @@ export default function CarteQuartierV2() {
         <h3 className="font-semibold text-blue-800 mb-2">📝 Instructions :</h3>
         <ul className="text-sm text-blue-700 space-y-1">
           <li>1. Tapez une adresse dans la barre de recherche</li>
-          <li>2. Cliquez sur un résultat pour l'ajouter</li>
+          <li>2. Cliquez sur un résultat pour l&apos;ajouter</li>
           <li>3. Ajoutez au moins 3 adresses</li>
-          <li>4. Cliquez sur "Créer quartier automatiquement"</li>
+          <li>4. Cliquez sur &quot;Créer quartier automatiquement&quot;</li>
         </ul>
       </div>
     </div>

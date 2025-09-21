@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
 
     // Simuler le résultat du scratch
     const isWin = Math.random() < config.winProbability;
-    let result: any = {
+    const result: unknown = {
       status: isWin ? "win" : "lose",
       remaining_jackpots: Math.floor(Math.random() * 50) + 10, // Nombre aléatoire de jackpots restants
     };

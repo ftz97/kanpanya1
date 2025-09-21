@@ -139,7 +139,7 @@ function OffreCard({
       <div className="flex items-center justify-between">
         <span className="kp-text-mint-600 font-semibold">+{points} pts</span>
         <button className="kp-btn-green rounded-full px-4 h-9 text-sm inline-flex items-center gap-1">
-          Voir l'offre <ChevronRight className="size-4" />
+          Voir l&apos;offre <ChevronRight className="size-4" />
         </button>
       </div>
     </div>

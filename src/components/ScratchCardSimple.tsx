@@ -9,7 +9,7 @@ import MoneyEmojiRain from "./MoneyEmojiRain";
 
 export default function ScratchCardSimple({ configId, userId }: { configId: string; userId?: string }) {
   const supabase = createClientComponentClient();
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<unknown>(null);
   const [loading, setLoading] = useState(false);
   const [creatingTicket, setCreatingTicket] = useState(false);
   

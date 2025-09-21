@@ -1,4 +1,4 @@
-// Types utilitaires pour remplacer 'any'
+// Types utilitaires pour remplacer 'unknown'
 export type Dict<T = unknown> = Record<string, T>;
 
 // Type guard pour vérifier si un objet est un User

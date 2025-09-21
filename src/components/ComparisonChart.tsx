@@ -54,7 +54,7 @@ export default function ComparisonChart({ validatedAreas }: Props) {
   if (validatedAreas.length === 0) return null;
 
   const data = days.map((day, i) => {
-    const entry: Record<string, any> = { day };
+    const entry: Record<string, unknown> = { day };
     validatedAreas.forEach((area) => {
       entry[area.label] = rawData[area.value]?.[i] || 0;
     });

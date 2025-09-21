@@ -57,7 +57,7 @@ export default function TestPopupVariants() {
       {/* Popups */}
       {activeVariant && (
         <Popup
-          variant={activeVariant as any}
+          variant={activeVariant as unknown}
           title="🎉 Test de Variante"
           message={`Ceci est un test de la variante "${variants.find(v => v.key === activeVariant)?.name}"`}
           onClose={closePopup}

@@ -54,17 +54,29 @@ export default function SponsorCarousel() {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   // 🔄 Auto défilement
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!carouselRef.current) return;
-      carouselRef.current.scrollBy({ left: carouselRef.current.offsetWidth, behavior: "smooth" });
-      // boucle → retour au début
-      if (carouselRef.current.scrollLeft + carouselRef.current.offsetWidth >= carouselRef.current.scrollWidth) {
-        carouselRef.current.scrollTo({ left: 0, behavior: "smooth" });
-      }
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  
+const stableSetInterval = useCallback(() => {
+  setInterval();
+}, [setInterval]);
+
+const stableScrollBy = useCallback(() => {
+  scrollBy();
+}, [scrollBy]);
+
+const stableScrollTo = useCallback(() => {
+  scrollTo();
+}, [scrollTo]);
+
+const stableClearInterval = useCallback(() => {
+  clearInterval();
+}, [clearInterval]);
+
+useEffect(() => {
+  stableSetInterval();
+  stableScrollBy();
+  stableScrollTo();
+  stableClearInterval();
+}, [stableSetInterval, stableScrollBy, stableScrollTo, stableClearInterval]);;
 
   return (
     <div className="w-full">

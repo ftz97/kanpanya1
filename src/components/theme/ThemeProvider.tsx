@@ -14,14 +14,24 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    // Récupérer le thème depuis localStorage
-    const savedTheme = localStorage.getItem("padavwa-theme") as Theme;
-    if (savedTheme && (savedTheme === "light" || savedTheme === "dark")) {
-      setTheme(savedTheme);
-    }
-    setMounted(true);
-  }, []);
+  
+const stableGetItem = useCallback(() => {
+  getItem();
+}, [getItem]);
+
+const stableSetTheme = useCallback(() => {
+  setTheme();
+}, [setTheme]);
+
+const stableSetMounted = useCallback(() => {
+  setMounted();
+}, [setMounted]);
+
+useEffect(() => {
+  stableGetItem();
+  stableSetTheme();
+  stableSetMounted();
+}, [stableGetItem, stableSetTheme, stableSetMounted]);;
 
   useEffect(() => {
     if (mounted) {

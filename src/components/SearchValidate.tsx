@@ -75,12 +75,19 @@ export default function SearchValidate({
   const cache = useRef<Record<string, AreaOption[]>>({});
 
   // Charger cache depuis localStorage au montage
-  useEffect(() => {
-    const storedCache = localStorage.getItem("searchCache");
-    if (storedCache) {
-      cache.current = JSON.parse(storedCache);
-    }
-  }, []);
+  
+const stableGetItem = useCallback(() => {
+  getItem();
+}, [getItem]);
+
+const stableParse = useCallback(() => {
+  parse();
+}, [parse]);
+
+useEffect(() => {
+  stableGetItem();
+  stableParse();
+}, [stableGetItem, stableParse]);;
 
   // Sauvegarder cache dès qu'il est modifié
   const updateCache = (key: string, value: AreaOption[]) => {
@@ -89,10 +96,24 @@ export default function SearchValidate({
   };
 
   // ✅ Persistance des zones enregistrées
-  useEffect(() => {
-    const stored = localStorage.getItem("savedAreas");
-    if (stored) setSaved(JSON.parse(stored));
-  }, []);
+  
+const stableGetItem = useCallback(() => {
+  getItem();
+}, [getItem]);
+
+const stableSetSaved = useCallback(() => {
+  setSaved();
+}, [setSaved]);
+
+const stableParse = useCallback(() => {
+  parse();
+}, [parse]);
+
+useEffect(() => {
+  stableGetItem();
+  stableSetSaved();
+  stableParse();
+}, [stableGetItem, stableSetSaved, stableParse]);;
 
   useEffect(() => {
     localStorage.setItem("savedAreas", JSON.stringify(saved));
@@ -136,7 +157,7 @@ export default function SearchValidate({
         );
         const data = await res.json();
 
-        const mapboxResults: AreaOption[] = data.features.map((f: any) => {
+        const mapboxResults: AreaOption[] = data.features.map((f: unknown) => {
           const placeType = f.place_type[0];
           let type: AreaOption["type"] = "ville";
           if (placeType === "neighborhood") type = "quartier";

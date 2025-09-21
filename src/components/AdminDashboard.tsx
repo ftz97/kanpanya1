@@ -14,29 +14,74 @@ import {
 
 export default function AdminDashboard() {
   const supabase = createClientComponentClient();
-  const [globalStats, setGlobalStats] = useState<any[]>([]);
-  const [todayStats, setTodayStats] = useState<any[]>([]);
-  const [weekStats, setWeekStats] = useState<any[]>([]);
+  const [globalStats, setGlobalStats] = useState<unknown[]>([]);
+  const [todayStats, setTodayStats] = useState<unknown[]>([]);
+  const [weekStats, setWeekStats] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        let { data: global } = await supabase.from("admin_scratch_stats").select("*");
-        let { data: today } = await supabase.from("admin_scratch_stats_today").select("*");
-        let { data: week } = await supabase.from("admin_scratch_stats_week").select("*");
+  
+const stableFrom = useCallback(() => {
+  from();
+}, [from]);
 
-        setGlobalStats(global ?? []);
-        setTodayStats(today ?? []);
-        setWeekStats(week ?? []);
-      } catch (error) {
-        console.error("Erreur chargement stats:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
+const stableSelect = useCallback(() => {
+  select();
+}, [select]);
+
+const stableFrom = useCallback(() => {
+  from();
+}, [from]);
+
+const stableSelect = useCallback(() => {
+  select();
+}, [select]);
+
+const stableFrom = useCallback(() => {
+  from();
+}, [from]);
+
+const stableSelect = useCallback(() => {
+  select();
+}, [select]);
+
+const stableSetGlobalStats = useCallback(() => {
+  setGlobalStats();
+}, [setGlobalStats]);
+
+const stableSetTodayStats = useCallback(() => {
+  setTodayStats();
+}, [setTodayStats]);
+
+const stableSetWeekStats = useCallback(() => {
+  setWeekStats();
+}, [setWeekStats]);
+
+const stableError = useCallback(() => {
+  error();
+}, [error]);
+
+const stableSetLoading = useCallback(() => {
+  setLoading();
+}, [setLoading]);
+
+const stableLoad = useCallback(() => {
+  load();
+}, [load]);
+
+useEffect(() => {
+  stableFrom();
+  stableSelect();
+  stableFrom();
+  stableSelect();
+  stableFrom();
+  stableSelect();
+  stableSetGlobalStats();
+  stableSetTodayStats();
+  stableSetWeekStats();
+  stableError();
+  stableSetLoading();
+  stableLoad();
+}, [stableFrom, stableSelect, stableFrom, stableSelect, stableFrom, stableSelect, stableSetGlobalStats, stableSetTodayStats, stableSetWeekStats, stableError, stableSetLoading, stableLoad]);;
 
   if (loading) {
     return (

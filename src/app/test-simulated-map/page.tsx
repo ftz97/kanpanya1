@@ -39,7 +39,7 @@ export default function TestSimulatedMapPage() {
             <li>2. Bougez la souris pour voir les coordonnées</li>
             <li>3. Testez les contrôles de zoom simulés</li>
             <li>4. Vérifiez le marqueur animé au centre</li>
-            <li>5. Vérifiez les overlays d'informations</li>
+            <li>5. Vérifiez les overlays d&apos;informations</li>
             <li>6. Testez le zoom avec la molette de la souris</li>
           </ul>
         </div>

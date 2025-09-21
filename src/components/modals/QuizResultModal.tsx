@@ -1,9 +1,9 @@
 "use client";
-import { useModals } from "@/components/system/ModalManager";
+import { useModal } from "@/components/modal/ModalManager";
 import { useRouter } from "next/navigation";
 import { useScratchAvailability } from "@/hooks/useScratchAvailability";
 // Composants UI inline pour éviter les problèmes d'import
-const Button = ({ children, onClick, className = "", variant = "default" }: any) => {
+const Button = ({ children, onClick, className = "", variant = "default" }: unknown) => {
   const baseClasses = "inline-flex items-center justify-center rounded-lg font-medium transition-colors disabled:pointer-events-none disabled:opacity-50";
   const variantClasses = {
     default: "bg-[#17BFA0] text-white hover:bg-[#14a58d]",
@@ -21,31 +21,31 @@ const Button = ({ children, onClick, className = "", variant = "default" }: any)
   );
 };
 
-const Card = ({ children, className = "" }: any) => (
+const Card = ({ children, className = "" }: unknown) => (
   <div className={`rounded-xl border bg-white shadow-sm ${className}`}>
     {children}
   </div>
 );
 
-const CardHeader = ({ children, className = "" }: any) => (
+const CardHeader = ({ children, className = "" }: unknown) => (
   <div className={`flex flex-col space-y-1.5 p-6 ${className}`}>
     {children}
   </div>
 );
 
-const CardTitle = ({ children, className = "" }: any) => (
+const CardTitle = ({ children, className = "" }: unknown) => (
   <div className={`font-semibold leading-none tracking-tight ${className}`}>
     {children}
   </div>
 );
 
-const CardDescription = ({ children, className = "" }: any) => (
+const CardDescription = ({ children, className = "" }: unknown) => (
   <div className={`text-sm text-gray-500 ${className}`}>
     {children}
   </div>
 );
 
-const CardContent = ({ children, className = "" }: any) => (
+const CardContent = ({ children, className = "" }: unknown) => (
   <div className={`p-6 pt-0 ${className}`}>
     {children}
   </div>
@@ -75,7 +75,7 @@ function QuizResultModal({ reward, score, total }: {
     });
     
     // Fermer le modal et rediriger vers la page scratch
-    pop();
+    close();
     router.push('/scratch');
   };
   
@@ -128,7 +128,7 @@ function QuizResultModal({ reward, score, total }: {
               variant="outline"
               className="w-full"
             >
-              Continuer l'exploration
+              Continuer l&apos;exploration
             </Button>
           </div>
 

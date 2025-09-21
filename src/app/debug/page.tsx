@@ -175,7 +175,7 @@ export default function DebugPage() {
             🧪 Page de debug pour tester le rendu visuel de tous les composants Kanpanya
           </p>
           <p className="text-xs mt-2 opacity-75">
-            Utilisez cette page pour vérifier l'apparence et le comportement des composants
+            Utilisez cette page pour vérifier l&apos;apparence et le comportement des composants
           </p>
         </div>
       </div>

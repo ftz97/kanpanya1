@@ -37,7 +37,7 @@ export function getFlashOffersTranslations(locale: SupportedLocale) {
 
 // Helper function to get nested translations with type safety
 export function getNestedTranslation(
-  obj: any,
+  obj: unknown,
   path: string,
   fallback: string = ''
 ): string {
