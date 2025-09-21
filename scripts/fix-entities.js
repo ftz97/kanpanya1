@@ -113,3 +113,4 @@ console.log(`📂 Dossier source : ${SRC_DIR}`);
 const totalFixed = scanDir(SRC_DIR);
 
 console.log(`🎉 Correction terminée ! ${totalFixed} fichiers corrigés.`);
+

@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import Button from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Trophy, Star, Gift, Sparkles, CheckCircle } from "lucide-react";
 import confetti from "canvas-confetti";

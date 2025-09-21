@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import mapboxgl from "mapbox-gl";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 
@@ -38,114 +38,6 @@ const stableMap = useCallback(() => {
   Map();
 }, [Map]);
 
-const stableSetMapError = useCallback(() => {
-  setMapError();
-}, [setMapError]);
-
-const stableMapboxDraw = useCallback(() => {
-  MapboxDraw();
-}, [MapboxDraw]);
-
-const stableAddControl = useCallback(() => {
-  addControl();
-}, [addControl]);
-
-const stableOn = useCallback(() => {
-  on();
-}, [on]);
-
-const stableFetch = useCallback(() => {
-  fetch();
-}, [fetch]);
-
-const stableJson = useCallback(() => {
-  json();
-}, [json]);
-
-const stableSetZones = useCallback(() => {
-  setZones();
-}, [setZones]);
-
-const stableSetQuartier = useCallback(() => {
-  setQuartier();
-}, [setQuartier]);
-
-const stableError = useCallback(() => {
-  error();
-}, [error]);
-
-const stableSetMapError = useCallback(() => {
-  setMapError();
-}, [setMapError]);
-
-const stableClearTimeout = useCallback(() => {
-  clearTimeout();
-}, [clearTimeout]);
-
-const stableRemove = useCallback(() => {
-  remove();
-}, [remove]);
-
-useEffect(() => {
-  stableSetMapError();
-  stableSetTimeout();
-  stableMap();
-  stableSetMapError();
-  stableMapboxDraw();
-  stableAddControl();
-  stableOn();
-  stableFetch();
-  stableJson();
-  stableSetZones();
-  stableSetQuartier();
-  stableError();
-  stableSetMapError();
-  stableClearTimeout();
-  stableRemove();
-}, [stableSetMapError, stableSetTimeout, stableMap, stableSetMapError, stableMapboxDraw, stableAddControl, stableOn, stableFetch, stableJson, stableSetZones, stableSetQuartier, stableError, stableSetMapError, stableClearTimeout, stableRemove]);;
-
-  // Fonction de recherche d'adresses
-  const searchAddresses = async (query: string) => {
-    if (!query.trim()) {
-      setSearchResults([]);
-      return;
-    }
-
-    setIsSearching(true);
-    try {
-      const res = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxgl.accessToken}&country=GP&language=fr&limit=5`
-      );
-      const data = await res.json();
-      setSearchResults(data.features || []);
-    } catch (error) {
-      console.error("Erreur lors de la recherche:", error);
-      setSearchResults([]);
-    } finally {
-      setIsSearching(false);
-    }
-  };
-
-  // Ajouter une adresse depuis les résultats de recherche
-  const addAddressFromSearch = (feature: unknown) => {
-    const [lng, lat] = feature.center;
-    const label = feature.place_name;
-
-    const newZone: AreaOption = {
-      value: `${lng},${lat}`,
-      label,
-      type: "adresse",
-      coordinates: [lng, lat],
-    };
-
-    setZones((prev) => [...prev, newZone]);
-
-    // Centrer la carte sur l'adresse
-    if (mapRef.current) {
-      mapRef.current.flyTo({
-        center: [lng, lat],
-        zoom: 15
-      });
     }
 
     // Ajouter un marqueur sur la carte

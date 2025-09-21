@@ -63,3 +63,4 @@ function scanDir(dir) {
 console.log("🔎 Correction auto des useEffect...");
 scanDir(SRC_DIR);
 console.log("🎉 Correction terminée !");
+

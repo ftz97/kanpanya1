@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useModal } from "@/components/modal/ModalManager";
 
 export default function VideoEndModal() {

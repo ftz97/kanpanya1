@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { X, ChevronsUpDown, Check, Loader2 } from "lucide-react";
@@ -96,18 +96,11 @@ useEffect(() => {
   };
 
   // ✅ Persistance des zones enregistrées
-  
-const stableGetItem = useCallback(() => {
-  getItem();
-}, [getItem]);
 
 const stableSetSaved = useCallback(() => {
   setSaved();
 }, [setSaved]);
 
-const stableParse = useCallback(() => {
-  parse();
-}, [parse]);
 
 useEffect(() => {
   stableGetItem();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -30,28 +30,3 @@ const stableNavigationControl = useCallback(() => {
 const stableMapboxGeocoder = useCallback(() => {
   MapboxGeocoder();
 }, [MapboxGeocoder]);
-
-const stableAddControl = useCallback(() => {
-  addControl();
-}, [addControl]);
-
-const stableRemove = useCallback(() => {
-  remove();
-}, [remove]);
-
-useEffect(() => {
-  stableError();
-  stableMap();
-  stableAddControl();
-  stableNavigationControl();
-  stableMapboxGeocoder();
-  stableAddControl();
-  stableRemove();
-}, [stableError, stableMap, stableAddControl, stableNavigationControl, stableMapboxGeocoder, stableAddControl, stableRemove]);;
-
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
-      <div ref={mapContainer} className="w-full h-[500px] rounded-lg shadow border" />
-    </div>
-  );
-}

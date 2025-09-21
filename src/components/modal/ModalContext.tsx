@@ -1,5 +1,6 @@
 'use client';
 import React, { createContext, useContext, useCallback, useState, useRef } from 'react';
+import { useCallback } from "react";
 import { createPortal } from 'react-dom';
 
 type ModalNode = React.ReactNode;
@@ -90,15 +91,9 @@ interface ModalRootProps {
 
 function ModalRoot({ isOpen, content, onClose, key }: ModalRootProps) {
   const [mounted, setMounted] = useState(false);
-
-  React.
 const stableSetMounted = useCallback(() => {
-  setMounted();
-}, [setMounted]);
-
-const stableSetMounted = useCallback(() => {
-  setMounted();
-}, [setMounted]);
+  setmounted();
+}, [setmounted]);
 
 useEffect(() => {
   stableSetMounted();

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
+import { useCallback } from "react";
 import confetti from "canvas-confetti";
 
 // Import des pluies d'emojis custom
@@ -154,17 +155,6 @@ const stableFloor = useCallback(() => {
   floor();
 }, [floor]);
 
-const stableRandom = useCallback(() => {
-  random();
-}, [random]);
-
-const stableFloor = useCallback(() => {
-  floor();
-}, [floor]);
-
-const stableRandom = useCallback(() => {
-  random();
-}, [random]);
 
 const stableGetRandomPrize = useCallback(() => {
   getRandomPrize();
@@ -174,9 +164,6 @@ const stableSetReward = useCallback(() => {
   setReward();
 }, [setReward]);
 
-const stableUseEffect = useCallback(() => {
-  useEffect();
-}, [useEffect]);
 
 const stableGetContext = useCallback(() => {
   getContext();
@@ -190,9 +177,6 @@ const stableFillRect = useCallback(() => {
   fillRect();
 }, [fillRect]);
 
-const stableFloor = useCallback(() => {
-  floor();
-}, [floor]);
 
 const stableFillText = useCallback(() => {
   fillText();

@@ -2,7 +2,7 @@
 
 import mapboxgl from "mapbox-gl";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
@@ -37,10 +37,6 @@ const stableNavigationControl = useCallback(() => {
   NavigationControl();
 }, [NavigationControl]);
 
-const stableAddControl = useCallback(() => {
-  addControl();
-}, [addControl]);
-
 const stableFullscreenControl = useCallback(() => {
   FullscreenControl();
 }, [FullscreenControl]);
@@ -48,10 +44,6 @@ const stableFullscreenControl = useCallback(() => {
 const stableMapboxDraw = useCallback(() => {
   MapboxDraw();
 }, [MapboxDraw]);
-
-const stableAddControl = useCallback(() => {
-  addControl();
-}, [addControl]);
 
 const stableLoadNeighborhoods = useCallback(() => {
   loadNeighborhoods();
@@ -81,17 +73,11 @@ const stableHandleZoneCreation = useCallback(() => {
   handleZoneCreation();
 }, [handleZoneCreation]);
 
-const stableOn = useCallback(() => {
-  on();
-}, [on]);
 
 const stableHandleZoneUpdate = useCallback(() => {
   handleZoneUpdate();
 }, [handleZoneUpdate]);
 
-const stableOn = useCallback(() => {
-  on();
-}, [on]);
 
 const stableHandleZoneDeletion = useCallback(() => {
   handleZoneDeletion();

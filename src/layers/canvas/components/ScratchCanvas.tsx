@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from "react";
 import { ScratchCanvasProps } from '../types';
 
 export function ScratchCanvas({ onReveal, onProgress, reward }: ScratchCanvasProps) {

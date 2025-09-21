@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export default function AIInsightsADM() {
   const [insights, setInsights] = useState<string>("Chargement des analyses...");
@@ -21,31 +21,10 @@ const stableError = useCallback(() => {
   error();
 }, [error]);
 
-const stableSetInsights = useCallback(() => {
-  setInsights();
-}, [setInsights]);
-
-const stableFetchInsights = useCallback(() => {
-  fetchInsights();
-}, [fetchInsights]);
-
-useEffect(() => {
-  stableFetch();
-  stableJson();
-  stableSetInsights();
-  stableError();
-  stableSetInsights();
-  stableFetchInsights();
-}, [stableFetch, stableJson, stableSetInsights, stableError, stableSetInsights, stableFetchInsights]);;
-
   return (
-    <section className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl shadow p-6">
-      <h2 className="text-lg font-semibold mb-4">🤖 Analyse Stratégique ADM</h2>
-      <div className="space-y-3 text-gray-700 whitespace-pre-line">
-        {insights.split("\n").map((line, idx) => (
-          <p key={idx}>{line}</p>
-        ))}
-      </div>
-    </section>
+    <div className="p-6">
+      <h2 className="text-2xl font-bold mb-4">IA Insights Admin</h2>
+      <p className="text-gray-600">Module d'insights IA en cours de développement...</p>
+    </div>
   );
 }

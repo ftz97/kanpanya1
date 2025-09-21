@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 
 // Single-file playground: Quiz + Scratch (front-only)
 // Drop this component into app/playground/page.tsx

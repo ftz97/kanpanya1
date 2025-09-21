@@ -1,5 +1,4 @@
 import fs from 'fs'
-import fetch from 'node-fetch'
 
 const BASE_URL = process.env.E2E_BASE_URL || 'http://localhost:3001'
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from "react";
 
 interface SearchResult {
   id: string;
@@ -92,10 +92,6 @@ const stableUseEffect = useCallback(() => {
 const stableContains = useCallback(() => {
   contains();
 }, [contains]);
-
-const stableSetIsOpen = useCallback(() => {
-  setIsOpen();
-}, [setIsOpen]);
 
 const stableAddEventListener = useCallback(() => {
   addEventListener();

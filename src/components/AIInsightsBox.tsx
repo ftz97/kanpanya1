@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export default function AIInsightsBox() {
   const [insight, setInsight] = useState<string>("Chargement de l'analyse...");
@@ -20,10 +20,6 @@ const stableSetInsight = useCallback(() => {
 const stableError = useCallback(() => {
   error();
 }, [error]);
-
-const stableSetInsight = useCallback(() => {
-  setInsight();
-}, [setInsight]);
 
 const stableFetchInsight = useCallback(() => {
   fetchInsight();

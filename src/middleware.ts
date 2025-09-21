@@ -12,6 +12,13 @@ function detectLocale(pathname: string): SupportedLocale {
 
 export function middleware(req: NextRequest) {
   const { nextUrl, headers } = req;
+  
+  // Redirection de domaine si nécessaire
+  const hostname = req.headers.get('host') || '';
+  if (hostname.includes('padavwa.com')) {
+    return NextResponse.redirect(new URL(`https://konpanya.xyz${nextUrl.pathname}`, req.url), 301);
+  }
+  
   // Ne JAMAIS intercepter les API : ça casse /api/flash-offers
   if (nextUrl.pathname.startsWith("/api")) {
     return NextResponse.next({ request: { headers } });

@@ -367,3 +367,4 @@ export default function ScratchCardStableV3WithAnimations({
     </>
   );
 }
+

@@ -60,3 +60,4 @@ COMMENT ON COLUMN neighborhoods.updated_at IS 'Date de dernière modification';
 
 
 
+

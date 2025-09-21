@@ -32,3 +32,4 @@ function scanDir(dir) {
 console.log("🔎 Remplacement global des 'any' par 'unknown'...");
 scanDir(SRC_DIR);
 console.log("🎉 Correction terminée !");
+

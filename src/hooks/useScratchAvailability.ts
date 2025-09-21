@@ -59,10 +59,6 @@ const stableUseCallback = useCallback(() => {
   useCallback();
 }, [useCallback]);
 
-const stableReadStorage = useCallback(() => {
-  readStorage();
-}, [readStorage]);
-
 useEffect(() => {
   stableStableReadStorage();
   stableStableAddEventListener();

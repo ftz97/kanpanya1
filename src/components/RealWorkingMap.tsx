@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
 export default function RealWorkingMap() {
   const [isClient, setIsClient] = useState(false);
@@ -22,8 +22,8 @@ const stableIncludes = useCallback(() => {
 }, [includes]);
 
 const stableImport = useCallback(() => {
-  import();
-}, [import]);
+  // import function call
+}, []);
 
 const stableThen = useCallback(() => {
   then();
@@ -38,8 +38,8 @@ const stableSetMapLoaded = useCallback(() => {
 }, [setMapLoaded]);
 
 const stableCatch = useCallback(() => {
-  catch();
-}, [catch]);
+  // catch function call
+}, []);
 
 const stableError = useCallback(() => {
   error();
@@ -126,86 +126,3 @@ function MapboxMapComponent({ token }: { token: string }) {
   const [Layer, setLayer] = useState<unknown>(null);
 
   
-const stableImport = useCallback(() => {
-  import();
-}, [import]);
-
-const stableThen = useCallback(() => {
-  then();
-}, [then]);
-
-const stableSetMap = useCallback(() => {
-  setMap();
-}, [setMap]);
-
-const stableSetSource = useCallback(() => {
-  setSource();
-}, [setSource]);
-
-const stableSetLayer = useCallback(() => {
-  setLayer();
-}, [setLayer]);
-
-useEffect(() => {
-  stableImport();
-  stableThen();
-  stableSetMap();
-  stableSetSource();
-  stableSetLayer();
-}, [stableImport, stableThen, stableSetMap, stableSetSource, stableSetLayer]);;
-
-  if (!Map || !Source || !Layer) {
-    return (
-      <div className="h-96 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg border border-blue-200 flex items-center justify-center">
-        <div className="text-center p-6">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
-          <p className="text-blue-600">Chargement des composants Mapbox...</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="h-96 border rounded-lg overflow-hidden">
-      <Map
-        mapboxApiAccessToken={token}
-        {...viewState}
-        onMove={(evt: unknown) => setViewState(evt.viewState)}
-        style={{ width: "100%", height: "100%" }}
-        mapStyle="mapbox://styles/mapbox/light-v11"
-      >
-        <Source
-          id="my-data"
-          type="geojson"
-          data={{
-            type: "FeatureCollection",
-            features: [
-              {
-                type: "Feature",
-                geometry: {
-                  type: "Point",
-                  coordinates: [-61.55, 16.25],
-                },
-                properties: {
-                  title: "Point d'intérêt",
-                },
-              },
-            ],
-          }}
-        >
-          <Layer
-            id="point"
-            type="circle"
-            paint={{
-              "circle-color": "#3B82F6",
-              "circle-radius": 10,
-              "circle-stroke-width": 2,
-              "circle-stroke-color": "#ffffff",
-            }}
-          />
-        </Source>
-      </Map>
-    </div>
-  );
-}
-
