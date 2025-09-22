@@ -8,9 +8,9 @@ const supabase = createClient(
 
 export async function GET(
   req: Request,
-  { params }: { params: { merchantId: string } }
+  { params }: { params: Promise<{ merchantId: string }> }
 ) {
-  const { merchantId } = params;
+  const { merchantId } = await params;
 
   try {
     // 🎯 Qualité d'Attraction
