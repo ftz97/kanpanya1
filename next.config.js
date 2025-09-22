@@ -8,6 +8,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Désactiver explicitement le middleware
+  experimental: {
+    middlewareSourceMaps: false,
+  },
 };
 
 module.exports = nextConfig;

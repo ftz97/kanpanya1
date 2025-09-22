@@ -1,8 +1,2 @@
-.next/
-node_modules/
-.vercel/
-*.js
-next.config.js
-next.config.cjs
-next.config.ts
-!next.config.mjs
+middleware.ts
+middleware.js
