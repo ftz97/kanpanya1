@@ -1,19 +1,22 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-const PROTECTED_PREFIXES = ["/dashboard"];
-
-export function middleware(req: NextRequest) {
-  console.log("🔒 MIDDLEWARE ACTIF pour:", req.nextUrl.pathname);
+export function middleware(request: NextRequest) {
+  // EMPÊCHER TOUTE redirection vers padavwa.com
+  const hostname = request.headers.get('host') || '';
   
-  // Rediriger TOUTES les routes /dashboard
-  if (req.nextUrl.pathname.startsWith("/dashboard")) {
-    console.log("🚫 REDIRECTION VERS /login");
-    return NextResponse.redirect(new URL("/login", req.url));
+  // Si on est sur un domaine Vercel, on reste là
+  if (hostname.includes('vercel.app')) {
+    return NextResponse.next();
+  }
+  
+  // Si quelqu'un essaie de rediriger vers padavwa.com, on reste sur Vercel
+  if (hostname.includes('padavwa.com')) {
+    return NextResponse.redirect(new URL('https://kanpanya1.vercel.app' + request.nextUrl.pathname, request.url));
   }
   
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
