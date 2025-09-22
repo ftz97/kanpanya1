@@ -1,10 +1,5 @@
-# Ignorer les fichiers de cache et temporaires
 .next/
 node_modules/
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-*.log
-.DS_Store
-*.tsbuildinfo
+.vercel/
+*.js
+!next.config.mjs
