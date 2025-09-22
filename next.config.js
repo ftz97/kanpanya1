@@ -8,9 +8,20 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Désactiver explicitement le middleware
+  // Configuration pour le déploiement
+  output: 'standalone',
   experimental: {
-    middlewareSourceMaps: false,
+    outputFileTracingRoot: undefined,
+  },
+  // Configuration des domaines
+  async redirects() {
+    return [
+      {
+        source: '/padavwa/:path*',
+        destination: '/:path*',
+        permanent: true,
+      },
+    ];
   },
 };
 
