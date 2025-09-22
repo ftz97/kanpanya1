@@ -13,15 +13,24 @@ function detectLocale(pathname: string): SupportedLocale {
 export function middleware(req: NextRequest) {
   const { nextUrl, headers } = req;
   
-  // Ne JAMAIS intercepter les API : ça casse /api/flash-offers
-  if (nextUrl.pathname.startsWith("/api")) {
-    return NextResponse.next({ request: { headers } });
+  // MÉTHODE RADICALE : Forcer le site à rester sur le domaine Vercel
+  const hostname = req.headers.get('host') || '';
+  
+  // Si on est sur un domaine Vercel, on reste là
+  if (hostname.includes('vercel.app')) {
+    // Ne JAMAIS intercepter les API : ça casse /api/flash-offers
+    if (nextUrl.pathname.startsWith("/api")) {
+      return NextResponse.next({ request: { headers } });
+    }
+    const locale = detectLocale(nextUrl.pathname);
+    const res = NextResponse.next({ request: { headers } });
+    // Passe la locale aux Server/Client Components
+    res.headers.set("x-app-locale", locale);
+    return res;
   }
-  const locale = detectLocale(nextUrl.pathname);
-  const res = NextResponse.next({ request: { headers } });
-  // Passe la locale aux Server/Client Components
-  res.headers.set("x-app-locale", locale);
-  return res;
+  
+  // Si on est sur un autre domaine, on force la redirection vers Vercel
+  return NextResponse.redirect(new URL(`https://kanpanya1.vercel.app${nextUrl.pathname}`, req.url), 301);
 }
 
 export const config = {
