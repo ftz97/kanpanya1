@@ -3,7 +3,7 @@ import { createServerSupabase } from '@/lib/supabase';
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     const supabase = await createServerSupabase();
@@ -12,7 +12,7 @@ export async function PUT(
     const { data, error } = await supabase
       .from('neighborhoods')
       .update({ geometry })
-      .eq('id', params.id)
+      .eq('id', context.params.id)
       .select()
       .single();
 
@@ -30,7 +30,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     const supabase = await createServerSupabase();
@@ -38,7 +38,7 @@ export async function DELETE(
     const { error } = await supabase
       .from('neighborhoods')
       .delete()
-      .eq('id', params.id);
+      .eq('id', context.params.id);
 
     if (error) {
       console.error('Erreur suppression quartier:', error);
