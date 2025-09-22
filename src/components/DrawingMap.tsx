@@ -16,8 +16,8 @@ export default function DrawingMap({
   zoom = 12
 }: DrawingMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<unknown>(null);
-  const draw = useRef<unknown>(null);
+  const map = useRef<any>(null);
+  const draw = useRef<any>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [drawingMode, setDrawingMode] = useState<string>('simple_select');
@@ -33,7 +33,7 @@ export default function DrawingMap({
     }
 
     const loadMapbox = () => {
-      if ((window as unknown).mapboxgl) {
+      if ((window as any).mapboxgl) {
         initializeMap();
         return;
       }
@@ -83,8 +83,8 @@ export default function DrawingMap({
 
     const initializeMap = () => {
       try {
-        const mapboxgl = (window as unknown).mapboxgl;
-        const MapboxDraw = (window as unknown).MapboxDraw;
+        const mapboxgl = (window as any).mapboxgl;
+        const MapboxDraw = (window as any).MapboxDraw;
         
         mapboxgl.accessToken = token;
 
@@ -126,21 +126,21 @@ export default function DrawingMap({
           console.log('Carte Mapbox avec dessin chargée avec succès');
         });
 
-        map.current.on('error', (e: unknown) => {
+        map.current.on('error', (e: any) => {
           console.error('Erreur Mapbox:', e);
           setError('Erreur lors du chargement de la carte');
         });
 
         // Événements de dessin
-        map.current.on('draw.create', (e: unknown) => {
+        map.current.on('draw.create', (e: any) => {
           console.log('Forme créée:', e.features);
         });
 
-        map.current.on('draw.update', (e: unknown) => {
+        map.current.on('draw.update', (e: any) => {
           console.log('Forme mise à jour:', e.features);
         });
 
-        map.current.on('draw.delete', (e: unknown) => {
+        map.current.on('draw.delete', (e: any) => {
           console.log('Forme supprimée:', e.features);
         });
 
@@ -291,7 +291,6 @@ export default function DrawingMap({
     </div>
   );
 }
-
 
 
 

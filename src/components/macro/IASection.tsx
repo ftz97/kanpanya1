@@ -71,7 +71,7 @@ export default function IASection() {
         <div className="p-4 rounded-lg bg-blue-50 border border-blue-200 shadow-sm">
           <h3 className="font-semibold text-blue-800 mb-2">🤖 Analyse Automatique</h3>
           <p className="text-sm text-blue-700">
-            L&apos;IA analyse automatiquement les zones et génère des recommandations.
+            L'IA analyse automatiquement les zones et génère des recommandations.
           </p>
         </div>
         <div className="p-4 rounded-lg bg-green-50 border border-green-200 shadow-sm">
@@ -102,7 +102,7 @@ export default function IASection() {
         ].map((b) => (
           <button
             key={b.key}
-            onClick={() => setActiveChart(b.key as unknown)}
+            onClick={() => setActiveChart(b.key as any)}
             className={`px-3 py-1 rounded-full text-sm font-medium transition ${
               activeChart === b.key
                 ? "bg-blue-600 text-white shadow"

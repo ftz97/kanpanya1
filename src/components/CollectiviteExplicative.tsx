@@ -31,7 +31,7 @@ export default function CollectiviteExplicative() {
           </div>
 
           <div className="bg-white rounded-lg p-4 border-l-4 border-green-400">
-            <h3 className="font-semibold text-gray-800 mb-2">✅ Facteurs d&apos;Augmentation</h3>
+            <h3 className="font-semibold text-gray-800 mb-2">✅ Facteurs d'Augmentation</h3>
             <ul className="space-y-2 text-sm">
               <li className="flex items-start">
                 <span className="text-green-500 mr-2 mt-1">🎉</span>
@@ -43,7 +43,7 @@ export default function CollectiviteExplicative() {
               </li>
               <li className="flex items-start">
                 <span className="text-green-500 mr-2 mt-1">🏢</span>
-                <span>Zones d&apos;activité : +45% flux professionnels</span>
+                <span>Zones d'activité : +45% flux professionnels</span>
               </li>
               <li className="flex items-start">
                 <span className="text-green-500 mr-2 mt-1">🎓</span>

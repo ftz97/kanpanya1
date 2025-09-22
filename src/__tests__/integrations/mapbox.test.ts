@@ -37,35 +37,35 @@ const mockMapboxGL = {
 jest.mock('mapbox-gl', () => mockMapboxGL);
 jest.mock('react-map-gl', () => ({
   Map: jest.fn(({ children, ...props }) => {
-    import React from "react";
+    const React = require('react');
     return React.createElement('div', { 'data-testid': 'mapbox-map', ...props }, children);
   }),
   Marker: jest.fn(({ children, ...props }) => {
-    import React from "react";
+    const React = require('react');
     return React.createElement('div', { 'data-testid': 'mapbox-marker', ...props }, children);
   }),
   Popup: jest.fn(({ children, ...props }) => {
-    import React from "react";
+    const React = require('react');
     return React.createElement('div', { 'data-testid': 'mapbox-popup', ...props }, children);
   }),
   NavigationControl: jest.fn(() => {
-    import React from "react";
+    const React = require('react');
     return React.createElement('div', { 'data-testid': 'navigation-control' });
   }),
   GeolocateControl: jest.fn(() => {
-    import React from "react";
+    const React = require('react');
     return React.createElement('div', { 'data-testid': 'geolocate-control' });
   }),
   FullscreenControl: jest.fn(() => {
-    import React from "react";
+    const React = require('react');
     return React.createElement('div', { 'data-testid': 'fullscreen-control' });
   }),
   ScaleControl: jest.fn(() => {
-    import React from "react";
+    const React = require('react');
     return React.createElement('div', { 'data-testid': 'scale-control' });
   }),
   AttributionControl: jest.fn(() => {
-    import React from "react";
+    const React = require('react');
     return React.createElement('div', { 'data-testid': 'attribution-control' });
   }),
 }));

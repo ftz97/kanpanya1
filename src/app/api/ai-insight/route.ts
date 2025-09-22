@@ -43,7 +43,7 @@ export async function GET() {
     return NextResponse.json({
       insight: response.choices[0].message?.content,
     });
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error("Erreur OpenAI:", error);
     // Fallback vers insight mock en cas d'erreur
     return NextResponse.json({

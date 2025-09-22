@@ -1,150 +1,70 @@
 'use client';
-import React, { createContext, useContext, useCallback, useState, useRef } from 'react';
+
+import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { useCallback } from "react";
-import { createPortal } from 'react-dom';
 
-type ModalNode = React.ReactNode;
-
-interface ModalContextType {
-  open: (content: ModalNode) => void;
-  replace: (content: ModalNode) => void;
+type ModalAPI = {
+  open: (node: React.ReactNode) => void;
+  replace: (node: React.ReactNode) => void;
   close: () => void;
+};
+
+type ModalState = {
+  node: React.ReactNode | null;
+  key: number; // force remount
   isOpen: boolean;
-}
+};
 
-const ModalContext = createContext<ModalContextType | null>(null);
+const ModalCtx = createContext<ModalAPI | null>(null);
+const MODAL_DEV_GUARD = typeof window !== 'undefined' ? (window as any).__KANPANYA_MODAL__ : undefined;
 
-export function useModal() {
-  const context = useContext(ModalContext);
-  if (!context) {
-    throw new Error('useModal doit être utilisé à l\'intérieur d\'un <ModalProvider>');
+export function ModalProvider({ children }: { children: React.ReactNode }) {
+  // Évite double Provider en dev/hot-reload
+  if (typeof window !== 'undefined') {
+    if (MODAL_DEV_GUARD && process.env.NODE_ENV !== 'production') {
+      console.warn('[ModalProvider] Duplicate provider detected — keeping single instance.');
+      return <>{children}</>;
+    }
+    (window as any).__KANPANYA_MODAL__ = true;
   }
-  return context;
-}
 
-interface ModalProviderProps {
-  children: React.ReactNode;
-}
+  const [state, setState] = useState<ModalState>({ node: null, key: 0, isOpen: false });
+  const replacingRef = useRef(false);
 
-export function ModalProvider({ children }: ModalProviderProps) {
-  const [content, setContent] = useState<ModalNode | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [key, setKey] = useState(0);
-  const isReplacingRef = useRef(false);
+  const open = useCallback((node: React.ReactNode) => {
+    console.log('🔄 ModalManager.open appelé avec:', node);
+    setState(s => ({ node, key: s.key + 1, isOpen: true }));
+  }, []);
+
+  const replace = useCallback((node: React.ReactNode) => {
+    if (replacingRef.current) return;
+    console.log('🔄 ModalManager.replace appelé avec:', node);
+    replacingRef.current = true;
+    // Force remount pour éviter états résiduels
+    setState(s => ({ node, key: s.key + 1, isOpen: true }));
+    // Libère le flag au prochain frame
+    requestAnimationFrame(() => { replacingRef.current = false; });
+  }, []);
 
   const close = useCallback(() => {
-    console.log('🔒 Modal fermé');
-    setContent(null);
-    setIsOpen(false);
+    console.log('🔄 ModalManager.close appelé');
+    setState({ node: null, key: 0, isOpen: false });
   }, []);
 
-  const open = useCallback((node: ModalNode) => {
-    console.log('🔓 Modal ouvert avec:', node);
-    setContent(node);
-    setIsOpen(true);
-    setKey(prev => prev + 1); // Force remount pour éviter les conflits
-  }, []);
+  const api = useMemo<ModalAPI>(() => ({ open, replace, close }), [open, replace, close]);
 
-  const replace = useCallback((node: ModalNode) => {
-    if (isReplacingRef.current) {
-      console.log('⚠️ Replace ignoré - déjà en cours');
-      return;
-    }
-    
-    console.log('🔄 Modal remplacé par:', node);
-    isReplacingRef.current = true;
-    setContent(node);
-    setKey(prev => prev + 1); // Force remount propre
-    
-    // Reset le flag après le prochain tick
-    requestAnimationFrame(() => {
-      isReplacingRef.current = false;
-    });
-  }, []);
-
-  const contextValue: ModalContextType = {
-    open,
-    replace,
-    close,
-    isOpen
-  };
+  // Expose pour le ModalRoot via custom event (optionnel)
+  (typeof window !== 'undefined') && ((window as any).__KANPANYA_MODAL_STATE__ = state);
 
   return (
-    <ModalContext.Provider value={contextValue}>
+    <ModalCtx.Provider value={api}>
       {children}
-      <ModalRoot 
-        isOpen={isOpen} 
-        content={content} 
-        onClose={close}
-        key={key}
-      />
-    </ModalContext.Provider>
+    </ModalCtx.Provider>
   );
 }
 
-interface ModalRootProps {
-  isOpen: boolean;
-  content: ModalNode | null;
-  onClose: () => void;
-  key: number;
-}
-
-function ModalRoot({ isOpen, content, onClose, key }: ModalRootProps) {
-  const [mounted, setMounted] = useState(false);
-const stableSetMounted = useCallback(() => {
-  setmounted();
-}, [setmounted]);
-
-useEffect(() => {
-  stableSetMounted();
-  stableSetMounted();
-}, [stableSetMounted, stableSetMounted]);;
-
-  React.useEffect(() => {
-    if (isOpen) {
-      document.documentElement.style.overflow = 'hidden';
-      document.body.classList.add('modal-open');
-    } else {
-      document.documentElement.style.overflow = '';
-      document.body.classList.remove('modal-open');
-    }
-
-    return () => {
-      document.documentElement.style.overflow = '';
-      document.body.classList.remove('modal-open');
-    };
-  }, [isOpen]);
-
-  React.useEffect(() => {
-    console.log('📝 ModalRoot: contenu changé vers:', content);
-  }, [content]);
-
-  if (!mounted || !isOpen || !content) {
-    return null;
-  }
-
-  const modalContent = (
-    <div 
-      className="fixed inset-0 z-[9999] flex items-center justify-center"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          onClose();
-        }
-      }}
-    >
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-      
-      {/* Modal Content */}
-      <div 
-        className="relative z-[10000] w-[min(92vw,720px)] max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl p-6 mx-4"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {content}
-      </div>
-    </div>
-  );
-
-  // Portal vers le body pour éviter les problèmes de z-index
-  return createPortal(modalContent, document.body);
+export function useModal() {
+  const ctx = useContext(ModalCtx);
+  if (!ctx) throw new Error('useModal must be used inside <ModalProvider>');
+  return ctx;
 }

@@ -16,15 +16,15 @@ export default function CompleteMap({
   zoom = 12
 }: CompleteMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<unknown>(null);
-  const draw = useRef<unknown>(null);
+  const map = useRef<any>(null);
+  const draw = useRef<any>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState('Initialisation...');
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<unknown[]>([]);
-  const [selectedArea, setSelectedArea] = useState<unknown>(null);
-  const [streets, setStreets] = useState<unknown[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [selectedArea, setSelectedArea] = useState<any>(null);
+  const [streets, setStreets] = useState<any[]>([]);
   const [drawingMode, setDrawingMode] = useState('simple_select');
   const [isDrawingActive, setIsDrawingActive] = useState(false);
 
@@ -49,7 +49,7 @@ export default function CompleteMap({
 
     // Charger Mapbox
     const loadMapbox = () => {
-      if ((window as unknown).mapboxgl) {
+      if ((window as any).mapboxgl) {
         setStatus('✅ Mapbox déjà chargé, initialisation...');
         initializeMap();
         return;
@@ -89,7 +89,7 @@ export default function CompleteMap({
       if (!mapContainer.current) return;
 
       try {
-        const mapboxgl = (window as unknown).mapboxgl;
+        const mapboxgl = (window as any).mapboxgl;
         if (!mapboxgl) {
           setError('Mapbox GL JS non disponible');
           setStatus('❌ Mapbox non disponible');
@@ -125,7 +125,7 @@ export default function CompleteMap({
           initializeDrawing();
         });
 
-        map.current.on('error', (e: unknown) => {
+        map.current.on('error', (e: any) => {
           console.error('Erreur Mapbox:', e);
           setError('Erreur lors du chargement de la carte');
           setStatus('❌ Erreur de carte');
@@ -146,7 +146,7 @@ export default function CompleteMap({
         const drawScript = document.createElement('script');
         drawScript.src = 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.4.3/mapbox-gl-draw.js';
         drawScript.onload = () => {
-          const MapboxDraw = (window as unknown).MapboxDraw;
+          const MapboxDraw = (window as any).MapboxDraw;
           
           // Initialiser Mapbox Draw
           draw.current = new MapboxDraw({
@@ -164,12 +164,12 @@ export default function CompleteMap({
           map.current.addControl(draw.current, 'top-left');
 
           // Événements de dessin
-          map.current.on('draw.create', (e: unknown) => {
+          map.current.on('draw.create', (e: any) => {
             console.log('Forme créée:', e);
             handleAreaSelection(e.features[0]);
           });
 
-          map.current.on('draw.update', (e: unknown) => {
+          map.current.on('draw.update', (e: any) => {
             console.log('Forme mise à jour:', e);
             handleAreaSelection(e.features[0]);
           });
@@ -201,7 +201,7 @@ export default function CompleteMap({
       }
     };
 
-    const handleAreaSelection = (feature: unknown) => {
+    const handleAreaSelection = (feature: any) => {
       if (!feature || !map.current) return;
 
       setSelectedArea(feature);
@@ -210,8 +210,8 @@ export default function CompleteMap({
       const coordinates = feature.geometry.coordinates[0];
       
       // Calculer les limites de la zone
-      const lngs = coordinates.map((coord: unknown) => coord[0]);
-      const lats = coordinates.map((coord: unknown) => coord[1]);
+      const lngs = coordinates.map((coord: any) => coord[0]);
+      const lats = coordinates.map((coord: any) => coord[1]);
       
       const bounds = [
         [Math.min(...lngs), Math.min(...lats)], // Sud-Ouest
@@ -222,7 +222,7 @@ export default function CompleteMap({
       searchStreetsInArea(bounds);
     };
 
-    const searchStreetsInArea = async (bounds: unknown) => {
+    const searchStreetsInArea = async (bounds: any) => {
       if (!map.current) return;
 
       try {
@@ -242,7 +242,7 @@ export default function CompleteMap({
 
         if (response.ok) {
           const data = await response.json();
-          const streetFeatures = data.features.filter((feature: unknown) => 
+          const streetFeatures = data.features.filter((feature: any) => 
             feature.place_type.includes('street') || 
             feature.place_type.includes('road')
           );
@@ -262,7 +262,7 @@ export default function CompleteMap({
       }
     };
 
-    const displayStreetsOnMap = (streetFeatures: unknown[]) => {
+    const displayStreetsOnMap = (streetFeatures: any[]) => {
       if (!map.current || !streetFeatures.length) return;
 
       // Supprimer les anciennes sources
@@ -348,16 +348,16 @@ export default function CompleteMap({
     }
   };
 
-  const handleResultClick = (result: unknown) => {
+  const handleResultClick = (result: any) => {
     if (!map.current) return;
 
     const [lng, lat] = result.center;
     map.current.flyTo({ center: [lng, lat], zoom: 16 });
     
     // Ajouter un marqueur
-    new (window as unknown).mapboxgl.Marker({ color: '#3b82f6' })
+    new (window as any).mapboxgl.Marker({ color: '#3b82f6' })
       .setLngLat([lng, lat])
-      .setPopup(new (window as unknown).mapboxgl.Popup().setHTML(`
+      .setPopup(new (window as any).mapboxgl.Popup().setHTML(`
         <div class="p-2">
           <h3 class="font-semibold">${result.place_name}</h3>
           <p class="text-sm text-gray-600">${result.properties?.category || 'Lieu'}</p>
@@ -577,7 +577,7 @@ export default function CompleteMap({
           <li>• Utilisez la barre de recherche</li>
           <li>• Cliquez sur un outil de dessin</li>
           <li>• Dessinez sur la carte</li>
-          <li>• Les rues s&apos;afficheront automatiquement</li>
+          <li>• Les rues s'afficheront automatiquement</li>
         </ul>
       </div>
     </div>

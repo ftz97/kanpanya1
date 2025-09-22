@@ -242,7 +242,7 @@ export default function StreetSegmentationMap({
       
       {/* Statistiques globales */}
       <div className="absolute bottom-4 right-4 bg-white bg-opacity-95 p-4 rounded-lg shadow-lg">
-        <h3 className="font-semibold text-gray-700 mb-2">Vue d&apos;ensemble</h3>
+        <h3 className="font-semibold text-gray-700 mb-2">Vue d'ensemble</h3>
         <div className="text-sm space-y-1">
           <p><span className="font-medium">Population totale:</span> {segmentsToUse.reduce((sum, s) => sum + (s.population || 0), 0).toLocaleString()}</p>
           <p><span className="font-medium">Commerces:</span> {segmentsToUse.reduce((sum, s) => sum + (s.businesses || 0), 0)}</p>

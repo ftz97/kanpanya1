@@ -13,7 +13,7 @@ export function useScratchCard() {
   const { state, markUsed } = useScratchState();
   const scratchService = new ScratchService();
 
-  const handleReveal = useCallback(async (reward?: unknown) => {
+  const handleReveal = useCallback(async (reward?: any) => {
     setIsRevealed(true);
     setShowModal(true);
     

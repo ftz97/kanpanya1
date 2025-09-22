@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from 'react';
 
 interface MapboxMapProps {
   className?: string;
@@ -11,19 +11,10 @@ export default function MapboxMap({ className = "", height = "400px" }: MapboxMa
   const [isClient, setIsClient] = useState(false);
   const [mapboxToken, setMapboxToken] = useState<string | null>(null);
 
-  
-const stableSetIsClient = useCallback(() => {
-  setIsClient();
-}, [setIsClient]);
-
-const stableSetMapboxToken = useCallback(() => {
-  setMapboxToken();
-}, [setMapboxToken]);
-
-useEffect(() => {
-  stableSetIsClient();
-  stableSetMapboxToken();
-}, [stableSetIsClient, stableSetMapboxToken]);;
+  useEffect(() => {
+    setIsClient(true);
+    setMapboxToken(process.env.NEXT_PUBLIC_MAPBOX_TOKEN || null);
+  }, []);
 
   if (!isClient) {
     return (
@@ -74,7 +65,7 @@ useEffect(() => {
         </p>
         <div className="bg-white p-3 rounded border text-xs">
           <p className="text-green-600 font-medium">
-            Prêt pour l&apos;intégration Mapbox GL JS
+            Prêt pour l'intégration Mapbox GL JS
           </p>
         </div>
       </div>

@@ -30,7 +30,7 @@ export default function IADescriptive() {
             </li>
             <li className="flex items-center">
               <span className="text-green-500 mr-2">📈</span>
-              <span>Pic d&apos;affluence : Vendredi 18h-20h (+45% vs moyenne)</span>
+              <span>Pic d'affluence : Vendredi 18h-20h (+45% vs moyenne)</span>
             </li>
           </ul>
         </div>

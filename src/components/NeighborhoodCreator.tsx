@@ -13,7 +13,7 @@ interface NeighborhoodCreatorProps {
 interface Neighborhood {
   id: string;
   name: string;
-  geometry: unknown;
+  geometry: any;
   created_at: string;
   color: string;
 }
@@ -25,8 +25,8 @@ export default function NeighborhoodCreator({
   zoom = 12
 }: NeighborhoodCreatorProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<unknown>(null);
-  const draw = useRef<unknown>(null);
+  const map = useRef<any>(null);
+  const draw = useRef<any>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState('Initialisation...');
@@ -50,7 +50,7 @@ export default function NeighborhoodCreator({
     setStatus('✅ Token trouvé, chargement de Mapbox...');
 
     const loadMapbox = () => {
-      if ((window as unknown).mapboxgl) {
+      if ((window as any).mapboxgl) {
         setStatus('✅ Mapbox déjà chargé, initialisation...');
         initializeMap();
         return;
@@ -88,7 +88,7 @@ export default function NeighborhoodCreator({
       if (!mapContainer.current) return;
 
       try {
-        const mapboxgl = (window as unknown).mapboxgl;
+        const mapboxgl = (window as any).mapboxgl;
         if (!mapboxgl) {
           setError('Mapbox GL JS non disponible');
           setStatus('❌ Mapbox non disponible');
@@ -120,7 +120,7 @@ export default function NeighborhoodCreator({
           loadExistingNeighborhoods();
         });
 
-        map.current.on('error', (e: unknown) => {
+        map.current.on('error', (e: any) => {
           console.error('Erreur Mapbox:', e);
           setError('Erreur lors du chargement de la carte');
           setStatus('❌ Erreur de carte');
@@ -141,7 +141,7 @@ export default function NeighborhoodCreator({
         const drawScript = document.createElement('script');
         drawScript.src = 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.4.3/mapbox-gl-draw.js';
         drawScript.onload = () => {
-          const MapboxDraw = (window as unknown).MapboxDraw;
+          const MapboxDraw = (window as any).MapboxDraw;
           
           // Initialiser Mapbox Draw
           draw.current = new MapboxDraw({
@@ -158,17 +158,17 @@ export default function NeighborhoodCreator({
           map.current.addControl(draw.current, 'top-left');
 
           // Événements de dessin
-          map.current.on('draw.create', (e: unknown) => {
+          map.current.on('draw.create', (e: any) => {
             console.log('Zone créée:', e);
             handleZoneCreation(e.features[0]);
           });
 
-          map.current.on('draw.update', (e: unknown) => {
+          map.current.on('draw.update', (e: any) => {
             console.log('Zone mise à jour:', e);
             handleZoneUpdate(e.features[0]);
           });
 
-          map.current.on('draw.delete', (e: unknown) => {
+          map.current.on('draw.delete', (e: any) => {
             console.log('Zone supprimée:', e);
             handleZoneDeletion(e.features[0]);
           });
@@ -278,7 +278,7 @@ export default function NeighborhoodCreator({
       });
 
       // Événement de clic sur les quartiers
-      map.current.on('click', 'neighborhoods-fill', (e: unknown) => {
+      map.current.on('click', 'neighborhoods-fill', (e: any) => {
         const feature = e.features[0];
         const neighborhood = neighborhoods.find(n => n.id === feature.properties.id);
         if (neighborhood) {
@@ -296,7 +296,7 @@ export default function NeighborhoodCreator({
       });
     };
 
-    const handleZoneCreation = (feature: unknown) => {
+    const handleZoneCreation = (feature: any) => {
       setIsCreating(true);
       setNewNeighborhoodName('');
       
@@ -311,7 +311,7 @@ export default function NeighborhoodCreator({
       setIsCreating(false);
     };
 
-    const handleZoneUpdate = (feature: unknown) => {
+    const handleZoneUpdate = (feature: any) => {
       // Mettre à jour le quartier existant
       const neighborhood = neighborhoods.find(n => n.id === feature.id);
       if (neighborhood) {
@@ -319,7 +319,7 @@ export default function NeighborhoodCreator({
       }
     };
 
-    const handleZoneDeletion = (feature: unknown) => {
+    const handleZoneDeletion = (feature: any) => {
       // Supprimer le quartier
       const neighborhood = neighborhoods.find(n => n.id === feature.id);
       if (neighborhood) {
@@ -327,7 +327,7 @@ export default function NeighborhoodCreator({
       }
     };
 
-    const createNeighborhood = async (name: string, geometry: unknown) => {
+    const createNeighborhood = async (name: string, geometry: any) => {
       try {
         const newNeighborhood: Neighborhood = {
           id: crypto.randomUUID(),
@@ -359,7 +359,7 @@ export default function NeighborhoodCreator({
       }
     };
 
-    const updateNeighborhood = async (id: string, geometry: unknown) => {
+    const updateNeighborhood = async (id: string, geometry: any) => {
       try {
         const response = await fetch(`/api/neighborhoods/${id}`, {
           method: 'PUT',
@@ -560,7 +560,7 @@ export default function NeighborhoodCreator({
             <li>• Cliquez sur un outil de dessin</li>
             <li>• Dessinez une zone sur la carte</li>
             <li>• Donnez un nom au quartier</li>
-            <li>• Cliquez sur un quartier pour l&apos;analyser</li>
+            <li>• Cliquez sur un quartier pour l'analyser</li>
           </ul>
         </div>
       </div>
@@ -582,7 +582,6 @@ export default function NeighborhoodCreator({
     </div>
   );
 }
-
 
 
 

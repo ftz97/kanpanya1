@@ -74,7 +74,7 @@ export default function RealMapboxMapClick({
         }
       });
 
-      map.current.on("error", (e: unknown) => {
+      map.current.on("error", (e: any) => {
         setError(e?.error?.message || "Erreur Mapbox inconnue");
       });
     } catch (err) {

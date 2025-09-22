@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { useCallback } from "react";
 import confetti from "canvas-confetti";
 
 // Import tes pluies d'emojis custom
@@ -118,81 +117,121 @@ export default function ScratchCardV3({
 
   // Initialisation côté client uniquement pour éviter les erreurs d'hydratation
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const { gradient, isGolden } = getRandomTicketGradient(goldenTicketChance);
-      setTicketGradient({ gradient, isGolden });
+    if (!isInitialized) {
+      const gradient = getRandomTicketGradient(goldenTicketChance);
+      setTicketGradient(gradient);
+      setIsWinner(gradient.isGolden || Math.random() > 0.5);
       setIsInitialized(true);
     }
-  }, [goldenTicketChance]);
+  }, [isInitialized, goldenTicketChance]);
 
-  // Fonction pour déclencher les emojis
-  const triggerEmojis = () => {
-    if (isWinner) {
-      if (reward.type === "golden") {
-        setShowHappyEmojis(true);
-        setTimeout(() => setShowHappyEmojis(false), 3000);
-      } else if (reward.type === "points" && reward.amount >= 200) {
-        setShowMoneyEmojis(true);
-        setTimeout(() => setShowMoneyEmojis(false), 3000);
-      } else {
-        setShowHappyEmojis(true);
-        setTimeout(() => setShowHappyEmojis(false), 3000);
-      }
+  useEffect(() => {
+    if (isInitialized) {
+      const winVariations = getWinVariations();
+      const loseVariations = getLoseVariations();
+    setVariation(
+      isWinner
+          ? winVariations[Math.floor(Math.random() * winVariations.length)]
+          : loseVariations[Math.floor(Math.random() * loseVariations.length)]
+    );
+      const chosenReward = getRandomPrize(isWinner, ticketGradient.isGolden);
+    setReward(chosenReward);
+    }
+  }, [isWinner, isInitialized, ticketGradient.isGolden]);
+
+  // Canvas init
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const resize = () => {
+      const { width, height } = container.getBoundingClientRect();
+      canvas.width = width;
+      canvas.height = height;
+
+      ctx.fillStyle = "#9ca3af";
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.fillStyle = "#111827";
+      ctx.font = `bold ${Math.floor(width / 18)}px Arial`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("🎁 GRATTE ICI 🎁", width / 2, height / 2);
+    };
+
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  const scratchAt = (x: number, y: number) => {
+    console.log("🎨 Grattage détecté à:", x, y);
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      console.log("❌ Canvas non trouvé");
+      return;
+    }
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      console.log("❌ Contexte canvas non trouvé");
+      return;
+    }
+
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    ctx.lineWidth = 40;
+
+    ctx.beginPath();
+    if (lastPos.current) {
+      ctx.moveTo(lastPos.current.x, lastPos.current.y);
+      ctx.lineTo(x, y);
     } else {
-      setShowSadEmojis(true);
-      setTimeout(() => setShowSadEmojis(false), 3000);
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + 0.1, y + 0.1);
+    }
+    ctx.stroke();
+
+    lastPos.current = { x, y };
+
+    const now = Date.now();
+    if (now - lastCheck.current > 200 && !revealed) {
+      lastCheck.current = now;
+      checkProgress();
     }
   };
 
-  // Fonction de grattage
-  const scratchAt = (x: number, y: number) => {
-    if (!canvasRef.current || !isInitialized) return;
-
+  const checkProgress = () => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-
-    const canvasX = (x - rect.left) * scaleX;
-    const canvasY = (y - rect.top) * scaleY;
-
-    // Dessiner le cercle de grattage
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.beginPath();
-    ctx.arc(canvasX, canvasY, 20, 0, 2 * Math.PI);
-    ctx.fill();
-
-    // Vérifier si assez de surface a été grattée
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const pixels = imageData.data;
-    let transparentPixels = 0;
-
-    for (let i = 3; i < pixels.length; i += 4) {
-      if (pixels[i] === 0) transparentPixels++;
+    let transparent = 0;
+    // Optimisation : sampling plus intelligent (i += 100 au lieu de 40)
+    for (let i = 3; i < imageData.data.length; i += 100) {
+      if (imageData.data[i] === 0) transparent++;
     }
+    // Calcul correct du pourcentage avec le sampling
+    const totalPixels = Math.floor((canvas.width * canvas.height) / 100);
+    const percent = transparent / totalPixels;
 
-    const scratchedRatio = transparentPixels / (pixels.length / 4);
-    
-    if (scratchedRatio >= threshold && !revealed) {
+    // Debug: afficher le pourcentage et le threshold
+    console.log(`Grattage: ${(percent * 100).toFixed(1)}% (threshold: ${(threshold * 100).toFixed(1)}%)`);
+
+    if (percent > threshold && !revealed) {
       setRevealed(true);
-      
-      // Déterminer si c'est un gain
-      const won = Math.random() < 0.3; // 30% de chance de gagner
-      const isGolden = ticketGradient.isGolden;
-      
-      setIsWinner(won);
-      const newReward = getRandomPrize(won, isGolden);
-      setReward(newReward);
-      
-      // Animation de confetti si gagnant
-      if (won) {
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 }
+      setPopupVisible(true);
+
+      // 🎆 Confettis avec requestAnimationFrame pour les performances (seulement pour les gains)
+      if (isWinner) {
+        requestAnimationFrame(() => {
+          confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
         });
       }
 
@@ -201,7 +240,7 @@ export default function ScratchCardV3({
 
       // Callback onReveal si fourni
       if (onReveal) {
-        onReveal(newReward);
+        onReveal(reward);
       }
     }
   };
@@ -257,6 +296,45 @@ export default function ScratchCardV3({
     return neutralEmojis[Math.floor(Math.random() * neutralEmojis.length)];
   };
 
+  const triggerEmojis = () => {
+    if (!isWinner) {
+      // Perte - emojis tristes
+      setShowSadEmojis(true);
+      setTimeout(() => setShowSadEmojis(false), 5000);
+    } else if (reward.type === "golden") {
+      // Golden Ticket - emojis d'argent (le plus rare)
+      setShowMoneyEmojis(true);
+      setTimeout(() => setShowMoneyEmojis(false), 5000);
+    } else if (reward.type === "points") {
+      if (reward.amount >= 200) {
+        // Gros gains - emojis d'argent
+        setShowMoneyEmojis(true);
+        setTimeout(() => setShowMoneyEmojis(false), 5000);
+      } else if (reward.amount >= 100) {
+        // Gains moyens - emojis joyeux
+        setShowHappyEmojis(true);
+        setTimeout(() => setShowHappyEmojis(false), 5000);
+      } else {
+        // Petits gains - emojis joyeux aussi
+      setShowHappyEmojis(true);
+      setTimeout(() => setShowHappyEmojis(false), 5000);
+      }
+    } else if (reward.type === "reduction" || reward.type === "offer") {
+      if (reward.amount >= 20) {
+        // Grosses réductions - emojis d'argent
+      setShowMoneyEmojis(true);
+      setTimeout(() => setShowMoneyEmojis(false), 5000);
+    } else {
+      // Réductions normales - emojis joyeux
+      setShowHappyEmojis(true);
+      setTimeout(() => setShowHappyEmojis(false), 5000);
+    }
+    } else {
+      // Par défaut - emojis joyeux pour les gains
+      setShowHappyEmojis(true);
+      setTimeout(() => setShowHappyEmojis(false), 5000);
+    }
+  };
 
   const getPopupVariant = () => {
     // Toutes les variantes utilisent maintenant la bannière
@@ -371,7 +449,7 @@ export default function ScratchCardV3({
           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
         >
           <Popup
-            variant={getPopupVariant() as "banniere"}
+            variant={getPopupVariant() as any}
             title={getPopupTitle()}
             message={getPopupMessage()}
             onClose={() => setPopupVisible(false)}

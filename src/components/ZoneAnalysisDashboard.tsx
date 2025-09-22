@@ -9,17 +9,17 @@ import {
 interface AnalysisData {
   zone_name: string;
   overall_score: number;
-  demographic: unknown;
-  commercial: unknown;
-  traffic: unknown;
-  environmental: unknown;
-  social: unknown;
+  demographic: any;
+  commercial: any;
+  traffic: any;
+  environmental: any;
+  social: any;
   recommendations: string[];
-  summary: unknown;
+  summary: any;
 }
 
 interface ZoneAnalysisDashboardProps {
-  zoneData: unknown;
+  zoneData: any;
   onClose: () => void;
 }
 
@@ -108,7 +108,7 @@ export default function ZoneAnalysisDashboard({ zoneData, onClose }: ZoneAnalysi
         <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4">
           <div className="text-center">
             <div className="text-4xl mb-4">❌</div>
-            <h3 className="text-lg font-semibold text-red-700 mb-2">Erreur d&apos;analyse</h3>
+            <h3 className="text-lg font-semibold text-red-700 mb-2">Erreur d'analyse</h3>
             <p className="text-red-600 mb-4">{error}</p>
             <button
               onClick={onClose}

@@ -1,24 +1,16 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from 'react';
 
 export default function SimpleWorkingMap() {
   const [isClient, setIsClient] = useState(false);
   const [mapboxToken, setMapboxToken] = useState<string | null>(null);
 
-  
-const stableSetIsClient = useCallback(() => {
-  setIsClient();
-}, [setIsClient]);
-
-const stableSetMapboxToken = useCallback(() => {
-  setMapboxToken();
-}, [setMapboxToken]);
-
-useEffect(() => {
-  stableSetIsClient();
-  stableSetMapboxToken();
-}, [stableSetIsClient, stableSetMapboxToken]);;
+  useEffect(() => {
+    setIsClient(true);
+    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+    setMapboxToken(token || null);
+  }, []);
 
   if (!isClient) {
     return (
@@ -81,7 +73,7 @@ useEffect(() => {
       {/* Overlay avec informations de la carte */}
       <div className="absolute top-4 left-4 bg-white bg-opacity-90 p-3 rounded-lg shadow">
         <div className="text-sm">
-          <p className="font-semibold text-gray-700">📍 Zone d&apos;activité</p>
+          <p className="font-semibold text-gray-700">📍 Zone d'activité</p>
           <p className="text-blue-600">47 commerces actifs</p>
         </div>
       </div>
@@ -89,7 +81,7 @@ useEffect(() => {
       <div className="absolute bottom-4 right-4 bg-white bg-opacity-90 p-3 rounded-lg shadow">
         <div className="text-sm">
           <p className="font-semibold text-gray-700">🎯 Statistiques</p>
-          <p className="text-green-600">1,247 scans aujourd&apos;hui</p>
+          <p className="text-green-600">1,247 scans aujourd'hui</p>
         </div>
       </div>
       

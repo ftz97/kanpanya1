@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { useCallback } from "react";
 import confetti from "canvas-confetti";
 
 // Import des pluies d'emojis custom
@@ -114,117 +113,57 @@ export default function ScratchCardStableV3({
   }
 
   // Initialisation côté client uniquement pour éviter les erreurs d'hydratation
-  
-const stableGetRandomTicketGradient = useCallback(() => {
-  getRandomTicketGradient();
-}, [getRandomTicketGradient]);
+  useEffect(() => {
+    if (!isInitialized) {
+      const gradient = getRandomTicketGradient(goldenTicketChance);
+      setTicketGradient(gradient);
+      setIsWinner(gradient.isGolden || Math.random() > 0.5);
+      setIsInitialized(true);
+    }
+  }, [isInitialized, goldenTicketChance]);
 
-const stableSetTicketGradient = useCallback(() => {
-  setTicketGradient();
-}, [setTicketGradient]);
+  useEffect(() => {
+    if (isInitialized) {
+      const winVariations = getWinVariations();
+      const loseVariations = getLoseVariations();
+    setVariation(
+      isWinner
+          ? winVariations[Math.floor(Math.random() * winVariations.length)]
+          : loseVariations[Math.floor(Math.random() * loseVariations.length)]
+    );
+      const chosenReward = getRandomPrize(isWinner, ticketGradient.isGolden);
+    setReward(chosenReward);
+    }
+  }, [isWinner, isInitialized, ticketGradient.isGolden]);
 
-const stableSetIsWinner = useCallback(() => {
-  setIsWinner();
-}, [setIsWinner]);
+  // Canvas init
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-const stableRandom = useCallback(() => {
-  random();
-}, [random]);
+    const resize = () => {
+      const { width, height } = container.getBoundingClientRect();
+      canvas.width = width;
+      canvas.height = height;
 
-const stableSetIsInitialized = useCallback(() => {
-  setIsInitialized();
-}, [setIsInitialized]);
+      ctx.fillStyle = "#9ca3af";
+      ctx.fillRect(0, 0, width, height);
 
-const stableUseEffect = useCallback(() => {
-  useEffect();
-}, [useEffect]);
+      ctx.fillStyle = "#111827";
+      ctx.font = `bold ${Math.floor(width / 18)}px Arial`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("🎁 GRATTE ICI 🎁", width / 2, height / 2);
+    };
 
-const stableGetWinVariations = useCallback(() => {
-  getWinVariations();
-}, [getWinVariations]);
-
-const stableGetLoseVariations = useCallback(() => {
-  getLoseVariations();
-}, [getLoseVariations]);
-
-const stableSetVariation = useCallback(() => {
-  setVariation();
-}, [setVariation]);
-
-const stableFloor = useCallback(() => {
-  floor();
-}, [floor]);
-
-
-const stableGetRandomPrize = useCallback(() => {
-  getRandomPrize();
-}, [getRandomPrize]);
-
-const stableSetReward = useCallback(() => {
-  setReward();
-}, [setReward]);
-
-
-const stableGetContext = useCallback(() => {
-  getContext();
-}, [getContext]);
-
-const stableGetBoundingClientRect = useCallback(() => {
-  getBoundingClientRect();
-}, [getBoundingClientRect]);
-
-const stableFillRect = useCallback(() => {
-  fillRect();
-}, [fillRect]);
-
-
-const stableFillText = useCallback(() => {
-  fillText();
-}, [fillText]);
-
-const stableResize = useCallback(() => {
-  resize();
-}, [resize]);
-
-const stableResizeObserver = useCallback(() => {
-  ResizeObserver();
-}, [ResizeObserver]);
-
-const stableObserve = useCallback(() => {
-  observe();
-}, [observe]);
-
-const stableDisconnect = useCallback(() => {
-  disconnect();
-}, [disconnect]);
-
-useEffect(() => {
-  stableGetRandomTicketGradient();
-  stableSetTicketGradient();
-  stableSetIsWinner();
-  stableRandom();
-  stableSetIsInitialized();
-  stableUseEffect();
-  stableGetWinVariations();
-  stableGetLoseVariations();
-  stableSetVariation();
-  stableFloor();
-  stableRandom();
-  stableFloor();
-  stableRandom();
-  stableGetRandomPrize();
-  stableSetReward();
-  stableUseEffect();
-  stableGetContext();
-  stableGetBoundingClientRect();
-  stableFillRect();
-  stableFloor();
-  stableFillText();
-  stableResize();
-  stableResizeObserver();
-  stableObserve();
-  stableDisconnect();
-}, [stableGetRandomTicketGradient, stableSetTicketGradient, stableSetIsWinner, stableRandom, stableSetIsInitialized, stableUseEffect, stableGetWinVariations, stableGetLoseVariations, stableSetVariation, stableFloor, stableRandom, stableFloor, stableRandom, stableGetRandomPrize, stableSetReward, stableUseEffect, stableGetContext, stableGetBoundingClientRect, stableFillRect, stableFloor, stableFillText, stableResize, stableResizeObserver, stableObserve, stableDisconnect]);;
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   const scratchAt = (x: number, y: number) => {
     const canvas = canvasRef.current;
@@ -500,7 +439,7 @@ useEffect(() => {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
         >
           <Popup
-            variant={getPopupVariant() as unknown}
+            variant={getPopupVariant() as any}
             title={getPopupTitle()}
             message={getPopupMessage()}
             onClose={() => setPopupVisible(false)}

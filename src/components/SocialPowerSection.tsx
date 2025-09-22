@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 
 interface SocialPower {
   source_nom: string;
@@ -10,14 +10,13 @@ interface SocialPower {
 export default function SocialPowerSection() {
   const [data, setData] = useState<SocialPower[]>([]);
 
-  
-const stableSetData = useCallback(() => {
-  setData();
-}, [setData]);
-
-useEffect(() => {
-  stableSetData();
-}, [stableSetData]);;
+  useEffect(() => {
+    // à remplacer par un vrai fetch API
+    setData([
+      { source_nom: "Barber Black&Gold", cible_nom: "Snack Latino", nb_clients_partages: 28 },
+      { source_nom: "Pizzeria Mario", cible_nom: "Carrefour Market", nb_clients_partages: 21 },
+    ]);
+  }, []);
 
   return (
     <section className="p-6 bg-white rounded-xl shadow-lg">

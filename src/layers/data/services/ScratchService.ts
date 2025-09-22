@@ -29,7 +29,7 @@ export class ScratchService {
     }
   }
 
-  async getScratchStats(userId: string): Promise<ApiResponse<unknown>> {
+  async getScratchStats(userId: string): Promise<ApiResponse<any>> {
     try {
       const { data, error } = await this.supabase
         .from('scratch_stats')
@@ -70,7 +70,7 @@ export class ScratchService {
     }
   }
 
-  async getGlobalStats(): Promise<ApiResponse<unknown>> {
+  async getGlobalStats(): Promise<ApiResponse<any>> {
     try {
       const { data, error } = await this.supabase
         .from('admin_scratch_stats')

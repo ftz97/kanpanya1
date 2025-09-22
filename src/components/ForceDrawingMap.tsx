@@ -11,7 +11,7 @@ interface Point {
 
 export default function ForceDrawingMap() {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<unknown>(null);
+  const map = useRef<any>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [points, setPoints] = useState<Point[]>([]);
@@ -20,78 +20,92 @@ export default function ForceDrawingMap() {
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    setDebugInfo('Chargement de Mapbox...');
+    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
     
-    import('mapbox-gl').then((mapbox) => {
-      if (!mapContainer.current) return;
+    if (!token || token.includes('your_real_token_here')) {
+      setError('Token Mapbox manquant ou invalide');
+      return;
+    }
+
+    setDebugInfo('Chargement des modules Mapbox...');
+
+    // Import dynamique de Mapbox GL JS
+    import('mapbox-gl').then((mapboxgl) => {
+      setDebugInfo('Modules chargés, initialisation de la carte...');
+      
+      mapboxgl.default.accessToken = token;
 
       try {
-        const mapInstance = new mapbox.Map({
+        // Initialisation de la carte
+        map.current = new mapboxgl.default.Map({
           container: mapContainer.current,
           style: 'mapbox://styles/mapbox/streets-v12',
-          center: [2.3522, 48.8566], // Paris
-          zoom: 13,
-          accessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN || ''
+          center: [-61.55, 16.25], // Martinique
+          zoom: 12
         });
 
-        mapInstance.addControl(new mapbox.NavigationControl(), 'top-right');
-        
-        mapInstance.on('load', () => {
-          setDebugInfo('✅ Carte chargée et prête');
-          setIsLoaded(true);
-        });
+        setDebugInfo('Carte créée, ajout des contrôles...');
 
-        mapInstance.on('click', (e) => {
-          if (!isLoaded) return;
+        // Ajouter des contrôles
+        map.current.addControl(new mapboxgl.default.NavigationControl(), 'top-right');
+
+        // Événement de clic pour ajouter des points
+        map.current.on('click', (e: any) => {
+          const { lng, lat } = e.lngLat;
+          const label = `Point ${points.length + 1}`;
           
-          const pointId = `point-${Date.now()}`;
           const newPoint: Point = {
-            id: pointId,
-            lng: e.lngLat.lng,
-            lat: e.lngLat.lat,
-            label: `Point ${points.length + 1}`
+            id: Date.now().toString(),
+            lng,
+            lat,
+            label
           };
-
+          
           setPoints(prev => [...prev, newPoint]);
-          setDebugInfo(`Point ajouté: ${newPoint.label}`);
-
-          // Créer un marqueur
-          const marker = new mapbox.Marker()
-            .setLngLat([e.lngLat.lng, e.lngLat.lat])
-            .setPopup(
-              new mapbox.Popup().setText(newPoint.label)
-            )
-            .addTo(mapInstance);
-
-          marker.getElement().addEventListener('click', () => {
-            marker.togglePopup();
-          });
+          setDebugInfo(`Point ajouté: ${label}`);
+          
+          // Créer un marqueur bleu
+          new mapboxgl.default.Marker({ color: '#2563eb' })
+            .setLngLat([lng, lat])
+            .setPopup(new mapboxgl.default.Popup().setText(label))
+            .addTo(map.current);
         });
 
-        mapInstance.on('error', (e) => {
-          console.error('Erreur Mapbox:', e);
-          setError(`Erreur de carte: ${e.error?.message || 'Erreur inconnue'}`);
-          setDebugInfo('❌ Erreur lors du chargement');
+        // Événements de la carte
+        map.current.on('load', () => {
+          setIsLoaded(true);
+          setDebugInfo('✅ Carte chargée et prête - Cliquez pour ajouter des points bleus');
+          console.log('✅ Carte Mapbox chargée avec succès');
         });
 
-        map.current = mapInstance;
+        map.current.on('error', (e: any) => {
+          console.error('❌ Erreur Mapbox:', e);
+          setError('Erreur lors du chargement de la carte');
+          setDebugInfo('❌ Erreur de chargement');
+        });
 
-        return () => {
-          if (map.current) {
-            (map.current as any).remove();
-          }
-        };
       } catch (err) {
-        console.error('Erreur lors de l\'initialisation:', err);
-        setError(`Erreur d'initialisation: ${err instanceof Error ? err.message : 'Erreur inconnue'}`);
-        setDebugInfo('❌ Erreur lors de l\'initialisation');
+        console.error('❌ Erreur d\'initialisation Mapbox:', err);
+        setError('Impossible d\'initialiser la carte');
+        setDebugInfo('❌ Erreur d\'initialisation');
       }
     }).catch((err) => {
-      console.error('Erreur lors du chargement de Mapbox:', err);
-      setError(`Erreur de chargement: ${err.message}`);
-      setDebugInfo('❌ Erreur lors du chargement');
+      console.error('❌ Erreur d\'import Mapbox:', err);
+      setError('Impossible de charger Mapbox GL JS');
+      setDebugInfo('❌ Erreur d\'import');
     });
-  }, [points.length]);
+
+    // Nettoyage
+    return () => {
+      if (map.current) {
+        try {
+          map.current.remove();
+        } catch (err) {
+          console.warn('⚠️ Erreur lors du nettoyage:', err);
+        }
+      }
+    };
+  }, []);
 
   const clearAllPoints = () => {
     console.log('🗑️ Suppression de tous les points...');
@@ -135,7 +149,7 @@ export default function ForceDrawingMap() {
           📍 Mode Points Bleus - Instructions
         </h3>
         <div className="space-y-2 text-sm text-blue-700">
-          <p><strong>Étape 1:</strong> Attendez que &quot;✅ Carte chargée et prête&quot; apparaisse</p>
+          <p><strong>Étape 1:</strong> Attendez que "✅ Carte chargée et prête" apparaisse</p>
           <p><strong>Étape 2:</strong> Cliquez directement sur la carte pour ajouter des points bleus</p>
           <p><strong>Étape 3:</strong> Chaque clic ajoute un marqueur bleu avec popup</p>
           <p><strong>Étape 4:</strong> Utilisez les boutons pour gérer vos points</p>

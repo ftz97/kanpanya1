@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from 'react';
 
 interface SimulatedMapProps {
   className?: string;
@@ -18,24 +18,14 @@ export default function SimulatedMap({
   const [isLoaded, setIsLoaded] = useState(false);
   const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
 
-  
-const stableSetTimeout = useCallback(() => {
-  setTimeout();
-}, [setTimeout]);
+  useEffect(() => {
+    // Simuler le chargement
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 2000);
 
-const stableSetIsLoaded = useCallback(() => {
-  setIsLoaded();
-}, [setIsLoaded]);
-
-const stableClearTimeout = useCallback(() => {
-  clearTimeout();
-}, [clearTimeout]);
-
-useEffect(() => {
-  stableSetTimeout();
-  stableSetIsLoaded();
-  stableClearTimeout();
-}, [stableSetTimeout, stableSetIsLoaded, stableClearTimeout]);;
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -111,7 +101,7 @@ useEffect(() => {
       {/* Overlay avec informations */}
       <div className="absolute top-4 left-4 bg-white bg-opacity-90 p-3 rounded-lg shadow">
         <div className="text-sm">
-          <p className="font-semibold text-gray-700">📍 Zone d&apos;activité</p>
+          <p className="font-semibold text-gray-700">📍 Zone d'activité</p>
           <p className="text-blue-600">47 commerces actifs</p>
         </div>
       </div>
@@ -119,7 +109,7 @@ useEffect(() => {
       <div className="absolute bottom-4 right-4 bg-white bg-opacity-90 p-3 rounded-lg shadow">
         <div className="text-sm">
           <p className="font-semibold text-gray-700">🎯 Statistiques</p>
-          <p className="text-green-600">1,247 scans aujourd&apos;hui</p>
+          <p className="text-green-600">1,247 scans aujourd'hui</p>
         </div>
       </div>
 

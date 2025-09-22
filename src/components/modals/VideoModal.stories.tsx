@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import type { Meta, StoryObj } from "@storybook/react";
 import VideoModal from "./VideoModal";
 import { ModalProvider } from "@/components/modal/ModalManager";
 

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta = {
   title: "UI/Typography",
@@ -51,10 +51,10 @@ export const Responsive: StoryObj = {
   render: () => (
     <div className="space-y-4">
       <h1 className="h1-kanpa">
-        Titre responsive qui s&apos;adapte à la taille d&apos;écran
+        Titre responsive qui s'adapte à la taille d'écran
       </h1>
       <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300">
-        Ce paragraphe s&apos;adapte également à la taille d&apos;écran grâce aux classes responsive de Tailwind.
+        Ce paragraphe s'adapte également à la taille d'écran grâce aux classes responsive de Tailwind.
       </p>
     </div>
   ),

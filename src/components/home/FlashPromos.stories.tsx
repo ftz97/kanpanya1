@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import type { Meta, StoryObj } from "@storybook/react";
 import FlashPromos from "./FlashPromos";
 
 const meta: Meta<typeof FlashPromos> = {

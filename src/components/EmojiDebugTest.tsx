@@ -2,11 +2,11 @@
 import { rainMajestic } from "@/lib/emojiMajesticPresets";
 
 export default function EmojiDebugTest() {
-  const handleTest = async () => {
+  const handleTest = () => {
     console.log("🚀 Début de l'animation majestueuse");
     
     // Test direct avec startEmojiRain
-    const { startEmojiRain } = await import("@/lib/emojiRain");
+    const { startEmojiRain } = require("@/lib/emojiRain");
     
     const result = startEmojiRain({
       emojis: ["🎁", "💰", "💎", "✨", "🌟", "🤑"],
@@ -51,17 +51,17 @@ export default function EmojiDebugTest() {
         <h3 className="text-lg font-semibold mb-2">📋 Instructions Debug :</h3>
         <ol className="list-decimal list-inside space-y-1 text-sm">
           <li>Ouvrez la console du navigateur (F12)</li>
-          <li>Cliquez sur &quot;Test Direct Debug&quot;</li>
+          <li>Cliquez sur "Test Direct Debug"</li>
           <li>Vérifiez les logs dans la console</li>
-          <li>Observez l&apos;opacité des emojis qui apparaissent</li>
-          <li>Comparez avec &quot;Test Original&quot;</li>
+          <li>Observez l'opacité des emojis qui apparaissent</li>
+          <li>Comparez avec "Test Original"</li>
         </ol>
       </div>
       
       <div className="bg-gray-800 p-4 rounded-lg max-w-2xl w-full">
-        <h3 className="text-lg font-semibold mb-2">🎯 Ce qu&apos;il faut vérifier :</h3>
+        <h3 className="text-lg font-semibold mb-2">🎯 Ce qu'il faut vérifier :</h3>
         <ul className="list-disc list-inside space-y-1 text-sm">
-          <li>Les emojis apparaissent-ils avec 100% d&apos;opacité ?</li>
+          <li>Les emojis apparaissent-ils avec 100% d'opacité ?</li>
           <li>Y a-t-il un fade-in ou fade-out ?</li>
           <li>Les emojis restent-ils visibles pendant toute la chute ?</li>
           <li>Y a-t-il des erreurs dans la console ?</li>

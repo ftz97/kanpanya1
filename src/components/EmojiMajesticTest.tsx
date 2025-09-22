@@ -18,7 +18,7 @@ export default function EmojiMajesticTest() {
         <p>• Durée longue (4.2-6s) pour un effet majestueux</p>
         <p>• Gros emojis premium (28-60px)</p>
         <p>• Oscillation douce et entrée progressive</p>
-        <p>• Visibilité totale dès l&apos;apparition</p>
+        <p>• Visibilité totale dès l'apparition</p>
       </div>
     </div>
   );

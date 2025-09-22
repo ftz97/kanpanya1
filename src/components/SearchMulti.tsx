@@ -65,7 +65,7 @@ export default function SearchMulti({ onChange }: SearchMultiProps) {
           const data = await response.json();
           
           if (data.success && data.results.length > 0) {
-            const apiOptions = data.results.map((result: unknown) => ({
+            const apiOptions = data.results.map((result: any) => ({
               value: result.id,
               label: result.name,
               type: result.type as "ville" | "quartier" | "rue",
@@ -98,7 +98,7 @@ export default function SearchMulti({ onChange }: SearchMultiProps) {
   }, [searchTerm]);
 
   const customStyles = {
-    control: (provided: unknown) => ({
+    control: (provided: any) => ({
       ...provided,
       minHeight: '48px',
       border: '2px solid #e5e7eb',
@@ -107,17 +107,17 @@ export default function SearchMulti({ onChange }: SearchMultiProps) {
         borderColor: '#3b82f6',
       },
     }),
-    multiValue: (provided: unknown) => ({
+    multiValue: (provided: any) => ({
       ...provided,
       backgroundColor: '#3b82f6',
       borderRadius: '6px',
     }),
-    multiValueLabel: (provided: unknown) => ({
+    multiValueLabel: (provided: any) => ({
       ...provided,
       color: 'white',
       fontWeight: '500',
     }),
-    multiValueRemove: (provided: unknown) => ({
+    multiValueRemove: (provided: any) => ({
       ...provided,
       color: 'white',
       '&:hover': {
@@ -164,7 +164,7 @@ export default function SearchMulti({ onChange }: SearchMultiProps) {
       </div>
       
       <div className="text-sm text-gray-600">
-        💡 Vous pouvez sélectionner jusqu&apos;à 4 zones pour la comparaison
+        💡 Vous pouvez sélectionner jusqu'à 4 zones pour la comparaison
       </div>
     </div>
   );

@@ -1,38 +1,23 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 
 export default function AIInsightsBox() {
   const [insight, setInsight] = useState<string>("Chargement de l'analyse...");
 
-  
-const stableFetch = useCallback(() => {
-  fetch();
-}, [fetch]);
+  useEffect(() => {
+    const fetchInsight = async () => {
+      try {
+        const res = await fetch("/api/ai-insight");
+        const json = await res.json();
+        setInsight(json.insight || "Pas d'analyse disponible.");
+      } catch (err) {
+        console.error("Erreur fetch insight:", err);
+        setInsight("Erreur lors de la génération de l'analyse.");
+      }
+    };
 
-const stableJson = useCallback(() => {
-  json();
-}, [json]);
-
-const stableSetInsight = useCallback(() => {
-  setInsight();
-}, [setInsight]);
-
-const stableError = useCallback(() => {
-  error();
-}, [error]);
-
-const stableFetchInsight = useCallback(() => {
-  fetchInsight();
-}, [fetchInsight]);
-
-useEffect(() => {
-  stableFetch();
-  stableJson();
-  stableSetInsight();
-  stableError();
-  stableSetInsight();
-  stableFetchInsight();
-}, [stableFetch, stableJson, stableSetInsight, stableError, stableSetInsight, stableFetchInsight]);;
+    fetchInsight();
+  }, []);
 
   return (
     <section className="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl shadow p-6">

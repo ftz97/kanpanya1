@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-export default function FluxInsights({ links }: { links: unknown[] }) {
+export default function FluxInsights({ links }: { links: any[] }) {
   const [insights, setInsights] = useState<string>("Chargement...");
 
   useEffect(() => {

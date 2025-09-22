@@ -2,7 +2,7 @@
 
 import { ScratchCanvas } from '../../canvas/components/ScratchCanvas';
 import { Modal } from './Modal';
-import { Button } from '@/components/ui/button';
+import { Button } from './Button';
 import { Card } from './Layout';
 
 interface ScratchCardUIProps {

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta = {
   title: "UI/Gradients",
@@ -88,7 +88,7 @@ export const InCards: StoryObj = {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="bg-gradient-mint rounded-lg p-6 text-white">
         <h3 className="text-xl font-bold mb-2">Section Nature</h3>
-        <p>Utilisez ce gradient pour les sections liées à l&apos;environnement.</p>
+        <p>Utilisez ce gradient pour les sections liées à l'environnement.</p>
       </div>
       <div className="bg-gradient-flash rounded-lg p-6 text-white">
         <h3 className="text-xl font-bold mb-2">Promotion Flash</h3>

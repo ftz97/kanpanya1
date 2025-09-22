@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
     const data = await response.json();
 
     // Transformer les données Nominatim en format standardisé
-    const results = data.map((item: unknown) => {
+    const results = data.map((item: any) => {
       // Déterminer le type basé sur les données Nominatim
       let itemType = 'lieu';
       if (item.type === 'administrative' && item.address?.city) {
@@ -136,7 +136,7 @@ export async function POST(request: NextRequest) {
 
     const data = await response.json();
 
-    const suggestions = data.map((item: unknown) => ({
+    const suggestions = data.map((item: any) => ({
       id: item.place_id.toString(),
       name: item.display_name.split(',')[0],
       type: item.type,

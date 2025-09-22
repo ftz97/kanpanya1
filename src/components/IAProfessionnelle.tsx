@@ -36,15 +36,15 @@ export default function IAProfessionnelle() {
         <div className="space-y-4">
           <div className="border-l-4 border-orange-400 pl-4">
             <h3 className="font-semibold text-gray-800">📈 Facteurs de Croissance</h3>
-            <p className="text-sm text-gray-600">Le CTR a augmenté de 15% grâce à l&apos;optimisation des horaires d&apos;envoi (18h-20h) et la personnalisation des titres selon les préférences client.</p>
+            <p className="text-sm text-gray-600">Le CTR a augmenté de 15% grâce à l'optimisation des horaires d'envoi (18h-20h) et la personnalisation des titres selon les préférences client.</p>
           </div>
           <div className="border-l-4 border-red-400 pl-4">
-            <h3 className="font-semibold text-gray-800">⚠️ Points d&apos;Amélioration</h3>
-            <p className="text-sm text-gray-600">Le taux de conversion reste en dessous de l&apos;objectif à cause d&apos;un tunnel de conversion trop long et d&apos;un manque de social proof.</p>
+            <h3 className="font-semibold text-gray-800">⚠️ Points d'Amélioration</h3>
+            <p className="text-sm text-gray-600">Le taux de conversion reste en dessous de l'objectif à cause d'un tunnel de conversion trop long et d'un manque de social proof.</p>
           </div>
           <div className="border-l-4 border-blue-400 pl-4">
             <h3 className="font-semibold text-gray-800">💡 Insights Clés</h3>
-            <p className="text-sm text-gray-600">Les clients 25-35 ans réagissent 3x mieux aux offres avec urgence (&quot;Dernière chance&quot;) et aux réductions supérieures à 30%.</p>
+            <p className="text-sm text-gray-600">Les clients 25-35 ans réagissent 3x mieux aux offres avec urgence ("Dernière chance") et aux réductions supérieures à 30%.</p>
           </div>
         </div>
       </section>

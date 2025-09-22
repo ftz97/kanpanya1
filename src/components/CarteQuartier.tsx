@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 
@@ -21,12 +21,86 @@ export default function CarteQuartier() {
   const [zones, setZones] = useState<AreaOption[]>([]);
   const [quartier, setQuartier] = useState<GeoJSON.Polygon | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<unknown[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (!mapContainer.current) return;
+
+    // Vérifier si le token Mapbox est configuré
+    if (!mapboxgl.accessToken) {
+      setMapError('Token Mapbox manquant. Veuillez configurer NEXT_PUBLIC_MAPBOX_TOKEN dans .env.local');
+      return;
+    }
+
+    // Délai pour éviter les erreurs de chargement
+    const timer = setTimeout(() => {
+      try {
+        mapRef.current = new mapboxgl.Map({
+          container: mapContainer.current!,
+          style: "mapbox://styles/mapbox/streets-v12",
+          center: [-61.5314, 16.2412], // Pointe-à-Pitre
+          zoom: 13,
+        });
+        setMapError(null);
+
+        // Outils MapboxDraw
+        draw.current = new MapboxDraw({
+          displayControlsDefault: false,
+          controls: {
+            point: true,
+            polygon: true,
+            trash: true,
+          },
+        });
+
+        mapRef.current.addControl(draw.current, "top-right");
+
+        // Gestion des événements
+        mapRef.current.on("draw.create", async (e) => {
+          const feature = e.features[0];
+
+          if (feature.geometry.type === "Point") {
+            const [lng, lat] = feature.geometry.coordinates;
+
+            // Reverse geocoding
+            const res = await fetch(
+              `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${mapboxgl.accessToken}&language=fr`
+            );
+            const data = await res.json();
+            const label = data.features[0]?.place_name || "Adresse inconnue";
+
+            const newZone: AreaOption = {
+              value: `${lng},${lat}`,
+              label,
+              type: "adresse",
+              coordinates: [lng, lat],
+            };
+
+            setZones((prev) => [...prev, newZone]);
+          }
+
+          if (feature.geometry.type === "Polygon") {
+            setQuartier(feature.geometry as GeoJSON.Polygon);
+          }
+        });
+
+      } catch (error) {
+        console.error('Erreur lors de l\'initialisation de la carte:', error);
+        setMapError('Erreur lors du chargement de la carte Mapbox');
+        return;
+      }
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      mapRef.current?.remove();
+    };
+  }, []);
+
   // Fonction de recherche d'adresses
-  const searchAddress = async (query: string) => {
+  const searchAddresses = async (query: string) => {
     if (!query.trim()) {
       setSearchResults([]);
       return;
@@ -34,30 +108,40 @@ export default function CarteQuartier() {
 
     setIsSearching(true);
     try {
-      const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}&country=FR&limit=5`
+      const res = await fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxgl.accessToken}&country=GP&language=fr&limit=5`
       );
-      const data = await response.json();
+      const data = await res.json();
       setSearchResults(data.features || []);
     } catch (error) {
-      console.error("Erreur de recherche:", error);
-      setMapError("Erreur lors de la recherche d'adresses");
+      console.error("Erreur lors de la recherche:", error);
+      setSearchResults([]);
     } finally {
       setIsSearching(false);
     }
   };
 
-  // Ajouter une adresse sélectionnée
-  const addAddress = (feature: any) => {
+  // Ajouter une adresse depuis les résultats de recherche
+  const addAddressFromSearch = (feature: any) => {
     const [lng, lat] = feature.center;
+    const label = feature.place_name;
+
     const newZone: AreaOption = {
-      value: feature.place_name,
-      label: feature.place_name,
+      value: `${lng},${lat}`,
+      label,
       type: "adresse",
       coordinates: [lng, lat],
     };
 
-    setZones(prev => [...prev, newZone]);
+    setZones((prev) => [...prev, newZone]);
+
+    // Centrer la carte sur l'adresse
+    if (mapRef.current) {
+      mapRef.current.flyTo({
+        center: [lng, lat],
+        zoom: 15
+      });
+    }
 
     // Ajouter un marqueur sur la carte
     if (mapRef.current) {

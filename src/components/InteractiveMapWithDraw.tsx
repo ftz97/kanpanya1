@@ -2,14 +2,14 @@
 
 import mapboxgl from "mapbox-gl";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
 interface Neighborhood {
   id: string;
   name: string;
-  geometry: unknown;
+  geometry: any;
   created_at: string;
   color: string;
 }
@@ -24,90 +24,77 @@ export default function InteractiveMapWithDraw() {
 
   const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'];
 
-  
-const stableMap = useCallback(() => {
-  Map();
-}, [Map]);
+  useEffect(() => {
+    if (!mapContainer.current) return;
 
-const stableAddControl = useCallback(() => {
-  addControl();
-}, [addControl]);
+    mapRef.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/mapbox/streets-v12",
+      center: [-61.5314, 16.2412], // Pointe-à-Pitre par défaut
+      zoom: 12,
+    });
 
-const stableNavigationControl = useCallback(() => {
-  NavigationControl();
-}, [NavigationControl]);
+    // Ajout des contrôles
+    mapRef.current.addControl(new mapboxgl.NavigationControl(), 'top-left');
+    mapRef.current.addControl(new mapboxgl.FullscreenControl(), 'top-right');
 
-const stableFullscreenControl = useCallback(() => {
-  FullscreenControl();
-}, [FullscreenControl]);
+    // ✅ Ajout des outils de dessin
+    draw.current = new MapboxDraw({
+      displayControlsDefault: false,
+      controls: {
+        point: true,
+        line_string: true,
+        polygon: true,
+        rectangle: true,
+        circle: true,
+        trash: true,
+      },
+    });
 
-const stableMapboxDraw = useCallback(() => {
-  MapboxDraw();
-}, [MapboxDraw]);
+    mapRef.current.addControl(draw.current, "top-right");
 
-const stableLoadNeighborhoods = useCallback(() => {
-  loadNeighborhoods();
-}, [loadNeighborhoods]);
+    // Charger les quartiers existants
+    loadNeighborhoods();
 
-const stableOn = useCallback(() => {
-  on();
-}, [on]);
+    // ✅ Quand un point est ajouté
+    mapRef.current.on("draw.create", async (e) => {
+      const feature = e.features[0];
 
-const stableFetch = useCallback(() => {
-  fetch();
-}, [fetch]);
+      if (feature.geometry.type === "Point") {
+        const [lng, lat] = feature.geometry.coordinates;
 
-const stableJson = useCallback(() => {
-  json();
-}, [json]);
+        // Reverse geocoding pour trouver la rue
+        const res = await fetch(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${mapboxgl.accessToken}&language=fr`
+        );
+        const data = await res.json();
+        const placeName = data.features[0]?.place_name || "Lieu inconnu";
 
-const stableAlert = useCallback(() => {
-  alert();
-}, [alert]);
+        alert(`Point ajouté : ${placeName}`);
+      }
 
-const stableLog = useCallback(() => {
-  log();
-}, [log]);
+      if (feature.geometry.type === "Polygon" || feature.geometry.type === "LineString") {
+        console.log("Zone créée :", feature.geometry.coordinates);
+        handleZoneCreation(feature);
+      }
+    });
 
-const stableHandleZoneCreation = useCallback(() => {
-  handleZoneCreation();
-}, [handleZoneCreation]);
+    // ✅ Quand une zone est mise à jour
+    mapRef.current.on("draw.update", (e) => {
+      const feature = e.features[0];
+      handleZoneUpdate(feature);
+    });
 
+    // ✅ Quand une zone est supprimée
+    mapRef.current.on("draw.delete", (e) => {
+      const feature = e.features[0];
+      handleZoneDeletion(feature);
+    });
 
-const stableHandleZoneUpdate = useCallback(() => {
-  handleZoneUpdate();
-}, [handleZoneUpdate]);
-
-
-const stableHandleZoneDeletion = useCallback(() => {
-  handleZoneDeletion();
-}, [handleZoneDeletion]);
-
-const stableRemove = useCallback(() => {
-  remove();
-}, [remove]);
-
-useEffect(() => {
-  stableMap();
-  stableAddControl();
-  stableNavigationControl();
-  stableAddControl();
-  stableFullscreenControl();
-  stableMapboxDraw();
-  stableAddControl();
-  stableLoadNeighborhoods();
-  stableOn();
-  stableFetch();
-  stableJson();
-  stableAlert();
-  stableLog();
-  stableHandleZoneCreation();
-  stableOn();
-  stableHandleZoneUpdate();
-  stableOn();
-  stableHandleZoneDeletion();
-  stableRemove();
-}, [stableMap, stableAddControl, stableNavigationControl, stableAddControl, stableFullscreenControl, stableMapboxDraw, stableAddControl, stableLoadNeighborhoods, stableOn, stableFetch, stableJson, stableAlert, stableLog, stableHandleZoneCreation, stableOn, stableHandleZoneUpdate, stableOn, stableHandleZoneDeletion, stableRemove]);;
+    return () => {
+      mapRef.current?.remove();
+    };
+  }, []);
 
   const loadNeighborhoods = async () => {
     try {
@@ -193,7 +180,7 @@ useEffect(() => {
     });
 
     // Événement de clic sur les quartiers
-    mapRef.current.on('click', 'neighborhoods-fill', (e: unknown) => {
+    mapRef.current.on('click', 'neighborhoods-fill', (e: any) => {
       const feature = e.features[0];
       const neighborhood = neighborhoods.find(n => n.id === feature.properties.id);
       if (neighborhood) {
@@ -215,7 +202,7 @@ useEffect(() => {
     });
   };
 
-  const handleZoneCreation = (feature: unknown) => {
+  const handleZoneCreation = (feature: any) => {
     setIsCreating(true);
     const name = prompt('Nom du nouveau quartier:');
     if (name && name.trim()) {
@@ -229,21 +216,21 @@ useEffect(() => {
     setIsCreating(false);
   };
 
-  const handleZoneUpdate = (feature: unknown) => {
+  const handleZoneUpdate = (feature: any) => {
     const neighborhood = neighborhoods.find(n => n.id === feature.id);
     if (neighborhood) {
       updateNeighborhood(neighborhood.id, feature);
     }
   };
 
-  const handleZoneDeletion = (feature: unknown) => {
+  const handleZoneDeletion = (feature: any) => {
     const neighborhood = neighborhoods.find(n => n.id === feature.id);
     if (neighborhood) {
       deleteNeighborhood(neighborhood.id);
     }
   };
 
-  const createNeighborhood = async (name: string, geometry: unknown) => {
+  const createNeighborhood = async (name: string, geometry: any) => {
     try {
       const newNeighborhood: Neighborhood = {
         id: crypto.randomUUID(),
@@ -275,7 +262,7 @@ useEffect(() => {
     }
   };
 
-  const updateNeighborhood = async (id: string, geometry: unknown) => {
+  const updateNeighborhood = async (id: string, geometry: any) => {
     try {
       const response = await fetch(`/api/neighborhoods/${id}`, {
         method: 'PUT',

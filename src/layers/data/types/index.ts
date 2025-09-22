@@ -34,7 +34,7 @@ export interface MapData {
   name: string;
   coordinates: [number, number][];
   type: 'zone' | 'point' | 'area';
-  properties: Record<string, unknown>;
+  properties: Record<string, any>;
 }
 
 export interface ApiResponse<T> {

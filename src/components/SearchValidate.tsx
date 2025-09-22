@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect, useRef } from "react";
+import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/badge";
 import { X, ChevronsUpDown, Check, Loader2 } from "lucide-react";
 import {
@@ -75,19 +75,12 @@ export default function SearchValidate({
   const cache = useRef<Record<string, AreaOption[]>>({});
 
   // Charger cache depuis localStorage au montage
-  
-const stableGetItem = useCallback(() => {
-  getItem();
-}, [getItem]);
-
-const stableParse = useCallback(() => {
-  parse();
-}, [parse]);
-
-useEffect(() => {
-  stableGetItem();
-  stableParse();
-}, [stableGetItem, stableParse]);;
+  useEffect(() => {
+    const storedCache = localStorage.getItem("searchCache");
+    if (storedCache) {
+      cache.current = JSON.parse(storedCache);
+    }
+  }, []);
 
   // Sauvegarder cache dès qu'il est modifié
   const updateCache = (key: string, value: AreaOption[]) => {
@@ -96,17 +89,10 @@ useEffect(() => {
   };
 
   // ✅ Persistance des zones enregistrées
-
-const stableSetSaved = useCallback(() => {
-  setSaved();
-}, [setSaved]);
-
-
-useEffect(() => {
-  stableGetItem();
-  stableSetSaved();
-  stableParse();
-}, [stableGetItem, stableSetSaved, stableParse]);;
+  useEffect(() => {
+    const stored = localStorage.getItem("savedAreas");
+    if (stored) setSaved(JSON.parse(stored));
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("savedAreas", JSON.stringify(saved));
@@ -150,7 +136,7 @@ useEffect(() => {
         );
         const data = await res.json();
 
-        const mapboxResults: AreaOption[] = data.features.map((f: unknown) => {
+        const mapboxResults: AreaOption[] = data.features.map((f: any) => {
           const placeType = f.place_type[0];
           let type: AreaOption["type"] = "ville";
           if (placeType === "neighborhood") type = "quartier";

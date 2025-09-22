@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from 'react';
 
 interface SearchResult {
   id: string;
@@ -15,7 +15,7 @@ interface SearchResult {
 interface SearchBarProps {
   onLocationSelect: (result: SearchResult) => void;
   onMapCenter?: (coordinates: [number, number]) => void;
-  clickedLocation?: unknown;
+  clickedLocation?: any;
   onClearClickedLocation?: () => void;
 }
 
@@ -76,40 +76,24 @@ export default function SearchBar({ onLocationSelect, onMapCenter, clickedLocati
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Mettre à jour la query quand on clique sur la carte
-  
-const stableSetQuery = useCallback(() => {
-  setQuery();
-}, [setQuery]);
+  useEffect(() => {
+    if (clickedLocation) {
+      setQuery(clickedLocation.name);
+      setIsOpen(false);
+    }
+  }, [clickedLocation]);
 
-const stableSetIsOpen = useCallback(() => {
-  setIsOpen();
-}, [setIsOpen]);
+  // Fermer la liste déroulante quand on clique ailleurs
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
 
-const stableUseEffect = useCallback(() => {
-  useEffect();
-}, [useEffect]);
-
-const stableContains = useCallback(() => {
-  contains();
-}, [contains]);
-
-const stableAddEventListener = useCallback(() => {
-  addEventListener();
-}, [addEventListener]);
-
-const stableRemoveEventListener = useCallback(() => {
-  removeEventListener();
-}, [removeEventListener]);
-
-useEffect(() => {
-  stableSetQuery();
-  stableSetIsOpen();
-  stableUseEffect();
-  stableContains();
-  stableSetIsOpen();
-  stableAddEventListener();
-  stableRemoveEventListener();
-}, [stableSetQuery, stableSetIsOpen, stableUseEffect, stableContains, stableSetIsOpen, stableAddEventListener, stableRemoveEventListener]);;
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Recherche en temps réel avec API
   useEffect(() => {
@@ -257,7 +241,7 @@ useEffect(() => {
           <div className="flex items-center border-l border-gray-200">
             <select
               value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value as unknown)}
+              onChange={(e) => setSelectedType(e.target.value as any)}
               className="px-3 py-4 text-sm text-gray-600 bg-transparent border-none focus:outline-none cursor-pointer"
             >
               <option value="all">Tout</option>
