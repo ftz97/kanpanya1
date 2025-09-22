@@ -51,7 +51,7 @@ export default function TestScratchPage() {
         {configs.length === 0 ? (
           <div className="text-center text-gray-500">
             <p className="text-xl">Aucune configuration active trouvée</p>
-            <p className="mt-2">Créez des cartes dans l&apos;<a href="/admin/scratch-cards" className="text-blue-600 hover:underline">interface d&apos;administration</a></p>
+            <p className="mt-2">Créez des cartes dans l'<a href="/admin/scratch-cards" className="text-blue-600 hover:underline">interface d'administration</a></p>
           </div>
         ) : (
           <div className="space-y-8">

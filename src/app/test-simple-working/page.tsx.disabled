@@ -28,7 +28,7 @@ export default function TestSimpleWorking() {
           <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '6px', textAlign: 'center' }}>
             <div style={{ fontSize: '2rem', marginBottom: '5px' }}>📈</div>
             <div style={{ fontWeight: 'bold', color: '#2563eb' }}>1,247</div>
-            <div style={{ fontSize: '0.9rem', color: '#6b7280' }}>Scans aujourd&apos;hui</div>
+            <div style={{ fontSize: '0.9rem', color: '#6b7280' }}>Scans aujourd'hui</div>
           </div>
           <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '6px', textAlign: 'center' }}>
             <div style={{ fontSize: '2rem', marginBottom: '5px' }}>🎟️</div>

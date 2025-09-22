@@ -1,12 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import ScratchCardStableV3WithAnimations from "@/components/scratch/ScratchCardStableV3WithAnimations";
+import ScratchCardStableV3 from "@/components/scratch/ScratchCardStableV3";
 
-export default function TestScratchAnimationsPage() {
+export default function TestThresholdFixPage() {
   const [threshold, setThreshold] = useState(0.4);
   const [goldenTicketChance, setGoldenTicketChance] = useState(0.1);
-  const [enableAdvancedAnimations, setEnableAdvancedAnimations] = useState(true);
   const [testResults, setTestResults] = useState<string[]>([]);
 
   const addResult = (message: string) => {
@@ -16,15 +15,6 @@ export default function TestScratchAnimationsPage() {
 
   const handleReveal = (reward: { type: string; amount: number; merchant?: string }) => {
     addResult(`🎉 RÉCOMPENSE RÉVÉLÉE: ${reward.type} - ${reward.amount}${reward.merchant ? ` (${reward.merchant})` : ''}`);
-    
-    // Ajouter des détails sur les animations
-    if (reward.type === "points" && reward.amount >= 250) {
-      addResult(`💰 Animation MoneyEmojiRain déclenchée (récompense élevée)`);
-    } else if (reward.amount >= 100) {
-      addResult(`🎉 Animation HappyEmojiRain déclenchée (récompense moyenne)`);
-    } else {
-      addResult(`😔 Animation SadEmojiRain déclenchée (récompense faible)`);
-    }
   };
 
   const resetTest = (newThreshold: number, description: string) => {
@@ -37,26 +27,25 @@ export default function TestScratchAnimationsPage() {
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-8 text-blue-600">
-          🎬 Test ScratchCard avec Animations Avancées
+          🧪 Test de la Correction du Threshold
         </h1>
         
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <h2 className="text-2xl font-semibold mb-4 text-green-600">🎭 Animations Intégrées</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-blue-800 mb-2">🎉 HappyEmojiRain</h3>
-              <p className="text-blue-700">Déclenchée pour les gains moyens (100+ points)</p>
-              <p className="text-blue-600 text-xs mt-1">Emojis: 🥳🎉😃😄😁🤗😊😍🤩✨🎊🎈</p>
-            </div>
-            <div className="bg-yellow-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-yellow-800 mb-2">💰 MoneyEmojiRain</h3>
-              <p className="text-yellow-700">Déclenchée pour les gros gains (250+ points)</p>
-              <p className="text-yellow-600 text-xs mt-1">Emojis: 💰🤑💵💎🏆⭐🌟💫✨🎯💸💳</p>
-            </div>
+          <h2 className="text-2xl font-semibold mb-4 text-green-600">✅ Correction Appliquée</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div className="bg-red-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-red-800 mb-2">😔 SadEmojiRain</h3>
-               <p className="text-red-700">Déclenchée pour les gains faibles (&lt; 100 points)</p>
-              <p className="text-red-600 text-xs mt-1">Emojis: 💔😢😭😔😞😟😕🙁☹️😿</p>
+              <h3 className="font-semibold text-red-800 mb-2">❌ Ancien Code (FAUX)</h3>
+              <code className="text-xs text-red-700 block">
+                const totalPixels = Math.floor((canvas.width * canvas.height) / 100);<br/>
+                const percent = transparent / totalPixels;
+              </code>
+            </div>
+            <div className="bg-green-50 p-4 rounded-lg">
+              <h3 className="font-semibold text-green-800 mb-2">✅ Nouveau Code (CORRECT)</h3>
+              <code className="text-xs text-green-700 block">
+                const sampledPixels = Math.floor((canvas.width * canvas.height) / 100);<br/>
+                const percent = transparent / sampledPixels;
+              </code>
             </div>
           </div>
         </div>
@@ -108,22 +97,6 @@ export default function TestScratchAnimationsPage() {
                     }}
                     className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                   />
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    id="animations"
-                    checked={enableAdvancedAnimations}
-                    onChange={(e) => {
-                      setEnableAdvancedAnimations(e.target.checked);
-                      addResult(`🎬 Animations avancées: ${e.target.checked ? 'Activées' : 'Désactivées'}`);
-                    }}
-                    className="w-4 h-4 text-blue-600"
-                  />
-                  <label htmlFor="animations" className="text-sm font-medium text-gray-700">
-                    Activer les animations avancées
-                  </label>
                 </div>
               </div>
 
@@ -194,37 +167,36 @@ export default function TestScratchAnimationsPage() {
 
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-xl font-semibold mb-4 text-center">
-              🎫 ScratchCard avec Animations - Threshold: {(threshold * 100).toFixed(0)}%
+              🎫 ScratchCard - Threshold: {(threshold * 100).toFixed(0)}%
             </h2>
             <div className="flex justify-center">
-              <ScratchCardStableV3WithAnimations
+              <ScratchCardStableV3
                 threshold={threshold}
                 goldenTicketChance={goldenTicketChance}
                 onReveal={handleReveal}
-                userId="test-animations-user"
-                enableAdvancedAnimations={enableAdvancedAnimations}
+                userId="test-threshold-fix"
               />
             </div>
             
             <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h3 className="font-semibold text-blue-800 mb-2">🎬 Instructions de Test</h3>
+              <h3 className="font-semibold text-blue-800 mb-2">🎯 Instructions de Test</h3>
               <ul className="text-sm text-blue-700 space-y-1">
-                <li>• <strong>Grattez la carte</strong> pour révéler votre récompense</li>
-                <li>• <strong>Observez les animations</strong> selon le type de gain</li>
-                <li>• <strong>Testez avec/sans animations</strong> via la checkbox</li>
-                <li>• <strong>Vérifiez les confettis</strong> pour les gains élevés</li>
+                <li>• <strong>Test 10%</strong> : Le popup devrait s'afficher rapidement</li>
+                <li>• <strong>Test 50%</strong> : Il faut gratter la moitié de la carte</li>
+                <li>• <strong>Test 90%</strong> : Il faut gratter presque toute la carte</li>
+                <li>• <strong>Test 100%</strong> : Il faut gratter TOUTE la carte</li>
               </ul>
             </div>
+          </div>
+        </div>
 
-            <div className="mt-4 bg-green-50 border border-green-200 rounded-lg p-4">
-              <h3 className="font-semibold text-green-800 mb-2">✅ Animations Disponibles</h3>
-              <ul className="text-sm text-green-700 space-y-1">
-                <li>• 🎉 <strong>HappyEmojiRain</strong> - Gains moyens (100+ points)</li>
-                <li>• 💰 <strong>MoneyEmojiRain</strong> - Gros gains (250+ points)</li>
-                <li>• 😔 <strong>SadEmojiRain</strong> - Gains faibles (&lt; 100 points)</li>
-                <li>• 🎆 <strong>Confettis</strong> - Tous les gains</li>
-              </ul>
-            </div>
+        <div className="mt-6 bg-green-50 border border-green-200 rounded-lg p-4">
+          <h3 className="font-semibold text-green-800 mb-2">✅ Status de la Correction</h3>
+          <div className="text-sm text-green-700 space-y-1">
+            <p><strong>Problème identifié :</strong> Calcul du threshold complètement faux</p>
+            <p><strong>Correction appliquée :</strong> Calcul correct du pourcentage de grattage</p>
+            <p><strong>Commit effectué :</strong> f9c4664 - "fix: Correction CRITIQUE du calcul de threshold"</p>
+            <p><strong>Status :</strong> ✅ Le threshold fonctionne maintenant correctement !</p>
           </div>
         </div>
       </div>

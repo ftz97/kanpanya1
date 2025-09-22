@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -12,119 +12,86 @@ export default function TestDebugPage() {
   const [status, setStatus] = useState<string>("Initialisation...");
   const [error, setError] = useState<string | null>(null);
 
-  
-const stableSetStatus = useCallback(() => {
-  setStatus();
-}, [setStatus]);
+  useEffect(() => {
+    setStatus("Vérification du token...");
+    
+    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+    console.log("🔍 Token trouvé:", token ? "OUI" : "NON");
+    
+    if (!token) {
+      setError("❌ Token Mapbox manquant");
+      setStatus("ERREUR: Token manquant");
+      return;
+    }
 
-const stableLog = useCallback(() => {
-  log();
-}, [log]);
+    setStatus("Initialisation de Mapbox...");
+    mapboxgl.accessToken = token;
 
-const stableSetError = useCallback(() => {
-  setError();
-}, [setError]);
+    try {
+      setStatus("Création de la carte...");
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current!,
+        style: "mapbox://styles/mapbox/streets-v12",
+        center: [2.3522, 48.8566],
+        zoom: 12,
+        attributionControl: false,
+      });
 
+      setStatus("Ajout des contrôles...");
+      map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+      map.current.addControl(new mapboxgl.FullscreenControl(), "top-right");
 
-const stableMap = useCallback(() => {
-  Map();
-}, [Map]);
+      map.current.on("load", () => {
+        setStatus("✅ Carte chargée avec succès!");
+        console.log("✅ Carte Mapbox chargée");
+      });
 
+      setStatus("Ajout du géocodeur...");
+      const geocoder = new MapboxGeocoder({
+        accessToken: token,
+        mapboxgl: mapboxgl,
+        marker: false,
+        placeholder: "Rechercher une adresse...",
+        language: "fr",
+      });
 
-const stableAddControl = useCallback(() => {
-  addControl();
-}, [addControl]);
+      map.current.addControl(geocoder, "top-left");
+      setStatus("✅ Géocodeur ajouté!");
 
-const stableNavigationControl = useCallback(() => {
-  NavigationControl();
-}, [NavigationControl]);
+      // Test du géocodeur
+      geocoder.on("result", (e) => {
+        console.log("🎯 Résultat géocodeur:", e.result);
+        setStatus(`✅ Adresse trouvée: ${e.result.place_name}`);
+        
+        // Ajouter un marqueur de test
+        new mapboxgl.Marker({ color: "#10b981" })
+          .setLngLat(e.result.center)
+          .addTo(map.current!);
+      });
 
+      geocoder.on("error", (e) => {
+        console.error("❌ Erreur géocodeur:", e);
+        setError(`Erreur géocodeur: ${e.error}`);
+      });
 
-const stableFullscreenControl = useCallback(() => {
-  FullscreenControl();
-}, [FullscreenControl]);
+      map.current.on("error", (e: any) => {
+        console.error("❌ Erreur Mapbox:", e);
+        setError(`Erreur Mapbox: ${e?.error?.message || "Inconnue"}`);
+      });
 
-const stableOn = useCallback(() => {
-  on();
-}, [on]);
+    } catch (err) {
+      console.error("❌ Erreur d'initialisation:", err);
+      setError(err instanceof Error ? err.message : "Erreur inconnue");
+      setStatus("ERREUR: Initialisation échouée");
+    }
 
-
-
-
-const stableMapboxGeocoder = useCallback(() => {
-  MapboxGeocoder();
-}, [MapboxGeocoder]);
-
-
-
-
-
-
-const stableMarker = useCallback(() => {
-  Marker();
-}, [Marker]);
-
-const stableSetLngLat = useCallback(() => {
-  setLngLat();
-}, [setLngLat]);
-
-const stableAddTo = useCallback(() => {
-  addTo();
-}, [addTo]);
-
-
-const stableError = useCallback(() => {
-  error();
-}, [error]);
-
-
-
-
-
-
-
-
-const stableRemove = useCallback(() => {
-  remove();
-}, [remove]);
-
-useEffect(() => {
-  stableSetStatus();
-  stableLog();
-  stableSetError();
-  stableSetStatus();
-  stableSetStatus();
-  stableSetStatus();
-  stableMap();
-  stableSetStatus();
-  stableAddControl();
-  stableNavigationControl();
-  stableAddControl();
-  stableFullscreenControl();
-  stableOn();
-  stableSetStatus();
-  stableLog();
-  stableSetStatus();
-  stableMapboxGeocoder();
-  stableAddControl();
-  stableSetStatus();
-  stableOn();
-  stableLog();
-  stableSetStatus();
-  stableMarker();
-  stableSetLngLat();
-  stableAddTo();
-  stableOn();
-  stableError();
-  stableSetError();
-  stableOn();
-  stableError();
-  stableSetError();
-  stableError();
-  stableSetError();
-  stableSetStatus();
-  stableRemove();
-}, [stableSetStatus, stableLog, stableSetError, stableSetStatus, stableSetStatus, stableSetStatus, stableMap, stableSetStatus, stableAddControl, stableNavigationControl, stableAddControl, stableFullscreenControl, stableOn, stableSetStatus, stableLog, stableSetStatus, stableMapboxGeocoder, stableAddControl, stableSetStatus, stableOn, stableLog, stableSetStatus, stableMarker, stableSetLngLat, stableAddTo, stableOn, stableError, stableSetError, stableOn, stableError, stableSetError, stableError, stableSetError, stableSetStatus, stableRemove]);;
+    return () => {
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
@@ -161,7 +128,7 @@ useEffect(() => {
             <ul className="list-disc list-inside mt-2 space-y-1">
               <li>Vérifiez que la carte se charge (pas de spinner)</li>
               <li>Cherchez une adresse dans la barre en haut à gauche</li>
-              <li>Un marqueur vert devrait apparaître sur l&apos;adresse sélectionnée</li>
+              <li>Un marqueur vert devrait apparaître sur l'adresse sélectionnée</li>
             </ul>
           </div>
         </div>

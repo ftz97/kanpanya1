@@ -29,7 +29,7 @@ export default function TestEnregistrerPage() {
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4">Carte Interactive avec Sauvegarde</h2>
           <p className="text-gray-600 mb-4">
-            Ajoutez des points en recherchant des adresses ou en cliquant sur la carte, puis cliquez sur &quot;Enregistrer&quot; !
+            Ajoutez des points en recherchant des adresses ou en cliquant sur la carte, puis cliquez sur "Enregistrer" !
           </p>
           <RealMapboxMap 
             height="600px"
@@ -104,9 +104,9 @@ export default function TestEnregistrerPage() {
         <div className="bg-green-50 p-4 rounded-lg mb-6">
           <h3 className="font-semibold text-green-800 mb-2">✅ Nouvelles Fonctionnalités :</h3>
           <ul className="text-sm text-green-700 space-y-1">
-            <li>• <strong>Bouton &quot;Enregistrer&quot;</strong> - Sauvegarde tous les points sélectionnés</li>
+            <li>• <strong>Bouton "Enregistrer"</strong> - Sauvegarde tous les points sélectionnés</li>
             <li>• <strong>Callback onSave</strong> - Fonction appelée avec les points en paramètre</li>
-            <li>• <strong>Géocodeur + Clic</strong> - Double méthode d&apos;ajout de points</li>
+            <li>• <strong>Géocodeur + Clic</strong> - Double méthode d'ajout de points</li>
             <li>• <strong>Marqueurs bleus</strong> - Points visibles sur la carte</li>
             <li>• <strong>Ligne verte</strong> - Relie tous les points (2+ points)</li>
             <li>• <strong>Polygone translucide</strong> - Zone fermée (3+ points)</li>
@@ -120,18 +120,18 @@ export default function TestEnregistrerPage() {
             <li>1. <strong>Recherchez une adresse</strong> dans la barre en haut à gauche</li>
             <li>2. <strong>Ou cliquez directement</strong> sur la carte pour ajouter un point</li>
             <li>3. <strong>Répétez</strong> pour ajouter plusieurs points</li>
-            <li>4. <strong>Cliquez sur &quot;Enregistrer&quot;</strong> pour sauvegarder la sélection</li>
+            <li>4. <strong>Cliquez sur "Enregistrer"</strong> pour sauvegarder la sélection</li>
             <li>5. <strong>Les données</strong> sont transmises via le callback onSave</li>
             <li>6. <strong>Format JSON</strong> avec coordonnées et labels</li>
           </ul>
         </div>
 
         <div className="bg-purple-50 p-4 rounded-lg">
-          <h3 className="font-semibold text-purple-800 mb-2">💡 Cas d&apos;usage :</h3>
+          <h3 className="font-semibold text-purple-800 mb-2">💡 Cas d'usage :</h3>
           <ul className="text-sm text-purple-700 space-y-1">
             <li>• <strong>Sauvegarde de zones</strong> - Enregistrer des quartiers délimités</li>
             <li>• <strong>Itinéraires</strong> - Points de passage sauvegardés</li>
-            <li>• <strong>Lieux d&apos;intérêt</strong> - Collection de points importants</li>
+            <li>• <strong>Lieux d'intérêt</strong> - Collection de points importants</li>
             <li>• <strong>Analyse territoriale</strong> - Données pour études urbaines</li>
             <li>• <strong>Export de données</strong> - Format JSON pour intégration</li>
           </ul>

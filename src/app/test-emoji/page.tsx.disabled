@@ -31,7 +31,7 @@ export default function TestEmojiPage() {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="text-center max-w-4xl mx-auto px-4">
         <h1 className="text-4xl font-bold mb-8">Test Emoji Rain</h1>
-        <p className="text-lg mb-8">Choisissez le type d&apos;emoji et contrôlez la vitesse et le nombre</p>
+        <p className="text-lg mb-8">Choisissez le type d'emoji et contrôlez la vitesse et le nombre</p>
         
         {/* Contrôles de vitesse et nombre */}
         <div className="mb-8 bg-white rounded-lg p-6 shadow-md">

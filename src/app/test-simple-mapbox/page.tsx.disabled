@@ -22,11 +22,11 @@ export default function TestSimpleMapboxPage() {
         <div className="bg-green-50 p-4 rounded-lg mb-6">
           <h3 className="font-semibold text-green-800 mb-2">✅ Avantages de cette version :</h3>
           <ul className="text-sm text-green-700 space-y-1">
-            <li>• Chargement dynamique de Mapbox (pas besoin d&apos;installer le package)</li>
+            <li>• Chargement dynamique de Mapbox (pas besoin d'installer le package)</li>
             <li>• Token de démonstration inclus</li>
-            <li>• Gestion d&apos;erreurs robuste</li>
+            <li>• Gestion d'erreurs robuste</li>
             <li>• Fonctionne sans configuration</li>
-            <li>• Bouton de rechargement en cas d&apos;erreur</li>
+            <li>• Bouton de rechargement en cas d'erreur</li>
           </ul>
         </div>
 
@@ -38,7 +38,7 @@ export default function TestSimpleMapboxPage() {
             <li>3. Testez le mode plein écran</li>
             <li>4. Vérifiez les marqueurs et overlays</li>
             <li>5. Ouvrez la console pour voir les logs de débogage</li>
-            <li>6. Testez le bouton &quot;Recharger&quot; en cas d&apos;erreur</li>
+            <li>6. Testez le bouton "Recharger" en cas d'erreur</li>
           </ul>
         </div>
       </div>

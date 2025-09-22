@@ -6,7 +6,7 @@ export default function EmojiWowPage() {
     <main className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-8">🌟 Test Effets Slow Motion</h1>
-        <p className="text-lg text-gray-600 mb-8">Effets d&apos;animation emoji ralentis</p>
+        <p className="text-lg text-gray-600 mb-8">Effets d'animation emoji ralentis</p>
         <EmojiSlowTest />
         
         <div className="mt-8 text-sm text-gray-500 bg-gray-50 p-4 rounded-lg max-w-md mx-auto">

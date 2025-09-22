@@ -44,7 +44,7 @@ export default function TestNeighborhoodsPage() {
         </div>
 
         <div className="mt-8 bg-yellow-50 rounded-lg border border-yellow-200 p-6">
-          <h2 className="text-xl font-semibold mb-4 text-yellow-800">📝 Guide d&apos;utilisation</h2>
+          <h2 className="text-xl font-semibold mb-4 text-yellow-800">📝 Guide d'utilisation</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-yellow-700">
             <div>
               <h3 className="font-semibold mb-2">🎨 Créer un quartier :</h3>
@@ -60,7 +60,7 @@ export default function TestNeighborhoodsPage() {
               <h3 className="font-semibold mb-2">📊 Analyser un quartier :</h3>
               <ul className="space-y-1 text-sm">
                 <li>1. Cliquez sur un quartier existant</li>
-                <li>2. Cliquez sur &quot;Analyser&quot;</li>
+                <li>2. Cliquez sur "Analyser"</li>
                 <li>3. Obtenez des données détaillées sur la zone</li>
                 <li>4. Consultez les recommandations</li>
               </ul>
@@ -111,7 +111,6 @@ export default function TestNeighborhoodsPage() {
     </div>
   );
 }
-
 
 
 

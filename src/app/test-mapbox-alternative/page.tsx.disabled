@@ -23,7 +23,7 @@ export default function TestMapboxAlternativePage() {
     // Fonction pour charger Mapbox avec une approche différente
     const loadMapboxAlternative = () => {
       // Vérifier si Mapbox est déjà chargé
-      if ((window as unknown).mapboxgl) {
+      if ((window as any).mapboxgl) {
         setMapboxLoaded(true);
         setStatus('✅ Mapbox déjà chargé, initialisation...');
         initializeMap();
@@ -71,7 +71,7 @@ export default function TestMapboxAlternativePage() {
       if (!mapContainer.current) return;
 
       try {
-        const mapboxgl = (window as unknown).mapboxgl;
+        const mapboxgl = (window as any).mapboxgl;
         if (!mapboxgl) {
           setError('Mapbox GL JS non disponible');
           setStatus('❌ Mapbox non disponible');
@@ -107,7 +107,7 @@ export default function TestMapboxAlternativePage() {
           setStatus('✅ Carte chargée avec succès !');
         });
 
-        map.on('error', (e: unknown) => {
+        map.on('error', (e: any) => {
           console.error('Erreur Mapbox:', e);
           setError('Erreur lors du chargement de la carte');
           setStatus('❌ Erreur de carte');
@@ -252,7 +252,6 @@ export default function TestMapboxAlternativePage() {
     </div>
   );
 }
-
 
 
 

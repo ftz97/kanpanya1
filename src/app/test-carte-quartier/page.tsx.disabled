@@ -170,23 +170,23 @@ export default function TestCarteQuartierPage() {
               <h3 className="font-semibold text-blue-800 mb-2">📝 Instructions :</h3>
               <ul className="text-sm text-blue-700 space-y-1">
                 <li>1. Tapez une adresse dans la barre de recherche</li>
-                <li>2. Cliquez sur un résultat pour l&apos;ajouter</li>
+                <li>2. Cliquez sur un résultat pour l'ajouter</li>
                 <li>3. Ajoutez au moins 3 adresses</li>
-                <li>4. Cliquez sur &quot;Créer quartier automatiquement&quot;</li>
+                <li>4. Cliquez sur "Créer quartier automatiquement"</li>
               </ul>
             </div>
           </div>
         </div>
 
         <div className="mt-8 bg-yellow-50 rounded-lg border border-yellow-200 p-6">
-          <h2 className="text-xl font-semibold mb-4 text-yellow-800">📝 Guide d&apos;utilisation</h2>
+          <h2 className="text-xl font-semibold mb-4 text-yellow-800">📝 Guide d'utilisation</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-yellow-700">
             <div>
               <h3 className="font-semibold mb-2">📍 Ajouter des adresses :</h3>
               <ul className="space-y-1 text-sm">
-                <li>1. Cliquez sur l&apos;outil Point (📍)</li>
+                <li>1. Cliquez sur l'outil Point (📍)</li>
                 <li>2. Cliquez sur la carte pour marquer une adresse</li>
-                <li>3. L&apos;adresse s&apos;affiche automatiquement avec géocodage</li>
+                <li>3. L'adresse s'affiche automatiquement avec géocodage</li>
                 <li>4. Répétez pour ajouter plusieurs adresses</li>
               </ul>
             </div>
@@ -194,7 +194,7 @@ export default function TestCarteQuartierPage() {
             <div>
               <h3 className="font-semibold mb-2">🔷 Définir le quartier :</h3>
               <ul className="space-y-1 text-sm">
-                <li>1. Cliquez sur l&apos;outil Polygone (🔷)</li>
+                <li>1. Cliquez sur l'outil Polygone (🔷)</li>
                 <li>2. Dessinez la zone du quartier sur la carte</li>
                 <li>3. Double-cliquez pour terminer le polygone</li>
                 <li>4. Le quartier est créé avec toutes les adresses</li>
@@ -225,19 +225,19 @@ export default function TestCarteQuartierPage() {
         </div>
 
         <div className="mt-8 bg-blue-50 rounded-lg border border-blue-200 p-6">
-          <h2 className="text-xl font-semibold mb-4 text-blue-800">🎯 Cas d&apos;usage</h2>
+          <h2 className="text-xl font-semibold mb-4 text-blue-800">🎯 Cas d'usage</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-blue-700">
             <div>
               <h3 className="font-semibold mb-2">🏪 Zone commerciale</h3>
-              <p className="text-sm">Marquez les commerces d&apos;une zone et définissez le quartier commercial</p>
+              <p className="text-sm">Marquez les commerces d'une zone et définissez le quartier commercial</p>
             </div>
             <div>
               <h3 className="font-semibold mb-2">🏠 Zone résidentielle</h3>
-              <p className="text-sm">Définissez une zone d&apos;habitation avec ses adresses clés</p>
+              <p className="text-sm">Définissez une zone d'habitation avec ses adresses clés</p>
             </div>
             <div>
-              <h3 className="font-semibold mb-2">🎯 Zone d&apos;intervention</h3>
-              <p className="text-sm">Créez des zones de service ou d&apos;action spécifiques</p>
+              <h3 className="font-semibold mb-2">🎯 Zone d'intervention</h3>
+              <p className="text-sm">Créez des zones de service ou d'action spécifiques</p>
             </div>
             <div>
               <h3 className="font-semibold mb-2">📊 Analyse de zone</h3>

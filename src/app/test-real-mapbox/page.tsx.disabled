@@ -11,7 +11,7 @@ export default function TestRealMapboxPage() {
         </h1>
         
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Carte Mapbox avec gestion d&apos;erreurs</h2>
+          <h2 className="text-xl font-semibold mb-4">Carte Mapbox avec gestion d'erreurs</h2>
           <RealMapboxMap 
             height="600px"
             center={[-61.5314, 16.2412]} // Pointe-à-Pitre, Guadeloupe
@@ -42,7 +42,7 @@ export default function TestRealMapboxPage() {
         <div className="bg-green-50 p-4 rounded-lg mb-6">
           <h3 className="font-semibold text-green-800 mb-2">✅ Composant Intégré :</h3>
           <ul className="text-sm text-green-700 space-y-1">
-            <li>• Gestion d&apos;erreurs robuste</li>
+            <li>• Gestion d'erreurs robuste</li>
             <li>• Loader avec spinner</li>
             <li>• Contrôles de navigation</li>
             <li>• Mode plein écran</li>

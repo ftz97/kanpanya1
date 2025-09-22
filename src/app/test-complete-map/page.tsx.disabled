@@ -37,19 +37,19 @@ export default function TestCompleteMapPage() {
             <div className="p-4 bg-purple-50 rounded-lg">
               <h3 className="font-semibold text-purple-800 mb-2">🛣️ Affichage des Rues</h3>
               <p className="text-purple-700 text-sm">
-                Les rues s&apos;affichent automatiquement dans la zone sélectionnée
+                Les rues s'affichent automatiquement dans la zone sélectionnée
               </p>
             </div>
           </div>
         </div>
 
         <div className="mt-8 bg-yellow-50 rounded-lg border border-yellow-200 p-6">
-          <h2 className="text-xl font-semibold mb-4 text-yellow-800">📝 Guide d&apos;utilisation</h2>
+          <h2 className="text-xl font-semibold mb-4 text-yellow-800">📝 Guide d'utilisation</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-yellow-700">
             <div>
               <h3 className="font-semibold mb-2">🔍 Recherche de lieux :</h3>
               <ul className="space-y-1 text-sm">
-                <li>1. Tapez le nom d&apos;un lieu dans la barre de recherche</li>
+                <li>1. Tapez le nom d'un lieu dans la barre de recherche</li>
                 <li>2. Appuyez sur Entrée ou cliquez sur 🔍</li>
                 <li>3. Cliquez sur un résultat pour y aller</li>
                 <li>4. Un marqueur bleu apparaîtra sur la carte</li>
@@ -59,10 +59,10 @@ export default function TestCompleteMapPage() {
             <div>
               <h3 className="font-semibold mb-2">📐 Sélection de zones :</h3>
               <ul className="space-y-1 text-sm">
-                <li>1. Utilisez l&apos;outil rectangle en haut à gauche</li>
+                <li>1. Utilisez l'outil rectangle en haut à gauche</li>
                 <li>2. Dessinez un rectangle sur la carte</li>
-                <li>3. Les rues dans cette zone s&apos;afficheront</li>
-                <li>4. Utilisez l&apos;outil poubelle pour supprimer</li>
+                <li>3. Les rues dans cette zone s'afficheront</li>
+                <li>4. Utilisez l'outil poubelle pour supprimer</li>
               </ul>
             </div>
           </div>
@@ -93,7 +93,6 @@ export default function TestCompleteMapPage() {
     </div>
   );
 }
-
 
 
 

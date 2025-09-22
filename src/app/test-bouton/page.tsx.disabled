@@ -5,13 +5,13 @@ export default function TestBoutonPage() {
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
-          🗺️ Test Carte avec Bouton d&apos;Ajout
+          🗺️ Test Carte avec Bouton d'Ajout
         </h1>
         
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Carte avec Bouton &quot;Ajouter Point&quot;</h2>
+          <h2 className="text-xl font-semibold mb-4">Carte avec Bouton "Ajouter Point"</h2>
           <p className="text-gray-600 mb-4">
-            Utilisez le bouton bleu &quot;📍 Ajouter Point&quot; en haut à droite pour ajouter des points au centre de la carte !
+            Utilisez le bouton bleu "📍 Ajouter Point" en haut à droite pour ajouter des points au centre de la carte !
           </p>
           <RealMapboxMap 
             height="600px"
@@ -44,13 +44,13 @@ export default function TestBoutonPage() {
           <h3 className="font-semibold text-green-800 mb-2">✅ Comment utiliser :</h3>
           <ul className="text-sm text-green-700 space-y-1">
             <li>• <strong>Naviguez</strong> sur la carte pour choisir une zone</li>
-            <li>• <strong>Cliquez sur &quot;📍 Ajouter Point&quot;</strong> en haut à droite</li>
+            <li>• <strong>Cliquez sur "📍 Ajouter Point"</strong> en haut à droite</li>
             <li>• <strong>Un marqueur bleu</strong> apparaît au centre de la carte</li>
             <li>• <strong>Répétez</strong> pour ajouter plusieurs points</li>
             <li>• <strong>Ligne verte</strong> apparaît dès le 2ème point</li>
             <li>• <strong>Polygone vert</strong> se forme au 3ème point</li>
             <li>• <strong>Cliquez sur ✕</strong> pour supprimer un point</li>
-            <li>• <strong>&quot;Tout effacer&quot;</strong> pour recommencer</li>
+            <li>• <strong>"Tout effacer"</strong> pour recommencer</li>
           </ul>
         </div>
 
@@ -61,12 +61,12 @@ export default function TestBoutonPage() {
             <li>• <strong>Pas de dépendance</strong> - Fonctionne sans géocodeur</li>
             <li>• <strong>Précis</strong> - Ajoute exactement au centre de la vue</li>
             <li>• <strong>Rapide</strong> - Idéal pour marquer des zones rapidement</li>
-            <li>• <strong>Fiable</strong> - Pas de problème de réseau ou d&apos;API</li>
+            <li>• <strong>Fiable</strong> - Pas de problème de réseau ou d'API</li>
           </ul>
         </div>
 
         <div className="bg-yellow-50 p-4 rounded-lg">
-          <h3 className="font-semibold text-yellow-800 mb-2">💡 Cas d&apos;usage :</h3>
+          <h3 className="font-semibold text-yellow-800 mb-2">💡 Cas d'usage :</h3>
           <ul className="text-sm text-yellow-700 space-y-1">
             <li>• <strong>Délimiter une zone</strong> - Ajoutez 3+ points pour créer un polygone</li>
             <li>• <strong>Marquer des lieux</strong> - Points de repère visuels</li>
