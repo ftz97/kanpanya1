@@ -25,20 +25,39 @@ export default function CarteQuartier() {
   const [isSearching, setIsSearching] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
 
-  
-const stableSetMapError = useCallback(() => {
-  setMapError();
-}, [setMapError]);
-
-const stableSetTimeout = useCallback(() => {
-  setTimeout();
-}, [setTimeout]);
-
-const stableMap = useCallback(() => {
-  Map();
-}, [Map]);
-
+  // Fonction de recherche d'adresses
+  const searchAddress = async (query: string) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      return;
     }
+
+    setIsSearching(true);
+    try {
+      const response = await fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}&country=FR&limit=5`
+      );
+      const data = await response.json();
+      setSearchResults(data.features || []);
+    } catch (error) {
+      console.error("Erreur de recherche:", error);
+      setMapError("Erreur lors de la recherche d'adresses");
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  // Ajouter une adresse sélectionnée
+  const addAddress = (feature: any) => {
+    const [lng, lat] = feature.center;
+    const newZone: AreaOption = {
+      value: feature.place_name,
+      label: feature.place_name,
+      type: "adresse",
+      coordinates: [lng, lat],
+    };
+
+    setZones(prev => [...prev, newZone]);
 
     // Ajouter un marqueur sur la carte
     if (mapRef.current) {
