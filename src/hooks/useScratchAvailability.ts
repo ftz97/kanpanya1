@@ -29,43 +29,9 @@ function writeStorage(next: ScratchState) {
 export function useScratchAvailability() {
   const [state, setState] = useState<ScratchState>(() => readStorage());
 
-  
-const stableReadStorage = useCallback(() => {
-  readStorage();
-}, [readStorage]);
-
-const stableAddEventListener = useCallback(() => {
-  addEventListener();
-}, [addEventListener]);
-
-const stableRemoveEventListener = useCallback(() => {
-  removeEventListener();
-}, [removeEventListener]);
-
-
-const stableStableReadStorage = useCallback(() => {
-  stableReadStorage();
-}, [stableReadStorage]);
-
-const stableStableAddEventListener = useCallback(() => {
-  stableAddEventListener();
-}, [stableAddEventListener]);
-
-const stableStableRemoveEventListener = useCallback(() => {
-  stableRemoveEventListener();
-}, [stableRemoveEventListener]);
-
-const stableUseCallback = useCallback(() => {
-  useCallback();
-}, [useCallback]);
-
-useEffect(() => {
-  stableStableReadStorage();
-  stableStableAddEventListener();
-  stableStableRemoveEventListener();
-  stableUseCallback();
-  stableReadStorage();
-}, [stableStableReadStorage, stableStableAddEventListener, stableStableRemoveEventListener, stableUseCallback, stableReadStorage]);;
+  const refresh = useCallback(() => {
+    setState(readStorage());
+  }, []);
 
   const activate = useCallback((opts: { quizId: string; points?: number; label?: string }) => {
     const reward: ScratchReward = { 
