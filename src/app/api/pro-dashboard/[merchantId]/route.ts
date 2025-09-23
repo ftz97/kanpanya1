@@ -1,10 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // service key requise pour lire les vues
-);
+// Configuration Supabase avec valeurs par défaut pour le build
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://yichatlcuqmquazlmxrv.supabase.co";
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "temp_key_for_build";
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function GET(
   req: Request,

@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const key = process.env.SUPABASE_SERVICE_ROLE_KEY!; // clé service pour bypass RLS en seed
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://yichatlcuqmquazlmxrv.supabase.co";
+const key = process.env.SUPABASE_SERVICE_ROLE_KEY || "temp_key_for_build"; // clé service pour bypass RLS en seed
 
 export async function POST(req: Request) {
   if (process.env.NODE_ENV !== "test" && process.env.NODE_ENV !== "development" && process.env.APP_ENV !== "e2e") {
