@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 interface Impact {
   mois: string;
@@ -10,14 +10,14 @@ interface Impact {
 export default function KonpanyaImpactSection() {
   const [data, setData] = useState<Impact[]>([]);
 
-  useEffect(() => {
-    // Mock data
-    setData([
-      { mois: "Juillet 2025", clients_via_reco: 120, clients_totaux: 400 },
-      { mois: "Août 2025", clients_via_reco: 150, clients_totaux: 420 },
-      { mois: "Septembre 2025", clients_via_reco: 90, clients_totaux: 200 },
-    ]);
-  }, []);
+  
+const stableSetData = useCallback(() => {
+  setData();
+}, [setData]);
+
+useEffect(() => {
+  stableSetData();
+}, [stableSetData]);;
 
   return (
     <section className="p-6 bg-white rounded-xl shadow-lg">

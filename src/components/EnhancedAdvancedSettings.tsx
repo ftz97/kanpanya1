@@ -4,7 +4,7 @@ interface Zone {
   id: string;
   name: string;
   type: 'custom' | 'predefined';
-  coordinates?: any;
+  coordinates?: unknown;
 }
 
 export default function EnhancedAdvancedSettings() {

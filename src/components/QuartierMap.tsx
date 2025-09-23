@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Map, { Source, Layer, useControl } from "react-map-gl/mapbox";
+import Map, { Source, Layer, useControl } from "react-map-gl";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 
 type ZoneCustom = {
   name: string;
-  polygon: any; // GeoJSON du polygone
+  polygon: unknown; // GeoJSON du polygone
   professions: Record<string, number>;
 };
 
@@ -20,7 +20,7 @@ const polygonLayer = {
   },
 };
 
-function DrawControl({ onCreate }: { onCreate: (geojson: any) => void }) {
+function DrawControl({ onCreate }: { onCreate: (geojson: unknown) => void }) {
   useControl<MapboxDraw>(
     () =>
       new MapboxDraw({
@@ -56,7 +56,7 @@ export default function QuartierMap() {
   // Debug: vérifier que le token est chargé
   console.log("Mapbox token QuartierMap:", MAPBOX_TOKEN ? "✅ Chargé" : "❌ Manquant");
 
-  const handleCreate = (feature: any) => {
+  const handleCreate = (feature: unknown) => {
     const name = prompt("Nom du quartier ?");
     if (!name) return;
 

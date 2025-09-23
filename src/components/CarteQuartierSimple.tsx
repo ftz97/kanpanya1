@@ -12,7 +12,7 @@ type AreaOption = {
 export default function CarteQuartierSimple() {
   const [zones, setZones] = useState<AreaOption[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<unknown[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
   // Fonction de recherche d'adresses
@@ -46,7 +46,7 @@ export default function CarteQuartierSimple() {
   };
 
   // Ajouter une adresse depuis les résultats de recherche
-  const addAddressFromSearch = (feature: any) => {
+  const addAddressFromSearch = (feature: unknown) => {
     const [lng, lat] = feature.center;
     const label = feature.place_name;
 
@@ -186,9 +186,9 @@ export default function CarteQuartierSimple() {
         <h3 className="font-semibold text-blue-800 mb-2">📝 Instructions :</h3>
         <ul className="text-sm text-blue-700 space-y-1">
           <li>1. Tapez une adresse dans la barre de recherche</li>
-          <li>2. Cliquez sur un résultat pour l'ajouter</li>
+          <li>2. Cliquez sur un résultat pour l&apos;ajouter</li>
           <li>3. Ajoutez au moins 3 adresses</li>
-          <li>4. Cliquez sur "Créer quartier automatiquement"</li>
+          <li>4. Cliquez sur &quot;Créer quartier automatiquement&quot;</li>
         </ul>
       </div>
     </div>

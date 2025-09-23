@@ -24,7 +24,7 @@ export default function FlashPromos() {
               }}
               aria-label={`Voir les détails de l'offre ${offer}`}
             >
-              Voir l'offre
+              Voir l&apos;offre
             </button>
           </div>
         ))}

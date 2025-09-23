@@ -30,7 +30,7 @@ export default function CollectiviteDescriptive() {
           <ul className="space-y-2 text-sm">
             <li className="flex items-center">
               <span className="text-green-500 mr-2">📈</span>
-              <span>Pic d'activité : Vendredi 17h-19h (+45%)</span>
+              <span>Pic d&apos;activité : Vendredi 17h-19h (+45%)</span>
             </li>
             <li className="flex items-center">
               <span className="text-orange-500 mr-2">📉</span>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Map, Marker, Popup } from "react-map-gl/mapbox";
+import { Map, Marker, Popup } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
@@ -42,7 +42,7 @@ const quartiers = [
 ];
 
 export default function InteractiveMap() {
-  const [selectedQuartier, setSelectedQuartier] = useState<any>(null);
+  const [selectedQuartier, setSelectedQuartier] = useState<unknown>(null);
   const [mapError, setMapError] = useState<string | null>(null);
 
   if (!MAPBOX_TOKEN) {

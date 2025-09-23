@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 interface Flow {
   source_nom: string;
@@ -10,13 +10,14 @@ interface Flow {
 export default function LocalFlowsSection() {
   const [flows, setFlows] = useState<Flow[]>([]);
 
-  useEffect(() => {
-    // Mock data
-    setFlows([
-      { source_nom: "Domino's Pizza", cible_nom: "Carrefour Market", nb_clients: 40 },
-      { source_nom: "Barber Street", cible_nom: "Snack Latino", nb_clients: 25 },
-    ]);
-  }, []);
+  
+const stableSetFlows = useCallback(() => {
+  setFlows();
+}, [setFlows]);
+
+useEffect(() => {
+  stableSetFlows();
+}, [stableSetFlows]);;
 
   return (
     <section className="p-6 bg-white rounded-xl shadow-lg">

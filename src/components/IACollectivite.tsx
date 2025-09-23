@@ -6,7 +6,7 @@ export default function IACollectivite() {
       {/* Flux et Heatmaps */}
       <section className="bg-white p-6 rounded-xl shadow-lg">
         <h2 className="text-xl font-bold text-gray-900 mb-4">🗺️ Flux et Heatmaps</h2>
-        <p className="text-gray-600 mb-4">Visualisation des flux de circulation et zones d'activité.</p>
+        <p className="text-gray-600 mb-4">Visualisation des flux de circulation et zones d&apos;activité.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-lg">
             <h3 className="font-semibold text-blue-900 mb-3">📍 Flux Principaux</h3>
@@ -62,7 +62,7 @@ export default function IACollectivite() {
       {/* Simulations */}
       <section className="bg-white p-6 rounded-xl shadow-lg">
         <h2 className="text-xl font-bold text-gray-900 mb-4">🎮 Simulations</h2>
-        <p className="text-gray-600 mb-4">Testez l'impact de vos décisions sur les flux urbains.</p>
+        <p className="text-gray-600 mb-4">Testez l&apos;impact de vos décisions sur les flux urbains.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="border border-gray-200 rounded-lg p-4">
             <h3 className="font-semibold text-gray-800 mb-3">🚌 Nouvelle Ligne de Bus</h3>

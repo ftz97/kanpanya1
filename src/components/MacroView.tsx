@@ -5,9 +5,8 @@ import {
   LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,
   BarChart, Bar, PieChart, Pie, Cell
 } from "recharts";
-import Map, { Source, Layer } from "react-map-gl";
+import Map, { Source, Layer , useControl } from "react-map-gl";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
-import { useControl } from "react-map-gl";
 import SankeyChart from "@/components/SankeyChart";
 import EnhancedAdvancedSettings from "@/components/EnhancedAdvancedSettings";
 
@@ -55,7 +54,7 @@ const options = [
 ];
 
 // 🔹 Gestion polygones MapboxDraw
-function DrawControl({ onCreate }: { onCreate: (geojson: any) => void }) {
+function DrawControl({ onCreate }: { onCreate: (geojson: unknown) => void }) {
   useControl<MapboxDraw>(
     () =>
       new MapboxDraw({
@@ -90,7 +89,7 @@ const reductionsPoints = {
 export default function MacroView() {
   const [selectedOptions, setSelectedOptions] = useState<string[]>(["Trafic"]);
   const [zones, setZones] = useState<
-    { name: string; polygon: any; professions: Record<string, number> }[]
+    { name: string; polygon: unknown; professions: Record<string, number> }[]
   >([]);
 
   const toggleOption = (opt: string) => {
@@ -99,7 +98,7 @@ export default function MacroView() {
     );
   };
 
-  const handleCreate = (feature: any) => {
+  const handleCreate = (feature: unknown) => {
     const name = prompt("Nom du quartier ?");
     if (!name) return;
     const professions = {

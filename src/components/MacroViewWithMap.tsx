@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,
   BarChart, Bar, PieChart, Pie, Cell
 } from "recharts";
 import SankeyChart from "@/components/SankeyChart";
-import Map, { Source, Layer } from "react-map-gl";
+import Map, { Source, Layer , useControl } from "react-map-gl";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
-import { useControl } from "react-map-gl";
 
 // ✅ Mock data
 const traficData = [
@@ -54,7 +53,7 @@ const options = [
 ];
 
 // 🔹 Gestion polygones MapboxDraw
-function DrawControl({ onCreate }: { onCreate: (geojson: any) => void }) {
+function DrawControl({ onCreate }: { onCreate: (geojson: unknown) => void }) {
   useControl<MapboxDraw>(
     () =>
       new MapboxDraw({
@@ -71,13 +70,18 @@ function DrawControl({ onCreate }: { onCreate: (geojson: any) => void }) {
 export default function MacroViewWithMap() {
   const [selectedOptions, setSelectedOptions] = useState<string[]>(["Trafic"]);
   const [zones, setZones] = useState<
-    { name: string; polygon: any; professions: Record<string, number> }[]
+    { name: string; polygon: unknown; professions: Record<string, number> }[]
   >([]);
   const [mapboxToken, setMapboxToken] = useState<string | null>(null);
 
-  useEffect(() => {
-    setMapboxToken(process.env.NEXT_PUBLIC_MAPBOX_TOKEN || null);
-  }, []);
+  
+const stableSetMapboxToken = useCallback(() => {
+  setMapboxToken();
+}, [setMapboxToken]);
+
+useEffect(() => {
+  stableSetMapboxToken();
+}, [stableSetMapboxToken]);;
 
   const toggleOption = (opt: string) => {
     setSelectedOptions((prev) =>
@@ -85,7 +89,7 @@ export default function MacroViewWithMap() {
     );
   };
 
-  const handleCreate = (feature: any) => {
+  const handleCreate = (feature: unknown) => {
     const name = prompt("Nom du quartier ?");
     if (!name) return;
     // ⚠️ Mock professions — à remplacer par une requête Supabase/PostGIS

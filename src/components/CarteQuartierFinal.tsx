@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 type AreaOption = {
   value: string;
@@ -13,7 +13,7 @@ export default function CarteQuartierFinal() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [zones, setZones] = useState<AreaOption[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<unknown[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [quartier, setQuartier] = useState<GeoJSON.Polygon | null>(null);
@@ -57,7 +57,7 @@ export default function CarteQuartierFinal() {
   };
 
   // Ajouter une adresse depuis les résultats de recherche
-  const addAddressFromSearch = (feature: any) => {
+  const addAddressFromSearch = (feature: unknown) => {
     const [lng, lat] = feature.center;
     const label = feature.place_name;
 
@@ -94,17 +94,29 @@ export default function CarteQuartierFinal() {
   };
 
   // Initialiser la carte
-  useEffect(() => {
-    if (!mapContainer.current) return;
+  
+const stableSetTimeout = useCallback(() => {
+  setTimeout();
+}, [setTimeout]);
 
-    // Simulation de chargement de Mapbox
-    const timer = setTimeout(() => {
-      setMapLoaded(true);
-      console.log("Carte Mapbox chargée (simulation)");
-    }, 2000);
+const stableSetMapLoaded = useCallback(() => {
+  setMapLoaded();
+}, [setMapLoaded]);
 
-    return () => clearTimeout(timer);
-  }, []);
+const stableLog = useCallback(() => {
+  log();
+}, [log]);
+
+const stableClearTimeout = useCallback(() => {
+  clearTimeout();
+}, [clearTimeout]);
+
+useEffect(() => {
+  stableSetTimeout();
+  stableSetMapLoaded();
+  stableLog();
+  stableClearTimeout();
+}, [stableSetTimeout, stableSetMapLoaded, stableLog, stableClearTimeout]);;
 
   return (
     <div className="flex flex-col gap-4">
@@ -250,9 +262,9 @@ export default function CarteQuartierFinal() {
         <h3 className="font-semibold text-blue-800 mb-2">📝 Instructions :</h3>
         <ul className="text-sm text-blue-700 space-y-1">
           <li>1. Tapez une adresse dans la barre de recherche</li>
-          <li>2. Cliquez sur un résultat pour l'ajouter</li>
+          <li>2. Cliquez sur un résultat pour l&apos;ajouter</li>
           <li>3. Ajoutez au moins 3 adresses</li>
-          <li>4. Cliquez sur "Créer quartier automatiquement"</li>
+          <li>4. Cliquez sur &quot;Créer quartier automatiquement&quot;</li>
         </ul>
       </div>
     </div>

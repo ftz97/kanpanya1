@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
     const data = await response.json();
 
     // Transformer les résultats Mapbox en format standardisé
-    const results = data.features.map((feature: any) => {
+    const results = data.features.map((feature: unknown) => {
       // Déterminer le type basé sur les propriétés Mapbox
       let itemType = 'lieu';
       const placeType = feature.place_type?.[0];
@@ -59,10 +59,10 @@ export async function GET(request: NextRequest) {
 
       // Extraire les informations d'adresse
       const context = feature.context || [];
-      const city = context.find((c: any) => c.id.startsWith('place.'))?.text || 
-                   context.find((c: any) => c.id.startsWith('locality.'))?.text;
-      const region = context.find((c: any) => c.id.startsWith('region.'))?.text;
-      const country = context.find((c: any) => c.id.startsWith('country.'))?.text;
+      const city = context.find((c: unknown) => c.id.startsWith('place.'))?.text || 
+                   context.find((c: unknown) => c.id.startsWith('locality.'))?.text;
+      const region = context.find((c: unknown) => c.id.startsWith('region.'))?.text;
+      const country = context.find((c: unknown) => c.id.startsWith('country.'))?.text;
 
       return {
         id: feature.id,
@@ -87,7 +87,7 @@ export async function GET(request: NextRequest) {
       // Score de pertinence
       score: feature.relevance * 100,
       // Indicateur de localisation
-      is_martinique: feature.context?.some((c: any) => c.id.startsWith('country.') && c.text === 'Martinique') || false
+      is_martinique: feature.context?.some((c: unknown) => c.id.startsWith('country.') && c.text === 'Martinique') || false
       };
     });
 
@@ -152,7 +152,7 @@ export async function POST(request: NextRequest) {
 
     const data = await response.json();
 
-    const suggestions = data.features.map((feature: any) => ({
+    const suggestions = data.features.map((feature: unknown) => ({
       id: feature.id,
       name: feature.text,
       type: feature.place_type?.[0] || 'lieu',

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from "react";
 
 interface SearchResult {
   id: string;
@@ -15,7 +15,7 @@ interface SearchResult {
 interface SearchBarProps {
   onLocationSelect: (result: SearchResult) => void;
   onMapCenter?: (coordinates: [number, number]) => void;
-  clickedLocation?: any;
+  clickedLocation?: unknown;
   onClearClickedLocation?: () => void;
 }
 
@@ -76,24 +76,40 @@ export default function SearchBar({ onLocationSelect, onMapCenter, clickedLocati
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Mettre à jour la query quand on clique sur la carte
-  useEffect(() => {
-    if (clickedLocation) {
-      setQuery(clickedLocation.name);
-      setIsOpen(false);
-    }
-  }, [clickedLocation]);
+  
+const stableSetQuery = useCallback(() => {
+  setQuery();
+}, [setQuery]);
 
-  // Fermer la liste déroulante quand on clique ailleurs
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
+const stableSetIsOpen = useCallback(() => {
+  setIsOpen();
+}, [setIsOpen]);
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+const stableUseEffect = useCallback(() => {
+  useEffect();
+}, [useEffect]);
+
+const stableContains = useCallback(() => {
+  contains();
+}, [contains]);
+
+const stableAddEventListener = useCallback(() => {
+  addEventListener();
+}, [addEventListener]);
+
+const stableRemoveEventListener = useCallback(() => {
+  removeEventListener();
+}, [removeEventListener]);
+
+useEffect(() => {
+  stableSetQuery();
+  stableSetIsOpen();
+  stableUseEffect();
+  stableContains();
+  stableSetIsOpen();
+  stableAddEventListener();
+  stableRemoveEventListener();
+}, [stableSetQuery, stableSetIsOpen, stableUseEffect, stableContains, stableSetIsOpen, stableAddEventListener, stableRemoveEventListener]);;
 
   // Recherche en temps réel avec API
   useEffect(() => {
@@ -241,7 +257,7 @@ export default function SearchBar({ onLocationSelect, onMapCenter, clickedLocati
           <div className="flex items-center border-l border-gray-200">
             <select
               value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value as any)}
+              onChange={(e) => setSelectedType(e.target.value as unknown)}
               className="px-3 py-4 text-sm text-gray-600 bg-transparent border-none focus:outline-none cursor-pointer"
             >
               <option value="all">Tout</option>

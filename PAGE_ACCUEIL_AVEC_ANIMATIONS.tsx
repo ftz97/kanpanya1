@@ -82,6 +82,7 @@ export default function Home() {
             <a href="#" className="hover:text-[#17BFA0] text-sm lg:text-base">Accueil</a>
             <a href="#" className="hover:text-[#17BFA0] text-sm lg:text-base">Commerçants</a>
             <a href="#" className="hover:text-[#17BFA0] text-sm lg:text-base">Offres</a>
+            <a href="/partenaire" className="hover:text-[#17BFA0] text-sm lg:text-base">Mutuelle Locale</a>
             <a href="#" className="hover:text-[#17BFA0] text-sm lg:text-base">Plus</a>
           </div>
 
@@ -201,9 +202,9 @@ export default function Home() {
               >
                 🎬 Découvrir le partenaire
               </button>
-              <button className="px-5 py-2 rounded-lg border border-[#17BFA0] text-[#17BFA0] font-semibold hover:bg-[#F9FFFD]">                                                                                         
+              <a href="/partenaire" className="px-5 py-2 rounded-lg border border-[#17BFA0] text-[#17BFA0] font-semibold hover:bg-[#F9FFFD] inline-block text-center">                                                                                         
                 En savoir plus
-              </button>
+              </a>
             </div>
           </div>
         </div>

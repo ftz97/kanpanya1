@@ -4,7 +4,7 @@ export default function CollectivitePredictive() {
   return (
     <section className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-xl shadow p-6">
       <h2 className="text-xl font-bold text-purple-900 mb-3">🔮 IA Prédictive - Collectivité</h2>
-      <p className="text-gray-600 mb-4">Anticipez l'impact des politiques publiques et événements territoriaux.</p>
+      <p className="text-gray-600 mb-4">Anticipez l&apos;impact des politiques publiques et événements territoriaux.</p>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-4">
@@ -31,7 +31,7 @@ export default function CollectivitePredictive() {
           </div>
 
           <div className="bg-white rounded-lg p-4 border-l-4 border-green-400">
-            <h3 className="font-semibold text-gray-800 mb-2">🎉 Scénarios d'Événements</h3>
+            <h3 className="font-semibold text-gray-800 mb-2">🎉 Scénarios d&apos;Événements</h3>
             <ul className="space-y-2 text-sm">
               <li className="flex items-start">
                 <span className="text-green-500 mr-2 mt-1">🎉</span>
@@ -104,7 +104,7 @@ export default function CollectivitePredictive() {
               <p className="text-indigo-700">• Programmer événements en période de faible trafic</p>
               <p className="text-indigo-700">• Anticiper les besoins en infrastructure</p>
               <p className="text-indigo-700">• Coordonner les politiques publiques</p>
-              <p className="text-indigo-700">• Développer l'attractivité territoriale</p>
+              <p className="text-indigo-700">• Développer l&apos;attractivité territoriale</p>
             </div>
           </div>
         </div>

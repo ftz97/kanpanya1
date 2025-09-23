@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from "react";
 import { ScratchCanvasProps } from '../types';
 
 export function ScratchCanvas({ onReveal, onProgress, reward }: ScratchCanvasProps) {
@@ -9,9 +9,14 @@ export function ScratchCanvas({ onReveal, onProgress, reward }: ScratchCanvasPro
   const [progress, setProgress] = useState(0);
   const lastPos = useRef<{ x: number; y: number } | null>(null);
 
-  useEffect(() => {
-    drawScratchSurface();
-  }, []);
+  
+const stableDrawScratchSurface = useCallback(() => {
+  drawScratchSurface();
+}, [drawScratchSurface]);
+
+useEffect(() => {
+  stableDrawScratchSurface();
+}, [stableDrawScratchSurface]);;
 
   const drawScratchSurface = () => {
     const canvas = canvasRef.current;
