@@ -6,7 +6,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky",
-    "dev": "next dev -p 3000",
+    "dev": "next dev",
     "mobile": "HOST=$(npx local-ip-url) next dev -H 0.0.0.0 -p 3000",
     "prebuild": "echo 'Prebuild disabled temporarily'",
     "build": "next build",
