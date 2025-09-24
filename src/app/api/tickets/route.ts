@@ -1,3 +1,5 @@
+export const runtime = 'nodejs'
+
 import { NextRequest, NextResponse } from "next/server";
 
 // 🎫 API de Tickets - Version Simple et Fluide

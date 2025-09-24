@@ -1,3 +1,5 @@
+export const runtime = 'nodejs'
+
 import { NextRequest, NextResponse } from 'next/server';
 
 // API pour rechercher des données réelles via OpenStreetMap Nominatim
