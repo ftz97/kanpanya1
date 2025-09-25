@@ -2,7 +2,7 @@
 export const colors = {
   primary: "#17BFA0",
   primaryDark: "#14a58d",
-  secondary: "#212E40",
+  secondary: "#1E3A8A", // Bleu foncé au lieu du noir
   background: "#F2F2F2",
   accent: "#FFD166",
   danger: "#EF4444",

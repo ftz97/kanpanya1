@@ -19,7 +19,7 @@ const kanpanyaPreset: Partial<Config> = {
         
         // Nouvelles couleurs du design system
         primaryDark: "rgb(20 165 143 / <alpha-value>)", // #14a58d
-        secondary: "rgb(33 46 64 / <alpha-value>)",     // #212E40
+        secondary: "rgb(30 58 138 / <alpha-value>)",     // #1E3A8A
         background: "rgb(242 242 242 / <alpha-value>)", // #F2F2F2
         accent: "rgb(255 209 102 / <alpha-value>)",     // #FFD166
         danger: "rgb(239 68 68 / <alpha-value>)",       // #EF4444
