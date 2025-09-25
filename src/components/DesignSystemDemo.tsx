@@ -39,7 +39,7 @@ export default function DesignSystemDemo() {
             <div className="card-kanpa text-center">
               <div className="w-full h-16 bg-secondary rounded-lg mb-2"></div>
               <p className="text-sm font-medium">Secondary</p>
-              <p className="text-xs text-gray-500">#0A142E</p>
+              <p className="text-xs text-gray-500">#123456</p>
             </div>
             <div className="card-kanpa text-center">
               <div className="w-full h-16 bg-accent rounded-lg mb-2"></div>

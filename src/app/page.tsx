@@ -50,7 +50,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-50 to-white px-6">
       <div className="bg-white shadow-lg rounded-2xl p-8 text-center max-w-md w-full">
-        <h1 className="text-2xl font-bold text-[#0A142E] mb-6">
+        <h1 className="text-2xl font-bold text-[#123456] mb-6">
           👋 Bienvenue sur <span className="text-[#17BFA0]">Kanpanya</span>
         </h1>
 
@@ -102,7 +102,7 @@ export default function HomePage() {
           <button
             onClick={handleMerchantClick}
             disabled={loadingClient || loadingMerchant}
-            className="relative w-full bg-[#0A142E] text-white py-3 rounded-xl font-semibold shadow hover:bg-[#0F1A3A] transition overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
+            className="relative w-full bg-[#123456] text-white py-3 rounded-xl font-semibold shadow hover:bg-[#1A4A66] transition overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loadingMerchant ? (
               <motion.div
