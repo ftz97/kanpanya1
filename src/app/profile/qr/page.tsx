@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import { QrCode, Download, Share, ArrowLeft, Copy } from "lucide-react";
@@ -11,7 +11,7 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export default function QRCodePage() {
+function QRCodeContent() {
   const params = useSearchParams();
   const router = useRouter();
   const [qrData, setQrData] = useState<any>(null);
@@ -248,5 +248,20 @@ export default function QRCodePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function QRCodePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#F2F2F2] flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#17BFA0] mx-auto"></div>
+          <p className="text-lg font-medium text-[#212E40]">Chargement...</p>
+        </div>
+      </div>
+    }>
+      <QRCodeContent />
+    </Suspense>
   );
 }
