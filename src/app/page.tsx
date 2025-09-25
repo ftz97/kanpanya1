@@ -95,7 +95,7 @@ export default function HomePage() {
                 transition={{ duration: 1 }}
               />
             ) : null}
-            <span className="relative z-10">👤 Je suis un client</span>
+            <span className="relative z-10">👤 Je suis un(e) client(e)</span>
           </button>
 
           {/* Bouton Commerçant avec progression */}
@@ -112,7 +112,7 @@ export default function HomePage() {
                 transition={{ duration: 1 }}
               />
             ) : null}
-            <span className="relative z-10">🏪 Je suis un commerçant</span>
+            <span className="relative z-10">🏪 Je suis un(e) commerçant(e)</span>
           </button>
         </div>
 

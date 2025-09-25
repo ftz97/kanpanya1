@@ -43,14 +43,14 @@ export default function ScanLanding() {
             onClick={() => router.push("/login-client")}
             className="w-full bg-[#17BFA0] text-white py-3 rounded-xl font-semibold shadow hover:bg-[#14a58a] transition"
           >
-            👤 Je suis un client
+            👤 Je suis un(e) client(e)
           </button>
 
           <button
             onClick={() => router.push("/login-merchant")}
             className="w-full bg-[#212E40] text-white py-3 rounded-xl font-semibold shadow hover:bg-[#1a2330] transition"
           >
-            🏪 Je suis un commerçant
+            🏪 Je suis un(e) commerçant(e)
           </button>
         </div>
 
