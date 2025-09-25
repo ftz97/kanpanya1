@@ -3,6 +3,7 @@
 import { ChevronRight, Gift, QrCode } from "lucide-react";
 import * as React from "react";
 import StyledQRCode from "@/components/StyledQRCode";
+import FlashOffers from "@/components/FlashOffers";
 
 export default function DashboardPage() {
   const [isClient, setIsClient] = React.useState(false);
@@ -174,30 +175,12 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Section Promos Flash */}
+      {/* Section Bon Plans avec Swiper */}
       <section className="max-w-7xl mx-auto mt-10 px-4 sm:px-6">
         <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#123456]">
-          🔥 Promos Flash
+          🔥 Bon Plans Flash
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-          {["Pizza -50% ce soir", "Happy Hour 14h-16h", "Légumes frais -30%", "Parapharmacie -15%"].map((offer, i) => (                                                                                                 
-            <div key={i} className="rounded-2xl bg-white shadow-md p-4 sm:p-5">
-              <h3 className="font-semibold text-[#123456] text-sm">{offer}</h3>
-              <p className="text-xs text-gray-500">Commerçant</p>
-              <span
-                className="inline-block mt-2 sm:mt-3 px-3 py-1 text-xs font-semibold rounded-full text-white"                                                                                                           
-                style={{
-                  background: "linear-gradient(90deg, #F2A0A0 0%, #F2C2C2 50%, #F2D5D5 100%)",
-                }}
-              >
-                Flash
-              </span>
-              <button className="mt-3 sm:mt-4 w-full py-2 rounded-lg border border-[#17BFA0] text-[#17BFA0] font-medium">                                                                                               
-                Voir l&apos;offre
-              </button>
-            </div>
-          ))}
-        </div>
+        <FlashOffers />
       </section>
 
       {/* Explorez par catégorie */}

@@ -45,9 +45,9 @@
     "chromatic": "chromatic --project-token=$CHROMATIC_PROJECT_TOKEN",
     "deploy": "git add -A && git commit -m \"deploy: $(date '+%Y-%m-%d %H:%M:%S')\" && git push origin main",
     "lint:report": "node scripts/lint-report-simple.js",
-           "seed:welcome": "npx tsx scripts/seedWelcomeMessages.ts",
-           "test:rpc": "npx tsx scripts/testRPCAnon.ts",
-           "test:hook": "npx tsx scripts/testHookWelcome.ts"
+    "seed:welcome": "npx tsx scripts/seedWelcomeMessages.ts",
+    "test:rpc": "npx tsx scripts/testRPCAnon.ts",
+    "test:hook": "npx tsx scripts/testHookWelcome.ts"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.4.0",
@@ -98,6 +98,7 @@
     "react-use": "^17.6.0",
     "recharts": "^3.1.2",
     "sonner": "^2.0.7",
+    "swiper": "^12.0.2",
     "swr": "^2.3.6",
     "tailwind-merge": "^3.3.1",
     "zod": "^4.1.9"
