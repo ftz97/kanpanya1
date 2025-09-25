@@ -11,7 +11,7 @@ const nextConfig = {
   // Configuration pour le déploiement
   output: 'standalone',
   experimental: {
-    outputFileTracingRoot: undefined,
+    // outputFileTracingRoot: undefined, // Supprimé car non reconnu
   },
   // Configuration des domaines
   async redirects() {

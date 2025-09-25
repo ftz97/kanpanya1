@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft, QrCode, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { QRCodeSVG } from "qrcode.react";
+import StyledQRCode from "@/components/StyledQRCode";
 
 export default function QRCodePage() {
   const router = useRouter();
@@ -56,42 +57,31 @@ export default function QRCodePage() {
 
         {/* Contenu principal */}
         <div className="space-y-6">
-          {/* Card QR Code */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <div className="text-center pb-4">
-              <h2 className="flex items-center justify-center gap-2 text-lg font-semibold">
-                <QrCode className="w-6 h-6 text-teal-600" />
-                Ton code unique
-              </h2>
-            </div>
-            
-            <div className="text-center">
-              {/* QR Code */}
-              <div className="bg-white p-6 rounded-xl shadow-inner mb-6">
-                <QRCodeSVG
-                  value={user.id}
-                  size={200}
-                  level="M"
-                  includeMargin={true}
-                  className="mx-auto"
-                />
-              </div>
+          {/* QR Code Stylisé */}
+          <StyledQRCode
+            value={user.id}
+            size={200}
+            title="Ton code unique"
+            subtitle="Ton passeport Kanpanya"
+            type="client"
+            showDecoration={true}
+          />
 
-              {/* Instructions */}
-              <div className="space-y-4">
-                <div className="flex items-start gap-3 text-left">
-                  <CheckCircle className="w-5 h-5 text-teal-600 mt-0.5 flex-shrink-0" />
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    Montre ton QR code chez les commerçants partenaires pour cumuler des points
-                  </p>
-                </div>
-                
-                <div className="flex items-start gap-3 text-left">
-                  <CheckCircle className="w-5 h-5 text-teal-600 mt-0.5 flex-shrink-0" />
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    Chaque achat te rapporte des points que tu peux échanger contre des récompenses
-                  </p>
-                </div>
+          {/* Instructions */}
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="space-y-4">
+              <div className="flex items-start gap-3 text-left">
+                <CheckCircle className="w-5 h-5 text-teal-600 mt-0.5 flex-shrink-0" />
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  Montre ton QR code chez les commerçants partenaires pour cumuler des points
+                </p>
+              </div>
+              
+              <div className="flex items-start gap-3 text-left">
+                <CheckCircle className="w-5 h-5 text-teal-600 mt-0.5 flex-shrink-0" />
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  Chaque achat te rapporte des points que tu peux échanger contre des récompenses
+                </p>
               </div>
             </div>
           </div>

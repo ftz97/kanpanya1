@@ -1,17 +1,55 @@
 "use client";
 
-import { ChevronRight } from "lucide-react";
-import { useWelcomeMessage } from "@/hooks/useWelcomeMessage";
+import { ChevronRight, Gift, QrCode } from "lucide-react";
 import * as React from "react";
+import StyledQRCode from "@/components/StyledQRCode";
 
 export default function DashboardPage() {
   const [isClient, setIsClient] = React.useState(false);
+  const [messageIndex, setMessageIndex] = React.useState(0);
+  const [showQRPopup, setShowQRPopup] = React.useState(false);
+  const [showRewardsPopup, setShowRewardsPopup] = React.useState(false);
   
   // 🎯 Nom d'utilisateur - à remplacer par le prénom réel du user
   const userName = "Kevin";
 
-  // 💬 Hook personnalisé pour le message de bienvenue Supabase
-  const { welcomeMessage, loading, error, refetch } = useWelcomeMessage(userName);
+  // 💬 Messages de bienvenue avec variations
+  const getWelcomeMessages = () => {
+    const hour = new Date().getHours();
+    let period: string;
+    if (hour >= 7 && hour < 12) period = 'morning';
+    else if (hour >= 12 && hour < 19) period = 'afternoon';
+    else period = 'evening';
+
+    const messages = {
+      morning: [
+        `Bonjour ${userName} ☀️`,
+        `Salut ${userName} 👋`,
+        `Bon matin ${userName} 🌸`,
+        `Hello ${userName} 🌞`,
+        `Coucou ${userName} 🌱`
+      ],
+      afternoon: [
+        `Bon après-midi ${userName} 🌱`,
+        `Salut ${userName} 🔥`,
+        `Hey ${userName} 👋`,
+        `Yo ${userName} 😎`,
+        `Coucou ${userName} 🛍️`
+      ],
+      evening: [
+        `Bonsoir ${userName} 🌙`,
+        `Bonne soirée ${userName} 🌟`,
+        `Salut ${userName} ✨`,
+        `Hey ${userName} 🛋️`,
+        `Coucou ${userName} 🎉`
+      ],
+    };
+
+    return messages[period as keyof typeof messages];
+  };
+
+  const messages = getWelcomeMessages();
+  const welcomeMessage = messages[messageIndex % messages.length];
 
   React.useEffect(() => {
     setIsClient(true);
@@ -34,39 +72,42 @@ export default function DashboardPage() {
             <a href="#" className="hover:text-[#17BFA0] text-sm lg:text-base">Plus</a>
           </div>
 
-          {/* Bouton "Ma carte" */}
-          <button className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow-md text-[#212E40] font-semibold bg-white border border-gray-200 text-xs sm:text-sm">                        
-            <span className="text-[#0D8C75]">▢</span>
-            <span className="hidden xs:inline">Ma carte</span>
-          </button>
+          {/* Boutons navigation */}
+          <div className="flex items-center gap-3">
+            {/* Bouton Récompenses */}
+            <button 
+              onClick={() => setShowRewardsPopup(true)}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-gray-200 shadow-sm text-[#212E40] text-sm font-medium hover:bg-gray-50 active:scale-95 transition"
+            >                        
+              <Gift className="w-4 h-4 text-[#17BFA0]" />
+              <span className="hidden sm:inline">Récompenses</span>
+            </button>
+
+            {/* Bouton QR */}
+            <button 
+              onClick={() => setShowQRPopup(true)}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#17BFA0] text-white shadow-sm text-sm font-medium hover:bg-[#14a58e] active:scale-95 transition"
+            >                        
+              <QrCode className="w-4 h-4" />
+              <span className="hidden sm:inline">Mon QR</span>
+            </button>
+          </div>
         </div>
       </nav>
 
-      {/* Message de bienvenue dynamique */}
+      {/* Message de bienvenue statique */}
       <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6 max-w-7xl mx-auto">
-        {loading ? (
-          <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-3/4 mb-2"></div>
-            <div className="h-6 bg-gray-200 rounded w-1/2"></div>
-          </div>
-        ) : (
-          <div className="space-y-2">
-            <h1 className="text-xl sm:text-2xl font-bold text-[#212E40] leading-relaxed">
-              {welcomeMessage}
-            </h1>
-            {error && (
-              <p className="text-sm text-red-500">
-                ⚠️ Erreur de chargement: {error}
-              </p>
-            )}
-            <button
-              onClick={refetch}
-              className="text-xs text-[#17BFA0] hover:text-[#14a58d] underline"
-            >
-              🔄 Changer le message
-            </button>
-          </div>
-        )}
+        <div className="space-y-2">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#212E40] leading-relaxed">
+            {welcomeMessage}
+          </h1>
+          <button
+            onClick={() => setMessageIndex(prev => prev + 1)}
+            className="text-xs text-[#17BFA0] hover:text-[#14a58d] underline"
+          >
+            🔄 Changer le message
+          </button>
+        </div>
       </div>
 
       {/* Header intro */}
@@ -227,6 +268,98 @@ export default function DashboardPage() {
           </div>
         ))}
       </section>
+
+      {/* Popup QR Code */}
+      {showQRPopup && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl p-5 w-full max-w-xs text-center shadow-md relative">
+            {/* Bouton fermer */}
+            <button
+              onClick={() => setShowQRPopup(false)}
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+              aria-label="Fermer"
+            >
+              ×
+            </button>
+
+            {/* Titre */}
+            <h3 className="text-lg font-bold text-[#212E40] mb-4">Mon QR Code</h3>
+
+      {/* QR code simple (sans déco) */}
+      <div className="flex justify-center mb-4">
+        <StyledQRCode
+          value={`${typeof window !== 'undefined' ? window.location.origin : 'https://kanpanya.com'}/scan?client=kevin`}
+          size={160}
+          type="client"
+          showDecoration={false}  // 👈 enlève les bordures/icônes
+        />
+      </div>
+
+            {/* Texte explicatif */}
+            <p className="text-sm text-gray-600 mb-4">
+              Montrez ce QR aux commerçants pour gagner des points.
+            </p>
+
+            {/* Bouton fermer */}
+            <button
+              onClick={() => setShowQRPopup(false)}
+              className="w-full bg-[#17BFA0] text-white py-2 rounded-lg font-medium hover:bg-[#14a58e] transition"
+            >
+              Fermer
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Popup Récompenses */}
+      {showRewardsPopup && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-xs relative shadow-lg text-center">
+            {/* Bouton fermer */}
+            <button
+              onClick={() => setShowRewardsPopup(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl"
+              aria-label="Fermer"
+            >
+              ×
+            </button>
+
+            {/* Titre */}
+            <h3 className="text-lg font-bold text-[#212E40] mb-4">
+              🎁 Mes Récompenses
+            </h3>
+
+            {/* Liste des récompenses */}
+            <div className="space-y-3 mb-4">
+              <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <span className="text-sm text-gray-700">10% chez ton coiffeur</span>
+                <span className="text-xs bg-[#17BFA0] text-white px-2 py-1 rounded-lg">150 pts</span>
+              </div>
+              <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <span className="text-sm text-gray-700">1 boisson offerte</span>
+                <span className="text-xs bg-[#17BFA0] text-white px-2 py-1 rounded-lg">80 pts</span>
+              </div>
+              <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <span className="text-sm text-gray-700">🎉 Ticket Tombola</span>
+                <span className="text-xs bg-[#17BFA0] text-white px-2 py-1 rounded-lg">50 pts</span>
+              </div>
+            </div>
+
+            {/* Petit texte fun */}
+            <p className="text-sm text-gray-600 mb-4">
+              Continue à scanner pour débloquer encore plus de 🎊 surprises !
+            </p>
+
+            {/* Bouton fermer */}
+            <button
+              onClick={() => setShowRewardsPopup(false)}
+              className="w-full bg-[#17BFA0] text-white py-2 rounded-lg font-medium hover:bg-[#14a58e] active:scale-95 transition"
+            >
+              🚀 Fermer
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

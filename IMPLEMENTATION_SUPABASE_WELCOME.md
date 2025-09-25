@@ -28,7 +28,8 @@ import { useWelcomeMessage } from "@/hooks/useWelcomeMessage";
 
 export default function DashboardPage() {
   const userName = "Kevin";
-  const { welcomeMessage, loading, error, refetch } = useWelcomeMessage(userName);
+  const language = 'fr'; // 'fr', 'en', 'es', 'gcf'
+  const { welcomeMessage, loading, error, refetch } = useWelcomeMessage(userName, language);
 
   return (
     <div>
@@ -46,15 +47,38 @@ export default function DashboardPage() {
 
 ### Appel RPC Supabase (version simplifiée) :
 ```typescript
+// Français (par défaut)
 const { data, error } = await supabase.rpc('get_random_welcome_message', {
   username: 'Sarah',
+  lang_input: 'fr'
+});
+
+// Anglais
+const { data, error } = await supabase.rpc('get_random_welcome_message', {
+  username: 'Sarah',
+  lang_input: 'en'
+});
+
+// Espagnol
+const { data, error } = await supabase.rpc('get_random_welcome_message', {
+  username: 'Sarah',
+  lang_input: 'es'
+});
+
+// Créole haïtien
+const { data, error } = await supabase.rpc('get_random_welcome_message', {
+  username: 'Sarah',
+  lang_input: 'gcf'
 });
 
 if (error) {
   console.error("Erreur RPC:", error);
 } else {
   console.log("Message personnalisé :", data[0].message);
-  // → "Bonjour Sarah ☀️ Prête pour une nouvelle journée locale ?"
+  // → "Bonjour Sarah ☀️" (fr)
+  // → "Good morning Sarah ☀️" (en)
+  // → "Buenos días Sarah ☀️" (es)
+  // → "Sarah, bonjou ! ☀️" (gcf)
 }
 ```
 
@@ -73,49 +97,33 @@ Une page de test est disponible à `/test-welcome` pour vérifier que la fonctio
 - Affichage des erreurs en temps réel
 - Validation que la fonction RPC répond correctement
 
-## 📋 Messages disponibles
+## 📋 Messages disponibles (multilingues)
 
-### Matin (7h-12h) :
-**Français :**
-- "Bonjour {username} ☀️"
-- "Salut {username} 👋"
-- "Bon matin {username} 🌸"
-- "Hello {username} 🌞"
-- "Coucou {username} 🌱"
+### 🇫🇷 Français (fr)
+**Matin :** "Bonjour {username} ☀️", "Salut {username} 👋", "Bon matin {username} 🌸"
+**Après-midi :** "Bon après-midi {username} 🌱", "Salut {username} 🔥", "Hey {username} 👋"
+**Soir :** "Bonsoir {username} 🌙", "Bonne soirée {username} 🌟", "Salut {username} ✨"
 
-**Créole haïtien :**
-- "{username}, bonjou ! ☀️"
-- "Salut {username} 👋"
-- "Bon maten {username} 🌸"
+### 🇺🇸 Anglais (en)
+**Matin :** "Good morning {username} ☀️", "Hello {username} 👋", "Morning {username} 🌸"
+**Après-midi :** "Good afternoon {username} 🌱", "Hey {username} 🔥", "Hi {username} 👋"
+**Soir :** "Good evening {username} 🌙", "Good night {username} 🌟", "Hey {username} ✨"
 
-### Après-midi (12h-19h) :
-**Français :**
-- "Bon après-midi {username} 🌱"
-- "Salut {username} 🔥"
-- "Hey {username} 👋"
-- "Yo {username} 😎"
-- "Coucou {username} 🛍️"
+### 🇪🇸 Espagnol (es)
+**Matin :** "Buenos días {username} ☀️", "Hola {username} 👋", "Buen día {username} 🌸"
+**Après-midi :** "Buenas tardes {username} 🌱", "Hola {username} 🔥", "Hey {username} 👋"
+**Soir :** "Buenas noches {username} 🌙", "Buenas tardes {username} 🌟", "Hola {username} ✨"
 
-**Créole haïtien :**
-- "Bon apremidi {username} 🌱"
-- "Salut {username} 🔥"
-- "Hey {username} 👋"
+### 🇭🇹 Créole haïtien (gcf)
+**Matin :** "{username}, bonjou ! ☀️", "Salut {username} 👋", "Bon maten {username} 🌸"
+**Après-midi :** "Bon apremidi {username} 🌱", "Salut {username} 🔥", "Hey {username} 👋"
+**Soir :** "Bonswa {username} 🌙", "Bon aswè {username} 🌟", "Salut {username} ✨"
 
-### Soir (19h-7h) :
-**Français :**
-- "Bonsoir {username} 🌙"
-- "Bonne soirée {username} 🌟"
-- "Salut {username} ✨"
-- "Hey {username} 🛋️"
-- "Coucou {username} 🎉"
-
-**Créole haïtien :**
-- "Bonswa {username} 🌙"
-- "Bon aswè {username} 🌟"
-- "Salut {username} ✨"
-
-### Message de fallback :
-- "{username}, byenveni anlè Kanpanya 🌱" (créole haïtien)
+### Messages de fallback par langue :
+- **Français :** "Bonjour {username} ! Bienvenue sur Kanpanya 🌱"
+- **Anglais :** "Hello {username} ! Welcome to Kanpanya 🌱"
+- **Espagnol :** "¡Hola {username} ! Bienvenido a Kanpanya 🌱"
+- **Créole :** "{username}, byenveni anlè Kanpanya 🌱"
 
 ## 🎯 Fonctionnalités bonus
 

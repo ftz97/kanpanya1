@@ -7,6 +7,7 @@ export default function TestWelcomePage() {
   const [result, setResult] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("Sarah");
+  const [language, setLanguage] = useState<'fr' | 'en' | 'es' | 'gcf'>('fr');
 
   const testRPC = async () => {
     setLoading(true);
@@ -17,6 +18,7 @@ export default function TestWelcomePage() {
       
       const { data, error } = await supabase.rpc('get_random_welcome_message', {
         username: username,
+        lang_input: language,
       });
 
       if (error) {
@@ -51,6 +53,23 @@ export default function TestWelcomePage() {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Entrez un prénom"
             />
+          </div>
+
+          <div>
+            <label htmlFor="language" className="block text-sm font-medium text-gray-700">
+              Langue
+            </label>
+            <select
+              id="language"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as 'fr' | 'en' | 'es' | 'gcf')}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            >
+              <option value="fr">🇫🇷 Français</option>
+              <option value="en">🇺🇸 English</option>
+              <option value="es">🇪🇸 Español</option>
+              <option value="gcf">🇭🇹 Créole haïtien</option>
+            </select>
           </div>
 
           <button

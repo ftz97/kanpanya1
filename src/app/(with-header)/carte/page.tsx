@@ -1,6 +1,7 @@
 "use client";
 
 import { QrCode } from "lucide-react";
+import StyledQRCode from "@/components/StyledQRCode";
 
 export default function CartePage() {
   return (
@@ -12,17 +13,16 @@ export default function CartePage() {
         </p>
       </section>
 
-      <section className="rounded-2xl p-8 border bg-white shadow-[0_18px_40px_-16px_rgba(15,23,42,.15)] text-center">
-        <div className="bg-[hsl(var(--kp-mint-500))] rounded-2xl p-8 mx-auto w-fit">
-          <QrCode className="size-32 text-white mx-auto" />
-        </div>
-        <h2 className="text-xl font-semibold mt-6">Carte de Frantz</h2>
-        <p className="text-muted-foreground mt-2">1234 5678 9012 3456</p>
-        <div className="mt-6">
-          <span className="inline-flex rounded-full px-4 py-2 text-sm bg-[hsl(var(--kp-mint-100))] kp-text-mint-600">
-            2,450 points
-          </span>
-        </div>
+      <section className="flex justify-center">
+        <StyledQRCode
+          value="frantz_user_1234"
+          size={280}
+          title="Carte de Frantz"
+          subtitle="1234 5678 9012 3456"
+          points={2450}
+          type="client"
+          showDecoration={true}
+        />
       </section>
 
       <section className="rounded-2xl p-6 border bg-white shadow-[0_18px_40px_-16px_rgba(15,23,42,.15)]">
