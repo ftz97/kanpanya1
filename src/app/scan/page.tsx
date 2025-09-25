@@ -2,22 +2,42 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 export default function ScanLanding() {
   const router = useRouter();
 
+  // Étapes du mini pitch
+  const steps = [
+    { icon: "🔍", text: "Découvre tes commerçants locaux" },
+    { icon: "📲", text: "Scanne ton QR code" },
+    { icon: "🎁", text: "Gagne des récompenses exclusives" },
+  ];
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-50 to-white px-6">
       <div className="bg-white shadow-lg rounded-2xl p-8 text-center max-w-md w-full">
-        <h1 className="text-2xl font-bold text-[#212E40] mb-4">
+        <h1 className="text-2xl font-bold text-[#212E40] mb-6">
           👋 Bienvenue sur <span className="text-[#17BFA0]">Kanpanya</span>
         </h1>
-        <p className="text-gray-600 mb-8">
-          L'app qui connecte <span className="font-semibold">clients</span> et{" "}
-          <span className="font-semibold">commerçants locaux</span> à travers
-          des récompenses, défis et promotions exclusives 🎉
-        </p>
 
+        {/* Animation des étapes */}
+        <div className="flex flex-col items-center gap-4 mb-8">
+          {steps.map((step, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.6, duration: 0.6 }}
+              className="flex items-center gap-3 bg-gray-50 px-4 py-3 rounded-xl shadow-sm w-full"
+            >
+              <span className="text-2xl">{step.icon}</span>
+              <p className="text-gray-700 font-medium">{step.text}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Choix du profil */}
         <div className="flex flex-col gap-4">
           <button
             onClick={() => router.push("/login-client")}
