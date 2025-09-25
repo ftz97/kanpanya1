@@ -58,14 +58,14 @@ export default function LoginMerchantPage() {
               <ArrowLeft className="w-5 h-5" />
             </button>
           </Link>
-          <h1 className="text-xl font-bold text-gray-900 ml-2">Connexion Commerçant</h1>
+          <h1 className="text-xl font-bold text-[#123456] ml-2">Connexion Commerçant</h1>
         </div>
 
         {/* Formulaire */}
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="text-center pb-4">
             <div className="flex items-center justify-center gap-2 text-lg font-semibold mb-2">
-              <Store className="w-6 h-6 text-slate-600" />
+              <Store className="w-6 h-6 text-[#123456]" />
               <span>Espace Commerçant</span>
             </div>
             <p className="text-sm text-gray-600">
@@ -84,7 +84,7 @@ export default function LoginMerchantPage() {
                 type="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#123456] focus:border-[#123456]"
                 placeholder="votre@commerce.com"
                 required
               />
@@ -100,7 +100,7 @@ export default function LoginMerchantPage() {
                 type="password"
                 value={formData.password}
                 onChange={(e) => handleInputChange("password", e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#123456] focus:border-[#123456]"
                 placeholder="••••••••"
                 required
               />
@@ -119,7 +119,7 @@ export default function LoginMerchantPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-slate-600 hover:bg-slate-700 text-white py-3 rounded-lg font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-[#123456] hover:bg-[#1A4A66] text-white py-3 rounded-lg font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -150,7 +150,7 @@ export default function LoginMerchantPage() {
           <div className="mt-4 text-center">
             <p className="text-sm text-gray-600">
               Tu n'as pas encore de compte ?{" "}
-              <Link href="/signup" className="text-slate-600 hover:text-slate-700 font-medium">
+              <Link href="/signup" className="text-[#123456] hover:text-[#1A4A66] font-medium">
                 Créer un compte commerçant
               </Link>
             </p>

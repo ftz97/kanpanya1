@@ -30,7 +30,7 @@ export default function UIEffectsTest() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-50 to-white px-6 gap-10">
-      <h1 className="text-2xl font-bold text-[#212E40]">🎨 Test UI Effects</h1>
+      <h1 className="text-2xl font-bold text-[#123456]">🎨 Test UI Effects</h1>
 
       {/* 1️⃣ Icônes pop */}
       <div className="bg-white shadow rounded-xl p-6 w-full max-w-sm text-center">

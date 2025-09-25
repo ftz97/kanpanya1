@@ -107,7 +107,7 @@ export default function RecommendationSection({ clientId }: RecommendationSectio
 
   return (
     <section className="max-w-7xl mx-auto mt-10 px-4 sm:px-6">
-      <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#212E40]">
+      <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#123456]">
         {title}
       </h2>
       
@@ -128,7 +128,7 @@ export default function RecommendationSection({ clientId }: RecommendationSectio
               </div>
             )}
             
-            <h3 className="font-semibold text-[#212E40] mb-2 text-sm sm:text-base">
+            <h3 className="font-semibold text-[#123456] mb-2 text-sm sm:text-base">
               {rec.title}
             </h3>
             

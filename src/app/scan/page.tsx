@@ -17,7 +17,7 @@ export default function ScanLanding() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-50 to-white px-6">
       <div className="bg-white shadow-lg rounded-2xl p-8 text-center max-w-md w-full">
-        <h1 className="text-2xl font-bold text-[#212E40] mb-6">
+        <h1 className="text-2xl font-bold text-[#123456] mb-6">
           👋 Bienvenue sur <span className="text-[#17BFA0]">Kanpanya</span>
         </h1>
 

@@ -58,7 +58,7 @@ export default function LoginClientPage() {
               <ArrowLeft className="w-5 h-5" />
             </button>
           </Link>
-          <h1 className="text-xl font-bold text-gray-900 ml-2">Connexion Client</h1>
+          <h1 className="text-xl font-bold text-[#123456] ml-2">Connexion Client</h1>
         </div>
 
         {/* Formulaire */}

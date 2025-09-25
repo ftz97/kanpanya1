@@ -104,7 +104,7 @@ function QRCodeContent() {
       <div className="min-h-screen bg-[#F2F2F2] flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#17BFA0] mx-auto"></div>
-          <p className="text-lg font-medium text-[#212E40]">Chargement du QR Code...</p>
+          <p className="text-lg font-medium text-[#123456]">Chargement du QR Code...</p>
         </div>
       </div>
     );
@@ -150,7 +150,7 @@ function QRCodeContent() {
       <div className="max-w-2xl mx-auto px-4 py-8">
         {/* Titre */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-[#212E40] mb-2">
+          <h1 className="text-3xl font-bold text-[#123456] mb-2">
             {qrData?.type === "client" ? "📱 Mon QR Code" : "🏪 QR Code Commerçant"}
           </h1>
           <p className="text-gray-600">
@@ -178,7 +178,7 @@ function QRCodeContent() {
         <div className="space-y-4">
           {/* URL du QR Code */}
           <div className="bg-white rounded-2xl shadow-md p-4">
-            <h4 className="font-semibold text-[#212E40] mb-2">🔗 URL du QR Code</h4>
+            <h4 className="font-semibold text-[#123456] mb-2">🔗 URL du QR Code</h4>
             <div className="flex items-center gap-2">
               <input
                 type="text"
@@ -225,7 +225,7 @@ function QRCodeContent() {
 
         {/* Instructions */}
         <div className="mt-8 bg-white rounded-2xl shadow-md p-6">
-          <h4 className="font-semibold text-[#212E40] mb-3">
+          <h4 className="font-semibold text-[#123456] mb-3">
             {qrData?.type === "client" ? "📋 Comment utiliser votre QR Code" : "📋 Comment utiliser ce QR Code"}
           </h4>
           <div className="space-y-2 text-sm text-gray-600">
@@ -257,7 +257,7 @@ export default function QRCodePage() {
       <div className="min-h-screen bg-[#F2F2F2] flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#17BFA0] mx-auto"></div>
-          <p className="text-lg font-medium text-[#212E40]">Chargement...</p>
+          <p className="text-lg font-medium text-[#123456]">Chargement...</p>
         </div>
       </div>
     }>

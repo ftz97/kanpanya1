@@ -65,7 +65,7 @@ export default function DashboardPage() {
           <div className="text-base sm:text-lg font-bold text-[#17BFA0]">Kanpanya</div>
 
           {/* Menu desktop */}
-          <div className="hidden sm:flex items-center gap-4 lg:gap-6 text-[#212E40] font-medium">
+          <div className="hidden sm:flex items-center gap-4 lg:gap-6 text-[#123456] font-medium">
             <a href="#" className="hover:text-[#17BFA0] text-sm lg:text-base">Accueil</a>
             <a href="#" className="hover:text-[#17BFA0] text-sm lg:text-base">Commerçants</a>
             <a href="#" className="hover:text-[#17BFA0] text-sm lg:text-base">Offres</a>
@@ -77,7 +77,7 @@ export default function DashboardPage() {
             {/* Bouton Récompenses */}
             <button 
               onClick={() => setShowRewardsPopup(true)}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-gray-200 shadow-sm text-[#212E40] text-sm font-medium hover:bg-gray-50 active:scale-95 transition"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-gray-200 shadow-sm text-[#123456] text-sm font-medium hover:bg-gray-50 active:scale-95 transition"
             >                        
               <Gift className="w-4 h-4 text-[#17BFA0]" />
               <span className="hidden sm:inline">Récompenses</span>
@@ -98,7 +98,7 @@ export default function DashboardPage() {
       {/* Message de bienvenue statique */}
       <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6 max-w-7xl mx-auto">
         <div className="space-y-2">
-          <h1 className="text-xl sm:text-2xl font-bold text-[#212E40] leading-relaxed">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#123456] leading-relaxed">
             {welcomeMessage}
           </h1>
           <button
@@ -130,7 +130,7 @@ export default function DashboardPage() {
       <div className="max-w-7xl mx-auto mt-6 sm:mt-8 md:mt-10 px-3 sm:px-4 md:px-6 space-y-3 sm:space-y-4">
         {/* Bannière partenaire - Cliquable */}
         <button
-          className="w-full rounded-xl shadow p-4 text-[#212E40] text-left hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"                                                                              
+          className="w-full rounded-xl shadow p-4 text-[#123456] text-left hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"                                                                              
           style={{
             background:
               "linear-gradient(90deg, #BCE8DF 0%, #C2F9DD 50%, #BCF7D2 100%)",
@@ -152,7 +152,7 @@ export default function DashboardPage() {
           <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-[#17BFA0] to-[#BCE8DF] rounded-l-xl"></div>                                                                                            
 
           <div className="ml-4"> {/* Décale le contenu pour ne pas coller à la bande */}
-            <h3 className="font-semibold text-lg text-[#212E40]">Mutuelle Locale</h3>
+            <h3 className="font-semibold text-lg text-[#123456]">Mutuelle Locale</h3>
             <p className="text-sm text-gray-500">Partenaire officiel</p>
             <p className="mt-2 font-bold text-[#17BFA0] text-lg">
               Points doublés cette semaine ! 🎯
@@ -176,13 +176,13 @@ export default function DashboardPage() {
 
       {/* Section Promos Flash */}
       <section className="max-w-7xl mx-auto mt-10 px-4 sm:px-6">
-        <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#212E40]">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#123456]">
           🔥 Promos Flash
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           {["Pizza -50% ce soir", "Happy Hour 14h-16h", "Légumes frais -30%", "Parapharmacie -15%"].map((offer, i) => (                                                                                                 
             <div key={i} className="rounded-2xl bg-white shadow-md p-4 sm:p-5">
-              <h3 className="font-semibold text-[#212E40] text-sm">{offer}</h3>
+              <h3 className="font-semibold text-[#123456] text-sm">{offer}</h3>
               <p className="text-xs text-gray-500">Commerçant</p>
               <span
                 className="inline-block mt-2 sm:mt-3 px-3 py-1 text-xs font-semibold rounded-full text-white"                                                                                                           
@@ -202,7 +202,7 @@ export default function DashboardPage() {
 
       {/* Explorez par catégorie */}
       <section className="max-w-7xl mx-auto mt-12 px-4 sm:px-6">
-        <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#212E40]">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#123456]">
           📂 Explorez par catégorie
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
@@ -219,7 +219,7 @@ export default function DashboardPage() {
               className="rounded-2xl bg-white shadow-md p-4 sm:p-6 flex flex-col items-center justify-center"                                                                                                           
             >
               <span className="text-xl sm:text-2xl">{cat.icon}</span>
-              <p className="mt-1 sm:mt-2 font-medium text-[#212E40] text-sm sm:text-base">
+              <p className="mt-1 sm:mt-2 font-medium text-[#123456] text-sm sm:text-base">
                 {cat.name}
               </p>
             </div>
@@ -234,7 +234,7 @@ export default function DashboardPage() {
           background: "linear-gradient(90deg, #E9FFF6 0%, #F2FDFB 100%)",
         }}
       >
-        <h2 className="text-lg sm:text-2xl font-bold text-[#212E40] mb-2 sm:mb-3">
+        <h2 className="text-lg sm:text-2xl font-bold text-[#123456] mb-2 sm:mb-3">
           Rejoignez la communauté ! 🌱
         </h2>
         <p className="text-sm sm:text-base text-gray-600 leading-relaxed max-w-2xl mx-auto">
@@ -263,7 +263,7 @@ export default function DashboardPage() {
             className="rounded-2xl bg-white shadow-md p-4 sm:p-6 text-center flex flex-col items-center"
           >
             <span className="text-xl sm:text-2xl">{stat.icon}</span>
-            <p className="text-base sm:text-lg font-bold text-[#212E40] mt-1 sm:mt-2">{stat.number}</p>
+            <p className="text-base sm:text-lg font-bold text-[#123456] mt-1 sm:mt-2">{stat.number}</p>
             <p className="text-xs sm:text-sm text-gray-500">{stat.label}</p>
           </div>
         ))}
@@ -283,7 +283,7 @@ export default function DashboardPage() {
             </button>
 
             {/* Titre */}
-            <h3 className="text-lg font-bold text-[#212E40] mb-4">Mon QR Code</h3>
+            <h3 className="text-lg font-bold text-[#123456] mb-4">Mon QR Code</h3>
 
       {/* QR code simple (sans déco) */}
       <div className="flex justify-center mb-4">
@@ -325,7 +325,7 @@ export default function DashboardPage() {
             </button>
 
             {/* Titre */}
-            <h3 className="text-lg font-bold text-[#212E40] mb-4">
+            <h3 className="text-lg font-bold text-[#123456] mb-4">
               🎁 Mes Récompenses
             </h3>
 

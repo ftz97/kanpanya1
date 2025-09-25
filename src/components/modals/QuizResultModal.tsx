@@ -108,7 +108,7 @@ function QuizResultModal({ reward, score, total }: {
           {/* Reward Preview */}
           <div className="bg-gradient-to-r from-[#17BFA0]/10 to-[#BDF2D0]/10 rounded-lg p-4 text-center">
             <Gift className="w-8 h-8 text-[#17BFA0] mx-auto mb-2" />
-            <div className="font-semibold text-[#212E40]">Votre récompense</div>
+            <div className="font-semibold text-[#123456]">Votre récompense</div>
             <div className="text-sm text-gray-600 mt-1">{reward}</div>
           </div>
 
