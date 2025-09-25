@@ -81,22 +81,6 @@ export default function CarteQuartierMapbox() {
   };
 
   // Initialiser la carte
-  
-const stableSetTimeout = useCallback(() => {
-  setTimeout();
-}, [setTimeout]);
-
-const stableSetMapLoaded = useCallback(() => {
-  setMapLoaded();
-}, [setMapLoaded]);
-
-const stableLog = useCallback(() => {
-  log();
-}, [log]);
-
-const stableClearTimeout = useCallback(() => {
-  clearTimeout();
-}, [clearTimeout]);
 
 useEffect(() => {
   stableSetTimeout();

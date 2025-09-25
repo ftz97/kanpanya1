@@ -32,3 +32,4 @@ if (hasError) {
   console.log("✅ Aucun import en majuscule trouvé. Tout est bon !");
 }
 
+

@@ -10,11 +10,6 @@ interface Impact {
 export default function KonpanyaImpactSection() {
   const [data, setData] = useState<Impact[]>([]);
 
-  
-const stableSetData = useCallback(() => {
-  setData();
-}, [setData]);
-
 useEffect(() => {
   stableSetData();
 }, [stableSetData]);;

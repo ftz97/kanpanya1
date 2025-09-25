@@ -10,11 +10,6 @@ interface SocialPower {
 export default function SocialPowerSection() {
   const [data, setData] = useState<SocialPower[]>([]);
 
-  
-const stableSetData = useCallback(() => {
-  setData();
-}, [setData]);
-
 useEffect(() => {
   stableSetData();
 }, [stableSetData]);;

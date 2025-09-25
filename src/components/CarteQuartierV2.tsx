@@ -20,11 +20,4 @@ export default function CarteQuartierV2() {
   const [mapError, setMapError] = useState<string | null>(null);
 
   // Vérifier le token Mapbox
-  
-const stableSetMapError = useCallback(() => {
-  setMapError();
-}, [setMapError]);
 
-const stableStartsWith = useCallback(() => {
-  startsWith();
-}, [startsWith]);

@@ -14,19 +14,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
 
-  
-const stableGetItem = useCallback(() => {
-  getItem();
-}, [getItem]);
-
-const stableSetTheme = useCallback(() => {
-  setTheme();
-}, [setTheme]);
-
-const stableSetMounted = useCallback(() => {
-  setMounted();
-}, [setMounted]);
-
 useEffect(() => {
   stableGetItem();
   stableSetTheme();

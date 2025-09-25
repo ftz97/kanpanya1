@@ -11,15 +11,6 @@ export default function MapboxMap({ className = "", height = "400px" }: MapboxMa
   const [isClient, setIsClient] = useState(false);
   const [mapboxToken, setMapboxToken] = useState<string | null>(null);
 
-  
-const stableSetIsClient = useCallback(() => {
-  setIsClient();
-}, [setIsClient]);
-
-const stableSetMapboxToken = useCallback(() => {
-  setMapboxToken();
-}, [setMapboxToken]);
-
 useEffect(() => {
   stableSetIsClient();
   stableSetMapboxToken();

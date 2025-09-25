@@ -1,12 +1,13 @@
 import { renderHook, act } from '@testing-library/react';
+import { vi } from 'vitest';
 import { useScratchAvailability } from '@/hooks/useScratchAvailability';
 
 // Mock localStorage
 const mockLocalStorage = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn(),
+  getItem: vi.fn(),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
 };
 
 Object.defineProperty(window, 'localStorage', {
@@ -16,7 +17,7 @@ Object.defineProperty(window, 'localStorage', {
 
 describe('useScratchAvailability Hook', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     mockLocalStorage.getItem.mockReturnValue(null);
   });
 

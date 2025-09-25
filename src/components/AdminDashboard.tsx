@@ -19,15 +19,6 @@ export default function AdminDashboard() {
   const [weekStats, setWeekStats] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(true);
 
-  
-const stableFrom = useCallback(() => {
-  from();
-}, [from]);
-
-const stableSelect = useCallback(() => {
-  select();
-}, [select]);
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

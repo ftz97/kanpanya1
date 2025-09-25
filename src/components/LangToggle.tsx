@@ -4,15 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 export default function LangToggle() {
   const [lang, setLang] = useState("fr");
 
-  
-const stableGetItem = useCallback(() => {
-  getItem();
-}, [getItem]);
-
-const stableSetLang = useCallback(() => {
-  setLang();
-}, [setLang]);
-
 useEffect(() => {
   stableGetItem();
   stableSetLang();

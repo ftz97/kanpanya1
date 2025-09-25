@@ -25,19 +25,6 @@ export default function CarteQuartier() {
   const [isSearching, setIsSearching] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
 
-  
-const stableSetMapError = useCallback(() => {
-  setMapError();
-}, [setMapError]);
-
-const stableSetTimeout = useCallback(() => {
-  setTimeout();
-}, [setTimeout]);
-
-const stableMap = useCallback(() => {
-  Map();
-}, [Map]);
-
     }
 
     // Ajouter un marqueur sur la carte

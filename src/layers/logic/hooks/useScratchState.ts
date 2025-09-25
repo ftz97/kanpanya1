@@ -30,47 +30,16 @@ function writeStorage(state: ScratchState) {
 export function useScratchState() {
   const [state, setState] = useState<ScratchState>(() => readStorage());
 
-  
-const stableReadStorage = useCallback(() => {
-  readStorage();
-}, [readStorage]);
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setState(readStorage());
+    };
 
-const stableAddEventListener = useCallback(() => {
-  addEventListener();
-}, [addEventListener]);
-
-const stableRemoveEventListener = useCallback(() => {
-  removeEventListener();
-}, [removeEventListener]);
-
-
-const stableStableReadStorage = useCallback(() => {
-  stableReadStorage();
-}, [stableReadStorage]);
-
-const stableStableAddEventListener = useCallback(() => {
-  stableAddEventListener();
-}, [stableAddEventListener]);
-
-const stableStableRemoveEventListener = useCallback(() => {
-  stableRemoveEventListener();
-}, [stableRemoveEventListener]);
-
-const stableUseCallback = useCallback(() => {
-  useCallback();
-}, [useCallback]);
-
-const stableWriteStorage = useCallback(() => {
-  writeStorage();
-}, [writeStorage]);
-
-useEffect(() => {
-  stableStableReadStorage();
-  stableStableAddEventListener();
-  stableStableRemoveEventListener();
-  stableUseCallback();
-  stableWriteStorage();
-}, [stableStableReadStorage, stableStableAddEventListener, stableStableRemoveEventListener, stableUseCallback, stableWriteStorage]);;
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   const markUsed = useCallback(() => {
     const newState: ScratchState = { ...state, available: false, used: true };
@@ -80,6 +49,17 @@ useEffect(() => {
 
   const clear = useCallback(() => {
     const newState: ScratchState = { available: false, used: true };
+    writeStorage(newState);
+    setState(newState);
+  }, []);
+
+  const activate = useCallback((reward: { quizId: string; points: number; label: string }) => {
+    const newState: ScratchState = { 
+      available: true, 
+      used: false, 
+      reward,
+      ticketId: `ticket-${Date.now()}`
+    };
     writeStorage(newState);
     setState(newState);
   }, []);

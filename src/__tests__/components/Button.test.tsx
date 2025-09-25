@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Button } from '@/layers/ui/components/Button';
+import { vi } from 'vitest';
+import { Button } from '@/components/ui/button';
 
 describe('Button Component', () => {
   it('affiche le texte du bouton', () => {
@@ -8,7 +9,7 @@ describe('Button Component', () => {
   });
 
   it('appelle onClick quand cliqué', () => {
-    const handleClick = jest.fn();
+    const handleClick = vi.fn();
     render(<Button onClick={handleClick}>Cliquer</Button>);
     
     fireEvent.click(screen.getByText('Cliquer'));

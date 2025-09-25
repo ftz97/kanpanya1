@@ -9,11 +9,6 @@ export function ScratchCanvas({ onReveal, onProgress, reward }: ScratchCanvasPro
   const [progress, setProgress] = useState(0);
   const lastPos = useRef<{ x: number; y: number } | null>(null);
 
-  
-const stableDrawScratchSurface = useCallback(() => {
-  drawScratchSurface();
-}, [drawScratchSurface]);
-
 useEffect(() => {
   stableDrawScratchSurface();
 }, [stableDrawScratchSurface]);;

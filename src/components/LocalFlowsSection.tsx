@@ -10,11 +10,6 @@ interface Flow {
 export default function LocalFlowsSection() {
   const [flows, setFlows] = useState<Flow[]>([]);
 
-  
-const stableSetFlows = useCallback(() => {
-  setFlows();
-}, [setFlows]);
-
 useEffect(() => {
   stableSetFlows();
 }, [stableSetFlows]);;

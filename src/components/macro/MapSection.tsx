@@ -10,23 +10,3 @@ export default function MapSection() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
 
-  
-const stableError = useCallback(() => {
-  error();
-}, [error]);
-
-const stableMap = useCallback(() => {
-  Map();
-}, [Map]);
-
-const stableAddControl = useCallback(() => {
-  addControl();
-}, [addControl]);
-
-const stableNavigationControl = useCallback(() => {
-  NavigationControl();
-}, [NavigationControl]);
-
-const stableMapboxGeocoder = useCallback(() => {
-  MapboxGeocoder();
-}, [MapboxGeocoder]);

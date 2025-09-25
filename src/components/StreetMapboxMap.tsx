@@ -11,39 +11,6 @@ export default function StreetMapboxMap() {
   const [drawnPolygons, setDrawnPolygons] = useState<unknown[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
 
-  
-const stableIncludes = useCallback(() => {
-  includes();
-}, [includes]);
-
-const stableSetError = useCallback(() => {
-  setError();
-}, [setError]);
-
-const stableAll = useCallback(() => {
-  all();
-}, [all]);
-
-const stableImport = useCallback(() => {
-  import();
-}, []);
-
-const stableThen = useCallback(() => {
-  then();
-}, [then]);
-
-const stableMap = useCallback(() => {
-  Map();
-}, [Map]);
-
-const stableAddControl = useCallback(() => {
-  addControl();
-}, [addControl]);
-
-const stableNavigationControl = useCallback(() => {
-  NavigationControl();
-}, [NavigationControl]);
-
                     }
                   }}
                   className="text-red-600 hover:text-red-800 text-sm font-medium px-2 py-1 rounded hover:bg-red-50 transition"

@@ -10,11 +10,6 @@ interface AttractionQuality {
 export default function AttractionQualitySection() {
   const [data, setData] = useState<AttractionQuality[]>([]);
 
-  
-const stableSetData = useCallback(() => {
-  setData();
-}, [setData]);
-
 useEffect(() => {
   stableSetData();
 }, [stableSetData]);;

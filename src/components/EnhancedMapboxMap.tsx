@@ -11,38 +11,9 @@ export default function EnhancedMapboxMap() {
   const [drawnPolygons, setDrawnPolygons] = useState<unknown[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
 
-  
-const stableIncludes = useCallback(() => {
-  includes();
-}, [includes]);
-
-const stableSetError = useCallback(() => {
-  setError();
-}, [setError]);
-
-const stableAll = useCallback(() => {
-  all();
-}, [all]);
-
 const stableImport = useCallback(() => {
   // import function call
 }, []);
-
-const stableThen = useCallback(() => {
-  then();
-}, [then]);
-
-const stableMap = useCallback(() => {
-  Map();
-}, [Map]);
-
-const stableAddControl = useCallback(() => {
-  addControl();
-}, [addControl]);
-
-const stableNavigationControl = useCallback(() => {
-  NavigationControl();
-}, [NavigationControl]);
 
 const stableDefault = useCallback(() => {
   // default function call

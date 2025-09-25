@@ -1,78 +1,73 @@
+import { vi } from 'vitest';
+import React from 'react';
+
 // Mock Mapbox GL
 const mockMapboxGL = {
-  Map: jest.fn(() => ({
-    on: jest.fn(),
-    off: jest.fn(),
-    remove: jest.fn(),
-    addSource: jest.fn(),
-    addLayer: jest.fn(),
-    removeSource: jest.fn(),
-    removeLayer: jest.fn(),
-    getStyle: jest.fn(() => ({ sources: {}, layers: [] })),
-    setStyle: jest.fn(),
-    flyTo: jest.fn(),
-    setCenter: jest.fn(),
-    setZoom: jest.fn(),
-    fitBounds: jest.fn(),
+  Map: vi.fn(() => ({
+    on: vi.fn(),
+    off: vi.fn(),
+    remove: vi.fn(),
+    addSource: vi.fn(),
+    addLayer: vi.fn(),
+    removeSource: vi.fn(),
+    removeLayer: vi.fn(),
+    getStyle: vi.fn(() => ({ sources: {}, layers: [] })),
+    setStyle: vi.fn(),
+    flyTo: vi.fn(),
+    setCenter: vi.fn(),
+    setZoom: vi.fn(),
+    fitBounds: vi.fn(),
   })),
-  Marker: jest.fn(() => ({
-    setLngLat: jest.fn(),
-    addTo: jest.fn(),
-    remove: jest.fn(),
+  Marker: vi.fn(() => ({
+    setLngLat: vi.fn(),
+    addTo: vi.fn(),
+    remove: vi.fn(),
   })),
-  Popup: jest.fn(() => ({
-    setLngLat: jest.fn(),
-    setHTML: jest.fn(),
-    addTo: jest.fn(),
-    remove: jest.fn(),
+  Popup: vi.fn(() => ({
+    setLngLat: vi.fn(),
+    setHTML: vi.fn(),
+    addTo: vi.fn(),
+    remove: vi.fn(),
   })),
-  NavigationControl: jest.fn(),
-  GeolocateControl: jest.fn(),
-  FullscreenControl: jest.fn(),
-  ScaleControl: jest.fn(),
-  AttributionControl: jest.fn(),
+  NavigationControl: vi.fn(),
+  GeolocateControl: vi.fn(),
+  FullscreenControl: vi.fn(),
+  ScaleControl: vi.fn(),
+  AttributionControl: vi.fn(),
 };
 
 // Mock des modules Mapbox
-jest.mock('mapbox-gl', () => mockMapboxGL);
-jest.mock('react-map-gl', () => ({
-  Map: jest.fn(({ children, ...props }) => {
-    import React from "react";
+vi.mock('mapbox-gl', () => mockMapboxGL);
+vi.mock('react-map-gl', () => ({
+  Map: vi.fn(({ children, ...props }) => {
     return React.createElement('div', { 'data-testid': 'mapbox-map', ...props }, children);
   }),
-  Marker: jest.fn(({ children, ...props }) => {
-    import React from "react";
+  Marker: vi.fn(({ children, ...props }) => {
     return React.createElement('div', { 'data-testid': 'mapbox-marker', ...props }, children);
   }),
-  Popup: jest.fn(({ children, ...props }) => {
-    import React from "react";
+  Popup: vi.fn(({ children, ...props }) => {
     return React.createElement('div', { 'data-testid': 'mapbox-popup', ...props }, children);
   }),
-  NavigationControl: jest.fn(() => {
-    import React from "react";
+  NavigationControl: vi.fn(() => {
     return React.createElement('div', { 'data-testid': 'navigation-control' });
   }),
-  GeolocateControl: jest.fn(() => {
-    import React from "react";
+  GeolocateControl: vi.fn(() => {
     return React.createElement('div', { 'data-testid': 'geolocate-control' });
   }),
-  FullscreenControl: jest.fn(() => {
-    import React from "react";
+  FullscreenControl: vi.fn(() => {
     return React.createElement('div', { 'data-testid': 'fullscreen-control' });
   }),
-  ScaleControl: jest.fn(() => {
-    import React from "react";
+  ScaleControl: vi.fn(() => {
     return React.createElement('div', { 'data-testid': 'scale-control' });
   }),
-  AttributionControl: jest.fn(() => {
-    import React from "react";
+  AttributionControl: vi.fn(() => {
     return React.createElement('div', { 'data-testid': 'attribution-control' });
   }),
 }));
 
 describe('Intégration Mapbox', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('peut créer une instance de carte Mapbox', () => {
@@ -111,7 +106,7 @@ describe('Intégration Mapbox', () => {
 
   it('peut gérer les événements de carte', () => {
     const map = new mockMapboxGL.Map({ container: 'map' });
-    const clickHandler = jest.fn();
+    const clickHandler = vi.fn();
     
     map.on('click', clickHandler);
     map.off('click', clickHandler);

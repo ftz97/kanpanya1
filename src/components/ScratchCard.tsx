@@ -31,3 +31,4 @@ export default function ScratchCard({ reward, onReveal }: ScratchCardProps) {
 // Export nommé pour la compatibilité
 export { ScratchCard };
 
+

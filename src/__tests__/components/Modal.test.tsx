@@ -1,10 +1,11 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Modal } from '@/layers/ui/components/Modal';
+import { vi } from 'vitest';
+import { Modal } from '@/components/ui/Modal';
 
 describe('Modal Component', () => {
   it('affiche le modal quand isOpen=true', () => {
     render(
-      <Modal isOpen={true} onClose={jest.fn()} title="Test Modal">
+      <Modal isOpen={true} onClose={vi.fn()} title="Test Modal">
         <p>Contenu du modal</p>
       </Modal>
     );
@@ -15,7 +16,7 @@ describe('Modal Component', () => {
 
   it('ne s\'affiche pas quand isOpen=false', () => {
     render(
-      <Modal isOpen={false} onClose={jest.fn()} title="Test Modal">
+      <Modal isOpen={false} onClose={vi.fn()} title="Test Modal">
         <p>Contenu du modal</p>
       </Modal>
     );
@@ -24,7 +25,7 @@ describe('Modal Component', () => {
   });
 
   it('appelle onClose quand on clique sur le bouton fermer', () => {
-    const mockOnClose = jest.fn();
+    const mockOnClose = vi.fn();
     render(
       <Modal isOpen={true} onClose={mockOnClose} title="Test Modal">
         <p>Contenu du modal</p>
@@ -39,7 +40,7 @@ describe('Modal Component', () => {
 
   it('applique les tailles correctement', () => {
     const { rerender } = render(
-      <Modal isOpen={true} onClose={jest.fn()} title="Test" size="sm">
+      <Modal isOpen={true} onClose={vi.fn()} title="Test" size="sm">
         <p>Small modal</p>
       </Modal>
     );
@@ -47,7 +48,7 @@ describe('Modal Component', () => {
     expect(screen.getByText('Small modal')).toBeInTheDocument();
     
     rerender(
-      <Modal isOpen={true} onClose={jest.fn()} title="Test" size="lg">
+      <Modal isOpen={true} onClose={vi.fn()} title="Test" size="lg">
         <p>Large modal</p>
       </Modal>
     );

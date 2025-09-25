@@ -20,44 +20,6 @@ export default function BasicMap({
   const [error, setError] = useState<string | null>(null);
   const [mapboxReady, setMapboxReady] = useState(false);
 
-  
-const stableIncludes = useCallback(() => {
-  includes();
-}, [includes]);
-
-const stableSetError = useCallback(() => {
-  setError();
-}, [setError]);
-
-const stableSetMapboxReady = useCallback(() => {
-  setMapboxReady();
-}, [setMapboxReady]);
-
-const stableCreateElement = useCallback(() => {
-  createElement();
-}, [createElement]);
-
-const stableAppendChild = useCallback(() => {
-  appendChild();
-}, [appendChild]);
-
-
-const stableLog = useCallback(() => {
-  log();
-}, [log]);
-
-
-
-
-const stableError = useCallback(() => {
-  error();
-}, [error]);
-
-
-const stableLoadMapbox = useCallback(() => {
-  loadMapbox();
-}, [loadMapbox]);
-
 useEffect(() => {
   stableIncludes();
   stableSetError();

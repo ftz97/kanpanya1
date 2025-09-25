@@ -18,19 +18,6 @@ export default function SimulatedMap({
   const [isLoaded, setIsLoaded] = useState(false);
   const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
 
-  
-const stableSetTimeout = useCallback(() => {
-  setTimeout();
-}, [setTimeout]);
-
-const stableSetIsLoaded = useCallback(() => {
-  setIsLoaded();
-}, [setIsLoaded]);
-
-const stableClearTimeout = useCallback(() => {
-  clearTimeout();
-}, [clearTimeout]);
-
 useEffect(() => {
   stableSetTimeout();
   stableSetIsLoaded();

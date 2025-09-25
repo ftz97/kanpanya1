@@ -74,11 +74,6 @@ export default function MacroViewWithMap() {
   >([]);
   const [mapboxToken, setMapboxToken] = useState<string | null>(null);
 
-  
-const stableSetMapboxToken = useCallback(() => {
-  setMapboxToken();
-}, [setMapboxToken]);
-
 useEffect(() => {
   stableSetMapboxToken();
 }, [stableSetMapboxToken]);;

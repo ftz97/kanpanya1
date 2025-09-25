@@ -5,11 +5,6 @@ import { useModal } from "@/components/modal/ModalManager";
 
 export default function VideoEndModal() {
   const { replace, close } = useModal();
-  
-  
-const stableLog = useCallback(() => {
-  log();
-}, [log]);
 
 useEffect(() => {
   stableLog();

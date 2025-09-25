@@ -119,3 +119,4 @@ src/app/
 **NETTOYAGE TERMINÉ ET VALIDÉ**  
 Le projet est maintenant organisé avec seulement les versions essentielles et fonctionnelles.
 
+

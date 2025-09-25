@@ -1,11 +1,12 @@
 import { NextRequest } from 'next/server';
+import { vi } from 'vitest';
 import { GET } from '@/app/api/hello/route';
 
 // Mock Next.js
-jest.mock('next/server', () => ({
-  NextRequest: jest.fn(),
+vi.mock('next/server', () => ({
+  NextRequest: vi.fn(),
   NextResponse: {
-    json: jest.fn((data) => ({
+    json: vi.fn((data) => ({
       json: () => Promise.resolve(data),
       status: 200,
     })),

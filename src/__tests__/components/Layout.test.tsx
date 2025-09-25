@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Card } from '@/layers/ui/components/Layout';
+import { Card } from '@/components/ui/card';
 
 describe('Card Component', () => {
   it('affiche le contenu', () => {

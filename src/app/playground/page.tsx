@@ -184,19 +184,6 @@ function ScratchDemo() {
   const W = 340;
   const H = 180;
 
-  
-const stableDrawCover = useCallback(() => {
-  drawCover();
-}, [drawCover]);
-
-const stableSetScratchedPct = useCallback(() => {
-  setScratchedPct();
-}, [setScratchedPct]);
-
-const stableSetRevealed = useCallback(() => {
-  setRevealed();
-}, [setRevealed]);
-
 useEffect(() => {
   stableDrawCover();
   stableSetScratchedPct();

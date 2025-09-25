@@ -54,22 +54,6 @@ export default function SponsorCarousel() {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   // 🔄 Auto défilement
-  
-const stableSetInterval = useCallback(() => {
-  setInterval();
-}, [setInterval]);
-
-const stableScrollBy = useCallback(() => {
-  scrollBy();
-}, [scrollBy]);
-
-const stableScrollTo = useCallback(() => {
-  scrollTo();
-}, [scrollTo]);
-
-const stableClearInterval = useCallback(() => {
-  clearInterval();
-}, [clearInterval]);
 
 useEffect(() => {
   stableSetInterval();

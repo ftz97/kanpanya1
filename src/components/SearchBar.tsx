@@ -75,41 +75,19 @@ export default function SearchBar({ onLocationSelect, onMapCenter, clickedLocati
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Mettre à jour la query quand on clique sur la carte
-  
-const stableSetQuery = useCallback(() => {
-  setQuery();
-}, [setQuery]);
+  // Fermer la liste quand on clique en dehors
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
 
-const stableSetIsOpen = useCallback(() => {
-  setIsOpen();
-}, [setIsOpen]);
-
-const stableUseEffect = useCallback(() => {
-  useEffect();
-}, [useEffect]);
-
-const stableContains = useCallback(() => {
-  contains();
-}, [contains]);
-
-const stableAddEventListener = useCallback(() => {
-  addEventListener();
-}, [addEventListener]);
-
-const stableRemoveEventListener = useCallback(() => {
-  removeEventListener();
-}, [removeEventListener]);
-
-useEffect(() => {
-  stableSetQuery();
-  stableSetIsOpen();
-  stableUseEffect();
-  stableContains();
-  stableSetIsOpen();
-  stableAddEventListener();
-  stableRemoveEventListener();
-}, [stableSetQuery, stableSetIsOpen, stableUseEffect, stableContains, stableSetIsOpen, stableAddEventListener, stableRemoveEventListener]);;
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   // Recherche en temps réel avec API
   useEffect(() => {

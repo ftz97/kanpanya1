@@ -7,11 +7,3 @@ export default function TestMap() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  
-const stableLog = useCallback(() => {
-  log();
-}, [log]);
-
-const stableSetError = useCallback(() => {
-  setError();
-}, [setError]);

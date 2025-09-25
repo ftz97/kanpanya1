@@ -6,11 +6,6 @@ import { useTheme } from "@/components/theme/ThemeProvider";
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
-  
-  
-const stableSetMounted = useCallback(() => {
-  setMounted();
-}, [setMounted]);
 
 useEffect(() => {
   stableSetMounted();

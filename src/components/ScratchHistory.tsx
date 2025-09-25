@@ -7,43 +7,6 @@ export default function ScratchHistory() {
   const [logs, setLogs] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(true);
 
-  
-const stableFrom = useCallback(() => {
-  from();
-}, [from]);
-
-const stableSelect = useCallback(() => {
-  select();
-}, [select]);
-
-const stableInner = useCallback(() => {
-  inner();
-}, [inner]);
-
-const stableOrder = useCallback(() => {
-  order();
-}, [order]);
-
-const stableLimit = useCallback(() => {
-  limit();
-}, [limit]);
-
-const stableSetLogs = useCallback(() => {
-  setLogs();
-}, [setLogs]);
-
-const stableError = useCallback(() => {
-  error();
-}, [error]);
-
-const stableSetLoading = useCallback(() => {
-  setLoading();
-}, [setLoading]);
-
-const stableLoad = useCallback(() => {
-  load();
-}, [load]);
-
 useEffect(() => {
   stableFrom();
   stableSelect();

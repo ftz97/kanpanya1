@@ -1,28 +1,29 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { vi } from 'vitest';
 
 // Mock Supabase
 const mockSupabase = {
-  from: jest.fn(() => ({
-    select: jest.fn(() => ({
-      eq: jest.fn(() => ({
-        single: jest.fn(() => Promise.resolve({ data: null, error: null }))
+  from: vi.fn(() => ({
+    select: vi.fn(() => ({
+      eq: vi.fn(() => ({
+        single: vi.fn(() => Promise.resolve({ data: null, error: null }))
       }))
     })),
-    insert: jest.fn(() => ({
-      select: jest.fn(() => ({
-        single: jest.fn(() => Promise.resolve({ data: null, error: null }))
+    insert: vi.fn(() => ({
+      select: vi.fn(() => ({
+        single: vi.fn(() => Promise.resolve({ data: null, error: null }))
       }))
     }))
   }))
 };
 
-jest.mock('@supabase/auth-helpers-nextjs', () => ({
+vi.mock('@supabase/auth-helpers-nextjs', () => ({
   createClientComponentClient: () => mockSupabase
 }));
 
 describe('Intégration Supabase', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('crée un client Supabase', () => {
