@@ -128,16 +128,14 @@ export default function DashboardPage() {
 
       {/* Section Ticket à gratter avec animations */}
       {isClient ? (
-        <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6 max-w-7xl mx-auto">
-          <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl shadow-xl p-4 sm:p-6 border border-blue-100">
-            <div className="mb-4 text-center">
+        <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 max-w-7xl mx-auto">
+          <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl shadow-xl p-3 sm:p-4 border border-blue-100">
+            <div className="mb-3 text-center">
               <div className="flex items-center justify-center gap-2 mb-2">
-                <span className="text-2xl sm:text-3xl">🎫</span>
-                <h3 className="text-lg sm:text-xl font-bold text-gray-800">Votre ticket à gratter</h3>
-                <span className="text-2xl sm:text-3xl">✨</span>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800">🎟️ Gratte ton ticket</h3>
               </div>
-              <p className="text-sm text-gray-600 mb-4">
-                Grattez pour révéler votre récompense surprise avec animations !
+              <p className="text-sm text-gray-600 mb-3">
+                Gratte pour découvrir ta récompense 🎁
               </p>
             </div>
             <div className="flex justify-center">
@@ -162,9 +160,9 @@ export default function DashboardPage() {
                 }}
               />
             </div>
-            <div className="mt-4 text-center">
+            <div className="mt-3 text-center">
               <p className="text-xs text-gray-500">
-                💡 Plus vous grattez, plus vous avez de chances de gagner gros !
+                Gratte pour découvrir ta récompense 🎁
               </p>
             </div>
           </div>
