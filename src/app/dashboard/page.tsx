@@ -65,14 +65,7 @@ export default function DashboardPage() {
   const messages = getWelcomeMessages();
   const welcomeMessage = messages[messageIndex % messages.length];
 
-  // Fonctions pour le système de tickets
-  const revealTicket = () => {
-    const win = Math.random() > 0.5;
-    setMessage(win ? "🎁 Bravo, +50 points !" : "😔 Dommage, retente bientôt !");
-    setRevealed(true);
-    setTickets((prev) => prev - 1);
-  };
-
+  // Fonction pour le système de tickets
   const nextTicket = () => {
     setRevealed(false);
     setMessage("");
@@ -311,12 +304,33 @@ export default function DashboardPage() {
 
             {/* Zone ticket */}
             {!revealed ? (
-              <button
-                onClick={revealTicket}
-                className="w-full h-28 flex items-center justify-center rounded-xl bg-gradient-to-r from-gray-300 via-gray-200 to-gray-400 text-white font-bold shadow-inner"
-              >
-                ✨ Gratte ici ✨
-              </button>
+              <div className="flex justify-center">
+                <ScratchCardStableV3
+                  threshold={0.4}
+                  goldenTicketChance={0.1}
+                  userId="dashboard-user"
+                  onReveal={(reward) => {
+                    console.log("🎉 Récompense révélée sur le dashboard:", reward);
+                    
+                    // Déclencher les animations selon le type de récompense
+                    if (reward.type === "points" && reward.amount >= 250) {
+                      setShowMoneyEmojis(true);
+                      setTimeout(() => setShowMoneyEmojis(false), 3000);
+                    } else if (reward.amount >= 100) {
+                      setShowHappyEmojis(true);
+                      setTimeout(() => setShowHappyEmojis(false), 3000);
+                    } else {
+                      setShowSadEmojis(true);
+                      setTimeout(() => setShowSadEmojis(false), 3000);
+                    }
+                    
+                    // Mettre à jour le message et l'état
+                    setMessage(reward.label || "🎁 Récompense révélée !");
+                    setRevealed(true);
+                    setTickets((prev) => prev - 1);
+                  }}
+                />
+              </div>
             ) : (
               <div className="space-y-4">
                 <div className="w-full h-28 flex items-center justify-center rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-200 text-gray-800 font-bold shadow-inner">
