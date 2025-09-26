@@ -18,6 +18,14 @@ export default function DashboardPage() {
   const [showHappyEmojis, setShowHappyEmojis] = React.useState(false);
   const [showMoneyEmojis, setShowMoneyEmojis] = React.useState(false);
   
+  // États pour le système de tickets
+  const [tickets, setTickets] = React.useState(3);
+  const [revealed, setRevealed] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const [isTicketPopupOpen, setIsTicketPopupOpen] = React.useState(false);
+  const [showRewardPopup, setShowRewardPopup] = React.useState(false);
+  const [rewardData, setRewardData] = React.useState(null);
+  
   
   // 🎯 Nom d'utilisateur - à remplacer par le prénom réel du user
   const userName = "Kevin";
@@ -59,6 +67,19 @@ export default function DashboardPage() {
 
   const messages = getWelcomeMessages();
   const welcomeMessage = messages[messageIndex % messages.length];
+
+  // Fonctions pour le système de tickets
+  const revealTicket = () => {
+    const win = Math.random() > 0.5;
+    setMessage(win ? "🎁 Bravo, +50 points !" : "😔 Dommage, retente bientôt !");
+    setRevealed(true);
+    setTickets((prev) => prev - 1);
+  };
+
+  const nextTicket = () => {
+    setRevealed(false);
+    setMessage("");
+  };
 
   React.useEffect(() => {
     setIsClient(true);
@@ -127,7 +148,7 @@ export default function DashboardPage() {
         </header>
       </div>
 
-      {/* Section Ticket à gratter avec animations */}
+      {/* Section Tickets avec popup */}
       {isClient ? (
         <div className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 max-w-7xl mx-auto">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl shadow-xl p-2 sm:p-3 border border-blue-100">
@@ -139,27 +160,20 @@ export default function DashboardPage() {
                 Gratte pour découvrir ta récompense 🎁
               </p>
             </div>
+            
+            {/* Bouton pour ouvrir le popup */}
             <div className="flex justify-center">
-              <ScratchCardStableV3
-                threshold={0.4}
-                goldenTicketChance={0.1}
-                userId="dashboard-user"
-                onReveal={(reward) => {
-                  console.log("🎉 Récompense révélée sur le dashboard:", reward);
-                  
-                  // Déclencher les animations selon le type de récompense
-                  if (reward.type === "points" && reward.amount >= 250) {
-                    setShowMoneyEmojis(true);
-                    setTimeout(() => setShowMoneyEmojis(false), 3000);
-                  } else if (reward.amount >= 100) {
-                    setShowHappyEmojis(true);
-                    setTimeout(() => setShowHappyEmojis(false), 3000);
-                  } else {
-                    setShowSadEmojis(true);
-                    setTimeout(() => setShowSadEmojis(false), 3000);
-                  }
-                }}
-              />
+              <button
+                onClick={() => setIsTicketPopupOpen(true)}
+                className="px-6 py-3 bg-emerald-500 text-white font-semibold rounded-xl shadow hover:bg-emerald-600 flex items-center gap-2"
+              >
+                🎟️ Tickets disponibles
+                {tickets > 0 && (
+                  <span className="bg-white text-emerald-600 font-bold text-xs px-2 py-1 rounded-full">
+                    {tickets}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -383,6 +397,102 @@ export default function DashboardPage() {
               className="w-full bg-[#17BFA0] text-white py-2 rounded-lg font-medium hover:bg-[#14a58e] active:scale-95 transition"
             >
               🚀 Fermer
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Popup Tickets */}
+      {isTicketPopupOpen && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-lg max-w-sm w-full p-6 relative">
+            {/* Bouton fermer */}
+            <button
+              onClick={() => setIsTicketPopupOpen(false)}
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
+            >
+              ✖
+            </button>
+
+            {/* Titre + compteur */}
+            <div className="flex justify-center items-center gap-2 mb-4">
+              <h2 className="text-xl font-bold">🎟️ Gratte ton ticket</h2>
+              {tickets > 0 && (
+                <span className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                  {tickets}
+                </span>
+              )}
+            </div>
+
+            {/* Zone ticket avec ScratchCardStableV3 */}
+            <div className="flex justify-center mb-4">
+              <ScratchCardStableV3
+                threshold={0.4}
+                goldenTicketChance={0.1}
+                userId="dashboard-user"
+                onReveal={(reward) => {
+                  console.log("🎉 Récompense révélée dans le popup:", reward);
+                  setRewardData(reward);
+                  setShowRewardPopup(true);
+                  
+                  // Déclencher les animations selon le type de récompense
+                  if (reward.type === "points" && reward.amount >= 250) {
+                    setShowMoneyEmojis(true);
+                    setTimeout(() => setShowMoneyEmojis(false), 3000);
+                  } else if (reward.amount >= 100) {
+                    setShowHappyEmojis(true);
+                    setTimeout(() => setShowHappyEmojis(false), 3000);
+                  } else {
+                    setShowSadEmojis(true);
+                    setTimeout(() => setShowSadEmojis(false), 3000);
+                  }
+                }}
+              />
+            </div>
+
+            {/* Texte d'aide */}
+            <p className="text-sm text-gray-600 text-center mb-4">
+              Gratte pour découvrir ta récompense 🎁
+            </p>
+
+            {/* Bouton fermer */}
+            <button
+              onClick={() => setIsTicketPopupOpen(false)}
+              className="w-full bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 py-2"
+            >
+              ⏸️ Plus tard
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Popup Récompense */}
+      {showRewardPopup && rewardData && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-lg max-w-sm w-full p-6 text-center">
+            <h3 className="text-2xl font-bold mb-4">🎉 Félicitations !</h3>
+            
+            <div className="text-6xl mb-4">
+              {rewardData.type === "points" ? "💰" : "🎁"}
+            </div>
+            
+            <p className="text-lg font-semibold mb-2">
+              {rewardData.label}
+            </p>
+            
+            <p className="text-sm text-gray-600 mb-6">
+              {rewardData.type === "points" ? `${rewardData.amount} points ajoutés !` : "Récompense débloquée !"}
+            </p>
+
+            <button
+              onClick={() => {
+                setShowRewardPopup(false);
+                setRewardData(null);
+                setIsTicketPopupOpen(false);
+              }}
+              className="w-full bg-emerald-500 text-white py-2 rounded-xl font-semibold hover:bg-emerald-600"
+            >
+              🚀 Continuer
             </button>
           </div>
         </div>
