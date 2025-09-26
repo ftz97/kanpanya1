@@ -25,7 +25,7 @@ export default function TicketsResponsive({ tickets, onTicketClick }: TicketsRes
         onClick={onTicketClick}
         className={`hidden sm:flex px-4 py-1.5 rounded-full text-sm font-medium items-center gap-2 shadow transition ${
           tickets > 1
-            ? "bg-fuchsia-400 text-white hover:bg-fuchsia-500"
+            ? "bg-pink-300 text-white hover:bg-pink-400"
             : tickets === 1
             ? "bg-yellow-500 text-white"
             : "bg-gray-400 text-white"
