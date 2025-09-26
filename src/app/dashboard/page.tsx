@@ -468,20 +468,20 @@ export default function DashboardPage() {
 
       {/* Popup Récompense */}
       {showRewardPopup && rewardData && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl shadow-lg max-w-sm w-full p-6 text-center">
-            <h3 className="text-2xl font-bold mb-4">🎉 Félicitations !</h3>
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[60]">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center animate-bounce">
+            <h3 className="text-3xl font-bold mb-4 text-emerald-600">🎉 Félicitations !</h3>
             
-            <div className="text-6xl mb-4">
+            <div className="text-8xl mb-4 animate-pulse">
               {rewardData.type === "points" ? "💰" : "🎁"}
             </div>
             
-            <p className="text-lg font-semibold mb-2">
+            <p className="text-xl font-bold mb-2 text-gray-800">
               {rewardData.label}
             </p>
             
-            <p className="text-sm text-gray-600 mb-6">
-              {rewardData.type === "points" ? `${rewardData.amount} points ajoutés !` : "Récompense débloquée !"}
+            <p className="text-lg text-emerald-600 mb-6 font-semibold">
+              {rewardData.type === "points" ? `+${rewardData.amount} points !` : "Récompense débloquée !"}
             </p>
 
             <button
@@ -490,7 +490,7 @@ export default function DashboardPage() {
                 setRewardData(null);
                 setIsTicketPopupOpen(false);
               }}
-              className="w-full bg-emerald-500 text-white py-2 rounded-xl font-semibold hover:bg-emerald-600"
+              className="w-full bg-emerald-500 text-white py-3 rounded-xl font-bold hover:bg-emerald-600 text-lg"
             >
               🚀 Continuer
             </button>
