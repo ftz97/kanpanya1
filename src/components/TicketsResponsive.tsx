@@ -47,7 +47,7 @@ export default function TicketsResponsive({ tickets, onTicketClick }: TicketsRes
 
       {/* Mobile : icône animée */}
       <motion.div
-        className="sm:hidden cursor-pointer px-4 py-1.5 rounded-full border text-sm font-medium"
+        className="sm:hidden cursor-pointer px-3 py-2 rounded-lg bg-white border border-gray-200 shadow-sm text-sm font-medium hover:bg-gray-50 active:scale-95 transition"
         onClick={onTicketClick}
         animate={
           tickets > 0
@@ -64,7 +64,7 @@ export default function TicketsResponsive({ tickets, onTicketClick }: TicketsRes
           repeat: tickets > 0 ? Infinity : 0,
         }}
       >
-        🎟 {tickets > 0 ? tickets : "0"}
+        🎟 {tickets > 0 ? tickets : ""}
       </motion.div>
     </div>
   );
