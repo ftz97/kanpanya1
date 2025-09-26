@@ -96,7 +96,10 @@ export default function DashboardPage() {
           {/* Boutons navigation */}
           <div className="flex items-center gap-3">
             {/* Composant Tickets Responsive */}
-            <TicketsResponsive />
+            <TicketsResponsive 
+              tickets={tickets} 
+              onTicketClick={() => setIsTicketPopupOpen(true)} 
+            />
 
             {/* Bouton Récompenses */}
             <button 
@@ -142,42 +145,7 @@ export default function DashboardPage() {
         </header>
       </div>
 
-      {/* Section Tickets avec popup */}
-      {isClient ? (
-        <div className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 max-w-7xl mx-auto">
-          <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl shadow-xl p-2 sm:p-3 border border-blue-100">
-            <div className="mb-2 text-center">
-              <div className="flex items-center justify-center gap-2 mb-1">
-                <h3 className="text-lg sm:text-xl font-bold text-gray-800 animate-bounce">✨🎟️ Gratte ton ticket 🎟️✨</h3>
-              </div>
-              <p className="text-sm text-gray-600 mb-2">
-                Gratte pour découvrir ta récompense 🎁
-              </p>
-            </div>
-            
-            {/* Bouton pour ouvrir le popup */}
-            <div className="flex justify-center">
-              <button
-                onClick={() => setIsTicketPopupOpen(true)}
-                className="px-6 py-3 bg-emerald-500 text-white font-semibold rounded-xl shadow hover:bg-emerald-600 flex items-center gap-2"
-              >
-                🎟️ Tickets disponibles
-                {tickets > 0 && (
-                  <span className="bg-white text-emerald-600 font-bold text-xs px-2 py-1 rounded-full">
-                    {tickets}
-                  </span>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6 max-w-7xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6">
-            <div className="animate-pulse text-gray-400">Chargement...</div>
-          </div>
-        </div>
-      )}
+      {/* Section Tickets supprimée - maintenant gérée par l'icône dans la navbar */}
 
       {/* Section Partenaire - Wrapper uniforme */}
       <div className="max-w-7xl mx-auto mt-6 sm:mt-8 md:mt-10 px-3 sm:px-4 md:px-6 space-y-3 sm:space-y-4">
