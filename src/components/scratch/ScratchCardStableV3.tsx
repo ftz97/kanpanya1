@@ -380,10 +380,6 @@ export default function ScratchCardStableV3({
 
   return (
     <div className="flex flex-col items-center justify-center p-6 relative">
-      <h2 className="text-2xl font-extrabold mb-4 text-center animate-bounce">
-        🎟️✨ Gratte ton ticket magique ✨🎟️
-      </h2>
-
       {/* Carte Kanpanya */}
       <div
         ref={containerRef}
