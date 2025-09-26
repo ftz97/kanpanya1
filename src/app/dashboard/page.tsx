@@ -95,6 +95,9 @@ export default function DashboardPage() {
 
           {/* Boutons navigation */}
           <div className="flex items-center gap-3">
+            {/* Composant Tickets Responsive */}
+            <TicketsResponsive />
+
             {/* Bouton Récompenses */}
             <button 
               onClick={() => setShowRewardsPopup(true)}
@@ -103,9 +106,6 @@ export default function DashboardPage() {
               <Gift className="w-4 h-4 text-[#17BFA0]" />
               <span className="hidden sm:inline">Récompenses</span>
             </button>
-
-            {/* Composant Tickets Responsive */}
-            <TicketsResponsive />
 
             {/* Bouton QR */}
             <button 
