@@ -23,6 +23,8 @@ export default function DashboardPage() {
   const [revealed, setRevealed] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const [isTicketPopupOpen, setIsTicketPopupOpen] = React.useState(false);
+  const [showRewardPopup, setShowRewardPopup] = React.useState(false);
+  const [rewardData, setRewardData] = React.useState(null);
   
   // 🎯 Nom d'utilisateur - à remplacer par le prénom réel du user
   const userName = "Kevin";
@@ -328,6 +330,10 @@ export default function DashboardPage() {
                     setMessage(reward.label || "🎁 Récompense révélée !");
                     setRevealed(true);
                     setTickets((prev) => prev - 1);
+                    
+                    // Afficher le popup de récompense
+                    setRewardData(reward);
+                    setShowRewardPopup(true);
                   }}
                 />
               </div>
@@ -358,6 +364,43 @@ export default function DashboardPage() {
                 )}
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Popup Récompense */}
+      {showRewardPopup && rewardData && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-sm relative shadow-lg text-center">
+            {/* Bouton fermer */}
+            <button
+              onClick={() => setShowRewardPopup(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl"
+            >
+              ×
+            </button>
+
+            {/* Titre */}
+            <h3 className="text-2xl font-bold text-[#123456] mb-4">
+              🎉 Félicitations !
+            </h3>
+
+            {/* Récompense */}
+            <div className="text-6xl mb-4">🎁</div>
+            <h4 className="text-xl font-bold text-[#17BFA0] mb-2">
+              {rewardData.label || "Récompense gagnée !"}
+            </h4>
+            <p className="text-gray-600 mb-4">
+              Vous avez gagné {rewardData.amount || 0} points !
+            </p>
+
+            {/* Bouton fermer */}
+            <button
+              onClick={() => setShowRewardPopup(false)}
+              className="w-full bg-[#17BFA0] text-white py-3 rounded-xl font-semibold hover:bg-[#14a58e] active:scale-95 transition"
+            >
+              🚀 Continuer
+            </button>
           </div>
         </div>
       )}
