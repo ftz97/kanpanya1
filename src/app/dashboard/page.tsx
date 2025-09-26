@@ -231,23 +231,6 @@ export default function DashboardPage() {
         <FlashOffers />
       </section>
 
-      {/* Section Tickets à gratter */}
-      <section className="max-w-7xl mx-auto mt-10 px-4 sm:px-6">
-        <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#123456]">
-          🎟️ Mes Tickets à gratter
-        </h2>
-        <div className="flex justify-center">
-          <ScratchTicketCard 
-            initialTickets={tickets}
-            onTicketUsed={(remainingTickets) => {
-              setTickets(remainingTickets);
-              if (remainingTickets === 0) {
-                // Déclencher une animation de fin
-                setShowSadEmojis(true);
-                setTimeout(() => setShowSadEmojis(false), 3000);
-              }
-            }}
-            className="max-w-sm"
           />
         </div>
       </section>
