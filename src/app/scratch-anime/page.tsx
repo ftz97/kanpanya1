@@ -30,19 +30,19 @@ export default function ScratchAnimePage() {
       <div className="absolute bottom-20 left-20 w-1.5 h-1.5 bg-blue-400 rounded-full animate-ping"></div>
       <div className="absolute bottom-10 right-10 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
       
-      <div className="max-w-5xl mx-auto text-center relative z-10">
+      <div className="w-[90%] max-w-4xl mx-auto text-center relative z-10">
         {/* Titre principal avec effet magique */}
-        <div className="mb-12">
-          <h1 className="text-6xl font-extrabold mb-4 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
-            ✨ Gratte ton Numéro Magique ✨
+        <div className="mb-8">
+          <h1 className="text-5xl font-extrabold mb-3 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
+            🎟️ Gratte ton ticket
           </h1>
-          <p className="text-xl text-blue-200 mb-6 font-medium">
-            🎭 Découvre ta récompense mystique en grattant ta carte enchantée ! 🎭
+          <p className="text-lg text-blue-200 mb-4 font-medium">
+            Gratte pour découvrir ta récompense 🎁
           </p>
         </div>
         
         {/* Section des contrôles avec design amélioré */}
-        <div className="mb-10">
+        <div className="mb-6">
           <div className="flex gap-6 justify-center flex-wrap mb-8">
             <button
               onClick={nextReward}
@@ -80,7 +80,7 @@ export default function ScratchAnimePage() {
         </div>
 
         {/* Zone de la carte à gratter avec effet de focus */}
-        <div className="flex justify-center mb-12">
+        <div className="flex justify-center mb-8">
           <div className="relative">
             {/* Halo magique autour de la carte */}
             <div className="absolute -inset-4 bg-gradient-to-r from-yellow-400/20 via-pink-500/20 to-purple-600/20 rounded-3xl blur-xl animate-pulse"></div>
@@ -96,7 +96,7 @@ export default function ScratchAnimePage() {
         </div>
 
         {/* Guide d'utilisation avec design amélioré */}
-        <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-3xl p-8 border border-white/20 shadow-2xl">
+        <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-3xl p-6 border border-white/20 shadow-2xl">
           <h3 className="text-3xl font-bold mb-8 text-yellow-300">🔮 Comment ça marche</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center group">

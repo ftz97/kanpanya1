@@ -1,0 +1,101 @@
+# .cursorrules - Protocole de modification Kanpanya
+
+## 🎯 Objectif
+Éviter les modifications non désirées en analysant la complexité avant chaque changement.
+
+## 📋 Processus obligatoire
+
+### 1. Analyse préalable
+- Lire le fichier avant modification
+- Analyser la complexité du changement
+- Identifier les risques potentiels
+
+### 2. Seuils de complexité
+
+#### 🟢 VERT - Changements simples
+**Procéder directement sans demander confirmation :**
+- Couleurs CSS (`text-[#212E40]` → `text-[#123456]`)
+- Textes statiques
+- Classes CSS simples
+- Commentaires
+
+#### 🟡 JAUNE - Changements moyens
+**Expliquer et demander confirmation :**
+- Modifications UI/UX
+- Logique de composants
+- Props et états
+- Event handlers
+- Imports/exports
+
+#### 🔴 ROUGE - Changements complexes
+**Expliquer en détail et demander confirmation explicite :**
+- Logique métier
+- Architecture
+- Fonctionnalités complètes
+- Refactoring
+- Nouveaux composants
+
+### 3. Processus d'exécution
+
+#### Pour les changements VERT :
+1. Lire le fichier
+2. Identifier les éléments à modifier
+3. Utiliser `search_replace` pour des modifications précises
+4. Exécuter directement
+
+#### Pour les changements JAUNE/ROUGE :
+1. Lire le fichier
+2. Analyser la complexité
+3. Expliquer ce qui sera modifié
+4. Demander confirmation explicite
+5. Exécuter seulement après validation
+
+### 4. Règles strictes
+
+#### ✅ À FAIRE :
+- Toujours lire le fichier avant modification
+- Utiliser `search_replace` pour des changements précis
+- Respecter la structure existante
+- Maintenir la logique existante
+
+#### ❌ À ÉVITER :
+- Réécrire complètement un fichier sans raison
+- Modifier la logique sans demande explicite
+- Changer l'architecture sans confirmation
+- Supprimer des fonctionnalités existantes
+
+### 5. Exemples
+
+#### ✅ Changement VERT (OK direct) :
+```typescript
+// AVANT
+<h1 className="text-2xl font-bold text-[#212E40]">
+
+// APRÈS
+<h1 className="text-2xl font-bold text-[#123456]">
+```
+
+#### ⚠️ Changement JAUNE (Demander confirmation) :
+```typescript
+// Modification d'un composant React
+const [loading, setLoading] = useState(false);
+// → Ajouter une nouvelle logique d'état
+```
+
+#### 🚨 Changement ROUGE (Demander confirmation explicite) :
+```typescript
+// Refactoring complet d'une page
+// → Changer l'architecture d'un composant
+```
+
+## 🎯 Engagement
+
+Je m'engage à :
+1. Analyser la complexité avant chaque modification
+2. Expliquer les changements complexes
+3. Demander confirmation pour les modifications non-triviales
+4. Respecter la structure et la logique existantes
+5. Utiliser des outils précis (`search_replace`) plutôt que des réécritures complètes
+
+## 📝 Note
+Ce protocole est spécifique au projet Kanpanya et doit être respecté pour maintenir la stabilité du code.
