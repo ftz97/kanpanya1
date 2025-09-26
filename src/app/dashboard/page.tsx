@@ -6,6 +6,7 @@ import StyledQRCode from "@/components/StyledQRCode";
 import FlashOffers from "@/components/FlashOffers";
 import ScratchCardStableV3 from "@/components/scratch/ScratchCardStableV3";
 import { SadEmojiRain, HappyEmojiRain, MoneyEmojiRain } from "@/components/EmojiRain";
+import TicketsResponsive from "@/components/TicketsResponsive";
 
 export default function DashboardPage() {
   const [isClient, setIsClient] = React.useState(false);
@@ -102,6 +103,9 @@ export default function DashboardPage() {
               <Gift className="w-4 h-4 text-[#17BFA0]" />
               <span className="hidden sm:inline">Récompenses</span>
             </button>
+
+            {/* Composant Tickets Responsive */}
+            <TicketsResponsive />
 
             {/* Bouton QR */}
             <button 
