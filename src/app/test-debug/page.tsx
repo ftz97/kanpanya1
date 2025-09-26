@@ -1,138 +1,298 @@
 "use client";
-
-import { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import "mapbox-gl/dist/mapbox-gl.css";
-import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import { useState, useEffect } from "react";
 
 export default function TestDebugPage() {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const [status, setStatus] = useState<string>("Initialisation...");
-  const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [step, setStep] = useState(1);
+  const [logs, setLogs] = useState<string[]>([]);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setStatus("Vérification du token...");
-    
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    console.log("🔍 Token trouvé:", token ? "OUI" : "NON");
-    
-    if (!token) {
-      setError("❌ Token Mapbox manquant");
-      setStatus("ERREUR: Token manquant");
-      return;
-    }
-
-    setStatus("Initialisation de Mapbox...");
-    mapboxgl.accessToken = token;
-
-    try {
-      setStatus("Création de la carte...");
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current!,
-        style: "mapbox://styles/mapbox/streets-v12",
-        center: [2.3522, 48.8566],
-        zoom: 12,
-        attributionControl: false,
-      });
-
-      setStatus("Ajout des contrôles...");
-      map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
-      map.current.addControl(new mapboxgl.FullscreenControl(), "top-right");
-
-      map.current.on("load", () => {
-        setStatus("✅ Carte chargée avec succès!");
-        console.log("✅ Carte Mapbox chargée");
-      });
-
-      setStatus("Ajout du géocodeur...");
-      const geocoder = new MapboxGeocoder({
-        accessToken: token,
-        mapboxgl: mapboxgl,
-        marker: false,
-        placeholder: "Rechercher une adresse...",
-        language: "fr",
-      });
-
-      map.current.addControl(geocoder, "top-left");
-      setStatus("✅ Géocodeur ajouté!");
-
-      // Test du géocodeur
-      geocoder.on("result", (e) => {
-        console.log("🎯 Résultat géocodeur:", e.result);
-        setStatus(`✅ Adresse trouvée: ${e.result.place_name}`);
-        
-        // Ajouter un marqueur de test
-        new mapboxgl.Marker({ color: "#10b981" })
-          .setLngLat(e.result.center)
-          .addTo(map.current!);
-      });
-
-      geocoder.on("error", (e) => {
-        console.error("❌ Erreur géocodeur:", e);
-        setError(`Erreur géocodeur: ${e.error}`);
-      });
-
-      map.current.on("error", (e: any) => {
-        console.error("❌ Erreur Mapbox:", e);
-        setError(`Erreur Mapbox: ${e?.error?.message || "Inconnue"}`);
-      });
-
-    } catch (err) {
-      console.error("❌ Erreur d'initialisation:", err);
-      setError(err instanceof Error ? err.message : "Erreur inconnue");
-      setStatus("ERREUR: Initialisation échouée");
-    }
-
-    return () => {
-      if (map.current) {
-        map.current.remove();
-        map.current = null;
-      }
-    };
+    setIsClient(true);
+    addLog("Page chargée côté client");
   }, []);
 
+  const addLog = (message: string) => {
+    const timestamp = new Date().toLocaleTimeString();
+    console.log(`[DEBUG] ${timestamp}: ${message}`);
+    setLogs(prev => [...prev, `${timestamp}: ${message}`]);
+  };
+
+  const openModal = () => {
+    console.log("Bouton cliqué - Ouvrir Modal");
+    setIsModalOpen(true);
+    addLog("Modal ouvert");
+  };
+
+  const closeModal = () => {
+    console.log("Bouton cliqué - Fermer Modal");
+    setIsModalOpen(false);
+    setStep(1);
+    addLog("Modal fermé");
+  };
+
+  const nextStep = () => {
+    console.log("Bouton cliqué - Étape suivante");
+    if (step < 3) {
+      setStep(step + 1);
+      addLog(`Étape ${step + 1} atteinte`);
+    }
+  };
+
+  const clearLogs = () => {
+    console.log("Bouton cliqué - Effacer Logs");
+    setLogs([]);
+  };
+
+  if (!isClient) {
+    return (
+      <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+        <h1>🔄 Chargement...</h1>
+        <p>Hydratation React en cours...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
-          🔧 Debug Mapbox + Géocodeur
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h1 style={{ color: '#333', marginBottom: '20px' }}>
+        🎥 Test Modal Debug
         </h1>
+      
+      <div style={{ 
+        backgroundColor: '#e8f4fd', 
+        padding: '10px', 
+        borderRadius: '5px',
+        marginBottom: '20px',
+        border: '1px solid #bee5eb'
+      }}>
+        <strong>Status:</strong> Client hydraté ✅ | Modal: {isModalOpen ? 'Ouvert' : 'Fermé'} | Étape: {step}
+      </div>
+      
+      <div style={{ marginBottom: '20px' }}>
+        <button 
+          onClick={openModal}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            marginRight: '10px'
+          }}
+        >
+          Ouvrir Modal
+        </button>
         
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Statut de Débogage</h2>
-          <div className="bg-blue-50 p-4 rounded-lg mb-4">
-            <p className="font-mono text-sm">
-              <strong>Status:</strong> {status}
-            </p>
-            {error && (
-              <p className="font-mono text-sm text-red-600 mt-2">
-                <strong>Erreur:</strong> {error}
-              </p>
-            )}
+        <button 
+          onClick={clearLogs}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#6c757d',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}
+        >
+          Effacer Logs
+        </button>
+      </div>
+
+      <div style={{ 
+        backgroundColor: '#f8f9fa', 
+        padding: '15px', 
+        borderRadius: '5px',
+        marginBottom: '20px'
+      }}>
+        <h3>Logs ({logs.length} entrées):</h3>
+        {logs.length === 0 ? (
+          <p style={{ color: '#666', fontStyle: 'italic' }}>
+            Aucun log pour le moment
+          </p>
+        ) : (
+          <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+            {logs.map((log, index) => (
+              <div key={index} style={{ 
+                padding: '5px', 
+                backgroundColor: 'white', 
+                margin: '2px 0',
+                borderRadius: '3px',
+                fontSize: '12px',
+                fontFamily: 'monospace'
+              }}>
+                {log}
+              </div>
+            ))}
           </div>
-          
-          <div 
-            ref={mapContainer} 
+        )}
+      </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            padding: '30px',
+            borderRadius: '10px',
+            maxWidth: '500px',
+            width: '90%',
+            position: 'relative'
+          }}>
+            {/* Bouton fermer */}
+            <button
+              onClick={closeModal}
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '15px',
+                background: 'none',
+                border: 'none',
+                fontSize: '20px',
+                cursor: 'pointer'
+              }}
+            >
+              ✕
+            </button>
+
+            {/* Contenu selon l'étape */}
+            <div style={{ textAlign: 'center' }}>
+              <h2 style={{ marginBottom: '20px', color: '#333' }}>
+                Étape {step} sur 3
+              </h2>
+
+              {step === 1 && (
+                <div>
+                  <div style={{ fontSize: '60px', marginBottom: '20px' }}>🎥</div>
+                  <h3 style={{ marginBottom: '15px' }}>Étape Vidéo</h3>
+                  <p style={{ marginBottom: '20px', color: '#666' }}>
+                    Présentation du partenaire
+                  </p>
+                  <button
+                    onClick={nextStep}
+                    style={{
+                      padding: '10px 20px',
+                      backgroundColor: '#28a745',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '5px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Continuer ➡️
+                  </button>
+                </div>
+              )}
+
+              {step === 2 && (
+                <div>
+                  <div style={{ fontSize: '60px', marginBottom: '20px' }}>❓</div>
+                  <h3 style={{ marginBottom: '15px' }}>Étape Quiz</h3>
+                  <p style={{ marginBottom: '20px', color: '#666' }}>
+                    Test de connaissances
+                  </p>
+                  <div style={{ 
+                    backgroundColor: '#f8f9fa', 
+                    padding: '15px', 
+                    borderRadius: '5px',
+                    marginBottom: '20px'
+                  }}>
+                    <p style={{ fontWeight: 'bold', marginBottom: '10px' }}>
+                      Question : Quel est le rôle d'une mutuelle ?
+                    </p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                      <button style={{ padding: '8px', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}>
+                        Protéger la santé
+                      </button>
+                      <button style={{ padding: '8px', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}>
+                        Vendre des chaussures
+                      </button>
+                    </div>
+                  </div>
+                  <button
+                    onClick={nextStep}
+                    style={{
+                      padding: '10px 20px',
+                      backgroundColor: '#28a745',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '5px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Continuer ➡️
+                  </button>
+                </div>
+              )}
+
+              {step === 3 && (
+                <div>
+                  <div style={{ fontSize: '60px', marginBottom: '20px' }}>🎟️</div>
+                  <h3 style={{ marginBottom: '15px' }}>Étape Scratch Card</h3>
+                  <p style={{ marginBottom: '20px', color: '#666' }}>
+                    Grattez votre ticket !
+                  </p>
+                  <div style={{ 
+                    background: 'linear-gradient(45deg, #ffd700, #ffed4e)',
+                    padding: '30px',
+                    borderRadius: '10px',
+                    marginBottom: '20px'
+                  }}>
+                    <div style={{ fontSize: '40px', marginBottom: '10px' }}>🎁</div>
+                    <p style={{ fontWeight: 'bold', fontSize: '18px', margin: 0 }}>
+                      +50 points Kanpanya
+                    </p>
+                    <p style={{ fontSize: '14px', margin: '5px 0 0 0', color: '#666' }}>
+                      Récompense révélée !
+                    </p>
+                  </div>
+                  <button
+                    onClick={closeModal}
             style={{ 
-              width: "100%", 
-              height: "500px", 
-              border: "2px solid #3b82f6",
-              borderRadius: "8px"
-            }} 
-          />
-          
-          <div className="mt-4 text-sm text-gray-600">
-            <p><strong>Instructions de test:</strong></p>
-            <ul className="list-disc list-inside mt-2 space-y-1">
-              <li>Vérifiez que la carte se charge (pas de spinner)</li>
-              <li>Cherchez une adresse dans la barre en haut à gauche</li>
-              <li>Un marqueur vert devrait apparaître sur l'adresse sélectionnée</li>
-            </ul>
+                      padding: '10px 20px',
+                      backgroundColor: '#6f42c1',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '5px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Terminer ✅
+                  </button>
+                </div>
+              )}
+
+              {/* Barre de progression */}
+              <div style={{ 
+                marginTop: '20px',
+                backgroundColor: '#e9ecef',
+                borderRadius: '10px',
+                height: '8px'
+              }}>
+                <div style={{
+                  backgroundColor: '#007bff',
+                  height: '8px',
+                  borderRadius: '10px',
+                  width: `${(step / 3) * 100}%`,
+                  transition: 'width 0.3s ease'
+                }} />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import MiniQuiz from "./MiniQuiz";
 import ScratchCard from "./ScratchCard";
@@ -14,21 +14,82 @@ export default function SponsorFlowModal({
   onClose: () => void;
 }) {
   const [step, setStep] = useState<"video" | "quiz" | "scratch">("video");
+  const [isClient, setIsClient] = useState(false);
+
+  // ✅ CORRECTION : Attendre l'hydratation côté client
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   if (!visible) return null;
 
-  // Animations adaptées au design Kanpanya
+  // ✅ CORRECTION : Animations simplifiées pour éviter les conflits d'hydratation
   const slideX = {
     initial: { x: "100%", opacity: 0 },
-    enter: { x: 0, opacity: 1, transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] } },
-    exit: { x: "-100%", opacity: 0, transition: { duration: 0.3, ease: [0.55, 0.06, 0.68, 0.19] } },
+    enter: { 
+      x: 0, 
+      opacity: 1, 
+      transition: { 
+        duration: 0.3, 
+        ease: "easeOut" // Plus simple que les courbes complexes
+      } 
+    },
+    exit: { 
+      x: "-100%", 
+      opacity: 0, 
+      transition: { 
+        duration: 0.2, 
+        ease: "easeIn" 
+      } 
+    },
   };
 
   const slideY = {
     initial: { y: "100%", opacity: 0 },
-    enter: { y: 0, opacity: 1, transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] } },
-    exit: { y: "-100%", opacity: 0, transition: { duration: 0.3, ease: [0.55, 0.06, 0.68, 0.19] } },
+    enter: { 
+      y: 0, 
+      opacity: 1, 
+      transition: { 
+        duration: 0.3, 
+        ease: "easeOut" 
+      } 
+    },
+    exit: { 
+      y: "-100%", 
+      opacity: 0, 
+      transition: { 
+        duration: 0.2, 
+        ease: "easeIn" 
+      } 
+    },
   };
+
+  // ✅ CORRECTION : Rendu conditionnel pour éviter les erreurs d'hydratation
+  if (!isClient) {
+    return (
+      <div 
+        className="fixed inset-0 flex items-center justify-center z-[9999] backdrop-blur-sm"
+        style={{ background: 'rgba(33, 46, 64, 0.8)' }}
+      >
+        <div 
+          className="relative w-full max-w-2xl mx-4 rounded-2xl shadow-2xl overflow-hidden"
+          style={{ 
+            background: colors.card,
+            border: `2px solid ${colors.primary}20`
+          }}
+        >
+          <div className="p-6 sm:p-8 text-center">
+            <div className="text-2xl font-bold mb-2" style={{ color: colors.primary }}>
+              Kanpanya
+            </div>
+            <p className="text-sm" style={{ color: colors.textSecondary }}>
+              Chargement...
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div 
