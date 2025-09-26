@@ -51,13 +51,16 @@ export default function TicketsResponsive({ tickets, onTicketClick }: TicketsRes
         onClick={onTicketClick}
         animate={
           tickets > 0
-            ? { y: [0, -6, 0] }
+            ? { 
+                scale: [1, 1.2, 1],
+                rotate: [0, -5, 5, 0]
+              }
             : justHitZero
             ? { x: [-5, 5, -5, 0] }
             : { opacity: 0.5 }
         }
         transition={{
-          duration: tickets > 0 ? 0.6 : 0.4,
+          duration: tickets > 0 ? 1.2 : 0.4,
           repeat: tickets > 0 ? Infinity : 0,
         }}
       >
