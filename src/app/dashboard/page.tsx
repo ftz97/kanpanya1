@@ -424,12 +424,21 @@ export default function DashboardPage() {
               >
                 ⏸️ Plus tard
               </button>
-              <button
-                onClick={gratterUnAutre}
-                className="flex-1 bg-emerald-500 text-white rounded-xl font-semibold hover:bg-emerald-600 py-2"
-              >
-                🎟️ Gratter un autre
-              </button>
+              {tickets > 0 ? (
+                <button
+                  onClick={gratterUnAutre}
+                  className="flex-1 bg-emerald-500 text-white rounded-xl font-semibold hover:bg-emerald-600 py-2"
+                >
+                  🎟️ Gratter un autre
+                </button>
+              ) : (
+                <button
+                  className="flex-1 bg-gray-400 text-white rounded-xl font-semibold cursor-not-allowed py-2"
+                  disabled
+                >
+                  🔒 Plus de tickets
+                </button>
+              )}
             </div>
           </div>
         </div>
