@@ -4,12 +4,19 @@ import { ChevronRight, Gift, QrCode } from "lucide-react";
 import * as React from "react";
 import StyledQRCode from "@/components/StyledQRCode";
 import FlashOffers from "@/components/FlashOffers";
+import ScratchCardStableV3 from "@/components/scratch/ScratchCardStableV3";
+import { SadEmojiRain, HappyEmojiRain, MoneyEmojiRain } from "@/components/EmojiRain";
 
 export default function DashboardPage() {
   const [isClient, setIsClient] = React.useState(false);
   const [messageIndex, setMessageIndex] = React.useState(0);
   const [showQRPopup, setShowQRPopup] = React.useState(false);
   const [showRewardsPopup, setShowRewardsPopup] = React.useState(false);
+  
+  // États pour les animations d'emojis
+  const [showSadEmojis, setShowSadEmojis] = React.useState(false);
+  const [showHappyEmojis, setShowHappyEmojis] = React.useState(false);
+  const [showMoneyEmojis, setShowMoneyEmojis] = React.useState(false);
   
   // 🎯 Nom d'utilisateur - à remplacer par le prénom réel du user
   const userName = "Kevin";
@@ -119,13 +126,56 @@ export default function DashboardPage() {
         </header>
       </div>
 
-      {/* Section Ticket à gratter - Version simplifiée */}
-      <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6 max-w-7xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6">
-          <div className="text-gray-700 font-medium text-sm sm:text-base">Pas de ticket pour le moment</div>                                                                                                          
-          <div className="text-gray-500 text-xs sm:text-sm">Termine un quiz pour débloquer un nouveau ticket à gratter.</div>                                                                                         
+      {/* Section Ticket à gratter avec animations */}
+      {isClient ? (
+        <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6 max-w-7xl mx-auto">
+          <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl shadow-xl p-4 sm:p-6 border border-blue-100">
+            <div className="mb-4 text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <span className="text-2xl sm:text-3xl">🎫</span>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800">Votre ticket à gratter</h3>
+                <span className="text-2xl sm:text-3xl">✨</span>
+              </div>
+              <p className="text-sm text-gray-600 mb-4">
+                Grattez pour révéler votre récompense surprise avec animations !
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <ScratchCardStableV3
+                threshold={0.4}
+                goldenTicketChance={0.1}
+                userId="dashboard-user"
+                onReveal={(reward) => {
+                  console.log("🎉 Récompense révélée sur le dashboard:", reward);
+                  
+                  // Déclencher les animations selon le type de récompense
+                  if (reward.type === "points" && reward.amount >= 250) {
+                    setShowMoneyEmojis(true);
+                    setTimeout(() => setShowMoneyEmojis(false), 3000);
+                  } else if (reward.amount >= 100) {
+                    setShowHappyEmojis(true);
+                    setTimeout(() => setShowHappyEmojis(false), 3000);
+                  } else {
+                    setShowSadEmojis(true);
+                    setTimeout(() => setShowSadEmojis(false), 3000);
+                  }
+                }}
+              />
+            </div>
+            <div className="mt-4 text-center">
+              <p className="text-xs text-gray-500">
+                💡 Plus vous grattez, plus vous avez de chances de gagner gros !
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6 max-w-7xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6">
+            <div className="animate-pulse text-gray-400">Chargement...</div>
+          </div>
+        </div>
+      )}
 
       {/* Section Partenaire - Wrapper uniforme */}
       <div className="max-w-7xl mx-auto mt-6 sm:mt-8 md:mt-10 px-3 sm:px-4 md:px-6 space-y-3 sm:space-y-4">
@@ -343,6 +393,11 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
+
+      {/* Animations d'emojis */}
+      {showSadEmojis && <SadEmojiRain count={35} isWinner={false} />}
+      {showHappyEmojis && <HappyEmojiRain count={35} isWinner={true} />}
+      {showMoneyEmojis && <MoneyEmojiRain count={35} isWinner={true} />}
     </div>
   );
 }
