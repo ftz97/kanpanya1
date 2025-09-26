@@ -5,7 +5,6 @@ import * as React from "react";
 import StyledQRCode from "@/components/StyledQRCode";
 import FlashOffers from "@/components/FlashOffers";
 import ScratchCardStableV3 from "@/components/scratch/ScratchCardStableV3";
-import ScratchTicketCard from "@/components/ScratchTicketCard";
 import { SadEmojiRain, HappyEmojiRain, MoneyEmojiRain } from "@/components/EmojiRain";
 
 export default function DashboardPage() {
