@@ -18,7 +18,7 @@ describe('Card Component', () => {
     const { container } = render(<Card>Test</Card>);
     const card = container.firstChild;
     
-    expect(card).toHaveClass('bg-white', 'rounded-2xl', 'shadow-md', 'p-6');
+    expect(card).toHaveClass('rounded-lg', 'border', 'bg-card', 'text-card-foreground', 'shadow-sm');
   });
 
   it('applique les classes personnalisées', () => {
