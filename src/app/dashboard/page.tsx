@@ -5,6 +5,7 @@ import * as React from "react";
 import StyledQRCode from "@/components/StyledQRCode";
 import FlashOffers from "@/components/FlashOffers";
 import ScratchCardStableV3 from "@/components/scratch/ScratchCardStableV3";
+import ScratchTicketCard from "@/components/ScratchTicketCard";
 import { SadEmojiRain, HappyEmojiRain, MoneyEmojiRain } from "@/components/EmojiRain";
 
 export default function DashboardPage() {
@@ -229,6 +230,27 @@ export default function DashboardPage() {
           🔥 Bon Plans Flash
         </h2>
         <FlashOffers />
+      </section>
+
+      {/* Section Tickets à gratter */}
+      <section className="max-w-7xl mx-auto mt-10 px-4 sm:px-6">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#123456]">
+          🎟️ Mes Tickets à gratter
+        </h2>
+        <div className="flex justify-center">
+          <ScratchTicketCard 
+            initialTickets={tickets}
+            onTicketUsed={(remainingTickets) => {
+              setTickets(remainingTickets);
+              if (remainingTickets === 0) {
+                // Déclencher une animation de fin
+                setShowSadEmojis(true);
+                setTimeout(() => setShowSadEmojis(false), 3000);
+              }
+            }}
+            className="max-w-sm"
+          />
+        </div>
       </section>
 
       {/* Explorez par catégorie */}
