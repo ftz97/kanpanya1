@@ -25,7 +25,17 @@ export default function CarteQuartier() {
   const [isSearching, setIsSearching] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
 
-    }
+  // ✅ Ajouter une zone à partir des résultats de recherche
+  const addZoneFromSearch = (result: any) => {
+    const [lng, lat] = result.geometry.coordinates;
+    const newZone: AreaOption = {
+      value: result.place_name,
+      label: result.place_name,
+      type: "adresse",
+      coordinates: [lng, lat],
+    };
+
+    setZones((prev) => [...prev, newZone]);
 
     // Ajouter un marqueur sur la carte
     if (mapRef.current) {

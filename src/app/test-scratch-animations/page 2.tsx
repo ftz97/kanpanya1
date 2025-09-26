@@ -221,7 +221,7 @@ export default function TestScratchAnimationsPage() {
               <ul className="text-sm text-green-700 space-y-1">
                 <li>• 🎉 <strong>HappyEmojiRain</strong> - Gains moyens (100+ points)</li>
                 <li>• 💰 <strong>MoneyEmojiRain</strong> - Gros gains (250+ points)</li>
-                <li>• 😔 <strong>SadEmojiRain</strong> - Gains faibles (< 100 points)</li>
+                <li>• 😔 <strong>SadEmojiRain</strong> - Gains faibles (&lt; 100 points)</li>
                 <li>• 🎆 <strong>Confettis</strong> - Tous les gains</li>
               </ul>
             </div>
