@@ -383,7 +383,7 @@ export default function ScratchCardStableV3({
       {/* Carte Kanpanya */}
       <div
         ref={containerRef}
-        className={`relative w-[90%] max-w-sm h-40 text-white rounded-xl shadow-xl p-4 flex items-center justify-center
+        className={`relative w-80 h-44 text-white rounded-2xl shadow-xl p-5 flex items-center justify-center
           bg-gradient-to-br ${ticketGradient.gradient}
           ${ticketGradient.isGolden ? "ring-4 ring-yellow-400 animate-pulse" : ""}`}
       >
@@ -394,7 +394,7 @@ export default function ScratchCardStableV3({
         {!revealed && (
           <canvas
             ref={canvasRef}
-            className="absolute inset-0 rounded-xl touch-none"
+            className="absolute inset-0 rounded-2xl touch-none"
             role="button"
             aria-label="Carte à gratter - Grattez pour révéler votre récompense"
             tabIndex={0}
