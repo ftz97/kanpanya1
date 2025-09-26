@@ -21,6 +21,7 @@ export default function DashboardPage() {
   // États pour le système de tickets
   const [tickets, setTickets] = React.useState(3);
   const [isTicketPopupOpen, setIsTicketPopupOpen] = React.useState(false);
+  const [ticketKey, setTicketKey] = React.useState(0); // Pour forcer le re-render du composant
   
   
   // 🎯 Nom d'utilisateur - à remplacer par le prénom réel du user
@@ -63,6 +64,12 @@ export default function DashboardPage() {
 
   const messages = getWelcomeMessages();
   const welcomeMessage = messages[messageIndex % messages.length];
+
+  // Fonction pour gratter un autre ticket
+  const gratterUnAutre = () => {
+    setTicketKey(prev => prev + 1); // Force le re-render du composant
+    setTickets(3); // Remet toujours 3 tickets
+  };
 
   React.useEffect(() => {
     setIsClient(true);
@@ -410,8 +417,9 @@ export default function DashboardPage() {
             {/* Zone ticket avec ScratchCardStableV3 */}
             <div className="flex justify-center mb-4">
               <ScratchCardStableV3
+                key={ticketKey}
                 threshold={0.4}
-                goldenTicketChance={0.1}
+                goldenTicketChance={1.0}
                 userId="dashboard-user"
                 onReveal={(reward) => {
                   console.log("🎉 Récompense révélée dans le popup:", reward);
@@ -436,13 +444,21 @@ export default function DashboardPage() {
               Gratte pour découvrir ta récompense 🎁
             </p>
 
-            {/* Bouton fermer */}
-            <button
-              onClick={() => setIsTicketPopupOpen(false)}
-              className="w-full bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 py-2"
-            >
-              ⏸️ Plus tard
-            </button>
+            {/* Boutons d'action */}
+            <div className="flex gap-2">
+              <button
+                onClick={() => setIsTicketPopupOpen(false)}
+                className="flex-1 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 py-2"
+              >
+                ⏸️ Plus tard
+              </button>
+              <button
+                onClick={gratterUnAutre}
+                className="flex-1 bg-emerald-500 text-white rounded-xl font-semibold hover:bg-emerald-600 py-2"
+              >
+                🎟️ Gratter un autre
+              </button>
+            </div>
           </div>
         </div>
       )}
