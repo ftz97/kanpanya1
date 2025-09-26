@@ -132,7 +132,7 @@ export default function DashboardPage() {
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl shadow-xl p-2 sm:p-3 border border-blue-100">
             <div className="mb-2 text-center">
               <div className="flex items-center justify-center gap-2 mb-1">
-                <h3 className="text-lg sm:text-xl font-bold text-gray-800 animate-bounce">🎟️ Gratte ton ticket</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 animate-bounce">✨🎟️ Gratte ton ticket 🎟️✨</h3>
               </div>
               <p className="text-sm text-gray-600 mb-2">
                 Gratte pour découvrir ta récompense 🎁
