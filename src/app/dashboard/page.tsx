@@ -69,7 +69,7 @@ export default function DashboardPage() {
   // Fonction pour gratter un autre ticket
   const gratterUnAutre = () => {
     setTicketKey(prev => prev + 1); // Force le re-render du composant
-    setTickets(3); // Remet toujours 3 tickets
+    setTickets(prev => Math.max(prev - 1, 0)); // Décrémente le compteur
   };
 
   React.useEffect(() => {
