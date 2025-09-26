@@ -231,10 +231,6 @@ export default function DashboardPage() {
         <FlashOffers />
       </section>
 
-          />
-        </div>
-      </section>
-
       {/* Explorez par catégorie */}
       <section className="max-w-7xl mx-auto mt-12 px-4 sm:px-6">
         <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#123456]">
