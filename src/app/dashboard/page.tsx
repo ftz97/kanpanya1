@@ -20,11 +20,7 @@ export default function DashboardPage() {
   
   // États pour le système de tickets
   const [tickets, setTickets] = React.useState(3);
-  const [revealed, setRevealed] = React.useState(false);
-  const [message, setMessage] = React.useState("");
   const [isTicketPopupOpen, setIsTicketPopupOpen] = React.useState(false);
-  const [showRewardPopup, setShowRewardPopup] = React.useState(false);
-  const [rewardData, setRewardData] = React.useState(null);
   
   
   // 🎯 Nom d'utilisateur - à remplacer par le prénom réel du user
@@ -67,19 +63,6 @@ export default function DashboardPage() {
 
   const messages = getWelcomeMessages();
   const welcomeMessage = messages[messageIndex % messages.length];
-
-  // Fonctions pour le système de tickets
-  const revealTicket = () => {
-    const win = Math.random() > 0.5;
-    setMessage(win ? "🎁 Bravo, +50 points !" : "😔 Dommage, retente bientôt !");
-    setRevealed(true);
-    setTickets((prev) => prev - 1);
-  };
-
-  const nextTicket = () => {
-    setRevealed(false);
-    setMessage("");
-  };
 
   React.useEffect(() => {
     setIsClient(true);
@@ -432,8 +415,6 @@ export default function DashboardPage() {
                 userId="dashboard-user"
                 onReveal={(reward) => {
                   console.log("🎉 Récompense révélée dans le popup:", reward);
-                  setRewardData(reward);
-                  setShowRewardPopup(true);
                   
                   // Déclencher les animations selon le type de récompense
                   if (reward.type === "points" && reward.amount >= 250) {
@@ -461,38 +442,6 @@ export default function DashboardPage() {
               className="w-full bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 py-2"
             >
               ⏸️ Plus tard
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Popup Récompense */}
-      {showRewardPopup && rewardData && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[60]">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center animate-bounce">
-            <h3 className="text-3xl font-bold mb-4 text-emerald-600">🎉 Félicitations !</h3>
-            
-            <div className="text-8xl mb-4 animate-pulse">
-              {rewardData.type === "points" ? "💰" : "🎁"}
-            </div>
-            
-            <p className="text-xl font-bold mb-2 text-gray-800">
-              {rewardData.label}
-            </p>
-            
-            <p className="text-lg text-emerald-600 mb-6 font-semibold">
-              {rewardData.type === "points" ? `+${rewardData.amount} points !` : "Récompense débloquée !"}
-            </p>
-
-            <button
-              onClick={() => {
-                setShowRewardPopup(false);
-                setRewardData(null);
-                setIsTicketPopupOpen(false);
-              }}
-              className="w-full bg-emerald-500 text-white py-3 rounded-xl font-bold hover:bg-emerald-600 text-lg"
-            >
-              🚀 Continuer
             </button>
           </div>
         </div>
