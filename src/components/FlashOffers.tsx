@@ -3,7 +3,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination } from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 
 export default function FlashOffers() {
   const offers = [
@@ -14,11 +14,15 @@ export default function FlashOffers() {
 
   return (
     <Swiper
-      modules={[Pagination]}
+      modules={[Pagination, Autoplay]}
       spaceBetween={20}
       slidesPerView={1.2} // légèrement plus qu'une carte
       centeredSlides={true} // snap au centre
       pagination={{ clickable: true }}
+      autoplay={{
+        delay: 2500, // 2.5s entre chaque slide
+        disableOnInteraction: false, // continue même si on swipe
+      }}
       className="w-full"
     >
       {offers.map((offer, idx) => (
