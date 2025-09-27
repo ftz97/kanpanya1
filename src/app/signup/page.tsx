@@ -40,16 +40,38 @@ export default function SignupPage() {
     setMessage("");
 
     try {
-      // Simulation d'une création de compte réussie
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // ✅ VRAIE création d'utilisateur avec Supabase
+      const { createBrowserSupabase } = await import("@/lib/supabase");
+      const supabase = createBrowserSupabase();
       
-      setMessage("✅ Compte créé avec succès !");
-      console.log("Utilisateur créé:", formData);
-      
-      // Redirection vers le dashboard après 2 secondes
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 2000);
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            prenom: formData.prenom,
+            nom: formData.nom,
+          }
+        }
+      });
+
+      if (error) {
+        console.error("Erreur Supabase:", error);
+        setMessage(`❌ Erreur: ${error.message}`);
+        return;
+      }
+
+      if (data.user) {
+        setMessage("✅ Compte créé avec succès !");
+        console.log("Utilisateur créé:", data.user);
+        
+        // Redirection vers le dashboard après 2 secondes
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 2000);
+      } else {
+        setMessage("❌ Erreur lors de la création du compte");
+      }
 
     } catch (error: any) {
       console.error("Erreur lors de la création du compte:", error);

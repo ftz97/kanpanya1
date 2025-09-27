@@ -24,20 +24,31 @@ export default function LoginPage() {
     setMessage("");
 
     try {
-      // Simulation d'une connexion réussie
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // ✅ VRAIE authentification avec Supabase
+      const { createBrowserSupabase } = await import("@/lib/supabase");
+      const supabase = createBrowserSupabase();
       
-      // Vérification basique des identifiants
-      if (formData.email === "test@example.com" && formData.password === "test123456") {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password
+      });
+
+      if (error) {
+        console.error("Erreur Supabase:", error);
+        setMessage(`❌ Erreur: ${error.message}`);
+        return;
+      }
+
+      if (data.user) {
         setMessage("✅ Connexion réussie !");
-        console.log("Utilisateur connecté:", formData);
+        console.log("Utilisateur connecté:", data.user);
         
         // Redirection vers dashboard après 2 secondes
         setTimeout(() => {
           router.push("/dashboard");
         }, 2000);
       } else {
-        setMessage("❌ Email ou mot de passe incorrect");
+        setMessage("❌ Erreur lors de la connexion");
       }
 
     } catch (error: any) {

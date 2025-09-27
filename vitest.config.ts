@@ -12,7 +12,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "jsdom",
-    setupFiles: "./vitest.setup.ts",
+    setupFiles: ["./vitest.setup.ts", "./src/__tests__/setup.ts"],
     exclude: [
       "**/node_modules/**",
       "**/dist/**",
@@ -24,6 +24,35 @@ export default defineConfig({
       "**/playwright.config.*",
       "**/playwright.*.config.*"
     ],
-    include: ["src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"]
+    include: ["src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html', 'lcov'],
+      reportsDirectory: './coverage',
+      include: [
+        'src/**/*.{ts,tsx}',
+        '!src/**/*.d.ts',
+        '!src/**/*.stories.{ts,tsx}',
+        '!src/**/*.test.{ts,tsx}',
+        '!src/**/*.spec.{ts,tsx}',
+      ],
+      exclude: [
+        'src/**/__tests__/**',
+        'src/**/node_modules/**',
+        'src/**/dist/**',
+        'src/**/coverage/**',
+        'src/**/*.config.{ts,js}',
+        'src/**/types/**',
+        'src/**/stories/**',
+      ],
+      thresholds: {
+        global: {
+          branches: 80,
+          functions: 80,
+          lines: 80,
+          statements: 80,
+        },
+      },
+    },
   },
 });

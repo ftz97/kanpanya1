@@ -1,0 +1,63 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - heading "🛡️ ScratchCardStableV3 - Version Figée" [level=1] [ref=e5]
+      - paragraph [ref=e6]: Version stable validée et figée - Ne pas modifier directement
+      - button "🔄 Nouvelle Carte" [ref=e7] [cursor=pointer]
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - heading "✅ Version Stable Validée" [level=2] [ref=e10]
+        - generic [ref=e11]:
+          - paragraph [ref=e12]:
+            - text: •
+            - strong [ref=e13]: Composant figé
+            - text: "- Ne pas modifier directement"
+          - paragraph [ref=e14]:
+            - text: •
+            - strong [ref=e15]: Performance optimisée
+            - text: "- Canvas + requestAnimationFrame"
+          - paragraph [ref=e16]:
+            - text: •
+            - strong [ref=e17]: Mobile ready
+            - text: "- Gestion tactile native"
+          - paragraph [ref=e18]:
+            - text: •
+            - strong [ref=e19]: Accessibilité
+            - text: "- Support clavier et ARIA"
+          - paragraph [ref=e20]:
+            - text: •
+            - strong [ref=e21]: Animations fluides
+            - text: "- Emojis + confettis"
+          - paragraph [ref=e22]:
+            - text: •
+            - strong [ref=e23]: Golden Ticket
+            - text: "- Système de récompenses rare"
+      - generic [ref=e25]:
+        - generic [ref=e26]: 🙁 Tu feras mieux la prochaine fois ! ✨
+        - button "Carte à gratter - Grattez pour révéler votre récompense" [ref=e27] [cursor=pointer]
+      - generic [ref=e28]:
+        - heading "📋 Instructions" [level=3] [ref=e29]
+        - generic [ref=e30]:
+          - paragraph [ref=e31]:
+            - text: "1."
+            - strong [ref=e32]: Grattez la carte
+            - text: pour révéler votre récompense
+          - paragraph [ref=e33]:
+            - text: "2."
+            - strong [ref=e34]: Observez les animations
+            - text: selon le type de gain
+          - paragraph [ref=e35]:
+            - text: "3."
+            - strong [ref=e36]: Testez le bouton "Nouvelle carte"
+            - text: pour recommencer
+          - paragraph [ref=e37]:
+            - text: "4."
+            - strong [ref=e38]: Version stable
+            - text: "- Tag Git : scratch-v3-stable"
+  - button "Open Next.js Dev Tools" [ref=e44] [cursor=pointer]:
+    - img [ref=e45] [cursor=pointer]
+  - alert [ref=e48]
+```

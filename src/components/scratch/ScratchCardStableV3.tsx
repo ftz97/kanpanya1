@@ -27,8 +27,35 @@ const ticketGradients = [
 // Golden Ticket pour les tickets
 const goldenTicketGradient = "from-yellow-300 via-yellow-400 to-yellow-500";
 
+// Fonction pour obtenir la récompense (avec support TEST_MODE)
+export function getReward() {
+  // Utiliser window pour les mocks côté client
+  if (typeof window !== 'undefined' && (window as any).FORCE_REWARD) {
+    switch ((window as any).FORCE_REWARD) {
+      case "golden": return { type: "golden", label: "Golden Ticket 🎟️" };
+      case "points": return { type: "points", amount: 50, label: "+50 points" };
+      case "lose":   return { type: "lose", label: "Pas de gain cette fois..." };
+    }
+  }
+  
+  // Logique aléatoire normale
+  const chance = Math.random();
+  if (chance < 0.1) {
+    return { type: "golden", label: "Golden Ticket 🎟️" };
+  } else if (chance < 0.4) {
+    return { type: "points", amount: Math.floor(Math.random() * 100) + 10, label: `+${Math.floor(Math.random() * 100) + 10} points` };
+  } else {
+    return { type: "lose", label: "Pas de gain cette fois..." };
+  }
+}
+
 // Sélection aléatoire avec rareté pour les tickets
 function getRandomTicketGradient(goldenTicketChance: number = 0.1) {
+  // Support TEST_MODE pour Golden Ticket avec window
+  if (typeof window !== 'undefined' && (window as any).FORCE_REWARD === 'golden') {
+    return { gradient: goldenTicketGradient, isGolden: true };
+  }
+  
   const chance = Math.random();
   if (chance < goldenTicketChance) {
     return { gradient: goldenTicketGradient, isGolden: true };
@@ -45,6 +72,8 @@ export default function ScratchCardStableV3({
   onReveal,
   userId = "default-user"
 }: ScratchCardProps) {
+  // Option B → baisser le seuil uniquement en TEST_MODE
+  const revealThreshold = process.env.NODE_ENV === 'test' ? 0.05 : threshold;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -56,6 +85,21 @@ export default function ScratchCardStableV3({
   const [popupVisible, setPopupVisible] = useState(false);
   const [reward, setReward] = useState<{ type: string; amount: number; merchant?: string }>({ type: "none", amount: 0 });
   const [isInitialized, setIsInitialized] = useState(false);
+
+  // Intégrer les mocks dans la logique du composant
+  const getMockedReward = () => {
+    if (typeof window !== 'undefined' && (window as any).FORCE_REWARD) {
+      switch ((window as any).FORCE_REWARD) {
+        case "golden": 
+          return { type: "golden", amount: 1000, merchant: "Kanpanya" };
+        case "points": 
+          return { type: "points", amount: 50, merchant: "Kanpanya" };
+        case "lose":   
+          return { type: "lose", amount: 0, merchant: "Kanpanya" };
+      }
+    }
+    return null;
+  };
 
   // Emojis
   const [showSadEmojis, setShowSadEmojis] = useState(false);
@@ -115,6 +159,20 @@ export default function ScratchCardStableV3({
   // Initialisation côté client uniquement pour éviter les erreurs d'hydratation
   useEffect(() => {
     if (!isInitialized) {
+      // Vérifier d'abord les mocks
+      const mockedReward = getMockedReward();
+      if (mockedReward) {
+        setReward(mockedReward);
+        setIsWinner(mockedReward.type !== "lose");
+        setTicketGradient({ 
+          gradient: mockedReward.type === "golden" ? goldenTicketGradient : "from-indigo-500 via-purple-500 to-pink-400", 
+          isGolden: mockedReward.type === "golden" 
+        });
+        setIsInitialized(true);
+        return;
+      }
+
+      // Logique normale si pas de mock
       const gradient = getRandomTicketGradient(goldenTicketChance);
       setTicketGradient(gradient);
       setIsWinner(gradient.isGolden || Math.random() > 0.5);
@@ -214,7 +272,7 @@ export default function ScratchCardStableV3({
     // Calcul correct du pourcentage basé sur l'échantillonnage réel
     const percent = totalSampled > 0 ? transparent / totalSampled : 0;
 
-    if (percent > threshold && !revealed) {
+    if (percent > revealThreshold && !revealed) {
       setRevealed(true);
       setPopupVisible(true);
 
@@ -360,17 +418,24 @@ export default function ScratchCardStableV3({
     lastPos.current = null;
   };
 
-  const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
+  const handleMove = (e: React.MouseEvent | React.TouchEvent | React.PointerEvent) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     let x = 0,
       y = 0;
+    
+    // Support unifié pointer/tactile
     if ("touches" in e) {
       // Mobile : empêcher le scroll/zoom pendant le grattage
       e.preventDefault();
       x = e.touches[0].clientX - rect.left;
       y = e.touches[0].clientY - rect.top;
+    } else if ("pointerType" in e) {
+      // Support pointer unifié
+      e.preventDefault();
+      x = e.clientX - rect.left;
+      y = e.clientY - rect.top;
     } else {
       x = e.clientX - rect.left;
       y = e.clientY - rect.top;
@@ -397,6 +462,7 @@ export default function ScratchCardStableV3({
             className="absolute inset-0 rounded-2xl touch-none"
             role="button"
             aria-label="Carte à gratter - Grattez pour révéler votre récompense"
+            data-testid="scratch-canvas"
             tabIndex={0}
             onMouseMove={handleMove}
             onMouseDown={(e) => {
@@ -413,6 +479,13 @@ export default function ScratchCardStableV3({
               handleDown(touch.clientX - rect.left, touch.clientY - rect.top);
             }}
             onTouchEnd={handleUp}
+            onPointerMove={handleMove}
+            onPointerDown={(e) => {
+              e.preventDefault();
+              const rect = e.currentTarget.getBoundingClientRect();
+              handleDown(e.clientX - rect.left, e.clientY - rect.top);
+            }}
+            onPointerUp={handleUp}
             onKeyDown={(e) => {
               // Support clavier pour l'accessibilité
               if (e.key === 'Enter' || e.key === ' ') {
@@ -433,6 +506,7 @@ export default function ScratchCardStableV3({
           aria-labelledby="popup-title"
           aria-describedby="popup-message"
           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+          data-testid="popup-reward"
         >
           <Popup
             variant={getPopupVariant() as any}

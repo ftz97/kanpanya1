@@ -1,0 +1,84 @@
+# Page snapshot
+
+```yaml
+- generic:
+  - generic [active]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]:
+          - navigation [ref=e6]:
+            - button "previous" [disabled] [ref=e7]:
+              - img "previous" [ref=e8]
+            - generic [ref=e10]:
+              - generic [ref=e11]: 1/
+              - generic [ref=e12]: "1"
+            - button "next" [disabled] [ref=e13]:
+              - img "next" [ref=e14]
+          - img
+        - generic [ref=e16]:
+          - link "Next.js 15.5.2 (stale) Webpack" [ref=e17] [cursor=pointer]:
+            - /url: https://nextjs.org/docs/messages/version-staleness
+            - img [ref=e18] [cursor=pointer]
+            - generic "There is a newer version (15.5.4) available, upgrade recommended!" [ref=e20] [cursor=pointer]: Next.js 15.5.2 (stale)
+            - generic [ref=e21] [cursor=pointer]: Webpack
+          - img
+      - generic [ref=e22]:
+        - dialog "Runtime TypeError" [ref=e23]:
+          - generic [ref=e26]:
+            - generic [ref=e27]:
+              - generic [ref=e28]:
+                - generic [ref=e30]: Runtime TypeError
+                - generic [ref=e31]:
+                  - button "Copy Error Info" [ref=e32] [cursor=pointer]:
+                    - img [ref=e33] [cursor=pointer]
+                  - button "No related documentation found" [disabled] [ref=e35]:
+                    - img [ref=e36]
+                  - link "Learn more about enabling Node.js inspector for server code with Chrome DevTools" [ref=e38] [cursor=pointer]:
+                    - /url: https://nextjs.org/docs/app/building-your-application/configuring/debugging#server-side-code
+                    - img [ref=e39] [cursor=pointer]
+              - paragraph [ref=e48]: __webpack_modules__[moduleId] is not a function
+            - generic [ref=e50]:
+              - generic [ref=e51]:
+                - paragraph [ref=e52]:
+                  - text: Call Stack
+                  - generic [ref=e53]: "33"
+                - button "Show 29 ignore-listed frame(s)" [ref=e54] [cursor=pointer]:
+                  - text: Show 29 ignore-listed frame(s)
+                  - img [ref=e55] [cursor=pointer]
+              - generic [ref=e57]:
+                - generic [ref=e58]: __webpack_exec__
+                - generic [ref=e59]: .next/server/app/_not-found/page.js (292:39)
+              - generic [ref=e60]:
+                - generic [ref=e61]: <unknown>
+                - generic [ref=e62]: .next/server/app/_not-found/page.js (293:2538)
+              - generic [ref=e63]:
+                - generic [ref=e64]: <unknown>
+                - generic [ref=e65]: .next/server/app/_not-found/page.js (293:47)
+              - generic [ref=e66]:
+                - generic [ref=e67]: Object.<anonymous>
+                - generic [ref=e68]: .next/server/app/_not-found/page.js (296:3)
+          - generic [ref=e69]:
+            - generic [ref=e70]: "1"
+            - generic [ref=e71]: "2"
+        - contentinfo [ref=e72]:
+          - region "Error feedback" [ref=e73]:
+            - paragraph [ref=e74]:
+              - link "Was this helpful?" [ref=e75] [cursor=pointer]:
+                - /url: https://nextjs.org/telemetry#error-feedback
+            - button "Mark as helpful" [ref=e76] [cursor=pointer]:
+              - img [ref=e77] [cursor=pointer]
+            - button "Mark as not helpful" [ref=e80] [cursor=pointer]:
+              - img [ref=e81] [cursor=pointer]
+    - generic [ref=e87] [cursor=pointer]:
+      - button "Open Next.js Dev Tools" [ref=e88] [cursor=pointer]:
+        - img [ref=e89] [cursor=pointer]
+      - generic [ref=e92] [cursor=pointer]:
+        - button "Open issues overlay" [ref=e93] [cursor=pointer]:
+          - generic [ref=e94] [cursor=pointer]:
+            - generic [ref=e95] [cursor=pointer]: "0"
+            - generic [ref=e96] [cursor=pointer]: "1"
+          - generic [ref=e97] [cursor=pointer]: Issue
+        - button "Collapse issues badge" [ref=e98] [cursor=pointer]:
+          - img [ref=e99] [cursor=pointer]
+  - alert [ref=e101]
+```

@@ -1,0 +1,45 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e6] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e7] [cursor=pointer]:
+      - img [ref=e8] [cursor=pointer]
+    - generic [ref=e11] [cursor=pointer]:
+      - button "Open issues overlay" [ref=e12] [cursor=pointer]:
+        - generic [ref=e13] [cursor=pointer]:
+          - generic [ref=e14] [cursor=pointer]: "0"
+          - generic [ref=e15] [cursor=pointer]: "1"
+        - generic [ref=e16] [cursor=pointer]: Issue
+      - button "Collapse issues badge" [ref=e17] [cursor=pointer]:
+        - img [ref=e18] [cursor=pointer]
+  - generic [ref=e20]:
+    - heading "🔍 Page de Debug" [level=1] [ref=e21]
+    - generic [ref=e22]:
+      - heading "Instructions :" [level=3] [ref=e23]
+      - paragraph [ref=e24]: 1. Ouvrez la console du navigateur (F12)
+      - paragraph [ref=e25]: 2. Regardez les messages de debug
+      - paragraph [ref=e26]: 3. Testez les boutons ci-dessous
+      - paragraph [ref=e27]: 4. Signalez toute erreur dans la console
+    - button "🖱️ Test Bouton JavaScript" [ref=e29] [cursor=pointer]
+    - generic [ref=e30]:
+      - button "🏠 Aller au Dashboard" [ref=e31] [cursor=pointer]
+      - button "🎁 Aller aux Récompenses" [ref=e32] [cursor=pointer]
+    - generic [ref=e33]:
+      - link "🔗 Lien Dashboard (href)" [ref=e34] [cursor=pointer]:
+        - /url: /dashboard
+      - link "🔗 Lien Récompenses (href)" [ref=e35] [cursor=pointer]:
+        - /url: /reward
+    - generic [ref=e36]:
+      - heading "🔍 Informations de Debug :" [level=3] [ref=e37]
+      - paragraph [ref=e38]:
+        - strong [ref=e39]: "User Agent:"
+        - text: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.7339.16 Safari/537.36
+      - paragraph [ref=e40]:
+        - strong [ref=e41]: "URL actuelle:"
+        - text: http://localhost:3000/debug
+      - paragraph [ref=e42]:
+        - strong [ref=e43]: "Timestamp:"
+        - text: 9/27/2025, 6:27:17 PM
+  - alert [ref=e44]
+```

@@ -42,6 +42,15 @@ function getRandomGradient() {
 }
 
 export default function Popup({ variant, title, message, onClose }: PopupProps) {
+  const handleClose = () => {
+    try {
+      if (typeof onClose === 'function') {
+        onClose();
+      }
+    } catch (error) {
+      console.error('Error in onClose handler:', error);
+    }
+  };
   if (variant === "rect") {
     return (
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
@@ -49,8 +58,9 @@ export default function Popup({ variant, title, message, onClose }: PopupProps) 
         <h3 className="text-lg font-bold">{title}</h3>
         <p className="text-sm mt-2">{message}</p>
         <button 
-          onClick={onClose} 
+          onClick={handleClose} 
           className="mt-4 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition"
+          data-testid="popup-close"
         >
           Fermer
         </button>
@@ -65,7 +75,7 @@ export default function Popup({ variant, title, message, onClose }: PopupProps) 
         <h3 className="text-xl font-bold">{title}</h3>
         <p className="text-sm mt-2">{message}</p>
         <button 
-          onClick={onClose} 
+          onClick={handleClose} 
           className="mt-4 px-4 py-2 bg-gray-900 text-white rounded-xl hover:bg-gray-700 transition"
         >
           Fermer
@@ -83,8 +93,9 @@ export default function Popup({ variant, title, message, onClose }: PopupProps) 
           <h3 className="text-lg font-bold text-gray-900">{title}</h3>
           <p className="text-sm text-gray-600">{message}</p>
           <button 
-            onClick={onClose} 
+            onClick={handleClose} 
             className="mt-3 px-3 py-1 bg-gray-900 text-white rounded-lg text-sm hover:bg-gray-700 transition"
+            data-testid="popup-close"
           >
             Fermer
           </button>
@@ -101,7 +112,7 @@ export default function Popup({ variant, title, message, onClose }: PopupProps) 
         <div className="p-4 text-center">
           <p className="text-sm text-gray-700">{message}</p>
           <button 
-            onClick={onClose} 
+            onClick={handleClose} 
             className="mt-4 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition"
           >
             Fermer
@@ -120,7 +131,7 @@ export default function Popup({ variant, title, message, onClose }: PopupProps) 
         <h3 className="text-lg font-bold text-gray-900">{title}</h3>
         <p className="text-sm text-gray-700">{message}</p>
         <button 
-          onClick={onClose} 
+          onClick={handleClose} 
           className="mt-3 px-4 py-1 bg-gray-900 text-white rounded-full text-sm hover:bg-gray-700 transition"
         >
           Fermer
@@ -136,7 +147,7 @@ export default function Popup({ variant, title, message, onClose }: PopupProps) 
         <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
         <p className="text-sm text-gray-600 mt-2">{message}</p>
         <button 
-          onClick={onClose} 
+          onClick={handleClose} 
           className="mt-4 px-4 py-2 bg-yellow-400 text-gray-900 rounded-lg font-bold hover:bg-yellow-500 transition"
         >
           Fermer
@@ -153,8 +164,9 @@ export default function Popup({ variant, title, message, onClose }: PopupProps) 
         <h3 className="text-lg font-bold text-gray-900">{title}</h3>
         <p className="text-sm text-gray-700 mt-1">{message}</p>
         <button 
-          onClick={onClose} 
+          onClick={handleClose} 
           className="mt-4 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition"
+          data-testid="popup-close"
         >
           Fermer
         </button>

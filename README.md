@@ -1,36 +1,171 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎯 Kanpanya - Plateforme de Récompenses Locales
 
-## Getting Started
+Plateforme innovante de récompenses et de scratch cards pour les commerces locaux, construite avec Next.js 15, Supabase, et Playwright.
+
+## 🚀 Getting Started
 
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# 🧪 Tests — Kanpanya
 
-## Learn More
+Ce projet utilise **Vitest** pour les tests unitaires et **Playwright** pour les tests E2E (end-to-end).
 
-To learn more about Next.js, take a look at the following resources:
+## ✅ Tests unitaires (Vitest)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Lancer les tests unitaires
+```bash
+pnpm test
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Lancer avec couverture
+pnpm test -- --coverage
+```
 
-## Deploy on Vercel
+Les tests unitaires couvrent :
+- **Composants UI** (Button, Input, Modal, etc.)
+- **Hooks personnalisés**
+- **Utilitaires** (utils, emojiRain, confettiEffects)
+- **Actions Supabase** (auth, offers)
+- **Intégrations** (Mapbox, API, etc.)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Les mocks globaux sont définis dans `src/__tests__/setup.ts`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🌐 Tests end-to-end (Playwright)
+
+```bash
+# Lancer tous les tests E2E
+pnpm test:e2e
+
+# Lancer les tests en mode debug
+pnpm test:e2e:debug
+
+# Ouvrir l'interface interactive (UI Mode)
+pnpm test:e2e:ui
+
+# Exécuter sur tous les navigateurs (Desktop + Mobile)
+pnpm test:e2e:all
+
+# Voir le dernier rapport HTML
+pnpm test:e2e:report
+```
+
+## 🖥️ Navigateurs testés (Playwright)
+
+- **Desktop Chrome** (Chromium)
+- **Desktop Firefox**
+- **Desktop Safari** (WebKit)
+- **Mobile Chrome** (Pixel 7)
+- **Mobile Safari** (iPhone 14)
+
+Les projets sont configurés dans `playwright.config.ts`.
+
+## 🔍 Rapports et debugging
+
+- Les rapports HTML se trouvent dans `playwright-report/`
+- Les traces + vidéos des tests échoués sont dans `test-results/`
+
+Pour rejouer un test échoué avec trace :
+```bash
+npx playwright show-trace test-results/<fichier-trace>.zip
+```
+
+## 🚀 CI/CD (GitHub Actions)
+
+Chaque push sur main ou pull request déclenche automatiquement :
+- **Les tests unitaires** (Vitest)
+- **Les tests E2E** (Playwright) sur 5 navigateurs en parallèle
+- **Upload des rapports + traces** (consultables dans GitHub Actions → Artifacts)
+
+---
+
+## 🛠️ Debug rapide
+
+### Tests unitaires spécifiques
+```bash
+# Tester un composant précis
+pnpm test Button.test.tsx
+
+# Tester un hook précis  
+pnpm test useWelcomeMessage.test.ts
+
+# Tests en mode watch (re-lance automatiquement)
+pnpm test:watch
+```
+
+### Tests E2E spécifiques
+```bash
+# Tester un fichier spécifique
+pnpm test:e2e scratch.spec.ts
+
+# Tester avec un navigateur précis
+pnpm test:e2e --project=chromium
+
+# Tester avec des filtres
+pnpm test:e2e --grep "scratch card"
+
+# Mode debug interactif
+pnpm test:e2e:debug scratch.spec.ts
+```
+
+### Debugging avancé
+```bash
+# Voir les traces d'un test échoué
+npx playwright show-trace test-results/trace-*.zip
+
+# Lancer en mode headed (voir le navigateur)
+pnpm test:e2e --headed
+
+# Lancer avec des logs détaillés
+pnpm test:e2e --reporter=list --verbose
+```
+
+### Commandes utiles
+```bash
+# Vérification rapide avant commit
+pnpm ci:check
+
+# Tests de qualité
+pnpm test:quality
+
+# Monitoring des tests flaky
+pnpm test:monitor:flaky
+```
+
+---
+
+## 📚 Technologies
+
+- **Framework** : Next.js 15 avec App Router
+- **Base de données** : Supabase (PostgreSQL)
+- **Authentification** : Supabase Auth
+- **Tests unitaires** : Vitest + Testing Library
+- **Tests E2E** : Playwright
+- **UI** : Tailwind CSS + Radix UI
+- **Maps** : Mapbox GL JS
+- **Package Manager** : pnpm
+
+## 🔧 Développement
+
+```bash
+# Installation
+pnpm install
+
+# Développement
+pnpm dev
+
+# Build
+pnpm build
+
+# Linting
+pnpm lint
+
+# Tests complets
+pnpm test && pnpm test:e2e
+```
