@@ -237,7 +237,7 @@ export default function SponsorCarousel() {
                   {sponsor.cta}
                 </button>
               </div>
-            </motion.div>
+            </div>
           ))}
         </motion.div>
       </div>
