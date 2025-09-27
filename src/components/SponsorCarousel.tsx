@@ -177,12 +177,31 @@ export default function SponsorCarousel() {
         </div>
       </div>
 
-      {/* Carrousel */}
+      {/* Carrousel avec swipe amélioré */}
       <div className="relative overflow-hidden">
         <motion.div
           className="flex gap-4"
           animate={{ x: -currentIndex * 320 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
+          drag="x"
+          dragConstraints={{ left: -(mockSponsors.length - 1) * 320, right: 0 }}
+          onDragEnd={(_, { offset, velocity }) => {
+            const threshold = 50;
+            if (Math.abs(velocity.x) >= 0.5) {
+              if (velocity.x > 0 && currentIndex > 0) {
+                setCurrentIndex(currentIndex - 1);
+              } else if (velocity.x < 0 && currentIndex < mockSponsors.length - 1) {
+                setCurrentIndex(currentIndex + 1);
+              }
+            } else if (Math.abs(offset.x) >= threshold) {
+              if (offset.x > 0 && currentIndex > 0) {
+                setCurrentIndex(currentIndex - 1);
+              } else if (offset.x < 0 && currentIndex < mockSponsors.length - 1) {
+                setCurrentIndex(currentIndex + 1);
+              }
+            }
+            setIsAutoPlaying(false); // Pause auto-play on manual swipe
+          }}
         >
           {mockSponsors.map((sponsor) => (
             <motion.div

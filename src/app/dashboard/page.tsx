@@ -120,7 +120,7 @@ export default function DashboardPage() {
               <span className="hidden sm:inline">Mon QR</span>
             </button>
 
-            {/* ✅ Bouton Déconnexion */}
+            {/* ✅ Bouton Déconnexion - Plus visible */}
             <button 
               onClick={async () => {
                 try {
@@ -132,10 +132,11 @@ export default function DashboardPage() {
                   console.error("Erreur de déconnexion:", error);
                 }
               }}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-50 border border-red-200 shadow-sm text-red-600 text-sm font-medium hover:bg-red-100 active:scale-95 transition"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-medium hover:bg-red-600 active:scale-95 transition shadow-md"
+              title="Se déconnecter"
             >
-              <span className="text-xs">🚪</span>
-              <span className="hidden sm:inline">Déconnexion</span>
+              <span className="text-sm">🚪</span>
+              <span>Déconnexion</span>
             </button>
           </div>
         </div>
