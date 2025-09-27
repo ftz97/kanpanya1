@@ -47,7 +47,7 @@ export default function TicketsResponsive({ tickets, onTicketClick }: TicketsRes
 
       {/* Mobile : icône animée */}
       <motion.div
-        className="sm:hidden cursor-pointer px-3 py-2 rounded-lg bg-white border border-gray-200 shadow-sm text-sm font-medium hover:bg-gray-50 active:scale-95 transition"
+        className="sm:hidden cursor-pointer px-4 py-1.5 rounded-full bg-white text-pink-600 shadow shadow-pink-200 text-sm font-medium hover:bg-pink-50 active:scale-95 transition"
         onClick={onTicketClick}
         animate={
           tickets > 0
