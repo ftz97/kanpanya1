@@ -7,6 +7,7 @@ import FlashOffers from "@/components/FlashOffers";
 import ScratchCardStableV3 from "@/components/scratch/ScratchCardStableV3";
 import { SadEmojiRain, HappyEmojiRain, MoneyEmojiRain } from "@/components/EmojiRain";
 import TicketsResponsive from "@/components/TicketsResponsive";
+import SponsorCarousel from "@/components/SponsorCarousel";
 
 export default function DashboardPage() {
   const [isClient, setIsClient] = React.useState(false);
@@ -147,53 +148,8 @@ export default function DashboardPage() {
 
       {/* Section Tickets supprimée - maintenant gérée par l'icône dans la navbar */}
 
-      {/* Section Partenaire - Wrapper uniforme */}
-      <div className="max-w-7xl mx-auto mt-6 sm:mt-8 md:mt-10 px-3 sm:px-4 md:px-6 space-y-3 sm:space-y-4">
-        {/* Bannière partenaire - Cliquable */}
-        <button
-          className="w-full rounded-xl shadow p-4 text-[#123456] text-left hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"                                                                              
-          style={{
-            background:
-              "linear-gradient(90deg, #BCE8DF 0%, #C2F9DD 50%, #BCF7D2 100%)",
-          }}
-        >
-          <h3 className="font-semibold text-lg sm:text-xl">🎥 Mutuelle Locale</h3>
-          <p className="text-xs sm:text-sm mt-1">
-            Cliquez pour découvrir la vidéo interactive et gagner des points !
-          </p>
-          <div className="mt-3 flex items-center text-sm text-teal-700 font-medium">
-            <span>Regarder la vidéo + Quiz nutrition</span>
-            <ChevronRight className="w-4 h-4 ml-1" />
-          </div>
-        </button>
-
-        {/* Carte détail partenaire */}
-        <div className="relative bg-white rounded-xl shadow p-4 overflow-hidden">
-          {/* Bande verticale gradient */}
-          <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-[#17BFA0] to-[#BCE8DF] rounded-l-xl"></div>                                                                                            
-
-          <div className="ml-4"> {/* Décale le contenu pour ne pas coller à la bande */}
-            <h3 className="font-semibold text-lg text-[#123456]">Mutuelle Locale</h3>
-            <p className="text-sm text-gray-500">Partenaire officiel</p>
-            <p className="mt-2 font-bold text-[#17BFA0] text-lg">
-              Points doublés cette semaine ! 🎯
-            </p>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Profitez de l&apos;offre spéciale : tous vos achats rapportent 2x plus de points Kanpanya
-            </p>
-            <div className="mt-4 flex flex-col sm:flex-row gap-3">
-              <button 
-                className="px-5 py-2 rounded-lg bg-[#17BFA0] text-white font-semibold shadow-md hover:bg-[#14a58d] transition flex items-center justify-center"                                                         
-              >
-                🎬 Découvrir le partenaire
-              </button>
-              <button className="px-5 py-2 rounded-lg border border-[#17BFA0] text-[#17BFA0] font-semibold hover:bg-[#F9FFFD]">                                                                                         
-                En savoir plus
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Carrousel sponsorisé */}
+      <SponsorCarousel />
 
       {/* Section Bon Plans avec Swiper */}
       <section className="max-w-7xl mx-auto mt-10 px-4 sm:px-6">
