@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Play, HelpCircle, Image, Gift } from "lucide-react";
 
@@ -102,6 +102,7 @@ export default function SponsorCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedSponsor, setSelectedSponsor] = useState<Sponsor | null>(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % mockSponsors.length);
@@ -111,14 +112,27 @@ export default function SponsorCarousel() {
     setCurrentIndex((prev) => (prev - 1 + mockSponsors.length) % mockSponsors.length);
   };
 
+  // Auto-play effect
+  useEffect(() => {
+    if (!isAutoPlaying || showPopup) return;
+
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 4000); // Change slide every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, showPopup, currentIndex]);
+
   const handleSponsorClick = (sponsor: Sponsor) => {
     setSelectedSponsor(sponsor);
     setShowPopup(true);
+    setIsAutoPlaying(false); // Pause auto-play when popup opens
   };
 
   const closePopup = () => {
     setShowPopup(false);
     setSelectedSponsor(null);
+    setIsAutoPlaying(true); // Resume auto-play when popup closes
   };
 
   const getTypeIcon = (type: string) => {
@@ -150,16 +164,33 @@ export default function SponsorCarousel() {
         </h2>
         <div className="flex items-center gap-2">
           <button
-            onClick={prevSlide}
+            onClick={() => {
+              prevSlide();
+              setIsAutoPlaying(false); // Pause auto-play on manual navigation
+            }}
             className="p-2 rounded-full bg-white shadow-md hover:bg-gray-50 transition"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
-            onClick={nextSlide}
+            onClick={() => {
+              nextSlide();
+              setIsAutoPlaying(false); // Pause auto-play on manual navigation
+            }}
             className="p-2 rounded-full bg-white shadow-md hover:bg-gray-50 transition"
           >
             <ChevronRight className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+            className={`p-2 rounded-full shadow-md transition ${
+              isAutoPlaying 
+                ? "bg-[#17BFA0] text-white hover:bg-[#14a58d]" 
+                : "bg-white text-gray-600 hover:bg-gray-50"
+            }`}
+            title={isAutoPlaying ? "Pause auto-play" : "Reprendre auto-play"}
+          >
+            {isAutoPlaying ? "⏸️" : "▶️"}
           </button>
         </div>
       </div>
@@ -214,7 +245,10 @@ export default function SponsorCarousel() {
         {mockSponsors.map((_, index) => (
           <button
             key={index}
-            onClick={() => setCurrentIndex(index)}
+            onClick={() => {
+              setCurrentIndex(index);
+              setIsAutoPlaying(false); // Pause auto-play on manual navigation
+            }}
             className={`w-2 h-2 rounded-full transition ${
               index === currentIndex ? "bg-[#17BFA0]" : "bg-gray-300"
             }`}
