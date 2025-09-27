@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Play, HelpCircle, Image, Gift } from "lucide-react";
+import { Play, HelpCircle, Image, Gift } from "lucide-react";
 
 // Types pour les sponsors
 interface Sponsor {
@@ -163,24 +163,6 @@ export default function SponsorCarousel() {
           📢 Contenus sponsorisés
         </h2>
         <div className="flex items-center gap-2">
-          <button
-            onClick={() => {
-              prevSlide();
-              setIsAutoPlaying(false); // Pause auto-play on manual navigation
-            }}
-            className="p-2 rounded-full bg-white shadow-md hover:bg-gray-50 transition"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => {
-              nextSlide();
-              setIsAutoPlaying(false); // Pause auto-play on manual navigation
-            }}
-            className="p-2 rounded-full bg-white shadow-md hover:bg-gray-50 transition"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
           <button
             onClick={() => setIsAutoPlaying(!isAutoPlaying)}
             className={`p-2 rounded-full shadow-md transition ${
