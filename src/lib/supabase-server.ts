@@ -1,41 +1,30 @@
-// src/lib/supabase-server.ts
-import { cookies } from "next/headers";
-import { createServerClient } from "@supabase/ssr";
-import type { SupabaseClient } from "@supabase/supabase-js";
-import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import { cookies, headers } from "next/headers";
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
 
-export async function createServerClientSafe(cookieStore?: ReadonlyRequestCookies | Promise<ReadonlyRequestCookies>): Promise<SupabaseClient> {
-  // Si cookieStore n'est pas fourni, on utilise cookies() (pour les composants serveur)
-  // Si cookieStore est fourni, on l'utilise (pour les routes API)
-  // Dans Next.js 15, cookies() retourne une Promise
-  const cookiesToUse = cookieStore ? await cookieStore : await cookies();
+export const supabaseEnv = {
+  url: process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+};
 
+export async function createServerSupabase() {
+  const cookieStore = await cookies();
+  const headersList = await headers();
+  
+  // SSR helper with cookie passthrough
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseEnv.url,
+    supabaseEnv.anonKey,
     {
       cookies: {
-        get: (name: string) => cookiesToUse.get(name)?.value,
-        set() {},
-        remove() {},
+        get(name: string) { return cookieStore.get(name)?.value; },
+        set(name: string, value: string, options: CookieOptions) {
+          cookieStore.set({ name, value, ...options });
+        },
+        remove(name: string, options: CookieOptions) {
+          cookieStore.set({ name, value: "", ...options });
+        },
       },
+      global: { headers: { "X-Forwarded-Proto": headersList.get("X-Forwarded-Proto") ?? "https" } }
     }
   );
 }
-
-// Cette fonction est maintenant dépréciée car elle cause des erreurs lors de la compilation
-// export const supabaseServerClientPromise: Promise<SupabaseClient> = (async () => {
-//   const cookieStore = await cookies();
-//   return createServerClient(
-//     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-//     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-//     {
-//       cookies: {
-//         get: (name: string) => cookieStore.get(name)?.value,
-//         set() {},
-//         remove() {},
-//       },
-//     }
-//   );
-// })();
-

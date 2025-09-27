@@ -1,7 +1,7 @@
 export const runtime = 'nodejs'
 
 import { NextResponse } from "next/server";
-import { createServerSupabase } from '@/lib/supabase';
+import { createServerSupabase } from '@/lib/supabase-server';
 
 /* ----------------------------
    GET /api/neighborhoods/[id]

@@ -1,4 +1,4 @@
-import { createServerSupabase } from "@/lib/supabase";
+import { createServerSupabase } from "@/lib/supabase-server";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { createAsyncT } from "@/i18n";
