@@ -100,8 +100,6 @@ const mockSponsors: Sponsor[] = [
 
 export default function SponsorCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedSponsor, setSelectedSponsor] = useState<Sponsor | null>(null);
-  const [showPopup, setShowPopup] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   const nextSlide = () => {
@@ -114,25 +112,33 @@ export default function SponsorCarousel() {
 
   // Auto-play effect
   useEffect(() => {
-    if (!isAutoPlaying || showPopup) return;
+    if (!isAutoPlaying) return;
 
     const interval = setInterval(() => {
       nextSlide();
-    }, 4000); // Change slide every 4 seconds
+    }, 5000); // Change slide every 5 seconds (plus lent)
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, showPopup, currentIndex]);
+  }, [isAutoPlaying, currentIndex]);
 
   const handleSponsorClick = (sponsor: Sponsor) => {
-    setSelectedSponsor(sponsor);
-    setShowPopup(true);
-    setIsAutoPlaying(false); // Pause auto-play when popup opens
-  };
-
-  const closePopup = () => {
-    setShowPopup(false);
-    setSelectedSponsor(null);
-    setIsAutoPlaying(true); // Resume auto-play when popup closes
+    // Action directe selon le type
+    switch (sponsor.type) {
+      case "video":
+        alert(`🎬 Vidéo: ${sponsor.title}\n${sponsor.description}`);
+        break;
+      case "quiz":
+        alert(`🧠 Quiz: ${sponsor.title}\n${sponsor.description}`);
+        break;
+      case "scratch":
+        alert(`🎟️ Scratch: ${sponsor.title}\n${sponsor.description}`);
+        break;
+      case "simple":
+        alert(`💰 Offre: ${sponsor.title}\nCode: ${sponsor.content?.code || 'N/A'}`);
+        break;
+      default:
+        alert(`📢 ${sponsor.title}\n${sponsor.description}`);
+    }
   };
 
   const getTypeIcon = (type: string) => {
@@ -157,12 +163,27 @@ export default function SponsorCarousel() {
 
   return (
     <div className="max-w-7xl mx-auto mt-6 sm:mt-8 md:mt-10 px-3 sm:px-4 md:px-6">
-      {/* Titre de section */}
+      {/* Titre de section avec contrôles */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg sm:text-xl font-semibold text-[#123456]">
           📢 Contenus sponsorisés
         </h2>
         <div className="flex items-center gap-2">
+          {/* Boutons de navigation */}
+          <button
+            onClick={prevSlide}
+            className="p-2 rounded-full bg-white shadow-md text-gray-600 hover:bg-gray-50 transition"
+            title="Précédent"
+          >
+            ←
+          </button>
+          <button
+            onClick={nextSlide}
+            className="p-2 rounded-full bg-white shadow-md text-gray-600 hover:bg-gray-50 transition"
+            title="Suivant"
+          >
+            →
+          </button>
           <button
             onClick={() => setIsAutoPlaying(!isAutoPlaying)}
             className={`p-2 rounded-full shadow-md transition ${
@@ -177,38 +198,18 @@ export default function SponsorCarousel() {
         </div>
       </div>
 
-      {/* Carrousel avec swipe amélioré */}
+      {/* Carrousel simplifié */}
       <div className="relative overflow-hidden">
         <motion.div
           className="flex gap-4"
           animate={{ x: -currentIndex * 320 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          drag="x"
-          dragConstraints={{ left: -(mockSponsors.length - 1) * 320, right: 0 }}
-          onDragEnd={(_, { offset, velocity }) => {
-            const threshold = 50;
-            if (Math.abs(velocity.x) >= 0.5) {
-              if (velocity.x > 0 && currentIndex > 0) {
-                setCurrentIndex(currentIndex - 1);
-              } else if (velocity.x < 0 && currentIndex < mockSponsors.length - 1) {
-                setCurrentIndex(currentIndex + 1);
-              }
-            } else if (Math.abs(offset.x) >= threshold) {
-              if (offset.x > 0 && currentIndex > 0) {
-                setCurrentIndex(currentIndex - 1);
-              } else if (offset.x < 0 && currentIndex < mockSponsors.length - 1) {
-                setCurrentIndex(currentIndex + 1);
-              }
-            }
-            setIsAutoPlaying(false); // Pause auto-play on manual swipe
-          }}
         >
           {mockSponsors.map((sponsor) => (
-            <motion.div
+            <div
               key={sponsor.id}
               className="flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105"
               onClick={() => handleSponsorClick(sponsor)}
-              whileHover={{ y: -5 }}
             >
               {/* Header avec logo et type */}
               <div className="relative p-4 bg-gradient-to-br from-gray-50 to-gray-100">
@@ -257,110 +258,6 @@ export default function SponsorCarousel() {
         ))}
       </div>
 
-      {/* Popup pour le contenu sponsorisé */}
-      <AnimatePresence>
-        {showPopup && selectedSponsor && (
-          <motion.div
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="bg-white rounded-2xl shadow-xl max-w-md w-full max-h-[80vh] overflow-y-auto"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-            >
-              {/* Header du popup */}
-              <div className="p-6 border-b">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{selectedSponsor.logo}</span>
-                    <div>
-                      <h3 className="font-semibold text-lg text-[#123456]">{selectedSponsor.name}</h3>
-                      <p className="text-sm text-gray-500">{selectedSponsor.title}</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={closePopup}
-                    className="p-2 rounded-full hover:bg-gray-100 transition"
-                  >
-                    ✕
-                  </button>
-                </div>
-              </div>
-
-              {/* Contenu du popup selon le type */}
-              <div className="p-6">
-                {selectedSponsor.type === "video" && (
-                  <div className="text-center">
-                    <div className="w-full h-48 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
-                      <Play className="w-12 h-12 text-gray-400" />
-                    </div>
-                    <p className="text-sm text-gray-600 mb-4">{selectedSponsor.description}</p>
-                    <button className="w-full bg-red-500 text-white py-3 rounded-lg font-medium hover:bg-red-600 transition">
-                      ▶️ Lancer la vidéo
-                    </button>
-                  </div>
-                )}
-
-                {selectedSponsor.type === "quiz" && (
-                  <div className="text-center">
-                    <div className="w-full h-32 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                      <HelpCircle className="w-12 h-12 text-blue-500" />
-                    </div>
-                    <p className="text-sm text-gray-600 mb-4">{selectedSponsor.description}</p>
-                    <button className="w-full bg-blue-500 text-white py-3 rounded-lg font-medium hover:bg-blue-600 transition">
-                      🧠 Commencer le quiz
-                    </button>
-                  </div>
-                )}
-
-                {selectedSponsor.type === "scratch" && (
-                  <div className="text-center">
-                    <div className="w-full h-32 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                      <Gift className="w-12 h-12 text-purple-500" />
-                    </div>
-                    <p className="text-sm text-gray-600 mb-4">{selectedSponsor.description}</p>
-                    <button className="w-full bg-purple-500 text-white py-3 rounded-lg font-medium hover:bg-purple-600 transition">
-                      🎟️ Gratter le ticket
-                    </button>
-                  </div>
-                )}
-
-                {selectedSponsor.type === "image-quiz" && (
-                  <div className="text-center">
-                    <div className="w-full h-32 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                      <Image className="w-12 h-12 text-green-500" />
-                    </div>
-                    <p className="text-sm text-gray-600 mb-4">{selectedSponsor.description}</p>
-                    <button className="w-full bg-green-500 text-white py-3 rounded-lg font-medium hover:bg-green-600 transition">
-                      🌸 Voir l'image + Quiz
-                    </button>
-                  </div>
-                )}
-
-                {selectedSponsor.type === "simple" && (
-                  <div className="text-center">
-                    <div className="w-full h-32 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
-                      <Gift className="w-12 h-12 text-yellow-500" />
-                    </div>
-                    <p className="text-sm text-gray-600 mb-4">{selectedSponsor.description}</p>
-                    <div className="bg-gray-50 p-3 rounded-lg mb-4">
-                      <p className="text-sm font-medium text-gray-700">Code: {selectedSponsor.content?.code}</p>
-                      <p className="text-xs text-gray-500">Valide jusqu'au {selectedSponsor.content?.validUntil}</p>
-                    </div>
-                    <button className="w-full bg-yellow-500 text-white py-3 rounded-lg font-medium hover:bg-yellow-600 transition">
-                      💰 Utiliser l'offre
-                    </button>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
