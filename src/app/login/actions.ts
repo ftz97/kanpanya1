@@ -1,8 +1,8 @@
 'use server'
-import { createServerClientSafe } from '@/utils/supabase/server'
+import { createServerSupabase } from '@/lib/supabase-server'
 
 export async function sendMagicLink(email: string, redirectTo?: string) {
-  const supabase = await createServerClientSafe()
+  const supabase = await createServerSupabase()
   await supabase.auth.signInWithOtp({
     email,
     options: {

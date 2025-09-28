@@ -2,11 +2,11 @@ export const runtime = 'nodejs'
 
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { createServerClientSafe } from '@/utils/supabase/server'
+import { createServerSupabase } from '@/utils/supabase/server'
 
 export async function GET() {
   const cookieStore = cookies()
-  const supabase = await createServerClientSafe(cookieStore)
+  const supabase = await createServerSupabase(cookieStore)
   const { data: { session }, error } = await supabase.auth.getSession()
 
   if (!session) {

@@ -1,11 +1,11 @@
 export const runtime = 'nodejs'
 
 import { NextResponse } from 'next/server'
-import { createServerClientSafe } from '@/lib/supabase-server'
+import { createServerSupabase } from '@/lib/supabase-server'
 
 export async function POST(req: Request) {
   const { email, redirectTo } = await req.json()
-  const supabase = await createServerClientSafe()
+  const supabase = await createServerSupabase()
   await supabase.auth.signInWithOtp({
     email,
     options: {

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createServerClientSafe } from '@/lib/supabase-server';
+import { createServerSupabase } from '@/lib/supabase-server';
 
 export const runtime = 'nodejs';
 
@@ -41,7 +41,7 @@ export async function GET() {
   // On tente une requête ultra simple sur plusieurs tables possibles
   for (const table of candidateTables) {
     try {
-      const supabase = await createServerClientSafe();
+      const supabase = await createServerSupabase();
       const { data, error, count } = await supabase
         .from(table as any)
         .select('*', { count: 'exact', head: true })
@@ -65,7 +65,7 @@ export async function GET() {
   // Note: Sans session, on n'aura pas d'utilisateur, mais l'appel ne doit pas planter.
   let authPing: any = null;
   try {
-    const supabase = await createServerClientSafe();
+    const supabase = await createServerSupabase();
     const { data, error } = await supabase.auth.getSession();
     authPing = error ? serializeError(error) : { ok: true, hasSession: !!data?.session };
   } catch (e: any) {

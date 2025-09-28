@@ -3,7 +3,7 @@ export const runtime = 'nodejs'
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { createServerClientSafe } from "@/lib/supabase-server";
+import { createServerSupabase } from "@/lib/supabase-server";
 
 const patchSchema = z
   .object({
@@ -20,7 +20,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const { id } = await params;
   try {
     const cookieStore = cookies();
-    const supabase = await createServerClientSafe(cookieStore);
+    const supabase = await createServerSupabase(cookieStore);
     
     const body = await req.json().catch(() => ({}));
     const parsed = patchSchema.safeParse(body);

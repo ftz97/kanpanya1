@@ -3,7 +3,7 @@ export const runtime = 'nodejs'
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { createServerClientSafe } from "@/lib/supabase-server";
+import { createServerSupabase } from "@/lib/supabase-server";
 
 const StreetSegmentSchema = z.object({
   id: z.string().uuid(),
@@ -22,7 +22,7 @@ const StreetSegmentSchema = z.object({
 export async function GET(req: NextRequest) {
   try {
     const cookieStore = cookies();
-    const supabase = await createServerClientSafe(cookieStore);
+    const supabase = await createServerSupabase(cookieStore);
     
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ ok: false, error: "UNAUTHENTICATED" }, { status: 401 });
@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const cookieStore = cookies();
-    const supabase = await createServerClientSafe(cookieStore);
+    const supabase = await createServerSupabase(cookieStore);
     
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ ok: false, error: "UNAUTHENTICATED" }, { status: 401 });
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   try {
     const cookieStore = cookies();
-    const supabase = await createServerClientSafe(cookieStore);
+    const supabase = await createServerSupabase(cookieStore);
     
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ ok: false, error: "UNAUTHENTICATED" }, { status: 401 });
@@ -120,7 +120,7 @@ export async function PUT(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const cookieStore = cookies();
-    const supabase = await createServerClientSafe(cookieStore);
+    const supabase = await createServerSupabase(cookieStore);
     
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ ok: false, error: "UNAUTHENTICATED" }, { status: 401 });

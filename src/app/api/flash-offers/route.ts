@@ -4,14 +4,14 @@ export const revalidate = 0; // pas de cache
 
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { createServerClientSafe } from "@/lib/supabase-server";
+import { createServerSupabase } from "@/lib/supabase-server";
 import { CreateOfferSchema, type CreateOfferInput, type OffersQueryParams } from "@/lib/schemas";
 
 // GET /api/flash-offers?status=active|upcoming|expired|all&page=1&pageSize=20
 export async function GET(req: NextRequest) {
   try {
     const cookieStore = cookies();
-    const supabase = await createServerClientSafe(cookieStore);
+    const supabase = await createServerSupabase();
     
     const { searchParams } = new URL(req.url);
     const queryParams: OffersQueryParams = {
@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const cookieStore = cookies();
-    const supabase = await createServerClientSafe(cookieStore);
+    const supabase = await createServerSupabase();
     
     const json = (await req.json()) as unknown;
     const parsed = CreateOfferSchema.safeParse(json);

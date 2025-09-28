@@ -1,6 +1,6 @@
-import { createServerClientSafe } from '@/lib/supabase-server'
+import { createServerSupabase } from '@/lib/supabase-server'
 
-export { createServerClientSafe }
+export { createServerSupabase as createServerClientSafe }
 
 
 

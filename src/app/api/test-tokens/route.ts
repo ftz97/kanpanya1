@@ -2,11 +2,11 @@ export const runtime = 'nodejs'
 
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { createServerClientSafe } from '@/utils/supabase/server'
+import { createServerSupabase } from '@/utils/supabase/server'
 
 export async function GET() {
   const cookieStore = cookies()
-  const supabase = await createServerClientSafe(cookieStore)
+  const supabase = await createServerSupabase(cookieStore)
   const { data: { user }, error } = await supabase.auth.getUser()
 
   if (!user) {
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     }
 
     const cookieStore = cookies()
-    const supabase = await createServerClientSafe(cookieStore)
+    const supabase = await createServerSupabase(cookieStore)
     
     // Tentative de connexion avec les identifiants fournis
     const { data: { session, user }, error: signInError } = await supabase.auth.signInWithPassword({

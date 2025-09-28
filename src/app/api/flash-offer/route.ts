@@ -3,7 +3,7 @@ export const runtime = 'nodejs'
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { createServerClientSafe } from "@/lib/supabase-server";
+import { createServerSupabase } from "@/lib/supabase-server";
 
 const schema = z.object({
   title: z.string().min(1),
@@ -18,7 +18,7 @@ const schema = z.object({
 export async function GET() {
   try {
     const cookieStore = cookies();
-    const supabase = await createServerClientSafe(cookieStore);
+    const supabase = await createServerSupabase();
     
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ ok: false, error: "UNAUTHENTICATED" }, { status: 401 });
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     }
 
     const cookieStore = cookies();
-    const supabase = await createServerClientSafe(cookieStore);
+    const supabase = await createServerSupabase();
     const {
       data: { user },
       error: userError,

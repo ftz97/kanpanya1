@@ -1,7 +1,7 @@
 // src/app/auth/callback/route.ts
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { createServerClientSafe } from "@/lib/supabase-server";
+import { createServerSupabase } from "@/lib/supabase-server";
 
 export const runtime = "nodejs"; // évite l'Edge si tu utilises @supabase/ssr
 
@@ -10,8 +10,7 @@ export async function GET(request: Request) {
   const code = url.searchParams.get("code");
 
   // ⬇️ le point clé : attendre le client
-  const cookieStore = cookies();
-  const supabase = await createServerClientSafe(cookieStore);
+  const supabase = await createServerSupabase();
 
   if (code) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
