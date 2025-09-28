@@ -237,7 +237,7 @@ export default function SponsorCarousel() {
       <div className="relative overflow-hidden">
         <motion.div
           className="flex gap-4"
-          animate={{ x: -currentIndex * 336 }} {/* 320px + 16px gap */}
+          animate={{ x: -currentIndex * 336 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
         >
           {/* Dupliquer les éléments pour une boucle infinie */}
