@@ -35,7 +35,17 @@ export default function LoginPage() {
 
       if (error) {
         console.error("Erreur Supabase:", error);
-        setMessage(`❌ Erreur: ${error.message}`);
+        
+        // Messages d'erreur plus spécifiques
+        if (error.message.includes("Invalid login credentials")) {
+          setMessage("❌ Email ou mot de passe incorrect");
+        } else if (error.message.includes("Email not confirmed")) {
+          setMessage("❌ Veuillez confirmer votre email avant de vous connecter");
+        } else if (error.message.includes("Too many requests")) {
+          setMessage("❌ Trop de tentatives. Veuillez réessayer plus tard");
+        } else {
+          setMessage(`❌ Erreur: ${error.message}`);
+        }
         return;
       }
 
@@ -135,10 +145,14 @@ export default function LoginPage() {
 
           {/* Informations de test */}
           <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <h3 className="font-semibold text-blue-800 mb-2">🧪 Identifiants de test :</h3>
-            <p className="text-sm text-blue-700">
-              Email : <code>test@example.com</code><br/>
-              Mot de passe : <code>test123456</code>
+            <h3 className="font-semibold text-blue-800 mb-2">🧪 Pour tester :</h3>
+            <p className="text-sm text-blue-700 mb-2">
+              1. Créez d'abord un compte via "Créer un compte"<br/>
+              2. Confirmez votre email<br/>
+              3. Utilisez ensuite ces identifiants pour vous connecter
+            </p>
+            <p className="text-xs text-blue-600">
+              Ou utilisez un compte existant que vous avez créé précédemment.
             </p>
           </div>
 
