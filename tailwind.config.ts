@@ -8,12 +8,6 @@ const config: Config = {
   plugins: [kanpanyaButtons],
   theme: {
     extend: {
-      scale: {
-        '120': '1.2',
-      },
-      transformStyle: {
-        'preserve-3d': 'preserve-3d',
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

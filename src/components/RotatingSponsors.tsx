@@ -1,9 +1,5 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import { Pagination, Autoplay } from "swiper/modules";
 import SponsorFlowModal from "./SponsorFlowModal";
 
 const sponsors = [
@@ -55,52 +51,44 @@ const sponsors = [
 
 export default function SponsorCarousel() {
   const [openSponsor, setOpenSponsor] = useState<string | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  // 🔄 Auto défilement
+
+useEffect(() => {
+  stableSetInterval();
+  stableScrollBy();
+  stableScrollTo();
+  stableClearInterval();
+}, [stableSetInterval, stableScrollBy, stableScrollTo, stableClearInterval]);;
 
   return (
     <div className="w-full">
-      <h2 className="text-xl font-bold text-center mb-4">🎥 Contenus sponsorisés</h2>
+      <h2 className="text-xl font-bold text-center mb-4">🎥 Vidéos Interactives</h2>
 
-      {/* Carrousel avec effet 3D Spotlight */}
-      <div className="px-4">
-        <Swiper
-          modules={[Pagination, Autoplay]}
-          spaceBetween={30}
-          slidesPerView="auto"
-          centeredSlides={true}
-          loop={true}
-          autoplay={{
-            delay: 4000,
-            disableOnInteraction: false,
-          }}
-          pagination={{ clickable: true, dynamicBullets: true }}
-          onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-          className="w-full"
-        >
-          {sponsors.map((s, index) => (
-            <SwiperSlide key={s.id} className="!w-80">
-              <div
-                onClick={() => setOpenSponsor(s.id)}
-                className={`cursor-pointer rounded-xl overflow-hidden relative transition-all duration-500 ease-out ${
-                  activeIndex === index
-                    ? "scale-120 rotate-y-6 shadow-2xl z-20 bg-gradient-to-br from-pink-100 to-white"
-                    : "scale-90 opacity-60 blur-[1px] bg-gray-100"
-                }`}
-              >
-                <img
-                  src={s.image}
-                  alt={s.title}
-                  className="w-full h-48 md:h-60 lg:h-72 object-cover"
-                  onError={(e) => (e.currentTarget.src = "/ads/fallback.png")}
-                />
-                <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-3">
-                  <h3 className="text-lg font-bold">{s.title}</h3>
-                  <p className="text-sm">{s.description}</p>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+      {/* Carrousel */}
+      <div
+        ref={carouselRef}
+        className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth px-2"
+      >
+        {sponsors.map((s) => (
+          <div
+            key={s.id}
+            onClick={() => setOpenSponsor(s.id)}
+            className="snap-start flex-shrink-0 w-[85%] sm:w-[48%] lg:w-[30%] cursor-pointer rounded-xl overflow-hidden shadow-lg relative"
+          >
+            <img
+              src={s.image}
+              alt={s.title}
+              className="w-full h-48 md:h-60 lg:h-72 object-cover"
+              onError={(e) => (e.currentTarget.src = "/ads/fallback.png")}
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-3">
+              <h3 className="text-lg font-bold">{s.title}</h3>
+              <p className="text-sm">{s.description}</p>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* 🎥 Modal sponsor */}
@@ -116,11 +104,12 @@ export default function SponsorCarousel() {
       ))}
 
       <style jsx>{`
-        .rotate-y-6 {
-          transform: rotateY(6deg);
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
         }
-        .blur-\[1px\] {
-          filter: blur(1px);
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
     </div>
