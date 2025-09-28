@@ -101,25 +101,60 @@ const mockSponsors: Sponsor[] = [
 export default function SponsorCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % mockSponsors.length);
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    
+    setCurrentIndex((prev) => {
+      const newIndex = prev + 1;
+      
+      // Si on arrive à la fin du premier set, on saute au début du second set
+      if (newIndex >= mockSponsors.length) {
+        setTimeout(() => {
+          setCurrentIndex(0);
+          setIsTransitioning(false);
+        }, 600);
+        return mockSponsors.length;
+      }
+      
+      setTimeout(() => setIsTransitioning(false), 600);
+      return newIndex;
+    });
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + mockSponsors.length) % mockSponsors.length);
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    
+    setCurrentIndex((prev) => {
+      const newIndex = prev - 1;
+      
+      // Si on va en négatif, on saute à la fin du premier set
+      if (newIndex < 0) {
+        setTimeout(() => {
+          setCurrentIndex(mockSponsors.length - 1);
+          setIsTransitioning(false);
+        }, 600);
+        return mockSponsors.length - 1;
+      }
+      
+      setTimeout(() => setIsTransitioning(false), 600);
+      return newIndex;
+    });
   };
 
   // Auto-play effect
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    if (!isAutoPlaying || isTransitioning) return;
 
     const interval = setInterval(() => {
       nextSlide();
-    }, 5000); // Change slide every 5 seconds (plus lent)
+    }, 4000); // Change slide every 4 seconds
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, currentIndex]);
+  }, [isAutoPlaying, currentIndex, isTransitioning]);
 
   const handleSponsorClick = (sponsor: Sponsor) => {
     // Action directe selon le type
@@ -198,16 +233,17 @@ export default function SponsorCarousel() {
         </div>
       </div>
 
-      {/* Carrousel simplifié */}
+      {/* Carrousel avec boucle infinie */}
       <div className="relative overflow-hidden">
         <motion.div
           className="flex gap-4"
-          animate={{ x: -currentIndex * 320 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
+          animate={{ x: -currentIndex * 336 }} {/* 320px + 16px gap */}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
         >
-          {mockSponsors.map((sponsor) => (
+          {/* Dupliquer les éléments pour une boucle infinie */}
+          {[...mockSponsors, ...mockSponsors].map((sponsor, index) => (
             <div
-              key={sponsor.id}
+              key={`${sponsor.id}-${index}`}
               className="flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105"
               onClick={() => handleSponsorClick(sponsor)}
             >
@@ -248,11 +284,12 @@ export default function SponsorCarousel() {
           <button
             key={index}
             onClick={() => {
+              if (isTransitioning) return;
               setCurrentIndex(index);
               setIsAutoPlaying(false); // Pause auto-play on manual navigation
             }}
-            className={`w-2 h-2 rounded-full transition ${
-              index === currentIndex ? "bg-[#17BFA0]" : "bg-gray-300"
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              index === (currentIndex % mockSponsors.length) ? "bg-[#17BFA0] w-6" : "bg-gray-300"
             }`}
           />
         ))}
