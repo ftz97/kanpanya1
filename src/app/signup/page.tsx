@@ -44,6 +44,12 @@ export default function SignupPage() {
       const { createBrowserSupabase } = await import("@/lib/supabase");
       const supabase = createBrowserSupabase();
       
+      // Debug: Vérifier la configuration Supabase
+      console.log("🔧 Debug Supabase:", {
+        url: process.env.NEXT_PUBLIC_SUPABASE_URL ? "✅ Présent" : "❌ Manquant",
+        anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? "✅ Présent" : "❌ Manquant"
+      });
+      
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -51,7 +57,8 @@ export default function SignupPage() {
           data: {
             prenom: formData.prenom,
             nom: formData.nom,
-          }
+          },
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=/dashboard`
         }
       });
 
@@ -61,16 +68,8 @@ export default function SignupPage() {
         return;
       }
 
-      if (data.user) {
-        setMessage("✅ Compte créé avec succès !");
-        console.log("Utilisateur créé:", data.user);
-        
-        // Redirection vers le dashboard après 2 secondes
-        setTimeout(() => {
-          router.push("/dashboard");
-        }, 2000);
-      } else {
-        setMessage("❌ Erreur lors de la création du compte");
+      if (!error) {
+        router.push("/auth/success");
       }
 
     } catch (error: any) {
