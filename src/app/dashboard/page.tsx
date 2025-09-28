@@ -7,7 +7,7 @@ import FlashOffers from "@/components/FlashOffers";
 import ScratchCardStableV3 from "@/components/scratch/ScratchCardStableV3";
 import { SadEmojiRain, HappyEmojiRain, MoneyEmojiRain } from "@/components/EmojiRain";
 import TicketsResponsive from "@/components/TicketsResponsive";
-import SponsorCarousel from "@/components/SponsorCarousel";
+import SponsorCarousel from "@/components/RotatingSponsors";
 
 export default function DashboardPage() {
   const [isClient, setIsClient] = React.useState(false);
