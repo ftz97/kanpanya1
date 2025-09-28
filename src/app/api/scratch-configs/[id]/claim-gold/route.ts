@@ -1,10 +1,12 @@
 export const runtime = 'nodejs'
 
-import { supabase } from "@/lib/supabaseClient";
+import { createServerSupabase } from "@/lib/supabase-server";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const supabase = await createServerSupabase();
+  
   try {
     // Récupérer la configuration actuelle
     const { data: config, error: fetchError } = await supabase
