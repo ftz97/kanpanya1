@@ -8,6 +8,10 @@ const config: Config = {
   plugins: [kanpanyaButtons],
   theme: {
     extend: {
+      scale: {
+        '105': '1.05',
+        '95': '0.95',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
