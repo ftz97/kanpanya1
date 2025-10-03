@@ -1,301 +1,141 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, HelpCircle, Image, Gift, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// Types pour les sponsors
+// Types
 interface Sponsor {
   id: string;
   name: string;
   logo: string;
-  type: "video" | "quiz" | "scratch" | "image-quiz" | "simple";
+  type: "video" | "quiz" | "scratch" | "simple";
   title: string;
   description: string;
-  thumbnail: string;
   cta: string;
-  content?: any;
+  reward?: string;
 }
 
-// Données mock pour les sponsors
+// Données mock
 const mockSponsors: Sponsor[] = [
   {
     id: "1",
-    name: "Mutuelle Locale",
+    name: "🏥 Mutuelle Locale",
     logo: "🏥",
     type: "video",
-    title: "Vidéo Nutrition",
+    title: "🎬 Vidéo Nutrition",
     description: "Découvrez les secrets d'une alimentation équilibrée",
-    thumbnail: "🎬",
-    cta: "Regarder",
-    content: {
-      videoUrl: "https://example.com/video1.mp4",
-      duration: "3:45"
-    }
+    cta: "▶️ Regarder",
+    reward: "50 points"
   },
   {
     id: "2",
-    name: "Boulangerie Artisanale",
+    name: "🥖 Boulangerie Artisanale",
     logo: "🥖",
     type: "quiz",
-    title: "Quiz Boulangerie",
-    description: "Testez vos connaissances sur le pain artisanal",
-    thumbnail: "❓",
-    cta: "Participer",
-    content: {
-      questions: [
-        { q: "Quel est le temps de fermentation idéal ?", a: ["2h", "12h", "24h", "48h"], correct: 2 },
-        { q: "Quelle farine est la plus riche ?", a: ["T45", "T65", "T80", "T110"], correct: 3 },
-        { q: "À quelle température cuire ?", a: ["180°C", "200°C", "220°C", "240°C"], correct: 3 },
-        { q: "Quel est le secret du croustillant ?", a: ["L'eau", "Le sel", "La vapeur", "Le temps"], correct: 2 }
-      ]
-    }
+    title: "🧠 Quiz Pain",
+    description: "Testez vos connaissances et gagnez une récompense",
+    cta: "🎯 Jouer",
+    reward: "100 points + 10% off"
   },
   {
     id: "3",
-    name: "Café du Coin",
+    name: "☕ Café du Coin",
     logo: "☕",
     type: "scratch",
-    title: "Ticket Café",
-    description: "Grattez pour gagner une boisson offerte",
-    thumbnail: "🎟️",
-    cta: "Gratter",
-    content: {
-      reward: "Boisson offerte",
-      probability: 0.3
-    }
+    title: "🎟️ Grattez et Gagnez",
+    description: "Un ticket = une chance de gagner !",
+    cta: "🎲 Gratter",
+    reward: "Boisson offerte"
   },
   {
     id: "4",
-    name: "Fleuriste Local",
-    logo: "🌸",
-    type: "image-quiz",
-    title: "Quiz Fleurs",
-    description: "Reconnaissez-vous ces fleurs de saison ?",
-    thumbnail: "🌺",
-    cta: "Découvrir",
-    content: {
-      image: "https://example.com/fleurs.jpg",
-      questions: [
-        { q: "Quelle fleur fleurit en hiver ?", a: ["Rose", "Tulipe", "Cyclamen", "Lavande"], correct: 2 },
-        { q: "Quelle couleur attire les abeilles ?", a: ["Rouge", "Bleu", "Jaune", "Violet"], correct: 2 }
-      ]
-    }
-  },
-  {
-    id: "5",
-    name: "Épicerie Bio",
+    name: "🥬 Épicerie Bio",
     logo: "🥬",
     type: "simple",
-    title: "Offre Spéciale",
-    description: "10% de réduction sur tous les produits bio",
-    thumbnail: "💰",
-    cta: "Profiter",
-    content: {
-      offer: "10% de réduction",
-      code: "BIO10",
-      validUntil: "31/12/2024"
-    }
+    title: "💰 Offre Flash -20%",
+    description: "Code valable 24h sur tous les produits",
+    cta: "⚡ Profiter",
+    reward: "Économisez 15€"
   }
 ];
 
 export default function SponsorCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [isHovered, setIsHovered] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
 
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % mockSponsors.length);
-  };
+  const next = () => setCurrentIndex((prev) => (prev + 1) % mockSponsors.length);
+  const prev = () => setCurrentIndex((prev) => (prev - 1 + mockSponsors.length) % mockSponsors.length);
 
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + mockSponsors.length) % mockSponsors.length);
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
-  };
-
-  // Auto-play effect
+  // autoplay
   useEffect(() => {
-    if (!isAutoPlaying || isHovered) return;
-
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 4000);
-
+    if (!isAutoPlaying) return;
+    const interval = setInterval(next, 5000);
     return () => clearInterval(interval);
-  }, [isAutoPlaying, isHovered]);
+  }, [isAutoPlaying]);
 
-  const handleSponsorClick = (sponsor: Sponsor) => {
-    // Action directe selon le type
-    switch (sponsor.type) {
-      case "video":
-        alert(`🎬 Vidéo: ${sponsor.title}\n${sponsor.description}`);
-        break;
-      case "quiz":
-        alert(`🧠 Quiz: ${sponsor.title}\n${sponsor.description}`);
-        break;
-      case "scratch":
-        alert(`🎟️ Scratch: ${sponsor.title}\n${sponsor.description}`);
-        break;
-      case "simple":
-        alert(`💰 Offre: ${sponsor.title}\nCode: ${sponsor.content?.code || 'N/A'}`);
-        break;
-      default:
-        alert(`📢 ${sponsor.title}\n${sponsor.description}`);
-    }
-  };
-
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case "video": return <Play className="w-4 h-4" />;
-      case "quiz": return <HelpCircle className="w-4 h-4" />;
-      case "scratch": return <Gift className="w-4 h-4" />;
-      case "image-quiz": return <Image className="w-4 h-4" />;
-      default: return <Gift className="w-4 h-4" />;
-    }
-  };
-
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case "video": return "bg-red-500";
-      case "quiz": return "bg-blue-500";
-      case "scratch": return "bg-purple-500";
-      case "image-quiz": return "bg-green-500";
-      default: return "bg-gray-500";
-    }
-  };
+  const sponsor = mockSponsors[currentIndex];
 
   return (
     <div className="max-w-7xl mx-auto mt-6 sm:mt-8 md:mt-10 px-3 sm:px-4 md:px-6">
-      {/* Titre de section avec contrôles */}
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg sm:text-xl font-semibold text-[#123456]">
-          📢 Contenus sponsorisés
-        </h2>
-        <div className="flex items-center gap-2">
-          {/* Bouton play/pause */}
-          <button
-            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-            className={`p-2 rounded-full shadow-md transition-all duration-200 hover:scale-110 ${
-              isAutoPlaying 
-                ? "bg-red-500 text-white hover:bg-red-600" 
-                : "bg-green-500 text-white hover:bg-green-600"
-            }`}
-            title={isAutoPlaying ? "Pause" : "Play"}
-          >
-            {isAutoPlaying ? "⏸️" : "▶️"}
-          </button>
-          {/* Boutons de navigation */}
-          <button
-            onClick={prevSlide}
-            className="p-2 rounded-full bg-white shadow-md text-gray-600 hover:bg-gray-50 transition-all duration-200 hover:scale-110"
-            title="Précédent"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="p-2 rounded-full bg-white shadow-md text-gray-600 hover:bg-gray-50 transition-all duration-200 hover:scale-110"
-            title="Suivant"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
+      {/* Header */}
+      <h2 className="text-center font-bold text-xl mb-6 text-[#123456]">
+        ✨ Publicité interactive
+      </h2>
 
-      {/* Carrousel moderne avec AnimatePresence */}
-      <div 
-        className="relative overflow-hidden rounded-2xl"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        ref={containerRef}
-      >
+      {/* Bandeau */}
+      <div className="max-w-3xl mx-auto relative">
         <AnimatePresence mode="wait">
           <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, x: 300 }}
+            key={sponsor.id}
+            initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -300 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="flex justify-center"
+            exit={{ opacity: 0, x: -100 }}
+            transition={{ duration: 0.4 }}
+            className="flex items-center justify-between gap-4 bg-gradient-to-r from-[#17BFA0] to-[#14a58d] text-white p-4 rounded-2xl shadow-lg cursor-pointer hover:scale-105 transition"
           >
-            <div
-              className="w-[320px] sm:w-[380px] bg-white rounded-2xl shadow-xl overflow-hidden cursor-pointer hover:shadow-2xl transition-all duration-500 hover:scale-105"
-              onClick={() => handleSponsorClick(mockSponsors[currentIndex])}
-            >
-              {/* Header avec logo et type */}
-              <div className="relative p-5 bg-gradient-to-br from-gray-50 to-white">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <span className="text-3xl">{mockSponsors[currentIndex].logo}</span>
-                    <span className="font-semibold text-sm text-gray-700">{mockSponsors[currentIndex].name}</span>
-                  </div>
-                  <div className={`p-2 rounded-full ${getTypeColor(mockSponsors[currentIndex].type)} text-white shadow-lg`}>
-                    {getTypeIcon(mockSponsors[currentIndex].type)}
-                  </div>
-                </div>
-              </div>
-
-              {/* Thumbnail */}
-              <div className="h-40 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-                <span className="text-5xl">{mockSponsors[currentIndex].thumbnail}</span>
-              </div>
-
-              {/* Content */}
-              <div className="p-5">
-                <h3 className="font-semibold text-xl text-[#123456] mb-3">{mockSponsors[currentIndex].title}</h3>
-                <p className="text-sm text-gray-600 mb-4 line-clamp-2">{mockSponsors[currentIndex].description}</p>
-                <button className="w-full bg-[#17BFA0] text-white py-3 rounded-xl font-medium hover:bg-[#14a58d] transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                  {mockSponsors[currentIndex].cta}
-                </button>
+            {/* Logo + infos */}
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">{sponsor.logo}</span>
+              <div>
+                <h3 className="font-bold text-lg">{sponsor.title}</h3>
+                <p className="text-sm opacity-90">{sponsor.description}</p>
               </div>
             </div>
+
+            {/* CTA */}
+            <button className="bg-white text-[#17BFA0] font-bold px-4 py-2 rounded-full shadow hover:scale-110 transition">
+              {sponsor.cta}
+            </button>
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation arrows */}
+        {/* Navigation */}
         <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 backdrop-blur-sm rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110"
+          onClick={prev}
+          className="absolute -left-10 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-110"
         >
-          <ChevronLeft className="w-5 h-5 text-gray-700" />
+          <ChevronLeft className="text-gray-700" />
         </button>
         <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 backdrop-blur-sm rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110"
+          onClick={next}
+          className="absolute -right-10 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-110"
         >
-          <ChevronRight className="w-5 h-5 text-gray-700" />
+          <ChevronRight className="text-gray-700" />
         </button>
-      </div>
 
-      {/* Indicateurs modernes */}
-      <div className="flex justify-center gap-3 mt-6">
-        {mockSponsors.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`h-2 rounded-full transition-all duration-300 ${
-              index === currentIndex 
-                ? "bg-[#17BFA0] w-8 shadow-lg" 
-                : "bg-gray-300 w-2 hover:bg-gray-400"
-            }`}
-          />
-        ))}
+        {/* Indicateurs */}
+        <div className="flex justify-center gap-2 mt-4">
+          {mockSponsors.map((s, i) => (
+            <button
+              key={s.id}
+              onClick={() => setCurrentIndex(i)}
+              className={`h-2 rounded-full transition-all ${
+                i === currentIndex ? "bg-[#17BFA0] w-6" : "bg-gray-300 w-2"
+              }`}
+            />
+          ))}
+        </div>
       </div>
-
-      {/* Progress bar */}
-      <div className="mt-4 w-full bg-gray-200 rounded-full h-1 overflow-hidden">
-        <motion.div
-          className="h-full bg-gradient-to-r from-[#17BFA0] to-[#14a58d] rounded-full"
-          initial={{ width: "0%" }}
-          animate={{ width: "100%" }}
-          transition={{ duration: 4, ease: "linear" }}
-          key={currentIndex}
-        />
-      </div>
-
     </div>
   );
 }
