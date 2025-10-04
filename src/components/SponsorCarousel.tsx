@@ -101,23 +101,23 @@ export default function SponsorCarousel() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.4 }}
-            className={`flex items-center justify-between gap-6 bg-gradient-to-r ${sponsor.background} text-white p-6 rounded-2xl shadow-lg h-32`}
+            className={`flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 bg-gradient-to-r ${sponsor.background} text-white p-4 sm:p-6 rounded-2xl shadow-lg min-h-32`}
           >
             {/* Infos sponsor */}
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">{sponsor.logo}</span>
+            <div className="flex items-center gap-3 text-center sm:text-left">
+              <span className="text-2xl sm:text-3xl">{sponsor.logo}</span>
               <div>
                 <div className="bg-white/20 text-xs px-2 py-1 rounded-full mb-1">
                   Espace sponsorisé • {sponsor.name}
                 </div>
-                <h3 className="font-bold text-lg">{sponsor.title}</h3>
-                <p className="text-sm opacity-90">{sponsor.description}</p>
+                <h3 className="font-bold text-base sm:text-lg">{sponsor.title}</h3>
+                <p className="text-xs sm:text-sm opacity-90">{sponsor.description}</p>
               </div>
             </div>
 
             {/* Zone droite : CTA uniquement */}
             <div className="flex items-center gap-3">
-              <button className="flex items-center gap-2 bg-white text-slate-800 font-bold px-5 py-2 rounded-full shadow hover:scale-105 transition">
+              <button className="flex items-center gap-2 bg-white text-slate-800 font-bold px-4 sm:px-5 py-2 rounded-full shadow hover:scale-105 transition text-sm sm:text-base">
                 {sponsor.icon} {sponsor.cta}
               </button>
             </div>
@@ -127,15 +127,15 @@ export default function SponsorCarousel() {
         {/* Navigation */}
         <button
           onClick={prev}
-          className="absolute -left-10 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-110"
+          className="absolute -left-6 sm:-left-10 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-110"
         >
-          <ChevronLeft className="text-gray-700" />
+          <ChevronLeft className="text-gray-700 w-4 h-4 sm:w-5 sm:h-5" />
         </button>
         <button
           onClick={next}
-          className="absolute -right-10 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-110"
+          className="absolute -right-6 sm:-right-10 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-110"
         >
-          <ChevronRight className="text-gray-700" />
+          <ChevronRight className="text-gray-700 w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
         {/* Indicateurs */}
