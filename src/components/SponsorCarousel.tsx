@@ -127,13 +127,13 @@ export default function SponsorCarousel() {
         {/* Navigation */}
         <button
           onClick={prev}
-          className="absolute -left-6 sm:-left-10 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-110"
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow hover:scale-110 transition"
         >
           <ChevronLeft className="text-gray-700 w-4 h-4 sm:w-5 sm:h-5" />
         </button>
         <button
           onClick={next}
-          className="absolute -right-6 sm:-right-10 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-110"
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow hover:scale-110 transition"
         >
           <ChevronRight className="text-gray-700 w-4 h-4 sm:w-5 sm:h-5" />
         </button>
