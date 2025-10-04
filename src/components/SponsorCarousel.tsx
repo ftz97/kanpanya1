@@ -72,6 +72,8 @@ const mockSponsors: Sponsor[] = [
 export default function SponsorCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   const next = () => setCurrentIndex((prev) => (prev + 1) % mockSponsors.length);
   const prev = () => setCurrentIndex((prev) => (prev - 1 + mockSponsors.length) % mockSponsors.length);
@@ -82,6 +84,30 @@ export default function SponsorCarousel() {
     const interval = setInterval(next, 5000);
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
+
+  // Touch handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      next();
+    } else if (isRightSwipe) {
+      prev();
+    }
+  };
 
   const sponsor = mockSponsors[currentIndex];
 
@@ -101,7 +127,10 @@ export default function SponsorCarousel() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.4 }}
-            className={`flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 bg-gradient-to-r ${sponsor.background} text-white p-4 sm:p-6 rounded-2xl shadow-lg min-h-32`}
+            className={`flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 bg-gradient-to-r ${sponsor.background} text-white p-4 sm:p-6 rounded-2xl shadow-lg min-h-32 cursor-grab active:cursor-grabbing`}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
             {/* Infos sponsor */}
             <div className="flex items-center gap-3 text-center sm:text-left">
