@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Gift } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // Types
 interface Sponsor {
@@ -115,20 +115,8 @@ export default function SponsorCarousel() {
               </div>
             </div>
 
-            {/* Zone droite : reward animé + CTA */}
+            {/* Zone droite : CTA uniquement */}
             <div className="flex items-center gap-3">
-              {sponsor.reward && (
-                <motion.div
-                  className="relative flex items-center gap-1 px-3 py-1.5 rounded-full bg-white text-emerald-600 font-semibold shadow"
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ repeat: Infinity, duration: 1.5 }}
-                >
-                  {/* Glow animé */}
-                  <span className="absolute inset-0 rounded-full bg-emerald-300 opacity-30 blur-md animate-pulse" />
-                  <Gift className="w-4 h-4 relative z-10" />
-                  <span className="relative z-10">{sponsor.reward}</span>
-                </motion.div>
-              )}
               <button className="flex items-center gap-2 bg-white text-slate-800 font-bold px-5 py-2 rounded-full shadow hover:scale-105 transition">
                 {sponsor.icon} {sponsor.cta}
               </button>
