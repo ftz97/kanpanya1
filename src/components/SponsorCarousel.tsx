@@ -101,7 +101,7 @@ export default function SponsorCarousel() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.4 }}
-            className={`flex items-center justify-between gap-6 bg-gradient-to-r ${sponsor.background} text-white p-6 rounded-2xl shadow-lg`}
+            className={`flex items-center justify-between gap-6 bg-gradient-to-r ${sponsor.background} text-white p-6 rounded-2xl shadow-lg h-32`}
           >
             {/* Infos sponsor */}
             <div className="flex items-center gap-3">
