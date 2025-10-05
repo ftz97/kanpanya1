@@ -8,7 +8,6 @@ import ScratchCardStableV3 from "@/components/scratch/ScratchCardStableV3";
 import { SadEmojiRain, HappyEmojiRain, MoneyEmojiRain } from "@/components/EmojiRain";
 import TicketsResponsive from "@/components/TicketsResponsive";
 import SponsorCarousel from "@/components/SponsorCarousel";
-import HeaderAccueil from "@/components/HeaderAccueil";
 
 export default function DashboardPage() {
   const [isClient, setIsClient] = React.useState(false);
@@ -142,8 +141,22 @@ export default function DashboardPage() {
         </div>
       </nav>
 
-      {/* Header d'accueil avec salutation dynamique */}
-      <HeaderAccueil />
+      {/* Message de bienvenue statique */}
+      <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6 max-w-7xl mx-auto">
+        <div className="space-y-2">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#123456] leading-relaxed">
+            {welcomeMessage}
+          </h1>
+        </div>
+      </div>
+
+      {/* Header intro */}
+      <div className="px-3 sm:px-4 md:px-6 py-6 sm:py-8 md:py-10 max-w-7xl mx-auto">
+        <header className="space-y-1">
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">Achète local, gagne plus.</h2>
+          <p className="text-sm md:text-base text-muted-foreground">Soutiens tes commerces de proximité et débloque des offres exclusives.</p>
+        </header>
+      </div>
 
       {/* Section Tickets supprimée - maintenant gérée par l'icône dans la navbar */}
 
