@@ -147,12 +147,6 @@ export default function DashboardPage() {
           <h1 className="text-xl sm:text-2xl font-bold text-[#123456] leading-relaxed">
             {welcomeMessage}
           </h1>
-          <button
-            onClick={() => setMessageIndex(prev => prev + 1)}
-            className="text-xs text-[#17BFA0] hover:text-[#14a58d] underline"
-          >
-            🔄 Changer le message
-          </button>
         </div>
       </div>
 

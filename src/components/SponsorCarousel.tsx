@@ -116,13 +116,9 @@ export default function SponsorCarousel() {
 
   return (
     <div className="max-w-7xl mx-auto mt-6 px-3 sm:px-4 md:px-6">
-      {/* Header */}
-      <h2 className="text-center font-bold text-xl mb-6 text-[#123456]">
-        ✨ Publicité interactive
-      </h2>
 
       {/* Bandeau */}
-      <div className="max-w-5xl mx-auto relative">
+      <div className="max-w-6xl mx-auto relative">
         <AnimatePresence mode="wait">
           <motion.div
             key={sponsor.id}
@@ -130,7 +126,7 @@ export default function SponsorCarousel() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.4 }}
-            className={`flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 bg-gradient-to-r ${sponsor.background} text-white p-4 sm:p-6 rounded-2xl shadow-lg min-h-32 cursor-grab active:cursor-grabbing`}
+            className={`flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 bg-gradient-to-r ${sponsor.background} text-white p-6 sm:p-8 rounded-2xl shadow-lg min-h-36 cursor-grab active:cursor-grabbing`}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
