@@ -23,11 +23,11 @@ export default function ActusPostIt() {
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {actus.map((a, idx) => {
           const color = colors[idx % colors.length];
-          const rotation = idx % 2 === 0 ? "-rotate-2" : "rotate-2";
+          const rotation = idx % 2 === 0 ? "-rotate-1" : "rotate-1";
           return (
             <div
               key={idx}
-              className={`p-4 rounded-lg shadow-md border ${color} transform ${rotation} hover:rotate-0 transition`}
+              className={`p-4 rounded-lg shadow-md border ${color} transform ${rotation} hover:rotate-0 transition w-full min-h-[180px] max-w-[200px]`}
             >
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-lg">📌</span>
