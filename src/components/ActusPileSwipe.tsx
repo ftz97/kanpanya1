@@ -1,142 +1,128 @@
 "use client";
+
 import { useState } from "react";
-import { colors } from "@/config/colors";
+import { motion, AnimatePresence } from "framer-motion";
 
-export function ActusPileSwipe() {
-  const [index, setIndex] = useState(0);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
-
+export default function ActusPileSwipe() {
+  // -------------------------------
+  // 1. Données mock (actus commerçants)
+  // -------------------------------
   const actus = [
-    { merchant: "Épicerie Bio", title: "🌱 Nouveaux fruits locaux", desc: "Mangez frais, achetez pays" },
-    { merchant: "Café du Coin", title: "🎶 Soirée Jazz vendredi", desc: "Ambiance live dès 20h" },
-    { merchant: "Fleuriste Antilles", title: "💐 Atelier bouquet samedi", desc: "Apprenez à composer le vôtre" },
-    { merchant: "Boulangerie Artisanale", title: "🥖 Pain complet dispo", desc: "Cuit ce matin, encore chaud" },
+    {
+      merchant: "Épicerie Bio",
+      title: "🌱 Nouveaux fruits locaux",
+      desc: "Mangez frais, achetez pays",
+    },
+    {
+      merchant: "Café du Coin",
+      title: "🎶 Soirée Jazz vendredi",
+      desc: "Ambiance live dès 20h",
+    },
+    {
+      merchant: "Fleuriste Antilles",
+      title: "💐 Atelier bouquet samedi",
+      desc: "Apprenez à composer le vôtre",
+    },
+    {
+      merchant: "Boulangerie Artisanale",
+      title: "🥖 Pain complet dispo",
+      desc: "Cuit ce matin, encore chaud",
+    },
   ];
 
+  // -------------------------------
+  // 2. États
+  // -------------------------------
+  const [index, setIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [direction, setDirection] = useState<"up" | "down">("up");
+
+  // -------------------------------
+  // 3. Navigation (suivant / précédent)
+  // -------------------------------
   const next = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
+    setDirection("up");
     setIndex((prev) => (prev + 1) % actus.length);
-    setTimeout(() => setIsAnimating(false), 300);
   };
 
   const prev = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
+    setDirection("down");
     setIndex((prev) => (prev - 1 + actus.length) % actus.length);
-    setTimeout(() => setIsAnimating(false), 300);
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  // -------------------------------
+  // 4. Gestion du swipe tactile
+  // -------------------------------
+  const handleTouchStart = (e: React.TouchEvent) =>
     setTouchStart(e.touches[0].clientY);
-  };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStart === null || isAnimating) return;
-    
+    if (touchStart === null) return;
     const delta = touchStart - e.changedTouches[0].clientY;
-    const threshold = 50;
-    
-    if (delta > threshold) {
-      next(); // swipe up
-    } else if (delta < -threshold) {
-      prev(); // swipe down
-    }
-    
+
+    if (delta > 50) next();     // Swipe vers le haut → suivant
+    if (delta < -50) prev();    // Swipe vers le bas → précédent
+
     setTouchStart(null);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (isAnimating) return;
-    
-    switch (e.key) {
-      case 'ArrowUp':
-        e.preventDefault();
-        next();
-        break;
-      case 'ArrowDown':
-        e.preventDefault();
-        prev();
-        break;
-    }
-  };
-
+  // -------------------------------
+  // 5. Rendu
+  // -------------------------------
   return (
-    <div
-      className="w-full max-w-sm mx-auto rounded-lg shadow-lg p-6 flex flex-col min-h-80 border select-none cursor-pointer transition-all duration-300 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2"
-      style={{ 
-        background: colors.card,
-        borderColor: '#E5E7EB',
-        focusRingColor: colors.primary
-      }}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-      role="region"
-      aria-label="Actualités commerçants"
-      aria-live="polite"
-    >
-      {/* En-tête avec nom du commerçant */}
-      <div className="mb-3">
-        <p className="text-xs font-medium uppercase tracking-wide" style={{ color: colors.primary }}>
-          {actus[index].merchant}
-        </p>
-      </div>
-      
-      {/* Titre de l'actualité */}
-      <p className="font-bold mb-3 text-lg" style={{ color: colors.textPrimary }}>
-        {actus[index].title}
-      </p>
-      
-      {/* Description */}
-      <p className="text-sm flex-1 leading-relaxed" style={{ color: colors.textSecondary }}>
-        {actus[index].desc}
-      </p>
-      
-      {/* Indicateur de progression */}
-      <div className="flex justify-center items-center space-x-2 mt-4">
-        {actus.map((_, i) => (
-          <div
-            key={i}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              i === index ? 'opacity-100 scale-125' : 'opacity-30'
-            }`}
-            style={{ 
-              backgroundColor: i === index ? colors.primary : colors.textMuted 
+    <section className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+      {/* Titre */}
+      <h2 className="text-lg font-bold text-slate-900 mb-6">
+        📰 Actus commerçants
+      </h2>
+
+      {/* Zone swipe */}
+      <div
+        className="relative w-80 h-96 overflow-hidden"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={index}
+            initial={{
+              opacity: 0,
+              y: direction === "up" ? 100 : -100,
+              rotate: direction === "up" ? 5 : -5,
             }}
-          />
-        ))}
-      </div>
-      
-      {/* Instructions de navigation */}
-      <div className="mt-3 text-center">
-        <p className="text-xs" style={{ color: colors.textMuted }}>
-          <span className="hidden sm:inline">↑↓ Flèches ou </span>
-          Swipe ↑↓ pour naviguer
-        </p>
-        <p className="text-xs mt-1" style={{ color: colors.textMuted }}>
-          {index + 1} / {actus.length}
-        </p>
-      </div>
-    </div>
-  );
-}
+            animate={{ opacity: 1, y: 0, rotate: 0 }}
+            exit={{
+              opacity: 0,
+              y: direction === "up" ? -100 : 100,
+              rotate: direction === "up" ? -5 : 5,
+            }}
+            transition={{ duration: 0.4 }}
+            className="absolute inset-0 bg-yellow-100 border border-yellow-300 rounded-lg shadow-lg p-6 flex flex-col"
+          >
+            {/* Header commerçant */}
+            <div className="flex items-center gap-2 mb-3">
+              <span>📌</span>
+              <span className="font-semibold text-sm">
+                {actus[index].merchant}
+              </span>
+            </div>
 
-export default function ActusPileSwipePage() {
-  return (
-    <div className="min-h-screen flex flex-col items-center justify-center" 
-         style={{ background: colors.background }}>
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold mb-2" style={{ color: colors.textPrimary }}>
-          📰 Actus commerçants
-        </h2>
-        <p className="text-sm" style={{ color: colors.textSecondary }}>
-          Naviguez avec les gestes tactiles ou les flèches du clavier
-        </p>
+            {/* Contenu */}
+            <p className="font-bold text-lg mb-2">{actus[index].title}</p>
+            <p className="text-sm text-gray-700 flex-1">{actus[index].desc}</p>
+
+            {/* Footer */}
+            <div className="mt-4 text-xs text-gray-500 text-center">
+              Swipe ↑↓ pour naviguer
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
-      <ActusPileSwipe />
-    </div>
+
+      {/* Indicateur de progression */}
+      <div className="mt-3 text-sm text-gray-500">
+        {index + 1} / {actus.length}
+      </div>
+    </section>
   );
 }
