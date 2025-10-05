@@ -1,6 +1,6 @@
 "use client";
 import { ActusPileProgress } from "@/components/ActusPileProgress";
-import { ActusPileSwipe } from "@/components/ActusPileSwipe";
+import ActusPileSwipe from "@/components/ActusPileSwipe";
 import { ActusPileAnimated } from "@/components/ActusPileAnimated";
 import StandardPageLayout, { PageTitle } from "@/components/StandardPageLayout";
 import { colors } from "@/config/colors";
