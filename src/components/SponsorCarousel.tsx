@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // Types
 interface Sponsor {
@@ -107,6 +106,10 @@ export default function SponsorCarousel() {
     } else if (isRightSwipe) {
       prev();
     }
+    
+    // Reset touch states
+    setTouchStart(null);
+    setTouchEnd(null);
   };
 
   const sponsor = mockSponsors[currentIndex];
@@ -153,19 +156,6 @@ export default function SponsorCarousel() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation */}
-        <button
-          onClick={prev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow hover:scale-110 transition"
-        >
-          <ChevronLeft className="text-gray-700 w-4 h-4 sm:w-5 sm:h-5" />
-        </button>
-        <button
-          onClick={next}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow hover:scale-110 transition"
-        >
-          <ChevronRight className="text-gray-700 w-4 h-4 sm:w-5 sm:h-5" />
-        </button>
 
         {/* Indicateurs */}
         <div className="flex justify-center gap-2 mt-4">
