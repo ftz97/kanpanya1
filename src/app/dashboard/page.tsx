@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight, Gift, QrCode, LogOut } from "lucide-react";
+import { ChevronRight, Gift, QrCode } from "lucide-react";
 import * as React from "react";
 import StyledQRCode from "@/components/StyledQRCode";
 import FlashOffers from "@/components/FlashOffers";
@@ -120,8 +120,8 @@ export default function DashboardPage() {
               <span className="hidden sm:inline">Mon QR</span>
             </button>
 
-            {/* ✅ Bouton Déconnexion avec icône */}
-            <button
+            {/* ✅ Bouton Déconnexion */}
+            <button 
               onClick={async () => {
                 try {
                   const { createBrowserSupabase } = await import("@/lib/supabase");
@@ -132,10 +132,10 @@ export default function DashboardPage() {
                   console.error("Erreur de déconnexion:", error);
                 }
               }}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-red-100 hover:bg-red-200 transition-colors"
-              title="Se déconnecter"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-50 border border-red-200 shadow-sm text-red-600 text-sm font-medium hover:bg-red-100 active:scale-95 transition"
             >
-              <LogOut className="w-5 h-5 text-red-600" />
+              <span className="text-xs">🚪</span>
+              <span className="hidden sm:inline">Déconnexion</span>
             </button>
           </div>
         </div>
@@ -147,6 +147,12 @@ export default function DashboardPage() {
           <h1 className="text-xl sm:text-2xl font-bold text-[#123456] leading-relaxed">
             {welcomeMessage}
           </h1>
+          <button
+            onClick={() => setMessageIndex(prev => prev + 1)}
+            className="text-xs text-[#17BFA0] hover:text-[#14a58d] underline"
+          >
+            🔄 Changer le message
+          </button>
         </div>
       </div>
 
