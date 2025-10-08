@@ -2,6 +2,8 @@
 
 Plateforme innovante de récompenses et de scratch cards pour les commerces locaux, construite avec Next.js 15, Supabase, et Playwright.
 
+<!-- keep-alive update: 2025-01-08 -->
+
 ## 🚀 Getting Started
 
 First, run the development server:
