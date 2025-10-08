@@ -1,0 +1,25 @@
+name: Keep Alive
+
+on:
+  schedule:
+    - cron: "0 8 * * 1" # chaque lundi à 8h UTC
+  workflow_dispatch: # permet aussi de le lancer manuellement
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Keep alive update
+        run: |
+          echo "<!-- keep-alive $(date) -->" >> keep-alive.md
+          git add keep-alive.md
+          git commit -m "chore: automated keep-alive update [skip ci]" || echo "No changes to commit"
+          git push
