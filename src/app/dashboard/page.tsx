@@ -165,10 +165,11 @@ export default function DashboardPage() {
                   console.error("Erreur de déconnexion:", error);
                 }
               }}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-50 border border-red-200 shadow-sm text-red-600 text-sm font-medium hover:bg-red-100 active:scale-95 transition"
+              className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-red-50 border border-red-200 shadow-sm text-red-600 text-sm font-medium hover:bg-red-100 active:scale-95 transition min-w-[44px]"
+              title="Déconnexion"
             >
               <span className="text-sm">[→]</span>
-              <span className="hidden sm:inline">Déconnexion</span>
+              <span className="hidden sm:inline sm:ml-1">Déconnexion</span>
             </button>
           </div>
         </div>
