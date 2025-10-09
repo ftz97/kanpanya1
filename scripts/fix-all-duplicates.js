@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 // Fonction pour corriger les doublons dans un fichier
 function fixDuplicatesInFile(filePath) {
   try {
-    let content = fs.readFileSync(filePath, 'utf8');
+    const content = fs.readFileSync(filePath, 'utf8');
     let modified = false;
     
     // Diviser le contenu en lignes

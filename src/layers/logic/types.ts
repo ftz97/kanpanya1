@@ -8,3 +8,11 @@ export interface ScratchState {
   };
   ticketId?: string;
 }
+
+export interface GameState {
+  score: number;
+  level: number;
+  lives: number;
+  isPlaying: boolean;
+  isPaused: boolean;
+}

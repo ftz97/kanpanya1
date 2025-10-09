@@ -63,7 +63,7 @@ function generateHTMLReport(coverageData) {
     !file.includes('.spec.')
   );
   
-  let html = `
+  const html = `
 <!DOCTYPE html>
 <html lang="fr">
 <head>

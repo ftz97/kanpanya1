@@ -1,12 +1,10 @@
 "use client";
 import { rainMajestic } from "@/lib/emojiMajesticPresets";
+import { startEmojiRain } from "@/lib/emojiRain";
 
 export default function EmojiDebugTest() {
   const handleTest = () => {
     console.log("🚀 Début de l'animation majestueuse");
-    
-    // Test direct avec startEmojiRain
-    const { startEmojiRain } = require("@/lib/emojiRain");
     
     const result = startEmojiRain({
       emojis: ["🎁", "💰", "💎", "✨", "🌟", "🤑"],

@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 // Fonction pour supprimer les déclarations dupliquées dans un fichier
 function fixDuplicatesInFile(filePath) {
   try {
-    let content = fs.readFileSync(filePath, 'utf8');
+    const content = fs.readFileSync(filePath, 'utf8');
     const lines = content.split('\n');
     const seenDeclarations = new Set();
     const newLines = [];

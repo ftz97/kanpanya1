@@ -1,7 +1,6 @@
 'use client';
 
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
-import { useCallback } from "react";
 
 type ModalAPI = {
   open: (node: React.ReactNode) => void;
@@ -19,15 +18,7 @@ const ModalCtx = createContext<ModalAPI | null>(null);
 const MODAL_DEV_GUARD = typeof window !== 'undefined' ? (window as any).__KANPANYA_MODAL__ : undefined;
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
-  // Évite double Provider en dev/hot-reload
-  if (typeof window !== 'undefined') {
-    if (MODAL_DEV_GUARD && process.env.NODE_ENV !== 'production') {
-      console.warn('[ModalProvider] Duplicate provider detected — keeping single instance.');
-      return <>{children}</>;
-    }
-    (window as any).__KANPANYA_MODAL__ = true;
-  }
-
+  // Déclarer tous les hooks EN PREMIER (avant toute condition)
   const [state, setState] = useState<ModalState>({ node: null, key: 0, isOpen: false });
   const replacingRef = useRef(false);
 
@@ -52,6 +43,15 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const api = useMemo<ModalAPI>(() => ({ open, replace, close }), [open, replace, close]);
+
+  // Évite double Provider en dev/hot-reload (APRÈS les hooks)
+  if (typeof window !== 'undefined') {
+    if (MODAL_DEV_GUARD && process.env.NODE_ENV !== 'production') {
+      console.warn('[ModalProvider] Duplicate provider detected — keeping single instance.');
+      return <>{children}</>;
+    }
+    (window as any).__KANPANYA_MODAL__ = true;
+  }
 
   // Expose pour le ModalRoot via custom event (optionnel)
   (typeof window !== 'undefined') && ((window as any).__KANPANYA_MODAL_STATE__ = state);

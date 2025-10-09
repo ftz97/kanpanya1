@@ -5,7 +5,7 @@ import path from "path";
 const SRC_DIR = path.resolve("src");
 
 function fixFile(filePath) {
-  let content = fs.readFileSync(filePath, "utf8");
+  const content = fs.readFileSync(filePath, "utf8");
 
   // Regex simple pour remplacer "any" par "unknown"
   const regex = /\bany\b/g;

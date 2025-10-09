@@ -15,8 +15,8 @@ export default function RealWorkingMap() {
     
     if (token && !token.includes('your_real_token_here')) {
       // Import dynamique de react-map-gl
-      import('react-map-gl/mapbox')
-        .then((mapbox) => {
+      import('react-map-gl')
+        .then(() => {
           console.log('Mapbox GL JS chargé avec succès');
           setMapLoaded(true);
         })
@@ -91,7 +91,7 @@ function MapboxMapComponent({ token }: { token: string }) {
   const [Layer, setLayer] = useState<any>(null);
 
   useEffect(() => {
-    import('react-map-gl/mapbox').then((mapbox) => {
+    import('react-map-gl').then((mapbox) => {
       setMap(() => mapbox.default);
       setSource(() => mapbox.Source);
       setLayer(() => mapbox.Layer);

@@ -9,7 +9,7 @@ const SRC_DIR = path.resolve(__dirname, "../src");
 
 function fixFile(filePath) {
   try {
-    let content = fs.readFileSync(filePath, "utf8");
+    const content = fs.readFileSync(filePath, "utf8");
     let changed = false;
 
     // Regex qui capture les require()

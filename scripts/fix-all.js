@@ -48,7 +48,7 @@ function fixUseEffect(filePath) {
    2. Fix any → unknown
 -------------------------- */
 function fixAny(filePath) {
-  let content = fs.readFileSync(filePath, "utf8");
+  const content = fs.readFileSync(filePath, "utf8");
   const regex = /\bany\b/g;
 
   if (regex.test(content)) {

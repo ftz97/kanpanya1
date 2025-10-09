@@ -1,4 +1,4 @@
-import { Button } from "./Button";
+import { Button } from "./button";
 import { cn } from "@/lib/utils";
 import React from "react";
 
