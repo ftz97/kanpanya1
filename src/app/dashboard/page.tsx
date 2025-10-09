@@ -194,10 +194,12 @@ export default function DashboardPage() {
 
       {/* Section Tickets supprimée - maintenant gérée par l'icône dans la navbar */}
 
-      {/* Carrousel sponsorisé */}
-      <SponsorCarousel />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-12">
+        {/* Carrousel sponsorisé */}
+        <section>
+          <SponsorCarousel />
+        </section>
+
         {/* 🎁 Tombolas */}
         <section>
           <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#123456]">🎁 Tombolas locales</h2>
