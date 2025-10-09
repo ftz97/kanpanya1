@@ -29,10 +29,10 @@ export default function DashboardPage() {
   const [isTicketPopupOpen, setIsTicketPopupOpen] = React.useState(false);
   const [ticketKey, setTicketKey] = React.useState(0); // Pour forcer le re-render du composant
   
-  // États pour les barres de progression des carrousels
-  const [progressTombola, setProgressTombola] = React.useState(0);
-  const [progressActus, setProgressActus] = React.useState(0);
-  const [progressFlash, setProgressFlash] = React.useState(0);
+  // États pour les barres de progression des carrousels (initialisés à 1ère slide)
+  const [progressTombola, setProgressTombola] = React.useState(1 / 3); // 3 tombolas
+  const [progressActus, setProgressActus] = React.useState(1 / 4); // 4 actus
+  const [progressFlash, setProgressFlash] = React.useState(1 / 6); // 6 offres
   
   // 🎯 Nom d'utilisateur - à remplacer par le prénom réel du user
   const userName = "Kevin";
@@ -236,7 +236,7 @@ export default function DashboardPage() {
               className="h-full bg-yellow-500"
               initial={{ width: "0%" }}
               animate={{ width: `${progressTombola * 100}%` }}
-              transition={{ duration: 0.3 }}
+              transition={{ type: "spring", stiffness: 120, damping: 15 }}
             />
           </div>
         </section>
@@ -274,7 +274,7 @@ export default function DashboardPage() {
               className="h-full bg-teal-500"
               initial={{ width: "0%" }}
               animate={{ width: `${progressActus * 100}%` }}
-              transition={{ duration: 0.3 }}
+              transition={{ type: "spring", stiffness: 120, damping: 15 }}
             />
           </div>
         </section>
@@ -314,7 +314,7 @@ export default function DashboardPage() {
               className="h-full bg-red-500"
               initial={{ width: "0%" }}
               animate={{ width: `${progressFlash * 100}%` }}
-              transition={{ duration: 0.3 }}
+              transition={{ type: "spring", stiffness: 120, damping: 15 }}
             />
           </div>
         </section>
