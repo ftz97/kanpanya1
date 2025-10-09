@@ -313,34 +313,40 @@ export default function DashboardPage() {
             />
           </div>
         </section>
-      </div>
 
-      {/* Explorez par catégorie */}
-      <section className="max-w-7xl mx-auto mt-12 px-4 sm:px-6">
-        <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#123456]">
-          📂 Explorez par catégorie
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
-          {[
-            { icon: "🍔", name: "Restauration" },
-            { icon: "💇‍♀️", name: "Beauté" },
-            { icon: "👗", name: "Mode" },
-            { icon: "🎉", name: "Loisirs" },
-            { icon: "🛒", name: "Alimentation" },
-            { icon: "💊", name: "Santé" },
-          ].map((cat, i) => (
-            <div
-              key={i}
-              className="rounded-2xl bg-white shadow-md p-4 sm:p-6 flex flex-col items-center justify-center"                                                                                                           
-            >
-              <span className="text-xl sm:text-2xl">{cat.icon}</span>
-              <p className="mt-1 sm:mt-2 font-medium text-[#123456] text-sm sm:text-base">
-                {cat.name}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+        {/* 📂 Explorez par catégorie */}
+        <section>
+          <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#123456]">📂 Explorez par catégorie</h2>
+          <Swiper
+            modules={[Pagination]}
+            spaceBetween={20}
+            slidesPerView="auto"
+            centeredSlides={false}
+            pagination={{ clickable: true, dynamicBullets: true }}
+            grabCursor={true}
+            className="w-full"
+          >
+            {[
+              { icon: "🍔", name: "Restauration" },
+              { icon: "💇‍♀️", name: "Beauté" },
+              { icon: "👗", name: "Mode" },
+              { icon: "🎉", name: "Loisirs" },
+              { icon: "🛒", name: "Alimentation" },
+              { icon: "💊", name: "Santé" },
+            ].map((cat, i) => (
+              <SwiperSlide key={i} className="!w-80">
+                <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center justify-center min-h-[160px] border border-gray-200">
+                  <span className="text-4xl mb-3">{cat.icon}</span>
+                  <p className="font-semibold text-lg text-[#123456]">{cat.name}</p>
+                  <button className="mt-auto w-full border border-[#17BFA0] text-[#17BFA0] rounded-lg py-2 font-medium hover:bg-teal-50 transition">
+                    Découvrir
+                  </button>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </section>
+      </div>
 
       {/* Bloc communauté */}
       <section
