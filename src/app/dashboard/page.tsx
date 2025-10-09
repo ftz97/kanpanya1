@@ -62,6 +62,14 @@ export default function DashboardPage() {
     { title: "Café du coin -10%", tag: "Flash" },
   ];
 
+  // 🎟️ Données Cartes de fidélité
+  const fidelityCards = [
+    { merchant: "🥖 Boulangerie", type: "purchases", goal: 10, current: 7, reward: "1 pain gratuit" },
+    { merchant: "☕ Café du Coin", type: "purchases", goal: 5, current: 3, reward: "1 café offert" },
+    { merchant: "🛒 Supermarché Local", type: "amount", goal: 250, current: 150, reward: "10€ offerts" },
+    { merchant: "💐 Fleuriste", type: "amount", goal: 100, current: 75, reward: "5€ offerts" },
+  ];
+
   // 💬 Messages de bienvenue avec variations
   const getWelcomeMessages = () => {
     const hour = new Date().getHours();
@@ -343,6 +351,71 @@ export default function DashboardPage() {
                   <button className="mt-auto w-full border border-[#17BFA0] text-[#17BFA0] rounded-lg py-2 font-medium hover:bg-teal-50 transition">
                     Découvrir
                   </button>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </section>
+
+        {/* 🎟️ Cartes de fidélité */}
+        <section>
+          <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#123456]">🎟️ Mes cartes de fidélité</h2>
+          <Swiper
+            modules={[Pagination]}
+            spaceBetween={20}
+            slidesPerView="auto"
+            centeredSlides={false}
+            pagination={{ clickable: true, dynamicBullets: true }}
+            grabCursor={true}
+            className="w-full"
+          >
+            {fidelityCards.map((card, idx) => (
+              <SwiperSlide key={idx} className="!w-80">
+                <div className="bg-white rounded-xl shadow-md p-4 flex flex-col min-h-[200px] border border-gray-200">
+                  {/* Header avec merchant et progression */}
+                  <div className="flex justify-between items-center mb-3">
+                    <h3 className="font-bold text-[#123456]">{card.merchant}</h3>
+                    {card.type === "purchases" ? (
+                      <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">{card.current}/{card.goal}</span>
+                    ) : (
+                      <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">{card.current}€/{card.goal}€</span>
+                    )}
+                  </div>
+
+                  {/* Carte par achats avec tampons */}
+                  {card.type === "purchases" && (
+                    <div className="flex gap-2 flex-wrap mb-3">
+                      {Array.from({ length: card.goal }).map((_, i) => (
+                        <div
+                          key={i}
+                          className={`w-7 h-7 rounded-full border flex items-center justify-center text-xs font-bold ${
+                            i < card.current
+                              ? "bg-[#17BFA0] text-white border-[#17BFA0]"
+                              : "bg-gray-100 border-gray-300 text-gray-400"
+                          }`}
+                        >
+                          {i + 1}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Carte par montant avec barre de progression */}
+                  {card.type === "amount" && (
+                    <div className="mb-3">
+                      <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-[#17BFA0]"
+                          style={{ width: `${(card.current / card.goal) * 100}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Récompense */}
+                  <p className="text-sm text-gray-600 mt-auto">
+                    🎁 Récompense : <span className="font-semibold text-[#123456]">{card.reward}</span>
+                  </p>
                 </div>
               </SwiperSlide>
             ))}
