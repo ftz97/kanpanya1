@@ -3,11 +3,14 @@
 import { ChevronRight, Gift, QrCode } from "lucide-react";
 import * as React from "react";
 import StyledQRCode from "@/components/StyledQRCode";
-import FlashOffers from "@/components/FlashOffers";
 import ScratchCardStableV3 from "@/components/scratch/ScratchCardStableV3";
 import { SadEmojiRain, HappyEmojiRain, MoneyEmojiRain } from "@/components/EmojiRain";
 import TicketsResponsive from "@/components/TicketsResponsive";
 import SponsorCarousel from "@/components/SponsorCarousel";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
 export default function DashboardPage() {
   const [isClient, setIsClient] = React.useState(false);
@@ -169,13 +172,103 @@ export default function DashboardPage() {
       {/* Carrousel sponsorisé */}
       <SponsorCarousel />
 
-      {/* Section Bon Plans avec Swiper */}
-      <section className="max-w-7xl mx-auto mt-10 px-4 sm:px-6">
-        <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#123456]">
-          🔥 Bon Plans Flash
-        </h2>
-        <FlashOffers />
-      </section>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-12">
+        {/* 🎁 Tombolas */}
+        <section>
+          <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#123456]">🎁 Tombolas locales</h2>
+          <Swiper
+            modules={[Pagination]}
+            spaceBetween={20}
+            slidesPerView="auto"
+            centeredSlides={false}
+            pagination={{ clickable: true, dynamicBullets: true }}
+            grabCursor={true}
+            className="w-full"
+          >
+            {[
+              { title: "☕ Café offert", desc: "10 gagnants cette semaine", cta: "Jouer" },
+              { title: "🌸 Bouquet à gagner", desc: "Offert par Fleuriste Antilles", cta: "Participer" },
+              { title: "🥬 Panier garni bio", desc: "Tirage vendredi", cta: "Tenter ma chance" },
+            ].map((tb, idx) => (
+              <SwiperSlide key={idx} className="!w-80">
+                <div className="bg-yellow-100 rounded-xl shadow-md p-4 flex flex-col min-h-[160px]">
+                  <p className="font-bold text-[#123456]">{tb.title}</p>
+                  <p className="text-gray-600 text-sm">{tb.desc}</p>
+                  <button className="mt-auto bg-yellow-500 text-white rounded-lg py-2 font-semibold hover:bg-yellow-600 transition">
+                    {tb.cta}
+                  </button>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </section>
+
+        {/* 📰 Actus commerçants */}
+        <section>
+          <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#123456]">📰 Actus commerçants</h2>
+          <Swiper
+            modules={[Pagination]}
+            spaceBetween={20}
+            slidesPerView="auto"
+            centeredSlides={false}
+            pagination={{ clickable: true, dynamicBullets: true }}
+            grabCursor={true}
+            className="w-full"
+          >
+            {[
+              { merchant: "Épicerie Bio", title: "🌱 Nouveaux fruits locaux", desc: "Mangez frais, achetez pays" },
+              { merchant: "Café du Coin", title: "🎶 Soirée Jazz vendredi", desc: "Ambiance live dès 20h" },
+              { merchant: "Fleuriste Antilles", title: "💐 Atelier bouquet samedi", desc: "Apprenez à composer le vôtre" },
+              { merchant: "Boulangerie Artisanale", title: "🥖 Pain complet dispo", desc: "Cuit ce matin, encore chaud" },
+            ].map((a, idx) => (
+              <SwiperSlide key={idx} className="!w-80">
+                <div className="bg-white rounded-xl shadow-md p-4 flex flex-col min-h-[160px] border border-gray-200">
+                  <p className="font-bold text-[#123456]">{a.title}</p>
+                  <p className="text-gray-600 text-sm">{a.desc}</p>
+                  <p className="mt-auto text-sm text-[#17BFA0] font-semibold">
+                    {a.merchant}
+                  </p>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </section>
+
+        {/* 🔥 Bons plans flash */}
+        <section>
+          <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#123456]">🔥 Bons plans flash</h2>
+          <Swiper
+            modules={[Pagination]}
+            spaceBetween={20}
+            slidesPerView="auto"
+            centeredSlides={false}
+            pagination={{ clickable: true, dynamicBullets: true }}
+            grabCursor={true}
+            className="w-full"
+          >
+            {[
+              { title: "Happy Hour 14h-16h", tag: "Flash" },
+              { title: "Légumes frais -30%", tag: "Flash" },
+              { title: "Parapharmacie -15%", tag: "Flash" },
+              { title: "Boulangerie -20%", tag: "Flash" },
+              { title: "Épicerie Bio -25%", tag: "Flash" },
+              { title: "Café du coin -10%", tag: "Flash" },
+            ].map((offer, idx) => (
+              <SwiperSlide key={idx} className="!w-80">
+                <div className="bg-white rounded-xl shadow-md p-4 flex flex-col min-h-[160px] border border-gray-200">
+                  <p className="font-semibold text-lg text-[#123456]">{offer.title}</p>
+                  <span className="bg-red-100 text-red-600 px-2 py-1 rounded text-xs mt-2 w-fit">
+                    {offer.tag}
+                  </span>
+                  <button className="mt-auto w-full border border-[#17BFA0] text-[#17BFA0] rounded-lg py-2 font-medium hover:bg-teal-50 transition">
+                    Voir l&apos;offre
+                  </button>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </section>
+      </div>
 
       {/* Explorez par catégorie */}
       <section className="max-w-7xl mx-auto mt-12 px-4 sm:px-6">
