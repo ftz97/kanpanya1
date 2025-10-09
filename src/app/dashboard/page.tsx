@@ -134,7 +134,7 @@ export default function DashboardPage() {
               }}
               className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-50 border border-red-200 shadow-sm text-red-600 text-sm font-medium hover:bg-red-100 active:scale-95 transition"
             >
-              <span className="text-xs">[→]</span>
+              <span className="text-sm">[→]</span>
               <span className="hidden sm:inline">Déconnexion</span>
             </button>
           </div>
