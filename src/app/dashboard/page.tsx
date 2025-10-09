@@ -165,11 +165,11 @@ export default function DashboardPage() {
                   console.error("Erreur de déconnexion:", error);
                 }
               }}
-              className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-red-50 border border-red-200 shadow-sm text-red-600 text-sm font-medium hover:bg-red-100 active:scale-95 transition min-w-[44px]"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-50 border border-red-200 shadow-sm text-red-600 text-sm font-medium hover:bg-red-100 active:scale-95 transition"
               title="Déconnexion"
             >
               <span className="text-sm">[→]</span>
-              <span className="hidden sm:inline sm:ml-1">Déconnexion</span>
+              <span className="hidden sm:inline">Déconnexion</span>
             </button>
           </div>
         </div>
@@ -177,16 +177,10 @@ export default function DashboardPage() {
 
       {/* Message de bienvenue statique */}
       <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6 max-w-7xl mx-auto">
-        <div className="space-y-2 text-center">
+        <div className="text-center">
           <h1 className="text-xl sm:text-2xl font-bold text-[#123456] leading-relaxed">
             {welcomeMessage}
           </h1>
-          <button
-            onClick={() => setMessageIndex(prev => prev + 1)}
-            className="text-xs text-[#17BFA0] hover:text-[#14a58d] underline"
-          >
-            🔄 Changer le message
-          </button>
         </div>
       </div>
 
