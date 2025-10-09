@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import { motion } from "framer-motion";
 
 export default function DashboardPage() {
   const [isClient, setIsClient] = React.useState(false);
@@ -28,9 +29,38 @@ export default function DashboardPage() {
   const [isTicketPopupOpen, setIsTicketPopupOpen] = React.useState(false);
   const [ticketKey, setTicketKey] = React.useState(0); // Pour forcer le re-render du composant
   
+  // États pour les barres de progression des carrousels
+  const [progressTombola, setProgressTombola] = React.useState(0);
+  const [progressActus, setProgressActus] = React.useState(0);
+  const [progressFlash, setProgressFlash] = React.useState(0);
   
   // 🎯 Nom d'utilisateur - à remplacer par le prénom réel du user
   const userName = "Kevin";
+
+  // 🎁 Données Tombolas
+  const tombolas = [
+    { title: "☕ Café offert", desc: "10 gagnants cette semaine", cta: "Jouer" },
+    { title: "🌸 Bouquet à gagner", desc: "Offert par Fleuriste Antilles", cta: "Participer" },
+    { title: "🥬 Panier garni bio", desc: "Tirage vendredi", cta: "Tenter ma chance" },
+  ];
+
+  // 📰 Données Actus commerçants
+  const actus = [
+    { merchant: "Épicerie Bio", title: "🌱 Nouveaux fruits locaux", desc: "Mangez frais, achetez pays" },
+    { merchant: "Café du Coin", title: "🎶 Soirée Jazz vendredi", desc: "Ambiance live dès 20h" },
+    { merchant: "Fleuriste Antilles", title: "💐 Atelier bouquet samedi", desc: "Apprenez à composer le vôtre" },
+    { merchant: "Boulangerie Artisanale", title: "🥖 Pain complet dispo", desc: "Cuit ce matin, encore chaud" },
+  ];
+
+  // 🔥 Données Bon plans flash
+  const flashOffers = [
+    { title: "Happy Hour 14h-16h", tag: "Flash" },
+    { title: "Légumes frais -30%", tag: "Flash" },
+    { title: "Parapharmacie -15%", tag: "Flash" },
+    { title: "Boulangerie -20%", tag: "Flash" },
+    { title: "Épicerie Bio -25%", tag: "Flash" },
+    { title: "Café du coin -10%", tag: "Flash" },
+  ];
 
   // 💬 Messages de bienvenue avec variations
   const getWelcomeMessages = () => {
@@ -184,12 +214,11 @@ export default function DashboardPage() {
             pagination={{ clickable: true, dynamicBullets: true }}
             grabCursor={true}
             className="w-full"
+            onSlideChange={(swiper) =>
+              setProgressTombola((swiper.activeIndex + 1) / tombolas.length)
+            }
           >
-            {[
-              { title: "☕ Café offert", desc: "10 gagnants cette semaine", cta: "Jouer" },
-              { title: "🌸 Bouquet à gagner", desc: "Offert par Fleuriste Antilles", cta: "Participer" },
-              { title: "🥬 Panier garni bio", desc: "Tirage vendredi", cta: "Tenter ma chance" },
-            ].map((tb, idx) => (
+            {tombolas.map((tb, idx) => (
               <SwiperSlide key={idx} className="!w-80">
                 <div className="bg-yellow-100 rounded-xl shadow-md p-4 flex flex-col min-h-[160px]">
                   <p className="font-bold text-[#123456]">{tb.title}</p>
@@ -201,6 +230,15 @@ export default function DashboardPage() {
               </SwiperSlide>
             ))}
           </Swiper>
+          {/* Progress bar */}
+          <div className="h-1 bg-gray-200 rounded-full mt-3 overflow-hidden">
+            <motion.div
+              className="h-full bg-yellow-500"
+              initial={{ width: "0%" }}
+              animate={{ width: `${progressTombola * 100}%` }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
         </section>
 
         {/* 📰 Actus commerçants */}
@@ -214,13 +252,11 @@ export default function DashboardPage() {
             pagination={{ clickable: true, dynamicBullets: true }}
             grabCursor={true}
             className="w-full"
+            onSlideChange={(swiper) =>
+              setProgressActus((swiper.activeIndex + 1) / actus.length)
+            }
           >
-            {[
-              { merchant: "Épicerie Bio", title: "🌱 Nouveaux fruits locaux", desc: "Mangez frais, achetez pays" },
-              { merchant: "Café du Coin", title: "🎶 Soirée Jazz vendredi", desc: "Ambiance live dès 20h" },
-              { merchant: "Fleuriste Antilles", title: "💐 Atelier bouquet samedi", desc: "Apprenez à composer le vôtre" },
-              { merchant: "Boulangerie Artisanale", title: "🥖 Pain complet dispo", desc: "Cuit ce matin, encore chaud" },
-            ].map((a, idx) => (
+            {actus.map((a, idx) => (
               <SwiperSlide key={idx} className="!w-80">
                 <div className="bg-white rounded-xl shadow-md p-4 flex flex-col min-h-[160px] border border-gray-200">
                   <p className="font-bold text-[#123456]">{a.title}</p>
@@ -232,6 +268,15 @@ export default function DashboardPage() {
               </SwiperSlide>
             ))}
           </Swiper>
+          {/* Progress bar */}
+          <div className="h-1 bg-gray-200 rounded-full mt-3 overflow-hidden">
+            <motion.div
+              className="h-full bg-teal-500"
+              initial={{ width: "0%" }}
+              animate={{ width: `${progressActus * 100}%` }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
         </section>
 
         {/* 🔥 Bons plans flash */}
@@ -245,15 +290,11 @@ export default function DashboardPage() {
             pagination={{ clickable: true, dynamicBullets: true }}
             grabCursor={true}
             className="w-full"
+            onSlideChange={(swiper) =>
+              setProgressFlash((swiper.activeIndex + 1) / flashOffers.length)
+            }
           >
-            {[
-              { title: "Happy Hour 14h-16h", tag: "Flash" },
-              { title: "Légumes frais -30%", tag: "Flash" },
-              { title: "Parapharmacie -15%", tag: "Flash" },
-              { title: "Boulangerie -20%", tag: "Flash" },
-              { title: "Épicerie Bio -25%", tag: "Flash" },
-              { title: "Café du coin -10%", tag: "Flash" },
-            ].map((offer, idx) => (
+            {flashOffers.map((offer, idx) => (
               <SwiperSlide key={idx} className="!w-80">
                 <div className="bg-white rounded-xl shadow-md p-4 flex flex-col min-h-[160px] border border-gray-200">
                   <p className="font-semibold text-lg text-[#123456]">{offer.title}</p>
@@ -267,6 +308,15 @@ export default function DashboardPage() {
               </SwiperSlide>
             ))}
           </Swiper>
+          {/* Progress bar */}
+          <div className="h-1 bg-gray-200 rounded-full mt-3 overflow-hidden">
+            <motion.div
+              className="h-full bg-red-500"
+              initial={{ width: "0%" }}
+              animate={{ width: `${progressFlash * 100}%` }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
         </section>
       </div>
 
