@@ -177,7 +177,7 @@ export default function DashboardPage() {
 
       {/* Message de bienvenue statique */}
       <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6 max-w-7xl mx-auto">
-        <div className="space-y-2">
+        <div className="space-y-2 text-center">
           <h1 className="text-xl sm:text-2xl font-bold text-[#123456] leading-relaxed">
             {welcomeMessage}
           </h1>
@@ -192,9 +192,9 @@ export default function DashboardPage() {
 
       {/* Header intro */}
       <div className="px-3 sm:px-4 md:px-6 py-6 sm:py-8 md:py-10 max-w-7xl mx-auto">
-        <header className="space-y-1">
-          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">Achète local, gagne plus.</h2>
-          <p className="text-sm md:text-base text-muted-foreground">Soutiens tes commerces de proximité et débloque des offres exclusives.</p>
+        <header className="space-y-1 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-[#123456]">Achète local, gagne plus.</h2>
+          <p className="text-sm md:text-base text-[#123456]">Soutiens tes commerces de proximité et débloque des offres exclusives.</p>
         </header>
       </div>
 
