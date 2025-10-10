@@ -324,39 +324,6 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* 📂 Explorez par catégorie */}
-        <section>
-          <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#123456]">📂 Explorez par catégorie</h2>
-          <Swiper
-            modules={[Pagination]}
-            spaceBetween={20}
-            slidesPerView="auto"
-            centeredSlides={false}
-            pagination={{ clickable: true, dynamicBullets: true }}
-            grabCursor={true}
-            className="w-full"
-          >
-            {[
-              { icon: "🍔", name: "Restauration" },
-              { icon: "💇‍♀️", name: "Beauté" },
-              { icon: "👗", name: "Mode" },
-              { icon: "🎉", name: "Loisirs" },
-              { icon: "🛒", name: "Alimentation" },
-              { icon: "💊", name: "Santé" },
-            ].map((cat, i) => (
-              <SwiperSlide key={i} className="!w-80">
-                <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center justify-center min-h-[160px] border border-gray-200">
-                  <span className="text-4xl mb-3">{cat.icon}</span>
-                  <p className="font-semibold text-lg text-[#123456]">{cat.name}</p>
-                  <button className="mt-auto w-full border border-[#17BFA0] text-[#17BFA0] rounded-lg py-2 font-medium hover:bg-teal-50 transition">
-                    Découvrir
-                  </button>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </section>
-
         {/* 🎟️ Cartes de fidélité */}
         <section>
           <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#123456]">🎟️ Mes cartes de fidélité</h2>
@@ -416,6 +383,39 @@ export default function DashboardPage() {
                   <p className="text-sm text-gray-600 mt-auto">
                     🎁 Récompense : <span className="font-semibold text-[#123456]">{card.reward}</span>
                   </p>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </section>
+
+        {/* 📂 Explorez par catégorie */}
+        <section>
+          <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#123456]">📂 Explorez par catégorie</h2>
+          <Swiper
+            modules={[Pagination]}
+            spaceBetween={20}
+            slidesPerView="auto"
+            centeredSlides={false}
+            pagination={{ clickable: true, dynamicBullets: true }}
+            grabCursor={true}
+            className="w-full"
+          >
+            {[
+              { icon: "🍔", name: "Restauration" },
+              { icon: "💇‍♀️", name: "Beauté" },
+              { icon: "👗", name: "Mode" },
+              { icon: "🎉", name: "Loisirs" },
+              { icon: "🛒", name: "Alimentation" },
+              { icon: "💊", name: "Santé" },
+            ].map((cat, i) => (
+              <SwiperSlide key={i} className="!w-80">
+                <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center justify-center min-h-[160px] border border-gray-200">
+                  <span className="text-4xl mb-3">{cat.icon}</span>
+                  <p className="font-semibold text-lg text-[#123456]">{cat.name}</p>
+                  <button className="mt-auto w-full border border-[#17BFA0] text-[#17BFA0] rounded-lg py-2 font-medium hover:bg-teal-50 transition">
+                    Découvrir
+                  </button>
                 </div>
               </SwiperSlide>
             ))}
