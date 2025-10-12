@@ -30,12 +30,29 @@ export default function CategoriesPage() {
         
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {categories.map((cat, idx) => (
-            <div key={idx} className="bg-white rounded-xl shadow p-6 border border-gray-200 text-center hover:shadow-lg transition cursor-pointer">
-              <span className="text-5xl mb-3 block">{cat.icon}</span>
-              <p className="font-semibold text-base text-[#123456] mb-3">{cat.name}</p>
-              <button className="w-full border border-[#17BFA0] text-[#17BFA0] rounded-lg py-2 text-sm font-medium hover:bg-teal-50 transition">
-                Explorer
-              </button>
+            <div key={idx} className="bg-white rounded-xl shadow overflow-hidden border border-gray-200 flex flex-col min-h-[280px] hover:shadow-lg transition cursor-pointer">
+              {/* Image principale avec icône overlay */}
+              {cat.image && (
+                <div className="relative h-36 w-full overflow-hidden">
+                  <img 
+                    src={cat.image} 
+                    alt={cat.name}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Icône en overlay centré */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                    <span className="text-6xl drop-shadow-lg">{cat.icon}</span>
+                  </div>
+                </div>
+              )}
+              
+              {/* Contenu */}
+              <div className="p-4 flex flex-col flex-1 text-center items-center justify-center">
+                <p className="font-semibold text-base text-[#123456] mb-3">{cat.name}</p>
+                <button className="w-full border border-[#17BFA0] text-[#17BFA0] rounded-lg py-2 text-sm font-medium hover:bg-teal-50 active:scale-95 transition-all duration-200">
+                  Explorer
+                </button>
+              </div>
             </div>
           ))}
         </div>

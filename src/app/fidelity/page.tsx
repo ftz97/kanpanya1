@@ -1,85 +1,109 @@
 "use client";
 
-import Link from "next/link";
-
-const allFidelityCards = [
-  { id: "1", merchant: "🥖 Boulangerie", type: "purchases", goal: 10, current: 7, reward: "1 pain gratuit" },
-  { id: "2", merchant: "☕ Café du Coin", type: "purchases", goal: 5, current: 3, reward: "1 café offert" },
-  { id: "3", merchant: "🛒 Supermarché Local", type: "points", goal: 500, current: 320, reward: "5€ en bon d'achat" },
-  { id: "4", merchant: "🌸 Fleuriste Antilles", type: "tiers", tier: "Argent", reward: "10% remise + offre anniversaire" },
-  { id: "5", merchant: "🍹 Bar Lounge", type: "seasonal", goal: 5, current: 2, reward: "1 cocktail offert", end: "30/12/2025" },
-];
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { fidelityCards } from "@/data/dashboardData";
 
 export default function FidelityWalletPage() {
+  const router = useRouter();
+  
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold mb-4">📂 Mon portefeuille fidélité</h1>
-
-      <div className="space-y-4">
-        {allFidelityCards.map((card) => (
-          <Link
-            key={card.id}
-            href={`/fidelity/${card.id}`}
-            className="block bg-white rounded-xl shadow-md p-4 border border-gray-200 hover:shadow-lg transition"
+    <div className="min-h-screen bg-[#F2F2F2]">
+      {/* Header */}
+      <nav className="w-full bg-white shadow-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-3 sm:px-4 py-3">
+          <button
+            onClick={() => router.push("/dashboard")}
+            className="flex items-center gap-2 text-gray-600 hover:text-[#17BFA0] font-medium transition"
           >
-            <div className="flex justify-between items-center mb-2">
-              <h3 className="font-semibold">{card.merchant}</h3>
-              <span className="text-xs text-gray-500">
-                {card.type === "purchases" && `${card.current}/${card.goal}`}
-                {card.type === "points" && `${card.current} pts`}
-                {card.type === "tiers" && `${card.tier}`}
-                {card.type === "seasonal" && `${card.current}/${card.goal}`}
-              </span>
-            </div>
+            <ArrowLeft className="w-4 h-4" />
+            <span>Retour</span>
+          </button>
+          <div className="text-lg font-bold text-[#17BFA0]">Kanpanya</div>
+          <div className="w-20"></div>
+        </div>
+      </nav>
 
-            {/* Progression visuelle */}
-            {card.type === "purchases" && (
-              <div className="flex gap-1 flex-wrap mb-2">
-                {Array.from({ length: card.goal }).map((_, i) => (
-                  <div
-                    key={i}
-                    className={`w-5 h-5 rounded-full border ${
-                      i < card.current ? "bg-green-500 border-green-600" : "bg-gray-100 border-gray-300"
-                    }`}
+      {/* Contenu */}
+      <div className="max-w-4xl mx-auto px-4 py-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#123456] mb-6">🎟️ Mes cartes de fidélité</h1>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {fidelityCards.map((card, idx) => (
+            <div key={idx} className="bg-white rounded-xl shadow overflow-hidden border border-gray-200 flex flex-col min-h-[340px] hover:shadow-lg transition">
+              {/* Image principale */}
+              {card.image && (
+                <div className="relative h-32 w-full overflow-hidden">
+                  <img 
+                    src={card.image} 
+                    alt={card.merchant}
+                    className="w-full h-full object-cover"
                   />
-                ))}
-              </div>
-            )}
-
-            {card.type === "points" && (
-              <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden mb-2">
-                <div
-                  className="h-full bg-blue-500"
-                  style={{ width: `${(card.current / card.goal) * 100}%` }}
-                />
-              </div>
-            )}
-
-            {card.type === "tiers" && (
-              <div className="mb-2">
-                <span className="px-3 py-1 rounded-full text-sm bg-yellow-200 text-yellow-800 font-semibold">
-                  {card.tier}
-                </span>
-              </div>
-            )}
-
-            {card.type === "seasonal" && (
-              <div className="mb-2">
-                <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden mb-1">
-                  <div
-                    className="h-full bg-purple-500"
-                    style={{ width: `${(card.current / card.goal) * 100}%` }}
-                  />
+                  {/* Logo rond en overlay */}
+                  {card.logo && (
+                    <div className="absolute bottom-3 left-3 w-12 h-12 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white">
+                      <img 
+                        src={card.logo} 
+                        alt={card.merchant}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
                 </div>
-                <p className="text-xs text-gray-500">⏳ Valide jusqu&apos;au {card.end}</p>
-              </div>
-            )}
+              )}
+              
+              {/* Contenu */}
+              <div className="p-4 flex flex-col flex-1">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="font-bold text-sm text-[#123456]">{card.merchant}</h3>
+                  {card.type === "purchases" ? (
+                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                      {card.current}/{card.goal}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                      {card.current}€/{card.goal}€
+                    </span>
+                  )}
+                </div>
 
-            <p className="text-sm text-gray-600">
-              🎁 <span className="font-medium">{card.reward}</span>
-            </p>
-          </Link>
-        ))}
+                {/* Carte par achats avec tampons */}
+                {card.type === "purchases" && (
+                  <div className="flex gap-2 flex-wrap mb-3">
+                    {Array.from({ length: card.goal }).map((_, i) => (
+                      <div
+                        key={i}
+                        className={`w-6 h-6 rounded-full border flex items-center justify-center text-xs font-bold ${
+                          i < card.current
+                            ? "bg-[#17BFA0] text-white border-[#17BFA0]"
+                            : "bg-gray-100 border-gray-300 text-gray-400"
+                        }`}
+                      >
+                        {i + 1}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Carte par montant avec barre de progression */}
+                {card.type === "amount" && (
+                  <div className="mb-3">
+                    <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-[#17BFA0]"
+                        style={{ width: `${(card.current / card.goal) * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <p className="text-sm text-gray-600 mt-auto">
+                  🎁 <span className="font-semibold">{card.reward}</span>
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

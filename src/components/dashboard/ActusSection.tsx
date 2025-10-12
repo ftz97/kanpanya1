@@ -11,6 +11,8 @@ interface Actu {
   merchant: string;
   title: string;
   desc: string;
+  image?: string;
+  logo?: string;
 }
 
 interface ActusSectionProps {
@@ -46,12 +48,36 @@ export default function ActusSection({ actus }: ActusSectionProps) {
         >
           {actus.map((a, idx) => (
             <SwiperSlide key={idx} className="!w-72 sm:!w-80">
-              <div className="bg-white rounded-xl shadow p-4 flex flex-col min-h-[150px] border border-gray-200">
-                <p className="font-bold text-[#123456] truncate">{a.title}</p>
-                <p className="text-gray-600 text-xs sm:text-sm">{a.desc}</p>
-                <p className="mt-auto text-xs sm:text-sm text-[#17BFA0] font-semibold truncate">
-                  {a.merchant}
-                </p>
+              <div className="bg-white rounded-xl shadow overflow-hidden flex flex-col min-h-[280px] border border-gray-200">
+                {/* Image principale */}
+                {a.image && (
+                  <div className="relative h-32 w-full overflow-hidden">
+                    <img 
+                      src={a.image} 
+                      alt={a.title}
+                      className="w-full h-full object-cover"
+                    />
+                    {/* Logo rond en overlay */}
+                    {a.logo && (
+                      <div className="absolute bottom-2 left-2 w-12 h-12 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white">
+                        <img 
+                          src={a.logo} 
+                          alt={a.merchant}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+                
+                {/* Contenu */}
+                <div className="p-4 flex flex-col flex-1">
+                  <p className="font-bold text-[#123456] truncate">{a.title}</p>
+                  <p className="text-gray-600 text-xs sm:text-sm mb-2">{a.desc}</p>
+                  <p className="mt-auto text-xs sm:text-sm text-[#17BFA0] font-semibold truncate">
+                    {a.merchant}
+                  </p>
+                </div>
               </div>
             </SwiperSlide>
           ))}

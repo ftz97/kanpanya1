@@ -10,6 +10,8 @@ import "swiper/css/pagination";
 interface FlashOffer {
   title: string;
   tag: string;
+  image?: string;
+  logo?: string;
 }
 
 interface FlashOffersSectionProps {
@@ -45,14 +47,38 @@ export default function FlashOffersSection({ offers }: FlashOffersSectionProps) 
         >
           {offers.map((offer, idx) => (
             <SwiperSlide key={idx} className="!w-72 sm:!w-80">
-              <div className="bg-white rounded-xl shadow p-4 flex flex-col min-h-[150px] border border-gray-200">
-                <p className="font-semibold text-base text-[#123456] truncate">{offer.title}</p>
-                <span className="bg-red-100 text-red-600 px-2 py-1 rounded text-xs mt-2 w-fit">
-                  {offer.tag}
-                </span>
-                <button className="mt-auto w-full border border-[#17BFA0] text-[#17BFA0] rounded-lg py-2 text-sm font-medium hover:bg-teal-50">
-                  Voir l&apos;offre
-                </button>
+              <div className="bg-white rounded-xl shadow overflow-hidden flex flex-col min-h-[280px] border border-gray-200">
+                {/* Image principale */}
+                {offer.image && (
+                  <div className="relative h-32 w-full overflow-hidden">
+                    <img 
+                      src={offer.image} 
+                      alt={offer.title}
+                      className="w-full h-full object-cover"
+                    />
+                    {/* Logo rond en overlay */}
+                    {offer.logo && (
+                      <div className="absolute bottom-2 left-2 w-12 h-12 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white">
+                        <img 
+                          src={offer.logo} 
+                          alt="Logo"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+                
+                {/* Contenu */}
+                <div className="p-4 flex flex-col flex-1">
+                  <p className="font-semibold text-base text-[#123456] truncate">{offer.title}</p>
+                  <span className="bg-red-100 text-red-600 px-2 py-1 rounded text-xs mt-2 w-fit">
+                    {offer.tag}
+                  </span>
+                  <button className="mt-auto w-full border border-[#17BFA0] text-[#17BFA0] rounded-lg py-2 text-sm font-medium hover:bg-teal-50 active:scale-95 transition-all duration-200">
+                    Voir l&apos;offre
+                  </button>
+                </div>
               </div>
             </SwiperSlide>
           ))}

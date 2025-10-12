@@ -8,6 +8,7 @@ import "swiper/css/pagination";
 interface Category {
   icon: string;
   name: string;
+  image?: string;
 }
 
 interface ExploreCategoriesProps {
@@ -36,12 +37,29 @@ export default function ExploreCategories({ categories }: ExploreCategoriesProps
       >
         {categories.map((cat, i) => (
           <SwiperSlide key={i} className="!w-72 sm:!w-80">
-            <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center justify-center min-h-[150px] border border-gray-200">
-              <span className="text-3xl sm:text-4xl mb-2">{cat.icon}</span>
-              <p className="font-semibold text-base text-[#123456]">{cat.name}</p>
-              <button className="mt-auto w-full border border-[#17BFA0] text-[#17BFA0] rounded-lg py-2 text-sm font-medium hover:bg-teal-50">
-                Découvrir
-              </button>
+            <div className="bg-white rounded-xl shadow overflow-hidden flex flex-col min-h-[240px] border border-gray-200">
+              {/* Image principale avec icône overlay */}
+              {cat.image && (
+                <div className="relative h-32 w-full overflow-hidden">
+                  <img 
+                    src={cat.image} 
+                    alt={cat.name}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Icône en overlay centré */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                    <span className="text-5xl sm:text-6xl drop-shadow-lg">{cat.icon}</span>
+                  </div>
+                </div>
+              )}
+              
+              {/* Contenu */}
+              <div className="p-4 flex flex-col flex-1 items-center justify-center">
+                <p className="font-semibold text-base text-[#123456] mb-3">{cat.name}</p>
+                <button className="w-full border border-[#17BFA0] text-[#17BFA0] rounded-lg py-2 text-sm font-medium hover:bg-teal-50 active:scale-95 transition-all duration-200">
+                  Découvrir
+                </button>
+              </div>
             </div>
           </SwiperSlide>
         ))}

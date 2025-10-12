@@ -11,6 +11,8 @@ interface Tombola {
   title: string;
   desc: string;
   cta: string;
+  image?: string;
+  logo?: string;
 }
 
 interface TombolaSectionProps {
@@ -46,12 +48,36 @@ export default function TombolaSection({ tombolas }: TombolaSectionProps) {
         >
           {tombolas.map((tb, idx) => (
             <SwiperSlide key={idx} className="!w-72 sm:!w-80">
-              <div className="bg-yellow-50 rounded-xl shadow p-4 min-h-[150px] flex flex-col">
-                <p className="font-bold text-[#123456] truncate">{tb.title}</p>
-                <p className="text-gray-600 text-xs sm:text-sm">{tb.desc}</p>
-                <button className="mt-auto bg-yellow-500 text-white rounded-lg py-2 text-sm font-semibold hover:bg-yellow-600">
-                  {tb.cta}
-                </button>
+              <div className="bg-white rounded-xl shadow overflow-hidden min-h-[280px] flex flex-col">
+                {/* Image principale */}
+                {tb.image && (
+                  <div className="relative h-32 w-full overflow-hidden">
+                    <img 
+                      src={tb.image} 
+                      alt={tb.title}
+                      className="w-full h-full object-cover"
+                    />
+                    {/* Logo rond en overlay */}
+                    {tb.logo && (
+                      <div className="absolute bottom-2 left-2 w-12 h-12 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white">
+                        <img 
+                          src={tb.logo} 
+                          alt="Logo"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+                
+                {/* Contenu */}
+                <div className="p-4 flex flex-col flex-1 bg-yellow-50">
+                  <p className="font-bold text-[#123456] truncate">{tb.title}</p>
+                  <p className="text-gray-600 text-xs sm:text-sm mb-3">{tb.desc}</p>
+                  <button className="mt-auto bg-yellow-500 text-white rounded-lg py-2 text-sm font-semibold hover:bg-yellow-600 active:scale-95 transition-all duration-200">
+                    {tb.cta}
+                  </button>
+                </div>
               </div>
             </SwiperSlide>
           ))}

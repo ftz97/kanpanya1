@@ -30,16 +30,40 @@ export default function ActusPage() {
         
         <div className="space-y-4">
           {actus.map((actu, idx) => (
-            <div key={idx} className="bg-white rounded-xl shadow p-6 border border-gray-200">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <p className="font-bold text-lg text-[#123456] mb-2">{actu.title}</p>
-                  <p className="text-gray-600 text-sm mb-3">{actu.desc}</p>
-                  <p className="text-sm text-[#17BFA0] font-semibold">{actu.merchant}</p>
+            <div key={idx} className="bg-white rounded-xl shadow overflow-hidden border border-gray-200">
+              {/* Image principale en haut */}
+              {actu.image && (
+                <div className="relative h-48 w-full overflow-hidden">
+                  <img 
+                    src={actu.image} 
+                    alt={actu.title}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Logo rond en overlay */}
+                  {actu.logo && (
+                    <div className="absolute bottom-3 left-3 w-14 h-14 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white">
+                      <img 
+                        src={actu.logo} 
+                        alt={actu.merchant}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
                 </div>
-                <button className="px-4 py-2 bg-[#17BFA0] text-white rounded-lg text-sm font-medium hover:bg-[#14a58d] transition whitespace-nowrap">
-                  En savoir +
-                </button>
+              )}
+              
+              {/* Contenu */}
+              <div className="p-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <p className="font-bold text-lg text-[#123456] mb-2">{actu.title}</p>
+                    <p className="text-gray-600 text-sm mb-3">{actu.desc}</p>
+                    <p className="text-sm text-[#17BFA0] font-semibold">{actu.merchant}</p>
+                  </div>
+                  <button className="px-4 py-2 bg-[#17BFA0] text-white rounded-lg text-sm font-medium hover:bg-[#14a58d] active:scale-95 transition-all duration-200 whitespace-nowrap">
+                    En savoir +
+                  </button>
+                </div>
               </div>
             </div>
           ))}
