@@ -2,11 +2,23 @@
 
 import { Gift, QrCode } from "lucide-react";
 import * as React from "react";
-import StyledQRCode from "@/components/StyledQRCode";
-import ScratchCardStableV3 from "@/components/scratch/ScratchCardStableV3";
-import { SadEmojiRain, HappyEmojiRain, MoneyEmojiRain } from "@/components/EmojiRain";
-import TicketsResponsive from "@/components/TicketsResponsive";
-import SponsorCarousel from "@/components/SponsorCarousel";
+import dynamic from "next/dynamic";
+import { useDashboardWelcomeMessage } from "@/hooks/useDashboardWelcomeMessage";
+import { useEmojiAnimation } from "@/hooks/useEmojiAnimation";
+import { tombolas, actus, flashOffers, fidelityCards, categories, stats } from "@/data/dashboardData";
+import "swiper/css";
+import "swiper/css/pagination";
+
+// Dynamic imports pour lazy loading et optimisation
+const StyledQRCode = dynamic(() => import("@/components/StyledQRCode"), { ssr: false });
+const ScratchCardStableV3 = dynamic(() => import("@/components/scratch/ScratchCardStableV3"), { ssr: false });
+const SadEmojiRain = dynamic(() => import("@/components/EmojiRain").then(mod => ({ default: mod.SadEmojiRain })), { ssr: false });
+const HappyEmojiRain = dynamic(() => import("@/components/EmojiRain").then(mod => ({ default: mod.HappyEmojiRain })), { ssr: false });
+const MoneyEmojiRain = dynamic(() => import("@/components/EmojiRain").then(mod => ({ default: mod.MoneyEmojiRain })), { ssr: false });
+const TicketsResponsive = dynamic(() => import("@/components/TicketsResponsive"), { ssr: false });
+const SponsorCarousel = dynamic(() => import("@/components/SponsorCarousel"), { ssr: false });
+
+// Sections du dashboard
 import TombolaSection from "@/components/dashboard/TombolaSection";
 import ActusSection from "@/components/dashboard/ActusSection";
 import FlashOffersSection from "@/components/dashboard/FlashOffersSection";
@@ -14,37 +26,23 @@ import FidelityCardsSection from "@/components/dashboard/FidelityCardsSection";
 import ExploreCategories from "@/components/dashboard/ExploreCategories";
 import CommunityBlock from "@/components/dashboard/CommunityBlock";
 import StatsSection from "@/components/dashboard/StatsSection";
-import ProgressBar from "@/components/dashboard/ProgressBar";
-import { useDashboardWelcomeMessage } from "@/hooks/useDashboardWelcomeMessage";
-import { tombolas, actus, flashOffers, fidelityCards, categories, stats } from "@/data/dashboardData";
-import "swiper/css";
-import "swiper/css/pagination";
 
 export default function DashboardPage() {
   // 🎯 Nom d'utilisateur - à remplacer par le prénom réel du user
   const userName = "Kevin";
   
-  // Hook personnalisé pour le message de bienvenue
+  // Hooks personnalisés
   const { welcomeMessage } = useDashboardWelcomeMessage(userName);
+  const { happy, sad, money, trigger } = useEmojiAnimation();
   
   // États UI
   const [showQRPopup, setShowQRPopup] = React.useState(false);
   const [showRewardsPopup, setShowRewardsPopup] = React.useState(false);
   
-  // États pour les animations d'emojis
-  const [showSadEmojis, setShowSadEmojis] = React.useState(false);
-  const [showHappyEmojis, setShowHappyEmojis] = React.useState(false);
-  const [showMoneyEmojis, setShowMoneyEmojis] = React.useState(false);
-  
   // États pour le système de tickets
   const [tickets, setTickets] = React.useState(3);
   const [isTicketPopupOpen, setIsTicketPopupOpen] = React.useState(false);
   const [ticketKey, setTicketKey] = React.useState(0);
-  
-  // États pour les barres de progression des carrousels
-  const [progressTombola, setProgressTombola] = React.useState(1 / tombolas.length);
-  const [progressActus, setProgressActus] = React.useState(1 / actus.length);
-  const [progressFlash, setProgressFlash] = React.useState(1 / flashOffers.length);
 
   // Fonction pour gratter un autre ticket
   const gratterUnAutre = () => {
@@ -100,16 +98,13 @@ export default function DashboardPage() {
         </section>
 
         {/* 🎁 Tombolas */}
-        <TombolaSection tombolas={tombolas} onProgressChange={setProgressTombola} />
-        <ProgressBar progress={progressTombola} color="bg-yellow-500" />
+        <TombolaSection tombolas={tombolas} />
 
         {/* 📰 Actus commerçants */}
-        <ActusSection actus={actus} onProgressChange={setProgressActus} />
-        <ProgressBar progress={progressActus} color="bg-teal-500" />
+        <ActusSection actus={actus} />
 
         {/* 🔥 Bons plans flash */}
-        <FlashOffersSection offers={flashOffers} onProgressChange={setProgressFlash} />
-        <ProgressBar progress={progressFlash} color="bg-red-500" />
+        <FlashOffersSection offers={flashOffers} />
 
         {/* 🎟️ Cartes de fidélité */}
         <FidelityCardsSection cards={fidelityCards} />
@@ -248,16 +243,13 @@ export default function DashboardPage() {
                 onReveal={(reward) => {
                   console.log("🎉 Récompense révélée dans le popup:", reward);
                   
-                  // Déclencher les animations selon le type de récompense
+                  // Utilisation du hook useEmojiAnimation
                   if (reward.type === "points" && reward.amount >= 250) {
-                    setShowMoneyEmojis(true);
-                    setTimeout(() => setShowMoneyEmojis(false), 3000);
+                    trigger("money");
                   } else if (reward.amount >= 100) {
-                    setShowHappyEmojis(true);
-                    setTimeout(() => setShowHappyEmojis(false), 3000);
+                    trigger("happy");
                   } else {
-                    setShowSadEmojis(true);
-                    setTimeout(() => setShowSadEmojis(false), 3000);
+                    trigger("sad");
                   }
                 }}
               />
@@ -296,10 +288,10 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Animations d'emojis */}
-      {showSadEmojis && <SadEmojiRain count={35} isWinner={false} />}
-      {showHappyEmojis && <HappyEmojiRain count={35} isWinner={true} />}
-      {showMoneyEmojis && <MoneyEmojiRain count={35} isWinner={true} />}
+      {/* Animations d'emojis avec hook */}
+      {sad && <SadEmojiRain count={35} isWinner={false} />}
+      {happy && <HappyEmojiRain count={35} isWinner={true} />}
+      {money && <MoneyEmojiRain count={35} isWinner={true} />}
     </div>
   );
 }
