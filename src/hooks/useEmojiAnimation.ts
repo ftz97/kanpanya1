@@ -14,8 +14,15 @@ export const useEmojiAnimation = () => {
     sad: false, 
     money: false 
   });
+  const [cooldown, setCooldown] = useState(false);
 
   const trigger = (type: "happy" | "sad" | "money") => {
+    // Ignorer si en cooldown
+    if (cooldown) return;
+    
+    // Activer le cooldown
+    setCooldown(true);
+    
     // Reset all states
     setState({ happy: false, sad: false, money: false });
     
@@ -26,6 +33,11 @@ export const useEmojiAnimation = () => {
     setTimeout(() => {
       setState({ happy: false, sad: false, money: false });
     }, 3000);
+    
+    // Reset cooldown after 2 seconds
+    setTimeout(() => {
+      setCooldown(false);
+    }, 2000);
   };
 
   return { 

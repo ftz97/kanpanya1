@@ -3,6 +3,7 @@
 import { Gift, QrCode } from "lucide-react";
 import * as React from "react";
 import dynamic from "next/dynamic";
+import { motion } from "framer-motion";
 import { useDashboardWelcomeMessage } from "@/hooks/useDashboardWelcomeMessage";
 import { useEmojiAnimation } from "@/hooks/useEmojiAnimation";
 import { tombolas, actus, flashOffers, fidelityCards, categories, stats } from "@/data/dashboardData";
@@ -10,8 +11,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 // Dynamic imports pour lazy loading et optimisation
-const StyledQRCode = dynamic(() => import("@/components/StyledQRCode"), { ssr: false });
-const ScratchCardStableV3 = dynamic(() => import("@/components/scratch/ScratchCardStableV3"), { ssr: false });
 const SadEmojiRain = dynamic(() => import("@/components/EmojiRain").then(mod => ({ default: mod.SadEmojiRain })), { ssr: false });
 const HappyEmojiRain = dynamic(() => import("@/components/EmojiRain").then(mod => ({ default: mod.HappyEmojiRain })), { ssr: false });
 const MoneyEmojiRain = dynamic(() => import("@/components/EmojiRain").then(mod => ({ default: mod.MoneyEmojiRain })), { ssr: false });
@@ -26,6 +25,7 @@ import FidelityCardsSection from "@/components/dashboard/FidelityCardsSection";
 import ExploreCategories from "@/components/dashboard/ExploreCategories";
 import CommunityBlock from "@/components/dashboard/CommunityBlock";
 import StatsSection from "@/components/dashboard/StatsSection";
+import DashboardModals from "@/components/dashboard/DashboardModals";
 
 export default function DashboardPage() {
   // 🎯 Nom d'utilisateur - à remplacer par le prénom réel du user
@@ -50,6 +50,20 @@ export default function DashboardPage() {
     setTickets(prev => Math.max(prev - 1, 0));
   };
 
+  // Callback pour gérer la révélation des récompenses
+  const handleRevealReward = (reward: { type: string; amount: number }) => {
+    console.log("🎉 Récompense révélée dans le popup:", reward);
+    
+    // Utilisation du hook useEmojiAnimation
+    if (reward.type === "points" && reward.amount >= 250) {
+      trigger("money");
+    } else if (reward.amount >= 100) {
+      trigger("happy");
+    } else {
+      trigger("sad");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#F2F2F2] flex flex-col">
       {/* ✅ NAVBAR MOBILE-FIRST */}
@@ -69,7 +83,7 @@ export default function DashboardPage() {
             <button 
               onClick={() => setShowRewardsPopup(true)}
               aria-label="Mes récompenses"
-              className="flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-[#123456] text-sm font-medium hover:bg-gray-50"
+              className="flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-[#123456] text-sm font-medium hover:bg-gray-50 active:scale-95 transition-all duration-200"
             >
               <Gift className="w-4 h-4 text-[#17BFA0]" />
               <span className="hidden sm:inline">Récomp.</span>
@@ -78,7 +92,7 @@ export default function DashboardPage() {
             <button 
               onClick={() => setShowQRPopup(true)}
               aria-label="Mon QR Code"
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#17BFA0] text-white text-sm font-semibold hover:bg-[#14a58e]"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#17BFA0] text-white text-sm font-semibold hover:bg-[#14a58e] shadow-[0_0_20px_rgba(23,191,160,0.4)] hover:shadow-[0_0_30px_rgba(23,191,160,0.6)] transition-all duration-300"
             >
               <QrCode className="w-4 h-4" />
               <span className="hidden sm:inline">Mon QR</span>
@@ -107,8 +121,13 @@ export default function DashboardPage() {
         </div>
       </nav>
 
-      {/* ✅ CONTENU MOBILE-FIRST */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-8 space-y-10">
+      {/* ✅ CONTENU MOBILE-FIRST avec animation */}
+      <motion.main 
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="flex-1 w-full max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-8 space-y-10"
+      >
         {/* Message de bienvenue */}
         <h1 className="text-lg sm:text-2xl font-bold text-center text-[#123456] leading-snug">
           {welcomeMessage}
@@ -133,7 +152,7 @@ export default function DashboardPage() {
 
         {/* 📂 Explorez par catégorie */}
         <ExploreCategories categories={categories} />
-      </main>
+      </motion.main>
 
       {/* Bloc communauté */}
       <CommunityBlock />
@@ -141,174 +160,19 @@ export default function DashboardPage() {
       {/* Stats */}
       <StatsSection stats={stats} />
 
-      {/* Popup QR Code */}
-      {showQRPopup && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl p-5 w-full max-w-xs text-center shadow-md relative">
-            {/* Bouton fermer */}
-            <button
-              onClick={() => setShowQRPopup(false)}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-              aria-label="Fermer"
-            >
-              ×
-            </button>
-
-            {/* Titre */}
-            <h3 className="text-lg font-bold text-[#123456] mb-4">Mon QR Code</h3>
-
-      {/* QR code simple (sans déco) */}
-      <div className="flex justify-center mb-4">
-        <StyledQRCode
-          value={`${typeof window !== 'undefined' ? window.location.origin : 'https://kanpanya.com'}/scan?client=kevin`}
-          size={160}
-          type="client"
-          showDecoration={false}  // 👈 enlève les bordures/icônes
-        />
-      </div>
-
-            {/* Texte explicatif */}
-            <p className="text-sm text-gray-600 mb-4">
-              Montrez ce QR aux commerçants pour gagner des points.
-            </p>
-
-            {/* Bouton fermer */}
-            <button
-              onClick={() => setShowQRPopup(false)}
-              className="w-full bg-[#17BFA0] text-white py-2 rounded-lg font-medium hover:bg-[#14a58e] transition"
-            >
-              Fermer
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Popup Récompenses */}
-      {showRewardsPopup && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-xs relative shadow-lg text-center">
-            {/* Bouton fermer */}
-            <button
-              onClick={() => setShowRewardsPopup(false)}
-              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl"
-              aria-label="Fermer"
-            >
-              ×
-            </button>
-
-            {/* Titre */}
-            <h3 className="text-lg font-bold text-[#123456] mb-4">
-              🎁 Mes Récompenses
-            </h3>
-
-            {/* Liste des récompenses */}
-            <div className="space-y-3 mb-4">
-              <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                <span className="text-sm text-gray-700">10% chez ton coiffeur</span>
-                <span className="text-xs bg-[#17BFA0] text-white px-2 py-1 rounded-lg">150 pts</span>
-              </div>
-              <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                <span className="text-sm text-gray-700">1 boisson offerte</span>
-                <span className="text-xs bg-[#17BFA0] text-white px-2 py-1 rounded-lg">80 pts</span>
-              </div>
-              <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                <span className="text-sm text-gray-700">🎉 Ticket Tombola</span>
-                <span className="text-xs bg-[#17BFA0] text-white px-2 py-1 rounded-lg">50 pts</span>
-              </div>
-            </div>
-
-            {/* Petit texte fun */}
-            <p className="text-sm text-gray-600 mb-4">
-              Continue à scanner pour débloquer encore plus de 🎊 surprises !
-            </p>
-
-            {/* Bouton fermer */}
-            <button
-              onClick={() => setShowRewardsPopup(false)}
-              className="w-full bg-[#17BFA0] text-white py-2 rounded-lg font-medium hover:bg-[#14a58e] active:scale-95 transition"
-            >
-              🚀 Fermer
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Popup Tickets */}
-      {isTicketPopupOpen && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl shadow-lg max-w-sm w-full p-6 relative">
-            {/* Bouton fermer */}
-            <button
-              onClick={() => setIsTicketPopupOpen(false)}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
-            >
-              ✖
-            </button>
-
-            {/* Titre + compteur */}
-            <div className="flex justify-center items-center gap-2 mb-4">
-              <h2 className="text-xl font-bold">🎟️ Gratte ton ticket</h2>
-              {tickets > 0 && (
-                <span className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                  {tickets}
-                </span>
-              )}
-            </div>
-
-            {/* Zone ticket avec ScratchCardStableV3 */}
-            <div className="flex justify-center mb-4">
-              <ScratchCardStableV3
-                key={ticketKey}
-                threshold={0.4}
-                goldenTicketChance={1.0}
-                userId="dashboard-user"
-                onReveal={(reward) => {
-                  console.log("🎉 Récompense révélée dans le popup:", reward);
-                  
-                  // Utilisation du hook useEmojiAnimation
-                  if (reward.type === "points" && reward.amount >= 250) {
-                    trigger("money");
-                  } else if (reward.amount >= 100) {
-                    trigger("happy");
-                  } else {
-                    trigger("sad");
-                  }
-                }}
-              />
-            </div>
-
-            {/* Texte d'aide */}
-            <p className="text-sm text-gray-600 text-center mb-4">
-              Gratte pour découvrir ta récompense 🎁
-            </p>
-
-            {/* Boutons d'action */}
-            <div className="flex gap-2">
-              <button
-                onClick={() => setIsTicketPopupOpen(false)}
-                className="flex-1 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 py-2"
-              >
-                ⏸️ Plus tard
-              </button>
-              {tickets > 0 ? (
-                <button
-                  onClick={gratterUnAutre}
-                  className="flex-1 bg-emerald-500 text-white rounded-xl font-semibold hover:bg-emerald-600 py-2"
-                >
-                  🎟️ Gratter un autre
-                </button>
-              ) : (
-                <button
-                  className="flex-1 bg-gray-400 text-white rounded-xl font-semibold cursor-not-allowed py-2"
-                  disabled
-                >
-                  🔒 Plus de tickets
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Modales centralisées */}
+      <DashboardModals
+        showQRPopup={showQRPopup}
+        setShowQRPopup={setShowQRPopup}
+        showRewardsPopup={showRewardsPopup}
+        setShowRewardsPopup={setShowRewardsPopup}
+        isTicketPopupOpen={isTicketPopupOpen}
+        setIsTicketPopupOpen={setIsTicketPopupOpen}
+        tickets={tickets}
+        ticketKey={ticketKey}
+        onScratch={gratterUnAutre}
+        onRevealReward={handleRevealReward}
+      />
 
       {/* Animations d'emojis avec hook */}
       {sad && <SadEmojiRain count={35} isWinner={false} />}
