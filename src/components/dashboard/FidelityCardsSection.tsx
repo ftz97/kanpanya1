@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
+import { calculateDistance, formatDistance } from "@/utils/calculateDistance";
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -14,13 +15,15 @@ interface FidelityCard {
   reward: string;
   image?: string;
   logo?: string;
+  coordinates?: { lat: number; lon: number };
 }
 
 interface FidelityCardsSectionProps {
   cards: FidelityCard[];
+  userPosition?: { lat: number; lon: number } | null;
 }
 
-export default function FidelityCardsSection({ cards }: FidelityCardsSectionProps) {
+export default function FidelityCardsSection({ cards, userPosition }: FidelityCardsSectionProps) {
   return (
     <section>
       <div className="flex items-center justify-between mb-3">
@@ -40,35 +43,49 @@ export default function FidelityCardsSection({ cards }: FidelityCardsSectionProp
         pagination={{ clickable: true }}
         className="overflow-visible"
       >
-        {cards.map((card, idx) => (
-          <SwiperSlide key={idx} className="!w-72 sm:!w-80">
-            <div className="bg-white rounded-xl shadow overflow-hidden flex flex-col min-h-[300px] border border-gray-200">
-              {/* Image principale */}
-              {card.image && (
-                <div className="relative h-24 w-full overflow-hidden">
-                  <Image 
-                    src={card.image} 
-                    alt={card.merchant}
-                    fill
-                    className="object-cover"
-                    loading="lazy"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                  {/* Logo rond en overlay */}
-                  {card.logo && (
-                    <div className="absolute bottom-2 left-2 w-10 h-10 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white z-10">
-                      <Image 
-                        src={card.logo} 
-                        alt={card.merchant}
-                        width={40}
-                        height={40}
-                        className="object-cover"
-                        loading="lazy"
-                      />
-                    </div>
-                  )}
-                </div>
-              )}
+        {cards.map((card, idx) => {
+          // Calculer la distance si position utilisateur disponible
+          const distance = userPosition && card.coordinates 
+            ? calculateDistance(userPosition, card.coordinates)
+            : null;
+
+          return (
+            <SwiperSlide key={idx} className="!w-72 sm:!w-80">
+              <div className="bg-white rounded-xl shadow overflow-hidden flex flex-col min-h-[300px] border border-gray-200">
+                {/* Image principale */}
+                {card.image && (
+                  <div className="relative h-24 w-full overflow-hidden">
+                    <Image 
+                      src={card.image} 
+                      alt={card.merchant}
+                      fill
+                      className="object-cover"
+                      loading="lazy"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                    
+                    {/* Badge distance (si < 2km) */}
+                    {distance && distance <= 2000 && (
+                      <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
+                        📍 {formatDistance(distance)}
+                      </div>
+                    )}
+                    
+                    {/* Logo rond en overlay */}
+                    {card.logo && (
+                      <div className="absolute bottom-2 left-2 w-10 h-10 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white z-10">
+                        <Image 
+                          src={card.logo} 
+                          alt={card.merchant}
+                          width={40}
+                          height={40}
+                          className="object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
               
               {/* Contenu */}
               <div className="p-4 flex flex-col flex-1">
@@ -123,7 +140,8 @@ export default function FidelityCardsSection({ cards }: FidelityCardsSectionProp
               </div>
             </div>
           </SwiperSlide>
-        ))}
+          );
+        })}
       </Swiper>
     </section>
   );

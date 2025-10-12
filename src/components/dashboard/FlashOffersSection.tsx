@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import { motion } from "framer-motion";
+import { calculateDistance, formatDistance } from "@/utils/calculateDistance";
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -13,13 +14,15 @@ interface FlashOffer {
   tag: string;
   image?: string;
   logo?: string;
+  coordinates?: { lat: number; lon: number };
 }
 
 interface FlashOffersSectionProps {
   offers: FlashOffer[];
+  userPosition?: { lat: number; lon: number } | null;
 }
 
-export default function FlashOffersSection({ offers }: FlashOffersSectionProps) {
+export default function FlashOffersSection({ offers, userPosition }: FlashOffersSectionProps) {
   const [progress, setProgress] = useState(1 / offers.length);
 
   return (
@@ -46,35 +49,49 @@ export default function FlashOffersSection({ offers }: FlashOffersSectionProps) 
             setProgress((swiper.activeIndex + 1) / offers.length)
           }
         >
-          {offers.map((offer, idx) => (
-            <SwiperSlide key={idx} className="!w-72 sm:!w-80">
-              <div className="bg-white rounded-xl shadow overflow-hidden flex flex-col min-h-[280px] border border-gray-200">
-                {/* Image principale */}
-                {offer.image && (
-                  <div className="relative h-32 w-full overflow-hidden">
-                    <Image 
-                      src={offer.image} 
-                      alt={offer.title}
-                      fill
-                      className="object-cover"
-                      loading="lazy"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                    {/* Logo rond en overlay */}
-                    {offer.logo && (
-                      <div className="absolute bottom-2 left-2 w-12 h-12 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white z-10">
-                        <Image 
-                          src={offer.logo} 
-                          alt="Logo"
-                          width={48}
-                          height={48}
-                          className="object-cover"
-                          loading="lazy"
-                        />
-                      </div>
-                    )}
-                  </div>
-                )}
+          {offers.map((offer, idx) => {
+            // Calculer la distance si position utilisateur disponible
+            const distance = userPosition && offer.coordinates 
+              ? calculateDistance(userPosition, offer.coordinates)
+              : null;
+
+            return (
+              <SwiperSlide key={idx} className="!w-72 sm:!w-80">
+                <div className="bg-white rounded-xl shadow overflow-hidden flex flex-col min-h-[280px] border border-gray-200">
+                  {/* Image principale */}
+                  {offer.image && (
+                    <div className="relative h-32 w-full overflow-hidden">
+                      <Image 
+                        src={offer.image} 
+                        alt={offer.title}
+                        fill
+                        className="object-cover"
+                        loading="lazy"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                      
+                      {/* Badge distance (si < 2km) */}
+                      {distance && distance <= 2000 && (
+                        <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
+                          📍 {formatDistance(distance)}
+                        </div>
+                      )}
+                      
+                      {/* Logo rond en overlay */}
+                      {offer.logo && (
+                        <div className="absolute bottom-2 left-2 w-12 h-12 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white z-10">
+                          <Image 
+                            src={offer.logo} 
+                            alt="Logo"
+                            width={48}
+                            height={48}
+                            className="object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
                 
                 {/* Contenu */}
                 <div className="p-4 flex flex-col flex-1">
@@ -88,7 +105,8 @@ export default function FlashOffersSection({ offers }: FlashOffersSectionProps) 
                 </div>
               </div>
             </SwiperSlide>
-          ))}
+            );
+          })}
         </Swiper>
       </section>
       

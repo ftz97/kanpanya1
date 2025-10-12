@@ -5,7 +5,8 @@ export const tombolas = [
     desc: "10 gagnants cette semaine", 
     cta: "Jouer",
     image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=250&fit=crop",
-    logo: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=80&h=80&fit=crop"
+    logo: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=80&h=80&fit=crop",
+    coordinates: { lat: 14.6105, lon: -61.0585 }
   },
   { 
     title: "🌸 Bouquet à gagner", 
@@ -30,28 +31,32 @@ export const actus = [
     title: "🌱 Nouveaux fruits locaux", 
     desc: "Mangez frais, achetez pays",
     image: "https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=400&h=250&fit=crop",
-    logo: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=80&h=80&fit=crop"
+    logo: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=80&h=80&fit=crop",
+    coordinates: { lat: 14.6143, lon: -61.0621 }
   },
   { 
     merchant: "Café du Coin", 
     title: "🎶 Soirée Jazz vendredi", 
     desc: "Ambiance live dès 20h",
     image: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=400&h=250&fit=crop",
-    logo: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=80&h=80&fit=crop"
+    logo: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=80&h=80&fit=crop",
+    coordinates: { lat: 14.6105, lon: -61.0585 }
   },
   { 
     merchant: "Fleuriste Antilles", 
     title: "💐 Atelier bouquet samedi", 
     desc: "Apprenez à composer le vôtre",
     image: "https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=400&h=250&fit=crop",
-    logo: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=80&h=80&fit=crop"
+    logo: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=80&h=80&fit=crop",
+    coordinates: { lat: 14.5987, lon: -61.0692 }
   },
   { 
     merchant: "Boulangerie Artisanale", 
     title: "🥖 Pain complet dispo", 
     desc: "Cuit ce matin, encore chaud",
     image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=250&fit=crop",
-    logo: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=80&h=80&fit=crop"
+    logo: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=80&h=80&fit=crop",
+    coordinates: { lat: 14.6037, lon: -61.0731 }
   },
 ];
 
@@ -61,13 +66,15 @@ export const flashOffers = [
     title: "Happy Hour 14h-16h", 
     tag: "Flash",
     image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=400&h=250&fit=crop",
-    logo: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=80&h=80&fit=crop"
+    logo: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=80&h=80&fit=crop",
+    coordinates: { lat: 14.6105, lon: -61.0585 }
   },
   { 
     title: "Légumes frais -30%", 
     tag: "Flash",
     image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&h=250&fit=crop",
-    logo: "https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=80&h=80&fit=crop"
+    logo: "https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=80&h=80&fit=crop",
+    coordinates: { lat: 14.6143, lon: -61.0621 }
   },
   { 
     title: "Parapharmacie -15%", 
@@ -104,7 +111,8 @@ export const fidelityCards = [
     current: 7, 
     reward: "1 pain gratuit",
     image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=200&fit=crop",
-    logo: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=80&h=80&fit=crop"
+    logo: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=80&h=80&fit=crop",
+    coordinates: { lat: 14.6037, lon: -61.0731 }
   },
   { 
     merchant: "☕ Café du Coin", 
@@ -113,7 +121,8 @@ export const fidelityCards = [
     current: 3, 
     reward: "1 café offert",
     image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400&h=200&fit=crop",
-    logo: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=80&h=80&fit=crop"
+    logo: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=80&h=80&fit=crop",
+    coordinates: { lat: 14.6105, lon: -61.0585 }
   },
   { 
     merchant: "🛒 Supermarché Local", 

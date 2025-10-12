@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import { motion } from "framer-motion";
+import { calculateDistance, formatDistance } from "@/utils/calculateDistance";
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -14,13 +15,15 @@ interface Tombola {
   cta: string;
   image?: string;
   logo?: string;
+  coordinates?: { lat: number; lon: number };
 }
 
 interface TombolaSectionProps {
   tombolas: Tombola[];
+  userPosition?: { lat: number; lon: number } | null;
 }
 
-export default function TombolaSection({ tombolas }: TombolaSectionProps) {
+export default function TombolaSection({ tombolas, userPosition }: TombolaSectionProps) {
   const [progress, setProgress] = useState(1 / tombolas.length);
 
   return (
@@ -47,35 +50,49 @@ export default function TombolaSection({ tombolas }: TombolaSectionProps) {
             setProgress((swiper.activeIndex + 1) / tombolas.length)
           }
         >
-          {tombolas.map((tb, idx) => (
-            <SwiperSlide key={idx} className="!w-72 sm:!w-80">
-              <div className="bg-white rounded-xl shadow overflow-hidden min-h-[280px] flex flex-col">
-                {/* Image principale */}
-                {tb.image && (
-                  <div className="relative h-32 w-full overflow-hidden">
-                    <Image 
-                      src={tb.image} 
-                      alt={tb.title}
-                      fill
-                      className="object-cover"
-                      loading="lazy"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                    {/* Logo rond en overlay */}
-                    {tb.logo && (
-                      <div className="absolute bottom-2 left-2 w-12 h-12 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white z-10">
-                        <Image 
-                          src={tb.logo} 
-                          alt="Logo"
-                          width={48}
-                          height={48}
-                          className="object-cover"
-                          loading="lazy"
-                        />
-                      </div>
-                    )}
-                  </div>
-                )}
+          {tombolas.map((tb, idx) => {
+            // Calculer la distance si position utilisateur disponible
+            const distance = userPosition && tb.coordinates 
+              ? calculateDistance(userPosition, tb.coordinates)
+              : null;
+
+            return (
+              <SwiperSlide key={idx} className="!w-72 sm:!w-80">
+                <div className="bg-white rounded-xl shadow overflow-hidden min-h-[280px] flex flex-col">
+                  {/* Image principale */}
+                  {tb.image && (
+                    <div className="relative h-32 w-full overflow-hidden">
+                      <Image 
+                        src={tb.image} 
+                        alt={tb.title}
+                        fill
+                        className="object-cover"
+                        loading="lazy"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                      
+                      {/* Badge distance (si < 2km) */}
+                      {distance && distance <= 2000 && (
+                        <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
+                          📍 {formatDistance(distance)}
+                        </div>
+                      )}
+                      
+                      {/* Logo rond en overlay */}
+                      {tb.logo && (
+                        <div className="absolute bottom-2 left-2 w-12 h-12 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white z-10">
+                          <Image 
+                            src={tb.logo} 
+                            alt="Logo"
+                            width={48}
+                            height={48}
+                            className="object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
                 
                 {/* Contenu */}
                 <div className="p-4 flex flex-col flex-1 bg-yellow-50">
@@ -87,7 +104,8 @@ export default function TombolaSection({ tombolas }: TombolaSectionProps) {
                 </div>
               </div>
             </SwiperSlide>
-          ))}
+            );
+          })}
         </Swiper>
       </section>
       

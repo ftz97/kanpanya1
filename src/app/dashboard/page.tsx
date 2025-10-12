@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { useDashboardWelcomeMessage } from "@/hooks/useDashboardWelcomeMessage";
 import { useEmojiAnimation } from "@/hooks/useEmojiAnimation";
+import { useGeolocation } from "@/hooks/useGeolocation";
 import { tombolas, actus, flashOffers, fidelityCards, categories, stats } from "@/data/dashboardData";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -26,7 +27,6 @@ import ExploreCategories from "@/components/dashboard/ExploreCategories";
 import CommunityBlock from "@/components/dashboard/CommunityBlock";
 import StatsSection from "@/components/dashboard/StatsSection";
 import DashboardModals from "@/components/dashboard/DashboardModals";
-import NearbyCommercants from "@/components/dashboard/NearbyCommercants";
 
 export default function DashboardPage() {
   // 🎯 Nom d'utilisateur - à remplacer par le prénom réel du user
@@ -35,6 +35,7 @@ export default function DashboardPage() {
   // Hooks personnalisés
   const { welcomeMessage } = useDashboardWelcomeMessage(userName);
   const { happy, sad, money, trigger } = useEmojiAnimation();
+  const { position } = useGeolocation();
   
   // États UI
   const [showQRPopup, setShowQRPopup] = React.useState(false);
@@ -134,25 +135,22 @@ export default function DashboardPage() {
           {welcomeMessage}
         </h1>
 
-        {/* Commerçants à proximité */}
-        <NearbyCommercants />
-
         {/* Carrousel sponsorisé */}
         <section>
           <SponsorCarousel />
         </section>
 
         {/* 🎁 Tombolas */}
-        <TombolaSection tombolas={tombolas} />
+        <TombolaSection tombolas={tombolas} userPosition={position} />
 
         {/* 📰 Actus commerçants */}
-        <ActusSection actus={actus} />
+        <ActusSection actus={actus} userPosition={position} />
 
         {/* 🔥 Bons plans flash */}
-        <FlashOffersSection offers={flashOffers} />
+        <FlashOffersSection offers={flashOffers} userPosition={position} />
 
         {/* 🎟️ Cartes de fidélité */}
-        <FidelityCardsSection cards={fidelityCards} />
+        <FidelityCardsSection cards={fidelityCards} userPosition={position} />
 
         {/* 📂 Explorez par catégorie */}
         <ExploreCategories categories={categories} />
