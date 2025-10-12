@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
@@ -41,10 +42,13 @@ export default function ExploreCategories({ categories }: ExploreCategoriesProps
               {/* Image principale avec icône overlay */}
               {cat.image && (
                 <div className="relative h-32 w-full overflow-hidden">
-                  <img 
+                  <Image 
                     src={cat.image} 
                     alt={cat.name}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    loading="lazy"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
                   {/* Icône en overlay centré */}
                   <div className="absolute inset-0 flex items-center justify-center bg-black/30">

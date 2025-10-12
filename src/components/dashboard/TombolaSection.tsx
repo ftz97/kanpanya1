@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import { motion } from "framer-motion";
@@ -52,18 +53,24 @@ export default function TombolaSection({ tombolas }: TombolaSectionProps) {
                 {/* Image principale */}
                 {tb.image && (
                   <div className="relative h-32 w-full overflow-hidden">
-                    <img 
+                    <Image 
                       src={tb.image} 
                       alt={tb.title}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      loading="lazy"
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
                     {/* Logo rond en overlay */}
                     {tb.logo && (
-                      <div className="absolute bottom-2 left-2 w-12 h-12 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white">
-                        <img 
+                      <div className="absolute bottom-2 left-2 w-12 h-12 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white z-10">
+                        <Image 
                           src={tb.logo} 
                           alt="Logo"
-                          className="w-full h-full object-cover"
+                          width={48}
+                          height={48}
+                          className="object-cover"
+                          loading="lazy"
                         />
                       </div>
                     )}

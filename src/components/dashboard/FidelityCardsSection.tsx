@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
@@ -45,18 +46,24 @@ export default function FidelityCardsSection({ cards }: FidelityCardsSectionProp
               {/* Image principale */}
               {card.image && (
                 <div className="relative h-24 w-full overflow-hidden">
-                  <img 
+                  <Image 
                     src={card.image} 
                     alt={card.merchant}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    loading="lazy"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
                   {/* Logo rond en overlay */}
                   {card.logo && (
-                    <div className="absolute bottom-2 left-2 w-10 h-10 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white">
-                      <img 
+                    <div className="absolute bottom-2 left-2 w-10 h-10 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white z-10">
+                      <Image 
                         src={card.logo} 
                         alt={card.merchant}
-                        className="w-full h-full object-cover"
+                        width={40}
+                        height={40}
+                        className="object-cover"
+                        loading="lazy"
                       />
                     </div>
                   )}

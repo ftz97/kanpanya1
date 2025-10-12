@@ -1,11 +1,19 @@
 "use client";
 
+import * as React from "react";
+import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import { categories } from "@/data/dashboardData";
 
 export default function CategoriesPage() {
   const router = useRouter();
+  const [items, setItems] = React.useState<typeof categories>([]);
+
+  React.useEffect(() => {
+    setTimeout(() => setItems(categories), 200);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#F2F2F2]">
@@ -28,36 +36,50 @@ export default function CategoriesPage() {
       <div className="max-w-4xl mx-auto px-4 py-6">
         <h1 className="text-2xl sm:text-3xl font-bold text-[#123456] mb-6">📂 Toutes les catégories</h1>
         
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          {categories.map((cat, idx) => (
-            <div key={idx} className="bg-white rounded-xl shadow overflow-hidden border border-gray-200 flex flex-col min-h-[280px] hover:shadow-lg transition cursor-pointer">
-              {/* Image principale avec icône overlay */}
-              {cat.image && (
-                <div className="relative h-36 w-full overflow-hidden">
-                  <img 
-                    src={cat.image} 
-                    alt={cat.name}
-                    className="w-full h-full object-cover"
-                  />
-                  {/* Icône en overlay centré */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                    <span className="text-6xl drop-shadow-lg">{cat.icon}</span>
+        {items.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500">Chargement des catégories...</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+            {items.map((cat, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1, duration: 0.3 }}
+                className="bg-white rounded-xl shadow overflow-hidden border border-gray-200 flex flex-col h-auto sm:min-h-[260px] hover:shadow-lg transition cursor-pointer"
+              >
+                {/* Image principale avec icône overlay */}
+                {cat.image && (
+                  <div className="relative h-36 w-full overflow-hidden">
+                    <Image 
+                      src={cat.image} 
+                      alt={cat.name}
+                      fill
+                      className="object-cover"
+                      loading="lazy"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    />
+                    {/* Icône en overlay centré */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                      <span className="text-6xl drop-shadow-lg">{cat.icon}</span>
+                    </div>
                   </div>
+                )}
+                
+                {/* Contenu */}
+                <div className="p-4 flex flex-col flex-1 text-center items-center justify-center">
+                  <p className="font-semibold text-base text-[#123456] mb-3">{cat.name}</p>
+                  <button className="w-full border border-[#17BFA0] text-[#17BFA0] rounded-lg py-2 text-sm font-medium hover:bg-teal-50 active:scale-95 transition-all duration-200">
+                    Explorer
+                  </button>
                 </div>
-              )}
-              
-              {/* Contenu */}
-              <div className="p-4 flex flex-col flex-1 text-center items-center justify-center">
-                <p className="font-semibold text-base text-[#123456] mb-3">{cat.name}</p>
-                <button className="w-full border border-[#17BFA0] text-[#17BFA0] rounded-lg py-2 text-sm font-medium hover:bg-teal-50 active:scale-95 transition-all duration-200">
-                  Explorer
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
 }
-

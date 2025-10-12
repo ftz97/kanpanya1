@@ -13,6 +13,17 @@ const nextConfig = {
   experimental: {
     // outputFileTracingRoot: undefined, // Supprimé car non reconnu
   },
+  // Configuration des images externes
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
   // Configuration des domaines
   async redirects() {
     return [
