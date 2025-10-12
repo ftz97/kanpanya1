@@ -55,6 +55,16 @@ export default function ActusSection({ actus, userPosition }: ActusSectionProps)
             const distance = userPosition && a.coordinates 
               ? calculateDistance(userPosition, a.coordinates)
               : null;
+            
+            // Debug
+            if (idx === 0) {
+              console.log("🔍 ActusSection debug:", {
+                userPosition,
+                coordinates: a.coordinates,
+                distance,
+                showBadge: distance && distance <= 2000
+              });
+            }
 
             return (
               <SwiperSlide key={idx} className="!w-72 sm:!w-80">
