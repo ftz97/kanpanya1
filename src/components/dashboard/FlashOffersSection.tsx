@@ -72,9 +72,9 @@ export default function FlashOffersSection({ offers, userPosition }: FlashOffers
                       
                       {/* Badge distance (si < 2km) */}
                       {distance && distance <= 2000 && (
-                        <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
+                        <span className="absolute top-2 right-2 bg-white/90 text-gray-700 px-2 py-1 rounded-md text-xs font-medium shadow-sm">
                           📍 {formatDistance(distance)}
-                        </div>
+                        </span>
                       )}
                       
                       {/* Logo rond en overlay */}
