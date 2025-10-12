@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useGeolocation } from "@/hooks/useGeolocation";
 
 export default function NearbyCommercants() {
@@ -7,7 +8,16 @@ export default function NearbyCommercants() {
 
   return (
     <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
-      <h2 className="font-bold text-lg mb-3 text-[#123456]">📍 Commerçants autour de moi</h2>
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="font-bold text-lg text-[#123456]">📍 Commerçants autour de moi</h2>
+        <Link 
+          href="/map"
+          className="text-xs sm:text-sm text-[#17BFA0] font-medium hover:underline flex items-center gap-1"
+        >
+          Voir la carte
+          <span className="text-lg">🗺️</span>
+        </Link>
+      </div>
       
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-3">
