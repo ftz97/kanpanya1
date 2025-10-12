@@ -46,11 +46,11 @@ export default function ActusPage() {
         
         {/* Barre de recherche */}
         <div className="flex items-center bg-white rounded-full shadow-sm px-4 py-3 mb-5">
-          <Search className="w-4 h-4 text-gray-400 mr-2" />
+          <Search className="w-5 h-5 text-gray-400 mr-2" />
           <input
             type="text"
             placeholder="Rechercher une actu, un commerçant..."
-            className="flex-1 text-sm outline-none text-[#123456] placeholder:text-gray-400"
+            className="flex-1 text-base outline-none text-[#123456] placeholder:text-gray-400"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
