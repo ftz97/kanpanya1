@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { flashOffers } from "@/data/dashboardData";
@@ -10,10 +10,16 @@ import { flashOffers } from "@/data/dashboardData";
 export default function BonsPlansPage() {
   const router = useRouter();
   const [items, setItems] = React.useState<typeof flashOffers>([]);
+  const [query, setQuery] = React.useState("");
 
   React.useEffect(() => {
     setTimeout(() => setItems(flashOffers), 200);
   }, []);
+
+  // Filtrage par recherche
+  const filteredItems = items.filter(offer =>
+    offer.title.toLowerCase().includes(query.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-[#F2F2F2]">
@@ -36,13 +42,30 @@ export default function BonsPlansPage() {
       <div className="max-w-4xl mx-auto px-4 py-6">
         <h1 className="text-2xl sm:text-3xl font-bold text-[#123456] mb-6">🔥 Tous les bons plans flash</h1>
         
+        {/* Barre de recherche */}
+        <div className="flex items-center bg-white rounded-full shadow-sm px-4 py-3 mb-5">
+          <Search className="w-4 h-4 text-gray-400 mr-2" />
+          <input
+            type="text"
+            placeholder="Rechercher une offre flash..."
+            className="flex-1 text-sm outline-none text-[#123456] placeholder:text-gray-400"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+
         {items.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-500">Chargement des offres...</p>
           </div>
+        ) : filteredItems.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">😕 Aucune offre trouvée</p>
+            <p className="text-gray-400 text-sm mt-2">Essayez une autre recherche</p>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {items.map((offer, idx) => (
+            {filteredItems.map((offer, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}

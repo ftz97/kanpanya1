@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { actus } from "@/data/dashboardData";
@@ -10,10 +10,18 @@ import { actus } from "@/data/dashboardData";
 export default function ActusPage() {
   const router = useRouter();
   const [items, setItems] = React.useState<typeof actus>([]);
+  const [query, setQuery] = React.useState("");
 
   React.useEffect(() => {
     setTimeout(() => setItems(actus), 200);
   }, []);
+
+  // Filtrage par recherche
+  const filteredItems = items.filter(actu =>
+    actu.merchant.toLowerCase().includes(query.toLowerCase()) ||
+    actu.title.toLowerCase().includes(query.toLowerCase()) ||
+    actu.desc.toLowerCase().includes(query.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-[#F2F2F2]">
@@ -36,13 +44,30 @@ export default function ActusPage() {
       <div className="max-w-4xl mx-auto px-4 py-6">
         <h1 className="text-2xl sm:text-3xl font-bold text-[#123456] mb-6">📰 Toutes les actus commerçants</h1>
         
+        {/* Barre de recherche */}
+        <div className="flex items-center bg-white rounded-full shadow-sm px-4 py-3 mb-5">
+          <Search className="w-4 h-4 text-gray-400 mr-2" />
+          <input
+            type="text"
+            placeholder="Rechercher une actu, un commerçant..."
+            className="flex-1 text-sm outline-none text-[#123456] placeholder:text-gray-400"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+
         {items.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-500">Chargement des actualités...</p>
           </div>
+        ) : filteredItems.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">😕 Aucune actu trouvée</p>
+            <p className="text-gray-400 text-sm mt-2">Essayez une autre recherche</p>
+          </div>
         ) : (
           <div className="space-y-4">
-            {items.map((actu, idx) => (
+            {filteredItems.map((actu, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
