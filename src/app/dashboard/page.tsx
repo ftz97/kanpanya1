@@ -26,6 +26,7 @@ import ExploreCategories from "@/components/dashboard/ExploreCategories";
 import CommunityBlock from "@/components/dashboard/CommunityBlock";
 import StatsSection from "@/components/dashboard/StatsSection";
 import DashboardModals from "@/components/dashboard/DashboardModals";
+import NearbyCommercants from "@/components/dashboard/NearbyCommercants";
 
 export default function DashboardPage() {
   // 🎯 Nom d'utilisateur - à remplacer par le prénom réel du user
@@ -132,6 +133,9 @@ export default function DashboardPage() {
         <h1 className="text-lg sm:text-2xl font-bold text-center text-[#123456] leading-snug">
           {welcomeMessage}
         </h1>
+
+        {/* Commerçants à proximité */}
+        <NearbyCommercants />
 
         {/* Carrousel sponsorisé */}
         <section>
