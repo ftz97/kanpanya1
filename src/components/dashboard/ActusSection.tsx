@@ -1,0 +1,49 @@
+"use client";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import { motion } from "framer-motion";
+import "swiper/css";
+import "swiper/css/pagination";
+
+interface Actu {
+  merchant: string;
+  title: string;
+  desc: string;
+}
+
+interface ActusSectionProps {
+  actus: Actu[];
+  onProgressChange: (progress: number) => void;
+}
+
+export default function ActusSection({ actus, onProgressChange }: ActusSectionProps) {
+  return (
+    <section>
+      <h2 className="text-base sm:text-lg font-semibold mb-3 text-[#123456]">📰 Actus commerçants</h2>
+      <Swiper
+        modules={[Pagination]}
+        spaceBetween={16}
+        slidesPerView="auto"
+        pagination={{ clickable: true }}
+        className="overflow-visible"
+        onSlideChange={(swiper) =>
+          onProgressChange((swiper.activeIndex + 1) / actus.length)
+        }
+      >
+        {actus.map((a, idx) => (
+          <SwiperSlide key={idx} className="!w-72 sm:!w-80">
+            <div className="bg-white rounded-xl shadow p-4 flex flex-col min-h-[150px] border border-gray-200">
+              <p className="font-bold text-[#123456] truncate">{a.title}</p>
+              <p className="text-gray-600 text-xs sm:text-sm">{a.desc}</p>
+              <p className="mt-auto text-xs sm:text-sm text-[#17BFA0] font-semibold truncate">
+                {a.merchant}
+              </p>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </section>
+  );
+}
+

@@ -1,0 +1,89 @@
+"use client";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+
+interface FidelityCard {
+  merchant: string;
+  type: "purchases" | "amount";
+  goal: number;
+  current: number;
+  reward: string;
+}
+
+interface FidelityCardsSectionProps {
+  cards: FidelityCard[];
+}
+
+export default function FidelityCardsSection({ cards }: FidelityCardsSectionProps) {
+  return (
+    <section>
+      <h2 className="text-base sm:text-lg font-semibold mb-3 text-[#123456]">🎟️ Mes cartes de fidélité</h2>
+      <Swiper
+        modules={[Pagination]}
+        spaceBetween={16}
+        slidesPerView="auto"
+        pagination={{ clickable: true }}
+        className="overflow-visible"
+      >
+        {cards.map((card, idx) => (
+          <SwiperSlide key={idx} className="!w-72 sm:!w-80">
+            <div className="bg-white rounded-xl shadow p-4 flex flex-col min-h-[180px] border border-gray-200">
+              {/* Header avec merchant et progression */}
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-bold text-sm text-[#123456] truncate">{card.merchant}</h3>
+                {card.type === "purchases" ? (
+                  <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded whitespace-nowrap">
+                    {card.current}/{card.goal}
+                  </span>
+                ) : (
+                  <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded whitespace-nowrap">
+                    {card.current}€/{card.goal}€
+                  </span>
+                )}
+              </div>
+
+              {/* Carte par achats avec tampons */}
+              {card.type === "purchases" && (
+                <div className="flex gap-2 flex-wrap mb-3">
+                  {Array.from({ length: card.goal }).map((_, i) => (
+                    <div
+                      key={i}
+                      className={`w-6 h-6 rounded-full border flex items-center justify-center text-xs font-bold ${
+                        i < card.current
+                          ? "bg-[#17BFA0] text-white border-[#17BFA0]"
+                          : "bg-gray-100 border-gray-300 text-gray-400"
+                      }`}
+                    >
+                      {i + 1}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Carte par montant avec barre de progression */}
+              {card.type === "amount" && (
+                <div className="mb-3">
+                  <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-[#17BFA0]"
+                      style={{ width: `${(card.current / card.goal) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Récompense */}
+              <p className="text-xs sm:text-sm text-gray-600 mt-auto">
+                🎁 Récompense : <span className="font-semibold text-[#123456]">{card.reward}</span>
+              </p>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </section>
+  );
+}
+
