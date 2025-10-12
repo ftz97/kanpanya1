@@ -68,18 +68,40 @@ export default function DashboardPage() {
             
             <button 
               onClick={() => setShowRewardsPopup(true)}
-              className="hidden sm:flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-[#123456] text-sm font-medium hover:bg-gray-50"
+              aria-label="Mes récompenses"
+              className="flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-[#123456] text-sm font-medium hover:bg-gray-50"
             >
               <Gift className="w-4 h-4 text-[#17BFA0]" />
-              <span>Récomp.</span>
+              <span className="hidden sm:inline">Récomp.</span>
             </button>
 
             <button 
               onClick={() => setShowQRPopup(true)}
+              aria-label="Mon QR Code"
               className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#17BFA0] text-white text-sm font-semibold hover:bg-[#14a58e]"
             >
               <QrCode className="w-4 h-4" />
               <span className="hidden sm:inline">Mon QR</span>
+            </button>
+
+            {/* ✅ Bouton Déconnexion */}
+            <button 
+              onClick={async () => {
+                try {
+                  const { createBrowserSupabase } = await import("@/lib/supabase");
+                  const supabase = createBrowserSupabase();
+                  await supabase.auth.signOut();
+                  window.location.href = "/login";
+                } catch (error) {
+                  console.error("Erreur de déconnexion:", error);
+                }
+              }}
+              aria-label="Déconnexion"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm font-medium hover:bg-red-100 active:scale-95 transition"
+              title="Déconnexion"
+            >
+              <span className="text-sm">[→]</span>
+              <span className="hidden sm:inline">Déconnexion</span>
             </button>
           </div>
         </div>
