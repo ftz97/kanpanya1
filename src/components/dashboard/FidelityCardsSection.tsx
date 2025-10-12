@@ -20,7 +20,16 @@ interface FidelityCardsSectionProps {
 export default function FidelityCardsSection({ cards }: FidelityCardsSectionProps) {
   return (
     <section>
-      <h2 className="text-base sm:text-lg font-semibold mb-3 text-[#123456]">🎟️ Mes cartes de fidélité</h2>
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-base sm:text-lg font-semibold text-[#123456]">🎟️ Mes cartes de fidélité</h2>
+        <a 
+          href="/fidelity"
+          className="text-xs sm:text-sm text-[#17BFA0] font-medium hover:underline flex items-center gap-1"
+        >
+          Voir tout
+          <span className="text-lg">→</span>
+        </a>
+      </div>
       <Swiper
         modules={[Pagination]}
         spaceBetween={16}
