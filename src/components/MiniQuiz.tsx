@@ -6,9 +6,10 @@ type Question = {
   question: string;
   options: string[];
   correctIndex: number;
+  explanation?: string;
 };
 
-const QUESTIONS: Question[] = [
+const DEFAULT_QUESTIONS: Question[] = [
   {
     question: "Quel est le rôle d'une mutuelle ?",
     options: ["Protéger la santé", "Vendre des chaussures"],
@@ -21,25 +22,38 @@ const QUESTIONS: Question[] = [
   },
 ];
 
-export default function MiniQuiz({ onComplete }: { onComplete: () => void }) {
+export default function MiniQuiz({ 
+  onComplete, 
+  questions 
+}: { 
+  onComplete: (score: number) => void;
+  questions?: Question[];
+}) {
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [answered, setAnswered] = useState(false);
+  const [score, setScore] = useState(0);
 
-  const question = QUESTIONS[current];
+  const quizQuestions = questions || DEFAULT_QUESTIONS;
+  const question = quizQuestions[current];
 
   const handleSelect = (index: number) => {
     if (answered) return;
     setSelected(index);
     setAnswered(true);
 
+    // Compter les bonnes réponses
+    if (index === question.correctIndex) {
+      setScore(prev => prev + 1);
+    }
+
     setTimeout(() => {
-      if (current < QUESTIONS.length - 1) {
+      if (current < quizQuestions.length - 1) {
         setCurrent((prev) => prev + 1);
         setSelected(null);
         setAnswered(false);
       } else {
-        onComplete();
+        onComplete(score + (index === question.correctIndex ? 1 : 0));
       }
     }, 900);
   };
@@ -78,7 +92,7 @@ export default function MiniQuiz({ onComplete }: { onComplete: () => void }) {
       </div>
 
       <p className="mt-2 sm:mt-3 text-xs text-gray-500">
-        Question {current + 1} / {QUESTIONS.length}
+        Question {current + 1} / {quizQuestions.length}
       </p>
     </div>
   );

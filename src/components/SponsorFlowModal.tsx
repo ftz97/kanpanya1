@@ -6,20 +6,61 @@ import MiniQuiz from "./MiniQuiz";
 import ScratchCard from "./ScratchCard";
 import { colors } from "@/config/colors";
 
+interface SponsorData {
+  id: string;
+  name: string;
+  logo: string;
+  logoImage?: string;
+  mainImage: string;
+  type: "video-quiz" | "quiz-direct";
+  title: string;
+  description: string;
+  cta: string;
+  reward?: string;
+  background: string;
+  icon?: string;
+  theme: string;
+  questions: Array<{
+    question: string;
+    options: string[];
+    correctIndex: number;
+    explanation: string;
+  }>;
+  scratchRewards: Array<{
+    type: "points" | "coupon" | "gift";
+    amount?: number;
+    label: string;
+    description: string;
+  }>;
+}
+
 export default function SponsorFlowModal({
   visible,
   onClose,
+  sponsorData,
 }: {
   visible: boolean;
   onClose: () => void;
+  sponsorData?: SponsorData;
 }) {
   const [step, setStep] = useState<"video" | "quiz" | "scratch">("video");
+  const [quizScore, setQuizScore] = useState(0);
+  const [selectedReward, setSelectedReward] = useState<any>(null);
   const [isClient, setIsClient] = useState(false);
 
   // ✅ CORRECTION : Attendre l'hydratation côté client
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  // Reset state when modal opens
+  useEffect(() => {
+    if (visible && sponsorData) {
+      setStep(sponsorData.type === "video-quiz" ? "video" : "quiz");
+      setQuizScore(0);
+      setSelectedReward(null);
+    }
+  }, [visible, sponsorData]);
 
   if (!visible) return null;
 
@@ -104,8 +145,8 @@ export default function SponsorFlowModal({
         }}
       >
         <AnimatePresence mode="wait">
-          {/* 🎥 ÉTAPE 1 : VIDÉO */}
-          {step === "video" && (
+          {/* 🎥 ÉTAPE 1 : VIDÉO (seulement pour type video-quiz) */}
+          {step === "video" && sponsorData?.type === "video-quiz" && (
             <motion.div
               key="video"
               variants={slideX}
@@ -114,35 +155,37 @@ export default function SponsorFlowModal({
               exit="exit"
               className="p-6 sm:p-8 text-center"
             >
-              {/* Header avec logo Kanpanya */}
+              {/* Header avec logo sponsor */}
               <div className="mb-6">
                 <div className="text-2xl font-bold mb-2" style={{ color: colors.primary }}>
-                  Kanpanya
+                  {sponsorData.name}
                 </div>
                 <p className="text-sm" style={{ color: colors.textSecondary }}>
-                  Découvrez notre partenaire
+                  {sponsorData.description}
                 </p>
               </div>
 
-              {/* Zone vidéo avec design Kanpanya */}
+              {/* Zone vidéo thématique */}
               <div 
                 className="w-full aspect-video rounded-xl flex items-center justify-center text-lg font-bold mb-6 relative overflow-hidden"
                 style={{ 
-                  background: colors.gradients.partner,
+                  background: `linear-gradient(135deg, ${sponsorData.theme === 'santé' ? '#10b981, #059669' : '#f59e0b, #d97706'})`,
                   border: `2px solid ${colors.primary}30`
                 }}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
-                <div className="relative z-10 flex flex-col items-center">
-                  <div className="text-4xl mb-2">🎥</div>
-                  <div style={{ color: colors.textPrimary }}>Vidéo sponsor</div>
-                  <div className="text-sm font-normal mt-1" style={{ color: colors.textSecondary }}>
-                    Découvrez notre partenaire
+                <div className="relative z-10 flex flex-col items-center text-white">
+                  <div className="text-4xl mb-2">
+                    {sponsorData.theme === 'santé' ? '🏥' : '🥖'}
+                  </div>
+                  <div className="font-bold">Vidéo {sponsorData.theme}</div>
+                  <div className="text-sm font-normal mt-1 opacity-90">
+                    Découvrez les secrets de {sponsorData.name}
                   </div>
                 </div>
               </div>
 
-              {/* Bouton avec style Kanpanya */}
+              {/* Bouton continuer */}
               <motion.button
                 whileTap={{ scale: 0.95 }}
                 whileHover={{ scale: 1.02 }}
@@ -178,13 +221,23 @@ export default function SponsorFlowModal({
               <div className="w-full max-w-md">
                 <div className="text-center mb-4">
                   <div className="text-xl font-bold mb-1" style={{ color: colors.primary }}>
-                    Quiz Partenaire
+                    Quiz {sponsorData?.theme || "Partenaire"}
                   </div>
                   <p className="text-sm" style={{ color: colors.textSecondary }}>
-                    Testez vos connaissances
+                    {sponsorData?.questions.length || 4} questions pour gagner des points !
                   </p>
                 </div>
-                <MiniQuiz onComplete={() => setStep("scratch")} />
+                <MiniQuiz 
+                  onComplete={(score: number) => {
+                    setQuizScore(score);
+                    // Sélectionner une récompense aléatoire basée sur le score
+                    const rewards = sponsorData?.scratchRewards || [];
+                    const randomReward = rewards[Math.floor(Math.random() * rewards.length)];
+                    setSelectedReward(randomReward);
+                    setStep("scratch");
+                  }} 
+                  questions={sponsorData?.questions}
+                />
               </div>
             </motion.div>
           )}
@@ -201,20 +254,20 @@ export default function SponsorFlowModal({
             >
               <div className="text-center mb-4 p-4" style={{ background: colors.gradients.community }}>
                 <div className="text-lg font-bold mb-1" style={{ color: colors.primary }}>
-                  🎟️ Grattez votre ticket !
+                  🎟️ Grattez votre ticket {sponsorData?.theme} !
                 </div>
                 <p className="text-sm" style={{ color: colors.textSecondary }}>
-                  Découvrez votre récompense
+                  Score: {quizScore}/{sponsorData?.questions.length} - Découvrez votre récompense
                 </p>
               </div>
               <ScratchCard 
                 reward={{
-                  type: 'points',
-                  amount: 50,
-                  label: '+50 points Kanpanya'
+                  type: selectedReward?.type || 'points',
+                  amount: selectedReward?.amount || 50,
+                  label: selectedReward?.label || '+50 points'
                 }}
                 onReveal={() => {
-                  console.log('🎉 Carte révélée dans le modal sponsor !');
+                  console.log('🎉 Carte révélée dans le modal sponsor !', selectedReward);
                 }}
               />
             </motion.div>
