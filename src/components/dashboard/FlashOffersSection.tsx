@@ -72,8 +72,8 @@ export default function FlashOffersSection({ offers, userPosition }: FlashOffers
                       
                       {/* Badge distance (si < 2km) */}
                       {distance && distance <= 2000 && (
-                        <span className="absolute top-1.5 right-1.5 bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded text-[10px] font-medium shadow-md">
-                          📍{formatDistance(distance)}
+                        <span className="absolute top-3 right-3 bg-black/70 backdrop-blur-sm text-white px-2 py-1 rounded text-[11px] font-medium shadow-md">
+                          📍 {formatDistance(distance)}
                         </span>
                       )}
                       
