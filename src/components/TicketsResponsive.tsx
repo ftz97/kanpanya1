@@ -23,7 +23,7 @@ export default function TicketsResponsive({ tickets, onTicketClick }: TicketsRes
       {/* Desktop : bouton distinct */}
       <motion.button
         onClick={onTicketClick}
-        className={`hidden sm:flex px-4 py-1.5 rounded-full text-sm font-medium items-center gap-2 shadow transition ${
+        className={`hidden sm:flex px-3 py-2 rounded-lg text-sm font-medium items-center gap-1.5 shadow transition ${
           tickets > 1
             ? "bg-pink-300 text-white hover:bg-pink-400"
             : tickets === 1
@@ -47,7 +47,7 @@ export default function TicketsResponsive({ tickets, onTicketClick }: TicketsRes
 
       {/* Mobile : icône animée */}
       <motion.div
-        className="sm:hidden cursor-pointer px-4 py-1.5 rounded-full bg-white text-pink-600 shadow shadow-pink-200 text-sm font-medium hover:bg-pink-50 active:scale-95 transition"
+        className="sm:hidden cursor-pointer px-3 py-2 rounded-lg bg-white text-pink-600 shadow shadow-pink-200 text-sm font-medium hover:bg-pink-50 active:scale-95 transition"
         onClick={onTicketClick}
         animate={
           tickets > 0

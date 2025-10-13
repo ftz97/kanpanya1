@@ -85,7 +85,7 @@ export default function DashboardPage() {
             <button 
               onClick={() => setShowRewardsPopup(true)}
               aria-label="Mes récompenses"
-              className="flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-[#123456] text-sm font-medium hover:bg-gray-50 active:scale-95 transition-all duration-200"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white border border-gray-200 text-[#123456] text-sm font-medium hover:bg-gray-50 active:scale-95 transition-all duration-200"
             >
               <Gift className="w-4 h-4 text-[#17BFA0]" />
               <span className="hidden sm:inline">Récomp.</span>
@@ -94,7 +94,7 @@ export default function DashboardPage() {
             <button 
               onClick={() => setShowQRPopup(true)}
               aria-label="Mon QR Code"
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#17BFA0] text-white text-sm font-semibold hover:bg-[#14a58e] shadow-[0_0_20px_rgba(23,191,160,0.4)] hover:shadow-[0_0_30px_rgba(23,191,160,0.6)] transition-all duration-300"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#17BFA0] text-white text-sm font-semibold hover:bg-[#14a58e] shadow-[0_0_20px_rgba(23,191,160,0.4)] hover:shadow-[0_0_30px_rgba(23,191,160,0.6)] transition-all duration-300"
             >
               <QrCode className="w-4 h-4" />
               <span className="hidden sm:inline">Mon QR</span>
@@ -113,7 +113,7 @@ export default function DashboardPage() {
                 }
               }}
               aria-label="Déconnexion"
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm font-medium hover:bg-red-100 active:scale-95 transition"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm font-medium hover:bg-red-100 active:scale-95 transition-all duration-200"
               title="Déconnexion"
             >
               <span className="text-sm">[→]</span>
