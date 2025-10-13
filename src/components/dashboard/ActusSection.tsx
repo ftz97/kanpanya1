@@ -83,7 +83,7 @@ export default function ActusSection({ actus, userPosition }: ActusSectionProps)
                       
                       {/* Badge distance (si < 2km) */}
                       {distance && distance <= 2000 && (
-                        <span className="absolute top-2 right-2 bg-white/90 text-gray-700 px-2 py-1 rounded-md text-xs font-medium shadow-sm">
+                        <span className="absolute top-2 right-2 bg-white/80 backdrop-blur-md text-gray-800 px-3 py-1.5 rounded-lg text-xs font-semibold shadow-lg border border-white/30">
                           📍 {formatDistance(distance)}
                         </span>
                       )}
