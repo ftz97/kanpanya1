@@ -66,7 +66,7 @@ export default function FidelityCardsSection({ cards, userPosition }: FidelityCa
                     
                     {/* Badge distance (si < 2km) */}
                     {distance && distance <= 2000 && (
-                      <span className="absolute top-1.5 right-1.5 bg-white/90 backdrop-blur-sm text-gray-600 px-1.5 py-0.5 rounded text-[10px] font-medium shadow-sm">
+                      <span className="absolute top-1.5 right-1.5 bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded text-[10px] font-medium shadow-md">
                         📍{formatDistance(distance)}
                       </span>
                     )}
