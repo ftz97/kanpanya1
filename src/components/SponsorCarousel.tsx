@@ -43,7 +43,7 @@ const mockSponsors: Sponsor[] = [
     id: "1",
     name: "Mutuelle Locale",
     logo: "🏥",
-    logoImage: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=80&h=80&fit=crop",
+    logoImage: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=80&h=80&fit=crop&crop=center",
     mainImage: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=400&fit=crop",
     type: "video-quiz",
     title: "🎬 Santé & Nutrition",
@@ -90,7 +90,7 @@ const mockSponsors: Sponsor[] = [
     id: "2",
     name: "Boulangerie Artisanale",
     logo: "🥖",
-    logoImage: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=80&h=80&fit=crop",
+    logoImage: "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=80&h=80&fit=crop&crop=center",
     mainImage: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=800&h=400&fit=crop",
     type: "quiz-direct",
     title: "🧠 Quiz Boulangerie",
@@ -131,6 +131,100 @@ const mockSponsors: Sponsor[] = [
       { type: "coupon", label: "Pain gratuit", description: "Un pain de votre choix offert !" },
       { type: "coupon", label: "-30% pâtisseries", description: "Réduction sur nos délices" },
       { type: "gift", label: "Coffret artisan", description: "Sélection de nos spécialités" }
+    ]
+  },
+  {
+    id: "3",
+    name: "Carrefour",
+    logo: "🛒",
+    logoImage: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=80&h=80&fit=crop&crop=center",
+    mainImage: "https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=800&h=400&fit=crop",
+    type: "quiz-direct",
+    title: "🛒 Quiz Supermarché",
+    description: "Testez vos connaissances sur l'alimentation",
+    cta: "Jouer",
+    reward: "Jusqu'à +120 pts",
+    background: "from-blue-400 to-blue-600",
+    icon: "🎯",
+    theme: "supermarché",
+    questions: [
+      {
+        question: "Quel est le meilleur moment pour faire ses courses ?",
+        options: ["Le matin", "Le soir", "Après avoir mangé", "N'importe quand"],
+        correctIndex: 2,
+        explanation: "Faire ses courses après avoir mangé évite les achats impulsifs !"
+      },
+      {
+        question: "Où faut-il regarder en premier dans un magasin ?",
+        options: ["Les rayons du milieu", "Le bas des étagères", "Le haut des étagères", "Les promotions"],
+        correctIndex: 1,
+        explanation: "Les produits les moins chers sont souvent en bas des étagères !"
+      },
+      {
+        question: "Quelle est la meilleure façon de conserver les légumes ?",
+        options: ["Au frigo", "À température ambiante", "Dans l'eau", "Au congélateur"],
+        correctIndex: 0,
+        explanation: "La plupart des légumes se conservent mieux au frigo !"
+      },
+      {
+        question: "Combien de temps peut-on garder un produit après sa date limite ?",
+        options: ["1 jour", "3 jours", "1 semaine", "Jamais"],
+        correctIndex: 1,
+        explanation: "On peut généralement consommer 2-3 jours après la DLC si bien conservé !"
+      }
+    ],
+    scratchRewards: [
+      { type: "points", amount: 60, label: "+60 points courses", description: "Bravo pour vos connaissances !" },
+      { type: "coupon", label: "-15% sur vos courses", description: "Réduction valable 1 semaine" },
+      { type: "coupon", label: "Produit gratuit", description: "Un produit de votre choix offert" },
+      { type: "gift", label: "Coffret découverte", description: "Sélection de produits locaux" }
+    ]
+  },
+  {
+    id: "4",
+    name: "Décathlon",
+    logo: "🏃‍♂️",
+    logoImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=80&h=80&fit=crop&crop=center",
+    mainImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+    type: "video-quiz",
+    title: "🏃‍♂️ Sport & Bien-être",
+    description: "Découvrez les bienfaits du sport",
+    cta: "Découvrir",
+    reward: "Jusqu'à +180 pts",
+    background: "from-green-400 to-green-600",
+    icon: "▶️",
+    theme: "sport",
+    questions: [
+      {
+        question: "Combien de temps d'activité physique par jour ?",
+        options: ["15 min", "30 min", "1 heure", "2 heures"],
+        correctIndex: 1,
+        explanation: "L'OMS recommande 30 minutes d'activité modérée par jour !"
+      },
+      {
+        question: "Quel est le meilleur moment pour faire du sport ?",
+        options: ["Le matin", "Le midi", "Le soir", "N'importe quand"],
+        correctIndex: 3,
+        explanation: "Le meilleur moment est celui où vous pouvez être régulier !"
+      },
+      {
+        question: "Combien de temps faut-il s'échauffer ?",
+        options: ["5 min", "10 min", "20 min", "Pas besoin"],
+        correctIndex: 1,
+        explanation: "Un échauffement de 10 minutes prépare bien le corps à l'effort !"
+      },
+      {
+        question: "Que faut-il faire après le sport ?",
+        options: ["Se reposer", "S'étirer", "Manger", "Tout ça"],
+        correctIndex: 3,
+        explanation: "Repos, étirements et nutrition sont tous importants après l'effort !"
+      }
+    ],
+    scratchRewards: [
+      { type: "points", amount: 90, label: "+90 points sport", description: "Excellente forme physique !" },
+      { type: "points", amount: 120, label: "+120 points vitalité", description: "Champion du sport !" },
+      { type: "coupon", label: "-20% équipement", description: "Réduction sur vos équipements sport" },
+      { type: "gift", label: "Kit sportif", description: "Coffret accessoires sport offert" }
     ]
   }
 ];
