@@ -140,17 +140,17 @@ export default function DashboardPage() {
           <SponsorCarousel />
         </section>
 
-        {/* 🎁 Tombolas */}
-        <TombolaSection tombolas={tombolas} userPosition={position} />
+        {/* 🔥 Bons plans flash */}
+        <FlashOffersSection offers={flashOffers} userPosition={position} />
 
         {/* 📰 Actus commerçants */}
         <ActusSection actus={actus} userPosition={position} />
 
-        {/* 🔥 Bons plans flash */}
-        <FlashOffersSection offers={flashOffers} userPosition={position} />
-
-        {/* 🎟️ Cartes de fidélité */}
+        {/* 🎟️ Mes cartes de fidélité */}
         <FidelityCardsSection cards={fidelityCards} userPosition={position} />
+
+        {/* 🎁 Fidélité (Tombolas) */}
+        <TombolaSection tombolas={tombolas} userPosition={position} />
 
         {/* 📂 Explorez par catégorie */}
         <ExploreCategories categories={categories} />
