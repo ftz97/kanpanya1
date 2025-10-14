@@ -24,30 +24,64 @@ export const tombolas = [
   },
 ];
 
-// 📰 Données Actus commerçants
+// 📰 Données Actus commerçants avec quiz
 export const actus = [
   { 
-    merchant: "Épicerie Bio", 
-    title: "🌱 Nouveaux fruits locaux", 
-    desc: "Mangez frais, achetez pays",
-    image: "https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=400&h=250&fit=crop",
-    logo: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=80&h=80&fit=crop",
-    coordinates: { lat: 14.6143, lon: -61.0621 }
+    merchant: "L'Oréal Professionnel", 
+    title: "💇‍♀️ Nouveaux produits coiffure", 
+    desc: "Découvrez notre gamme professionnelle",
+    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=250&fit=crop",
+    logo: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=80&h=80&fit=crop",
+    coordinates: { lat: 14.6143, lon: -61.0621 },
+    hasQuiz: true,
+    quiz: {
+      questions: [
+        {
+          question: "Quel est le meilleur moment pour se laver les cheveux ?",
+          options: ["Tous les jours", "2-3 fois par semaine", "Une fois par mois", "Jamais"],
+          correctIndex: 1,
+          explanation: "2-3 fois par semaine permet de préserver les huiles naturelles !"
+        },
+        {
+          question: "Quelle température d'eau pour le shampoing ?",
+          options: ["Très chaude", "Tiède", "Froide", "N'importe laquelle"],
+          correctIndex: 1,
+          explanation: "L'eau tiède ouvre les cuticules sans les abîmer !"
+        }
+      ]
+    }
   },
   { 
-    merchant: "Café du Coin", 
-    title: "🎶 Soirée Jazz vendredi", 
-    desc: "Ambiance live dès 20h",
-    image: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=400&h=250&fit=crop",
-    logo: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=80&h=80&fit=crop",
-    coordinates: { lat: 14.6105, lon: -61.0585 }
+    merchant: "Coco Paradise", 
+    title: "🥥 Eau de coco fraîche", 
+    desc: "100% naturelle, directement de l'arbre",
+    image: "https://images.unsplash.com/photo-1526318896980-cf78c088247c?w=400&h=250&fit=crop",
+    logo: "https://images.unsplash.com/photo-1526318896980-cf78c088247c?w=80&h=80&fit=crop",
+    coordinates: { lat: 14.6105, lon: -61.0585 },
+    hasQuiz: true,
+    quiz: {
+      questions: [
+        {
+          question: "Quels sont les bienfaits de l'eau de coco ?",
+          options: ["Hydratation", "Électrolytes", "Vitamines", "Tout ça"],
+          correctIndex: 3,
+          explanation: "L'eau de coco est riche en électrolytes, vitamines et hydrate naturellement !"
+        },
+        {
+          question: "Quand boire de l'eau de coco ?",
+          options: ["Le matin", "Après le sport", "Avant de dormir", "N'importe quand"],
+          correctIndex: 1,
+          explanation: "Après le sport, elle reconstitue parfaitement les minéraux perdus !"
+        }
+      ]
+    }
   },
   { 
-    merchant: "Fleuriste Antilles", 
-    title: "💐 Atelier bouquet samedi", 
-    desc: "Apprenez à composer le vôtre",
-    image: "https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=400&h=250&fit=crop",
-    logo: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=80&h=80&fit=crop",
+    merchant: "Schwarzkopf Professional", 
+    title: "✨ Soins cheveux colorés", 
+    desc: "Protégez votre couleur avec nos soins",
+    image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=250&fit=crop",
+    logo: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=80&h=80&fit=crop",
     coordinates: { lat: 14.5987, lon: -61.0692 }
   },
   { 
@@ -102,45 +136,45 @@ export const flashOffers = [
   },
 ];
 
-// 🎟️ Données Cartes de fidélité
+// 🎟️ Données Cartes de fidélité avec vraies marques
 export const fidelityCards = [
   { 
-    merchant: "🥖 Boulangerie", 
+    merchant: "L'Oréal Professionnel", 
     type: "purchases" as const, 
-    goal: 10, 
-    current: 7, 
-    reward: "1 pain gratuit",
-    image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=200&fit=crop",
-    logo: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=80&h=80&fit=crop",
+    goal: 8, 
+    current: 5, 
+    reward: "Soin cheveux offert",
+    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=200&fit=crop",
+    logo: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=80&h=80&fit=crop",
     coordinates: { lat: 14.6037, lon: -61.0731 }
   },
   { 
-    merchant: "☕ Café du Coin", 
+    merchant: "Coco Paradise", 
     type: "purchases" as const, 
-    goal: 5, 
-    current: 3, 
-    reward: "1 café offert",
-    image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400&h=200&fit=crop",
-    logo: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=80&h=80&fit=crop",
+    goal: 6, 
+    current: 4, 
+    reward: "1 eau de coco offerte",
+    image: "https://images.unsplash.com/photo-1526318896980-cf78c088247c?w=400&h=200&fit=crop",
+    logo: "https://images.unsplash.com/photo-1526318896980-cf78c088247c?w=80&h=80&fit=crop",
     coordinates: { lat: 14.6105, lon: -61.0585 }
   },
   { 
-    merchant: "🛒 Supermarché Local", 
+    merchant: "Schwarzkopf Professional", 
     type: "amount" as const, 
-    goal: 250, 
-    current: 150, 
-    reward: "10€ offerts",
-    image: "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=400&h=200&fit=crop",
-    logo: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=80&h=80&fit=crop"
+    goal: 150, 
+    current: 120, 
+    reward: "15€ de réduction",
+    image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=200&fit=crop",
+    logo: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=80&h=80&fit=crop"
   },
   { 
-    merchant: "💐 Fleuriste", 
-    type: "amount" as const, 
-    goal: 100, 
-    current: 75, 
-    reward: "5€ offerts",
-    image: "https://images.unsplash.com/photo-1487070183336-b863922373d4?w=400&h=200&fit=crop",
-    logo: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=80&h=80&fit=crop"
+    merchant: "Wella Professionals", 
+    type: "purchases" as const, 
+    goal: 5, 
+    current: 3, 
+    reward: "Masque cheveux offert",
+    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=200&fit=crop",
+    logo: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=80&h=80&fit=crop"
   },
 ];
 

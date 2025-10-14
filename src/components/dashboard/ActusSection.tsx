@@ -16,6 +16,15 @@ interface Actu {
   image?: string;
   logo?: string;
   coordinates?: { lat: number; lon: number };
+  hasQuiz?: boolean;
+  quiz?: {
+    questions: Array<{
+      question: string;
+      options: string[];
+      correctIndex: number;
+      explanation: string;
+    }>;
+  };
 }
 
 interface ActusSectionProps {
@@ -25,6 +34,8 @@ interface ActusSectionProps {
 
 export default function ActusSection({ actus, userPosition }: ActusSectionProps) {
   const [progress, setProgress] = useState(1 / actus.length);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [selectedActu, setSelectedActu] = useState<Actu | null>(null);
 
   return (
     <>
@@ -88,6 +99,13 @@ export default function ActusSection({ actus, userPosition }: ActusSectionProps)
                         </span>
                       )}
                       
+                      {/* Badge Quiz */}
+                      {a.hasQuiz && (
+                        <span className="absolute top-3 left-3 bg-[#17BFA0] text-white px-2 py-1 rounded text-[11px] font-medium shadow-md">
+                          🧠 Quiz
+                        </span>
+                      )}
+                      
                       {/* Logo rond en overlay */}
                       {a.logo && (
                         <div className="absolute bottom-2 left-2 w-12 h-12 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white z-10">
@@ -111,6 +129,19 @@ export default function ActusSection({ actus, userPosition }: ActusSectionProps)
                   <p className="mt-auto text-xs sm:text-sm text-[#17BFA0] font-semibold truncate">
                     {a.merchant}
                   </p>
+                  
+                  {/* Bouton Quiz */}
+                  {a.hasQuiz && (
+                    <button 
+                      onClick={() => {
+                        setSelectedActu(a);
+                        setShowQuiz(true);
+                      }}
+                      className="mt-2 bg-[#17BFA0] text-white px-3 py-1 rounded-lg text-xs font-medium hover:bg-[#14a58e] transition-colors"
+                    >
+                      🧠 Faire le quiz
+                    </button>
+                  )}
                 </div>
               </div>
             </SwiperSlide>
@@ -128,6 +159,57 @@ export default function ActusSection({ actus, userPosition }: ActusSectionProps)
           transition={{ type: "spring", stiffness: 120, damping: 15 }}
         />
       </div>
+
+      {/* Modale Quiz */}
+      {showQuiz && selectedActu && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-xl p-6 max-w-md mx-4 max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-bold text-[#17BFA0]">
+                Quiz {selectedActu.merchant}
+              </h3>
+              <button 
+                onClick={() => setShowQuiz(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              {selectedActu.quiz?.questions.map((q, idx) => (
+                <div key={idx} className="border rounded-lg p-4">
+                  <h4 className="font-semibold mb-2">{q.question}</h4>
+                  <div className="space-y-2">
+                    {q.options.map((option, optIdx) => (
+                      <div 
+                        key={optIdx}
+                        className={`p-2 rounded text-sm ${
+                          optIdx === q.correctIndex 
+                            ? 'bg-green-100 text-green-800 border border-green-200' 
+                            : 'bg-gray-50 text-gray-700'
+                        }`}
+                      >
+                        {optIdx === q.correctIndex ? '✅ ' : '○ '}{option}
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs text-gray-600 mt-2 italic">
+                    💡 {q.explanation}
+                  </p>
+                </div>
+              ))}
+            </div>
+            
+            <button 
+              onClick={() => setShowQuiz(false)}
+              className="w-full mt-4 bg-[#17BFA0] text-white py-2 rounded-lg font-medium hover:bg-[#14a58e] transition-colors"
+            >
+              Fermer
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
