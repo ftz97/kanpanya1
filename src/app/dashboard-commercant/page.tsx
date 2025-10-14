@@ -12,6 +12,7 @@ import "swiper/css/pagination";
 import OffersManager from "@/components/commercant/OffersManager";
 import StatsSectionCommercant from "@/components/commercant/StatsSectionCommercant";
 import ClientsSection from "@/components/commercant/ClientsSection";
+import ScanReceiver from "@/components/commercant/ScanReceiver";
 import CommunityBlock from "@/components/dashboard/CommunityBlock";
 import DashboardModals from "@/components/dashboard/DashboardModals";
 
@@ -35,13 +36,13 @@ export default function DashboardCommercantPage() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Scanner client */}
+            {/* Recevoir scan client */}
             <button
               onClick={() => setShowScanner(true)}
               className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#17BFA0] text-white text-sm font-medium hover:bg-[#14a58e] active:scale-95 shadow transition-all duration-200"
             >
               <QrCode className="w-4 h-4" />
-              <span className="hidden sm:inline">Scanner client</span>
+              <span className="hidden sm:inline">Recevoir scan</span>
             </button>
 
             {/* Créer une offre */}
@@ -85,6 +86,9 @@ export default function DashboardCommercantPage() {
         <section>
           <SponsorCarousel />
         </section>
+
+        {/* 📱 Scans reçus */}
+        <ScanReceiver />
 
         {/* 🔧 Gestion des offres */}
         <OffersManager merchantId="1234" position={position} />
