@@ -5,8 +5,10 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 
 // Dynamic imports pour les modales
-const SponsorFlowModal = dynamic(() => import("./SponsorFlowModal"), { ssr: false });
-const ScratchFlow = dynamic(() => import("./ScratchFlow"), { ssr: false });
+const SponsorFlowModal = dynamic(() => import("./SponsorFlowModal"), { 
+  ssr: false,
+  loading: () => <div className="p-4 text-center">Chargement...</div>
+});
 
 // Types
 interface Sponsor {
