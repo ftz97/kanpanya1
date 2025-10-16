@@ -544,21 +544,21 @@ export default function DashboardCommercantPage() {
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#0FB493]/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#E2F0FB]/30 rounded-full blur-3xl"></div>
   {/* 🔹 NAVBAR */}
-  <nav className="w-full bg-gradient-to-r from-white to-[#F7F9FA] border-b border-gray-100 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
-    <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-gradient-to-br from-[#0FB493] to-[#0CA182] rounded-xl flex items-center justify-center shadow-md shadow-[#0FB493]/15">
-          <span className="text-white font-bold text-lg">K</span>
+      <nav className="w-full bg-gradient-to-r from-white to-[#F7F9FA] border-b border-gray-100 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-3 sm:px-6 py-2 sm:py-4">
+      <div className="flex items-center gap-2 sm:gap-3">
+        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-[#0FB493] to-[#0CA182] rounded-xl flex items-center justify-center shadow-md shadow-[#0FB493]/15">
+          <span className="text-white font-bold text-sm sm:text-lg">K</span>
         </div>
         <div>
-          <div className="text-xl font-bold text-[#102A43]">
+          <div className="text-lg sm:text-xl font-bold text-[#102A43]">
             Kanpanya Pro
           </div>
           <div className="text-xs text-gray-500 hidden sm:block">
             Tableau de bord commerçant
           </div>
         </div>
-          </div>
+      </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Notification Bell */}
@@ -612,8 +612,8 @@ export default function DashboardCommercantPage() {
       >
         <WelcomeStats stats={stats} merchantName={merchantData?.nom} />
         
-        {/* Grille d'onglets/cartes */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {/* Grille d'onglets/cartes */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
           {[
             { id: 'offres', label: 'Offres', icon: Gift, desc: 'Promotions', count: offers.length },
             { id: 'clients', label: 'Clients', icon: Users, desc: 'Base fidèle', count: clients.length },
@@ -629,20 +629,20 @@ export default function DashboardCommercantPage() {
               onClick={() => setActiveTab(tab.id)}
               whileHover={{ y: -4 }}
               whileTap={{ scale: 0.98 }}
-              className="group relative bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 hover:border-[#0FB493]/20"
+              className="group relative bg-white rounded-xl p-3 sm:p-5 shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 hover:border-[#0FB493]/20"
             >
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-11 h-11 bg-[#DDF5F0] rounded-lg flex items-center justify-center group-hover:bg-[#0FB493] transition-colors">
-                  <tab.icon className="w-5 h-5 text-[#0FB493] group-hover:text-white transition-colors" />
+              <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                <div className="w-9 h-9 sm:w-11 sm:h-11 bg-[#DDF5F0] rounded-lg flex items-center justify-center group-hover:bg-[#0FB493] transition-colors">
+                  <tab.icon className="w-4 h-4 sm:w-5 sm:h-5 text-[#0FB493] group-hover:text-white transition-colors" />
                 </div>
                 {tab.count > 0 && (
-                  <div className="ml-auto w-6 h-6 bg-[#0FB493] text-white text-xs font-bold rounded-full flex items-center justify-center">
+                  <div className="ml-auto w-5 h-5 sm:w-6 sm:h-6 bg-[#0FB493] text-white text-xs font-bold rounded-full flex items-center justify-center">
                     {tab.count}
                   </div>
                 )}
               </div>
               
-              <h3 className="font-semibold text-[#102A43] mb-0.5 text-left">{tab.label}</h3>
+              <h3 className="font-semibold text-[#102A43] mb-0.5 text-left text-sm sm:text-base">{tab.label}</h3>
               <p className="text-xs text-gray-500 text-left">{tab.desc}</p>
             </motion.button>
           ))}
@@ -664,7 +664,7 @@ export default function DashboardCommercantPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
             onClick={() => setActiveTab(null)}
           >
             <motion.div
@@ -673,23 +673,23 @@ export default function DashboardCommercantPage() {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
+              className="bg-white rounded-2xl sm:rounded-3xl w-full max-w-4xl sm:max-w-6xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl"
             >
-            <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
+            <div className="bg-white border-b border-gray-100 p-3 sm:p-5 flex items-center justify-between">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
                   <Gift className="w-5 h-5 text-[#0FB493]" />
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-[#102A43]">Mes Offres</h2>
-                  <p className="text-xs text-gray-500">Gérer vos promotions</p>
+                  <p className="text-xs text-gray-500 hidden sm:block">Gérer vos promotions</p>
                 </div>
               </div>
-              <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-50 rounded-lg flex items-center justify-center transition-colors">
-                <X className="w-5 h-5 text-gray-400" />
+              <button onClick={() => setActiveTab(null)} className="w-8 h-8 sm:w-9 sm:h-9 hover:bg-gray-50 rounded-lg flex items-center justify-center transition-colors">
+                <X className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
               </button>
             </div>
-            <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
+            <div className="p-3 sm:p-6 overflow-y-auto max-h-[calc(95vh-80px)] sm:max-h-[calc(90vh-100px)]">
               <OffersManager offers={offers} onCreateOffer={() => setShowCreateOffer(true)} />
             </div>
             </motion.div>
@@ -701,7 +701,7 @@ export default function DashboardCommercantPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
             onClick={() => setActiveTab(null)}
           >
             <motion.div
@@ -710,23 +710,23 @@ export default function DashboardCommercantPage() {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
+              className="bg-white rounded-2xl sm:rounded-3xl w-full max-w-4xl sm:max-w-6xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl"
             >
-            <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
+            <div className="bg-white border-b border-gray-100 p-3 sm:p-5 flex items-center justify-between">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
                   <LinkIcon className="w-5 h-5 text-[#0FB493]" />
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-[#102A43]">Réseaux Sociaux</h2>
-                  <p className="text-xs text-gray-500">Partager vos contenus</p>
+                  <p className="text-xs text-gray-500 hidden sm:block">Partager vos contenus</p>
                 </div>
               </div>
               <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
                 <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
-            <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
+            <div className="p-3 sm:p-6 overflow-y-auto max-h-[calc(95vh-80px)] sm:max-h-[calc(90vh-100px)]">
               <SocialLinksManager onCreateLink={() => setShowSocialLinkCreator(true)} />
             </div>
             </motion.div>
@@ -738,7 +738,7 @@ export default function DashboardCommercantPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
             onClick={() => setActiveTab(null)}
           >
             <motion.div
@@ -747,23 +747,23 @@ export default function DashboardCommercantPage() {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
+              className="bg-white rounded-2xl sm:rounded-3xl w-full max-w-4xl sm:max-w-6xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl"
             >
-            <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
+            <div className="bg-white border-b border-gray-100 p-3 sm:p-5 flex items-center justify-between">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
                   <Star className="w-5 h-5 text-[#0FB493]" />
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-[#102A43]">Satisfaction Client</h2>
-                  <p className="text-xs text-gray-500">Avis et retours</p>
+                  <p className="text-xs text-gray-500 hidden sm:block">Avis et retours</p>
                 </div>
               </div>
               <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
                 <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
-            <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
+            <div className="p-3 sm:p-6 overflow-y-auto max-h-[calc(95vh-80px)] sm:max-h-[calc(90vh-100px)]">
               <SatisfactionSurveyManager onCreateSurvey={() => setShowSatisfactionSurveyCreator(true)} />
             </div>
             </motion.div>
@@ -775,7 +775,7 @@ export default function DashboardCommercantPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
             onClick={() => setActiveTab(null)}
           >
             <motion.div
@@ -784,23 +784,23 @@ export default function DashboardCommercantPage() {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
+              className="bg-white rounded-2xl sm:rounded-3xl w-full max-w-4xl sm:max-w-6xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl"
             >
-            <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
-                  <FileText className="w-5 h-5 text-[#0FB493]" />
+            <div className="bg-white border-b border-gray-100 p-3 sm:p-5 flex items-center justify-between">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
+                  <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-[#0FB493]" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-[#102A43]">Quiz</h2>
-                  <p className="text-xs text-gray-500">Jeux interactifs</p>
+                  <h2 className="text-lg sm:text-xl font-bold text-[#102A43]">Quiz</h2>
+                  <p className="text-xs text-gray-500 hidden sm:block">Jeux interactifs</p>
                 </div>
               </div>
-              <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
-                <X className="w-5 h-5 text-gray-500" />
+              <button onClick={() => setActiveTab(null)} className="w-8 h-8 sm:w-9 sm:h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
+                <X className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
               </button>
             </div>
-            <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
+            <div className="p-3 sm:p-6 overflow-y-auto max-h-[calc(95vh-80px)] sm:max-h-[calc(90vh-100px)]">
               <QuizManager onCreateQuiz={() => setShowQuizCreator(true)} />
             </div>
           </motion.div>
@@ -812,7 +812,7 @@ export default function DashboardCommercantPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
             onClick={() => setActiveTab(null)}
           >
             <motion.div
@@ -821,23 +821,23 @@ export default function DashboardCommercantPage() {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
+              className="bg-white rounded-2xl sm:rounded-3xl w-full max-w-4xl sm:max-w-6xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl"
             >
-              <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
+              <div className="bg-white border-b border-gray-100 p-3 sm:p-5 flex items-center justify-between">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
                     <MessageSquare className="w-5 h-5 text-[#0FB493]" />
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-[#102A43]">Sondages</h2>
-                    <p className="text-xs text-gray-500">Enquêtes et feedback</p>
+                    <p className="text-xs text-gray-500 hidden sm:block">Enquêtes et feedback</p>
                   </div>
                 </div>
                 <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
                   <X className="w-5 h-5 text-gray-500" />
                 </button>
               </div>
-              <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
+              <div className="p-3 sm:p-6 overflow-y-auto max-h-[calc(95vh-80px)] sm:max-h-[calc(90vh-100px)]">
                 <SurveyManager onCreateSurvey={() => setShowSurveyCreator(true)} />
               </div>
             </motion.div>
@@ -849,7 +849,7 @@ export default function DashboardCommercantPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
             onClick={() => setActiveTab(null)}
           >
             <motion.div
@@ -858,23 +858,23 @@ export default function DashboardCommercantPage() {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
+              className="bg-white rounded-2xl sm:rounded-3xl w-full max-w-4xl sm:max-w-6xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl"
             >
-              <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
+              <div className="bg-white border-b border-gray-100 p-3 sm:p-5 flex items-center justify-between">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
                     <Gift className="w-5 h-5 text-[#0FB493]" />
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-[#102A43]">Programme Fidélité</h2>
-                    <p className="text-xs text-gray-500">Cartes et récompenses</p>
+                    <p className="text-xs text-gray-500 hidden sm:block">Cartes et récompenses</p>
                   </div>
                 </div>
                 <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
                   <X className="w-5 h-5 text-gray-500" />
                 </button>
               </div>
-              <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
+              <div className="p-3 sm:p-6 overflow-y-auto max-h-[calc(95vh-80px)] sm:max-h-[calc(90vh-100px)]">
                 <LoyaltyManager />
               </div>
             </motion.div>
@@ -886,7 +886,7 @@ export default function DashboardCommercantPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
             onClick={() => setActiveTab(null)}
           >
             <motion.div
@@ -895,23 +895,23 @@ export default function DashboardCommercantPage() {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
+              className="bg-white rounded-2xl sm:rounded-3xl w-full max-w-4xl sm:max-w-6xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl"
             >
-              <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
+              <div className="bg-white border-b border-gray-100 p-3 sm:p-5 flex items-center justify-between">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
                     <Users className="w-5 h-5 text-[#0FB493]" />
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-[#102A43]">Mes Clients</h2>
-                    <p className="text-xs text-gray-500">Base de données fidèle</p>
+                    <p className="text-xs text-gray-500 hidden sm:block">Base de données fidèle</p>
                   </div>
                 </div>
                 <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
                   <X className="w-5 h-5 text-gray-500" />
                 </button>
               </div>
-              <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
+              <div className="p-3 sm:p-6 overflow-y-auto max-h-[calc(95vh-80px)] sm:max-h-[calc(90vh-100px)]">
                 <ClientsTracker clients={clients} />
               </div>
             </motion.div>
@@ -923,7 +923,7 @@ export default function DashboardCommercantPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
             onClick={() => setActiveTab(null)}
           >
             <motion.div
@@ -932,23 +932,23 @@ export default function DashboardCommercantPage() {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
+              className="bg-white rounded-2xl sm:rounded-3xl w-full max-w-4xl sm:max-w-6xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl"
             >
-              <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
+              <div className="bg-white border-b border-gray-100 p-3 sm:p-5 flex items-center justify-between">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
                     <BarChart3 className="w-5 h-5 text-[#0FB493]" />
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-[#102A43]">Statistiques</h2>
-                    <p className="text-xs text-gray-500">Analytics détaillées</p>
+                    <p className="text-xs text-gray-500 hidden sm:block">Analytics détaillées</p>
                   </div>
                 </div>
                 <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
                   <X className="w-5 h-5 text-gray-500" />
                 </button>
               </div>
-              <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
+              <div className="p-3 sm:p-6 overflow-y-auto max-h-[calc(95vh-80px)] sm:max-h-[calc(90vh-100px)]">
                 <StatsSectionCommercant stats={stats} />
               </div>
             </motion.div>
