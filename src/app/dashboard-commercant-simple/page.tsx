@@ -8,9 +8,9 @@ import { createBrowserSupabase } from "@/lib/supabase";
 
 export default function DashboardCommercantPage() {
   const merchantId = "UUID_TEST";
-  const { offers, clients, stats } = useMerchantData(merchantId, refreshTrigger);
   const [showScanner, setShowScanner] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const { offers, clients, stats } = useMerchantData(merchantId, refreshTrigger);
 
   const handleScan = async (qrData: string) => {
     console.log("QR scanné:", qrData);
