@@ -34,7 +34,7 @@ export default function LoginMerchantPage() {
         
         // Redirection vers dashboard commerçant après 2 secondes
         setTimeout(() => {
-          router.push("/merchant/dashboard");
+          router.push("/dashboard-commercant");
         }, 2000);
       } else {
         setMessage("❌ Email ou mot de passe incorrect");
