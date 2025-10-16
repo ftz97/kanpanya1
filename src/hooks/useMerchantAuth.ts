@@ -5,12 +5,12 @@ export function useMerchantAuth() {
   const [merchantId, setMerchantId] = useState<string | null>(null);
   const [merchantData, setMerchantData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createBrowserSupabase();
 
   useEffect(() => {
     async function getMerchantData() {
       try {
         setLoading(true);
+        const supabase = createBrowserSupabase();
         
         // Récupérer l'utilisateur connecté
         const { data: { user } } = await supabase.auth.getUser();

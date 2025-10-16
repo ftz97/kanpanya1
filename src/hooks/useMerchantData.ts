@@ -5,10 +5,13 @@ export function useMerchantData(merchantId: string, refreshTrigger?: number) {
   const [offers, setOffers] = useState<any[]>([]);
   const [clients, setClients] = useState<any[]>([]);
   const [stats, setStats] = useState<any[]>([]);
-  const supabase = createBrowserSupabase();
 
   useEffect(() => {
+    if (!merchantId) return;
+    
     async function fetchData() {
+      const supabase = createBrowserSupabase();
+      
       const { data: offersData } = await supabase
         .from("offres")
         .select("*")
