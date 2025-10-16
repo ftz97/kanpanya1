@@ -29,10 +29,10 @@ function WelcomeStats({ stats, merchantName }: { stats: any[], merchantName?: st
   const todayStats = stats.find(s => s.jour === today);
 
   const statsData = [
-    { label: "Scans du jour", value: todayStats?.total_scans || 0, icon: "📱", color: "from-blue-500 to-blue-600", trend: "+12%" },
-    { label: "Points distribués", value: todayStats?.total_points || 0, icon: "🏆", color: "from-amber-500 to-amber-600", trend: "+8%" },
-    { label: "Clients actifs", value: todayStats?.total_clients || 0, icon: "👥", color: "from-purple-500 to-purple-600", trend: "+5%" },
-    { label: "Satisfaction", value: "4.8 ★", icon: "⭐", color: "from-green-500 to-green-600", trend: "+0.2" },
+    { label: "Scans du jour", value: todayStats?.total_scans || 0, icon: QrCode, trend: "+12%" },
+    { label: "Points distribués", value: todayStats?.total_points || 0, icon: Gift, trend: "+8%" },
+    { label: "Clients actifs", value: todayStats?.total_clients || 0, icon: Users, trend: "+5%" },
+    { label: "Satisfaction", value: "4.8", icon: Star, trend: "+0.2", suffix: "★" },
   ];
 
   return (
@@ -40,14 +40,14 @@ function WelcomeStats({ stats, merchantName }: { stats: any[], merchantName?: st
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-2xl font-bold text-[#123456] mb-1">
-            Bonjour 👋 {merchantName || "Votre commerce"}
+            Bonjour {merchantName || "Votre commerce"} 👋
           </h2>
           <p className="text-sm text-gray-500">
             {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
           </p>
         </div>
-        <div className="w-12 h-12 bg-gradient-to-br from-[#17BFA0] to-[#14a58e] rounded-2xl flex items-center justify-center shadow-lg shadow-[#17BFA0]/20">
-          <BarChart3 className="w-6 h-6 text-white" />
+        <div className="w-11 h-11 bg-gradient-to-br from-[#17BFA0] to-[#14a58e] rounded-xl flex items-center justify-center shadow-md">
+          <BarChart3 className="w-5 h-5 text-white" />
         </div>
       </div>
       
@@ -58,21 +58,20 @@ function WelcomeStats({ stats, merchantName }: { stats: any[], merchantName?: st
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="group relative bg-white rounded-2xl p-4 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-[#17BFA0]/30"
+            className="bg-white rounded-xl p-4 border border-gray-100 hover:border-[#17BFA0]/30 hover:shadow-md transition-all duration-200"
           >
-            <div className="flex items-start justify-between mb-3">
-              <div className={`w-10 h-10 bg-gradient-to-br ${stat.color} rounded-xl flex items-center justify-center text-xl shadow-md group-hover:scale-110 transition-transform`}>
-                {stat.icon}
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-9 h-9 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
+                <stat.icon className="w-4 h-4 text-[#17BFA0]" />
               </div>
-              <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">
+              <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded">
                 {stat.trend}
               </span>
             </div>
-            <div className="text-3xl font-bold text-[#123456] mb-1 group-hover:text-[#17BFA0] transition-colors">
-              {stat.value}
+            <div className="text-2xl font-bold text-[#123456] mb-0.5">
+              {stat.value}{stat.suffix || ''}
             </div>
-            <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
-            <div className="absolute inset-0 bg-gradient-to-br from-[#17BFA0]/0 to-[#17BFA0]/0 group-hover:from-[#17BFA0]/5 group-hover:to-[#17BFA0]/10 rounded-2xl transition-all pointer-events-none"></div>
+            <div className="text-xs text-gray-600">{stat.label}</div>
           </motion.div>
         ))}
       </div>
@@ -462,36 +461,35 @@ export default function DashboardCommercantPage() {
         {/* Grille d'onglets/cartes */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {[
-            { id: 'offres', label: 'Mes Offres', icon: Gift, color: 'from-pink-500 to-rose-500', count: offers.length },
-            { id: 'liens', label: 'Liens Sociaux', icon: LinkIcon, color: 'from-blue-500 to-cyan-500', count: 0 },
-            { id: 'satisfaction', label: 'Satisfaction', icon: Star, color: 'from-amber-500 to-yellow-500', count: 0 },
-            { id: 'quiz', label: 'Quiz', icon: FileText, color: 'from-purple-500 to-indigo-500', count: 0 },
-            { id: 'sondages', label: 'Sondages', icon: MessageSquare, color: 'from-green-500 to-emerald-500', count: 0 },
-            { id: 'fidelite', label: 'Fidélité', icon: Gift, color: 'from-red-500 to-orange-500', count: 0 },
-            { id: 'clients', label: 'Clients', icon: Users, color: 'from-teal-500 to-cyan-500', count: clients.length },
-            { id: 'stats', label: 'Statistiques', icon: BarChart3, color: 'from-indigo-500 to-purple-500', count: 0 },
+            { id: 'offres', label: 'Offres', icon: Gift, desc: 'Promotions', count: offers.length },
+            { id: 'clients', label: 'Clients', icon: Users, desc: 'Base fidèle', count: clients.length },
+            { id: 'stats', label: 'Statistiques', icon: BarChart3, desc: 'Analytics', count: 0 },
+            { id: 'satisfaction', label: 'Satisfaction', icon: Star, desc: 'Avis clients', count: 0 },
+            { id: 'quiz', label: 'Quiz', icon: FileText, desc: 'Jeux', count: 0 },
+            { id: 'sondages', label: 'Sondages', icon: MessageSquare, desc: 'Enquêtes', count: 0 },
+            { id: 'liens', label: 'Réseaux', icon: LinkIcon, desc: 'Social media', count: 0 },
+            { id: 'fidelite', label: 'Fidélité', icon: Gift, desc: 'Programmes', count: 0 },
           ].map((tab) => (
             <motion.button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-300 border-2 border-transparent hover:border-gray-100"
+              whileHover={{ y: -4 }}
+              whileTap={{ scale: 0.98 }}
+              className="group relative bg-white rounded-xl p-5 shadow-sm hover:shadow-lg transition-all duration-200 border border-gray-100 hover:border-[#17BFA0]/30"
             >
-              <div className={`w-14 h-14 bg-gradient-to-br ${tab.color} rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
-                <tab.icon className="w-7 h-7 text-white" />
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-11 h-11 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center group-hover:bg-[#17BFA0] transition-colors">
+                  <tab.icon className="w-5 h-5 text-[#17BFA0] group-hover:text-white transition-colors" />
+                </div>
+                {tab.count > 0 && (
+                  <div className="ml-auto w-6 h-6 bg-[#17BFA0] text-white text-xs font-bold rounded-full flex items-center justify-center">
+                    {tab.count}
+                  </div>
+                )}
               </div>
               
-              <h3 className="font-semibold text-[#123456] mb-1 text-left">{tab.label}</h3>
-              <p className="text-sm text-gray-500 text-left">
-                {tab.count > 0 ? `${tab.count} éléments` : 'Gérer'}
-              </p>
-              
-              {tab.count > 0 && (
-                <div className="absolute top-3 right-3 w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
-                  {tab.count}
-                </div>
-              )}
+              <h3 className="font-semibold text-[#123456] mb-0.5 text-left">{tab.label}</h3>
+              <p className="text-xs text-gray-500 text-left">{tab.desc}</p>
             </motion.button>
           ))}
         </div>
@@ -517,15 +515,18 @@ export default function DashboardCommercantPage() {
               onClick={(e) => e.stopPropagation()}
               className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
             >
-            <div className="bg-gradient-to-r from-pink-500 to-rose-500 p-6 flex items-center justify-between">
+            <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                  <Gift className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
+                  <Gift className="w-5 h-5 text-[#17BFA0]" />
                 </div>
-                <h2 className="text-2xl font-bold text-white">Mes Offres</h2>
+                <div>
+                  <h2 className="text-xl font-bold text-[#123456]">Mes Offres</h2>
+                  <p className="text-xs text-gray-500">Gérer vos promotions</p>
+                </div>
               </div>
-              <button onClick={() => setActiveTab(null)} className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors">
-                <X className="w-6 h-6 text-white" />
+              <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
+                <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
             <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
@@ -551,15 +552,18 @@ export default function DashboardCommercantPage() {
               onClick={(e) => e.stopPropagation()}
               className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
             >
-            <div className="bg-gradient-to-r from-blue-500 to-cyan-500 p-6 flex items-center justify-between">
+            <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                  <LinkIcon className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
+                  <LinkIcon className="w-5 h-5 text-[#17BFA0]" />
                 </div>
-                <h2 className="text-2xl font-bold text-white">Liens Sociaux</h2>
+                <div>
+                  <h2 className="text-xl font-bold text-[#123456]">Réseaux Sociaux</h2>
+                  <p className="text-xs text-gray-500">Partager vos contenus</p>
+                </div>
               </div>
-              <button onClick={() => setActiveTab(null)} className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors">
-                <X className="w-6 h-6 text-white" />
+              <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
+                <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
             <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
@@ -585,15 +589,18 @@ export default function DashboardCommercantPage() {
               onClick={(e) => e.stopPropagation()}
               className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
             >
-            <div className="bg-gradient-to-r from-amber-500 to-yellow-500 p-6 flex items-center justify-between">
+            <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                  <Star className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
+                  <Star className="w-5 h-5 text-[#17BFA0]" />
                 </div>
-                <h2 className="text-2xl font-bold text-white">Questionnaires de Satisfaction</h2>
+                <div>
+                  <h2 className="text-xl font-bold text-[#123456]">Satisfaction Client</h2>
+                  <p className="text-xs text-gray-500">Avis et retours</p>
+                </div>
               </div>
-              <button onClick={() => setActiveTab(null)} className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors">
-                <X className="w-6 h-6 text-white" />
+              <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
+                <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
             <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
@@ -619,15 +626,18 @@ export default function DashboardCommercantPage() {
               onClick={(e) => e.stopPropagation()}
               className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
             >
-            <div className="bg-gradient-to-r from-purple-500 to-indigo-500 p-6 flex items-center justify-between">
+            <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                  <FileText className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-[#17BFA0]" />
                 </div>
-                <h2 className="text-2xl font-bold text-white">Mes Quiz</h2>
+                <div>
+                  <h2 className="text-xl font-bold text-[#123456]">Quiz</h2>
+                  <p className="text-xs text-gray-500">Jeux interactifs</p>
+                </div>
               </div>
-              <button onClick={() => setActiveTab(null)} className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors">
-                <X className="w-6 h-6 text-white" />
+              <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
+                <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
             <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
@@ -653,15 +663,18 @@ export default function DashboardCommercantPage() {
               onClick={(e) => e.stopPropagation()}
               className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
             >
-              <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-6 flex items-center justify-between">
+              <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                    <MessageSquare className="w-6 h-6 text-white" />
+                  <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
+                    <MessageSquare className="w-5 h-5 text-[#17BFA0]" />
                   </div>
-                  <h2 className="text-2xl font-bold text-white">Mes Sondages</h2>
+                  <div>
+                    <h2 className="text-xl font-bold text-[#123456]">Sondages</h2>
+                    <p className="text-xs text-gray-500">Enquêtes et feedback</p>
+                  </div>
                 </div>
-                <button onClick={() => setActiveTab(null)} className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors">
-                  <X className="w-6 h-6 text-white" />
+                <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
+                  <X className="w-5 h-5 text-gray-500" />
                 </button>
               </div>
               <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
@@ -687,15 +700,18 @@ export default function DashboardCommercantPage() {
               onClick={(e) => e.stopPropagation()}
               className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
             >
-              <div className="bg-gradient-to-r from-red-500 to-orange-500 p-6 flex items-center justify-between">
+              <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                    <Gift className="w-6 h-6 text-white" />
+                  <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
+                    <Gift className="w-5 h-5 text-[#17BFA0]" />
                   </div>
-                  <h2 className="text-2xl font-bold text-white">Programme de Fidélité</h2>
+                  <div>
+                    <h2 className="text-xl font-bold text-[#123456]">Programme Fidélité</h2>
+                    <p className="text-xs text-gray-500">Cartes et récompenses</p>
+                  </div>
                 </div>
-                <button onClick={() => setActiveTab(null)} className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors">
-                  <X className="w-6 h-6 text-white" />
+                <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
+                  <X className="w-5 h-5 text-gray-500" />
                 </button>
               </div>
               <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
@@ -721,15 +737,18 @@ export default function DashboardCommercantPage() {
               onClick={(e) => e.stopPropagation()}
               className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
             >
-              <div className="bg-gradient-to-r from-teal-500 to-cyan-500 p-6 flex items-center justify-between">
+              <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                    <Users className="w-6 h-6 text-white" />
+                  <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
+                    <Users className="w-5 h-5 text-[#17BFA0]" />
                   </div>
-                  <h2 className="text-2xl font-bold text-white">Mes Clients</h2>
+                  <div>
+                    <h2 className="text-xl font-bold text-[#123456]">Mes Clients</h2>
+                    <p className="text-xs text-gray-500">Base de données fidèle</p>
+                  </div>
                 </div>
-                <button onClick={() => setActiveTab(null)} className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors">
-                  <X className="w-6 h-6 text-white" />
+                <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
+                  <X className="w-5 h-5 text-gray-500" />
                 </button>
               </div>
               <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
@@ -755,15 +774,18 @@ export default function DashboardCommercantPage() {
               onClick={(e) => e.stopPropagation()}
               className="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
             >
-              <div className="bg-gradient-to-r from-indigo-500 to-purple-500 p-6 flex items-center justify-between">
+              <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                    <BarChart3 className="w-6 h-6 text-white" />
+                  <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
+                    <BarChart3 className="w-5 h-5 text-[#17BFA0]" />
                   </div>
-                  <h2 className="text-2xl font-bold text-white">Statistiques Détaillées</h2>
+                  <div>
+                    <h2 className="text-xl font-bold text-[#123456]">Statistiques</h2>
+                    <p className="text-xs text-gray-500">Analytics détaillées</p>
+                  </div>
                 </div>
-                <button onClick={() => setActiveTab(null)} className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors">
-                  <X className="w-6 h-6 text-white" />
+                <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
+                  <X className="w-5 h-5 text-gray-500" />
                 </button>
               </div>
               <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
