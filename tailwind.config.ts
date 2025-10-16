@@ -13,6 +13,23 @@ const config: Config = {
         '95': '0.95',
       },
       colors: {
+        brand: {
+          DEFAULT: "#0FB493", // vert Kanpanya adouci
+          dark: "#0CA182",
+          light: "#C8F2E9",
+        },
+        ink: "#102A43",
+        soft: {
+          bg: "#F8FAFB",
+          card: "#FFFFFF",
+          muted: "#F4F7F8",
+        },
+        accent: {
+          mint: "#DDF5F0",
+          peach: "#FFE8D9",
+          coral: "#FFD8D2",
+          blue: "#E2F0FB",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -37,6 +54,10 @@ const config: Config = {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          mint: "#DDF5F0",
+          peach: "#FFE8D9",
+          coral: "#FFD8D2",
+          blue: "#E2F0FB",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",

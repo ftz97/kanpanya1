@@ -2,14 +2,14 @@
 
 import { QrCode, PlusCircle, BarChart3, Users, LogOut, Gift, MessageSquare, Link as LinkIcon, Star, FileText, Settings, X } from "lucide-react";
 import * as React from "react";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useMerchantData } from "@/hooks/useMerchantData";
 import { useMerchantAuth } from "@/hooks/useMerchantAuth";
+import { CreateOfferModal, ScanClientModal } from "@/components/merchant/MerchantModals";
 
 export const dynamic = 'force-dynamic';
-import { CreateOfferModal, ScanClientModal } from "@/components/merchant/MerchantModals";
 import ScannerQR from "@/components/ScannerQR";
 import { QuizCreator } from "@/components/merchant/QuizCreator";
 import { QuizManager } from "@/components/merchant/QuizManager";
@@ -22,7 +22,7 @@ import { SatisfactionSurveyManager } from "@/components/merchant/SatisfactionSur
 import { createBrowserSupabase } from "@/lib/supabase";
 
 // Lazy imports pour perf
-const SponsorCarousel = dynamic(() => import("@/components/SponsorCarousel"), { ssr: false });
+const SponsorCarousel = dynamicImport(() => import("@/components/SponsorCarousel"), { ssr: false });
 
 // 🧩 Composants structurants (squelettes)
 function WelcomeStats({ stats, merchantName }: { stats: any[], merchantName?: string }) {
@@ -38,17 +38,17 @@ function WelcomeStats({ stats, merchantName }: { stats: any[], merchantName?: st
   ];
 
   return (
-    <section className="bg-gradient-to-br from-white via-white to-[#F7F9FA] p-6 rounded-3xl shadow-lg border border-gray-100">
+    <section className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-[#123456] mb-1">
+          <h2 className="text-2xl font-bold text-ink mb-1">
             Bonjour {merchantName || "Votre commerce"} 👋
           </h2>
           <p className="text-sm text-gray-500">
             {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
           </p>
         </div>
-        <div className="w-11 h-11 bg-gradient-to-br from-[#17BFA0] to-[#14a58e] rounded-xl flex items-center justify-center shadow-md">
+        <div className="w-11 h-11 bg-gradient-to-br from-brand to-brand-dark rounded-xl flex items-center justify-center shadow-sm">
           <BarChart3 className="w-5 h-5 text-white" />
         </div>
       </div>
@@ -60,17 +60,17 @@ function WelcomeStats({ stats, merchantName }: { stats: any[], merchantName?: st
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="bg-white rounded-xl p-4 border border-gray-100 hover:border-[#17BFA0]/30 hover:shadow-md transition-all duration-200"
+            className="bg-white rounded-xl p-4 border border-gray-100 hover:border-brand/20 hover:shadow-sm transition-all duration-200"
           >
             <div className="flex items-center justify-between mb-3">
-              <div className="w-9 h-9 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
-                <stat.icon className="w-4 h-4 text-[#17BFA0]" />
+              <div className="w-9 h-9 bg-accent-mint rounded-lg flex items-center justify-center">
+                <stat.icon className="w-4 h-4 text-brand" />
               </div>
-              <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded">
+              <span className="text-xs font-semibold text-brand bg-brand-light px-2 py-0.5 rounded">
                 {stat.trend}
               </span>
             </div>
-            <div className="text-2xl font-bold text-[#123456] mb-0.5">
+            <div className="text-2xl font-bold text-ink mb-0.5">
               {stat.value}{stat.suffix || ''}
             </div>
             <div className="text-xs text-gray-600">{stat.label}</div>
@@ -85,7 +85,7 @@ function OffersManager({ offers, onCreateOffer }: { offers: any[], onCreateOffer
   return (
     <section className="bg-white p-4 rounded-2xl shadow-sm">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-lg font-semibold text-[#123456]">Mes offres actives</h2>
+        <h2 className="text-lg font-semibold text-ink">Mes offres actives</h2>
         <button 
           onClick={onCreateOffer}
           className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#17BFA0] text-white text-sm font-medium hover:bg-[#14a58e] active:scale-95 transition-all duration-200"
@@ -99,13 +99,13 @@ function OffersManager({ offers, onCreateOffer }: { offers: any[], onCreateOffer
         {offers.length > 0 ? (
           offers.map((offer, i) => (
             <div key={offer.id} className="border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition">
-              <h3 className="font-semibold text-[#123456]">{offer.titre}</h3>
+              <h3 className="font-semibold text-ink">{offer.titre}</h3>
               <p className="text-sm text-gray-600 mt-1">{offer.description}</p>
               <div className="flex justify-between items-center mt-3">
                 <span className="text-xs text-gray-500">
                   Statut : {offer.active ? "🟢 active" : "🔴 inactive"}
                 </span>
-                <button className="text-[#17BFA0] text-sm font-medium hover:underline">Modifier</button>
+                <button className="text-brand text-sm font-medium hover:underline">Modifier</button>
               </div>
             </div>
           ))
@@ -122,21 +122,21 @@ function OffersManager({ offers, onCreateOffer }: { offers: any[], onCreateOffer
 function LoyaltyManager() {
   return (
     <section className="bg-white p-4 rounded-2xl shadow-sm">
-      <h2 className="text-lg font-semibold text-[#123456] mb-3">Mes cartes fidélité</h2>
+      <h2 className="text-lg font-semibold text-ink mb-3">Mes cartes fidélité</h2>
       <div className="space-y-3">
         <div className="border border-gray-200 rounded-xl p-3 flex justify-between items-center">
           <div>
-            <p className="font-medium text-[#123456]">Café : 10 achetés = 1 offert</p>
+            <p className="font-medium text-ink">Café : 10 achetés = 1 offert</p>
             <p className="text-xs text-gray-500">152 participants · 42 complétions</p>
           </div>
-          <button className="text-[#17BFA0] text-sm font-medium hover:underline">Paramètres</button>
+          <button className="text-brand text-sm font-medium hover:underline">Paramètres</button>
         </div>
         <div className="border border-gray-200 rounded-xl p-3 flex justify-between items-center">
           <div>
-            <p className="font-medium text-[#123456]">Menu du midi : 5 achetés = -20%</p>
+            <p className="font-medium text-ink">Menu du midi : 5 achetés = -20%</p>
             <p className="text-xs text-gray-500">73 participants · 21 complétions</p>
           </div>
-          <button className="text-[#17BFA0] text-sm font-medium hover:underline">Paramètres</button>
+          <button className="text-brand text-sm font-medium hover:underline">Paramètres</button>
         </div>
       </div>
     </section>
@@ -146,7 +146,7 @@ function LoyaltyManager() {
 function ClientsTracker({ clients }: { clients: any[] }) {
   return (
     <section className="bg-white p-4 rounded-2xl shadow-sm">
-      <h2 className="text-lg font-semibold text-[#123456] mb-3">Mes clients</h2>
+      <h2 className="text-lg font-semibold text-ink mb-3">Mes clients</h2>
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-gray-700">
           <thead className="bg-[#F7F9FA]">
@@ -164,7 +164,7 @@ function ClientsTracker({ clients }: { clients: any[] }) {
                   <td className="py-2 px-3">{client.nom}</td>
                   <td className="py-2 px-3">{client.email}</td>
                   <td className="py-2 px-3">{client.points}</td>
-                  <td className="py-2 px-3 text-[#17BFA0]">
+                  <td className="py-2 px-3 text-brand">
                     {new Date(client.created_at).toLocaleDateString('fr-FR')}
                   </td>
                 </tr>
@@ -199,11 +199,11 @@ function StatsSectionCommercant({ stats }: { stats: any[] }) {
 
   return (
     <section className="bg-white p-4 rounded-2xl shadow-sm">
-      <h2 className="text-lg font-semibold text-[#123456] mb-3">Statistiques</h2>
+      <h2 className="text-lg font-semibold text-ink mb-3">Statistiques</h2>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
         {statsData.map((stat, i) => (
           <div key={i} className="bg-[#F7F9FA] rounded-xl p-3 shadow-inner">
-            <div className="text-xl font-bold text-[#17BFA0]">{stat.value}</div>
+            <div className="text-xl font-bold text-brand">{stat.value}</div>
             <div className="text-sm text-gray-600">{stat.label}</div>
           </div>
         ))}
@@ -223,7 +223,7 @@ function FooterPro() {
               <div className="w-8 h-8 bg-gradient-to-br from-[#17BFA0] to-[#14a58e] rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">K</span>
               </div>
-              <span className="font-bold text-[#123456]">Kanpanya Pro</span>
+              <span className="font-bold text-ink">Kanpanya Pro</span>
             </div>
             <p className="text-sm text-gray-600">
               La solution complète pour gérer votre programme de fidélité et engager vos clients.
@@ -232,23 +232,23 @@ function FooterPro() {
 
           {/* Liens rapides */}
           <div>
-            <h4 className="font-semibold text-[#123456] mb-3">Liens rapides</h4>
+            <h4 className="font-semibold text-ink mb-3">Liens rapides</h4>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li><a href="#" className="hover:text-[#17BFA0] transition-colors">📊 Statistiques</a></li>
-              <li><a href="#" className="hover:text-[#17BFA0] transition-colors">👥 Clients</a></li>
-              <li><a href="#" className="hover:text-[#17BFA0] transition-colors">🎯 Offres</a></li>
-              <li><a href="#" className="hover:text-[#17BFA0] transition-colors">⚙️ Paramètres</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">📊 Statistiques</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">👥 Clients</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">🎯 Offres</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">⚙️ Paramètres</a></li>
             </ul>
           </div>
 
           {/* Support */}
           <div>
-            <h4 className="font-semibold text-[#123456] mb-3">Support</h4>
+            <h4 className="font-semibold text-ink mb-3">Support</h4>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li><a href="#" className="hover:text-[#17BFA0] transition-colors">❓ Centre d'aide</a></li>
-              <li><a href="#" className="hover:text-[#17BFA0] transition-colors">📧 Contact</a></li>
-              <li><a href="#" className="hover:text-[#17BFA0] transition-colors">📚 Documentation</a></li>
-              <li><a href="#" className="hover:text-[#17BFA0] transition-colors">🎓 Tutoriels</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">❓ Centre d'aide</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">📧 Contact</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">📚 Documentation</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">🎓 Tutoriels</a></li>
             </ul>
           </div>
         </div>
@@ -259,9 +259,9 @@ function FooterPro() {
             © {new Date().getFullYear()} Kanpanya Pro. Tous droits réservés.
           </p>
           <div className="flex items-center gap-4 text-sm text-gray-500">
-            <a href="#" className="hover:text-[#17BFA0] transition-colors">Conditions d'utilisation</a>
+            <a href="#" className="hover:text-brand transition-colors">Conditions d'utilisation</a>
             <span>·</span>
-            <a href="#" className="hover:text-[#17BFA0] transition-colors">Confidentialité</a>
+            <a href="#" className="hover:text-brand transition-colors">Confidentialité</a>
           </div>
         </div>
       </div>
@@ -382,27 +382,27 @@ export default function DashboardCommercantPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex items-center justify-center relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#17BFA0]/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+      <div className="min-h-screen bg-soft-bg flex items-center justify-center relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-brand/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent-blue/30 rounded-full blur-3xl"></div>
         
         <div className="text-center relative z-10">
           <div className="relative mb-8">
-            <div className="w-24 h-24 bg-gradient-to-br from-[#17BFA0] to-[#14a58e] rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-[#17BFA0]/30 animate-pulse">
+            <div className="w-24 h-24 bg-gradient-to-br from-brand to-brand-dark rounded-3xl flex items-center justify-center mx-auto shadow-xl shadow-brand/20 animate-pulse">
               <span className="text-white font-bold text-4xl">K</span>
             </div>
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-32 h-32 border-4 border-t-[#17BFA0] border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+              <div className="w-32 h-32 border-4 border-t-brand border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
             </div>
           </div>
           
-          <h3 className="text-xl font-bold text-[#123456] mb-2">Kanpanya Pro</h3>
+          <h3 className="text-xl font-bold text-ink mb-2">Kanpanya Pro</h3>
           <p className="text-gray-600 animate-pulse">Chargement de votre tableau de bord...</p>
           
           <div className="mt-6 flex justify-center gap-2">
-            <div className="w-2 h-2 bg-[#17BFA0] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-            <div className="w-2 h-2 bg-[#17BFA0] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-            <div className="w-2 h-2 bg-[#17BFA0] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+            <div className="w-2 h-2 bg-brand rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+            <div className="w-2 h-2 bg-brand rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+            <div className="w-2 h-2 bg-brand rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
           </div>
         </div>
       </div>
@@ -410,19 +410,19 @@ export default function DashboardCommercantPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-soft-bg flex flex-col relative overflow-hidden">
       {/* Décorations d'arrière-plan */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#17BFA0]/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-brand/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent-blue/30 rounded-full blur-3xl"></div>
   {/* 🔹 NAVBAR */}
   <nav className="w-full bg-gradient-to-r from-white to-[#F7F9FA] border-b border-gray-100 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
     <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-gradient-to-br from-[#17BFA0] to-[#14a58e] rounded-xl flex items-center justify-center shadow-lg shadow-[#17BFA0]/20">
+        <div className="w-10 h-10 bg-gradient-to-br from-brand to-brand-dark rounded-xl flex items-center justify-center shadow-md shadow-brand/15">
           <span className="text-white font-bold text-lg">K</span>
         </div>
         <div>
-          <div className="text-xl font-bold bg-gradient-to-r from-[#17BFA0] to-[#14a58e] bg-clip-text text-transparent">
+          <div className="text-xl font-bold text-ink">
             Kanpanya Pro
           </div>
           <div className="text-xs text-gray-500 hidden sm:block">
@@ -434,15 +434,15 @@ export default function DashboardCommercantPage() {
       <div className="flex items-center gap-2 sm:gap-3">
         <button
           onClick={() => setShowQRScanner(true)}
-          className="group flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#17BFA0] to-[#14a58e] text-white text-sm font-medium hover:shadow-lg hover:shadow-[#17BFA0]/30 transition-all duration-300 active:scale-95"
+          className="group flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand text-white text-sm font-medium hover:shadow-md hover:shadow-brand/25 hover:bg-brand-dark transition-all duration-200 active:scale-95"
         >
-          <QrCode className="w-4 h-4 group-hover:scale-110 transition-transform" />
+          <QrCode className="w-4 h-4" />
           <span className="hidden sm:inline">Scanner</span>
         </button>
         
         <button 
           onClick={() => router.push("/dashboard")}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 hover:shadow-md transition-all duration-200 active:scale-95"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-700 text-sm font-medium transition-all duration-200 active:scale-95"
         >
           <LogOut className="w-4 h-4" />
           <span className="hidden sm:inline">Quitter</span>
@@ -477,20 +477,20 @@ export default function DashboardCommercantPage() {
               onClick={() => setActiveTab(tab.id)}
               whileHover={{ y: -4 }}
               whileTap={{ scale: 0.98 }}
-              className="group relative bg-white rounded-xl p-5 shadow-sm hover:shadow-lg transition-all duration-200 border border-gray-100 hover:border-[#17BFA0]/30"
+              className="group relative bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 hover:border-brand/20"
             >
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-11 h-11 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center group-hover:bg-[#17BFA0] transition-colors">
-                  <tab.icon className="w-5 h-5 text-[#17BFA0] group-hover:text-white transition-colors" />
+                <div className="w-11 h-11 bg-accent-mint rounded-lg flex items-center justify-center group-hover:bg-brand transition-colors">
+                  <tab.icon className="w-5 h-5 text-brand group-hover:text-white transition-colors" />
                 </div>
                 {tab.count > 0 && (
-                  <div className="ml-auto w-6 h-6 bg-[#17BFA0] text-white text-xs font-bold rounded-full flex items-center justify-center">
+                  <div className="ml-auto w-6 h-6 bg-brand text-white text-xs font-bold rounded-full flex items-center justify-center">
                     {tab.count}
                   </div>
                 )}
               </div>
               
-              <h3 className="font-semibold text-[#123456] mb-0.5 text-left">{tab.label}</h3>
+              <h3 className="font-semibold text-ink mb-0.5 text-left">{tab.label}</h3>
               <p className="text-xs text-gray-500 text-left">{tab.desc}</p>
             </motion.button>
           ))}
@@ -519,16 +519,16 @@ export default function DashboardCommercantPage() {
             >
             <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
-                  <Gift className="w-5 h-5 text-[#17BFA0]" />
+                <div className="w-10 h-10 bg-accent-mint rounded-lg flex items-center justify-center">
+                  <Gift className="w-5 h-5 text-brand" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-[#123456]">Mes Offres</h2>
+                  <h2 className="text-xl font-bold text-ink">Mes Offres</h2>
                   <p className="text-xs text-gray-500">Gérer vos promotions</p>
                 </div>
               </div>
-              <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-colors">
-                <X className="w-5 h-5 text-gray-500" />
+              <button onClick={() => setActiveTab(null)} className="w-9 h-9 hover:bg-gray-50 rounded-lg flex items-center justify-center transition-colors">
+                <X className="w-5 h-5 text-gray-400" />
               </button>
             </div>
             <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
@@ -556,11 +556,11 @@ export default function DashboardCommercantPage() {
             >
             <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
-                  <LinkIcon className="w-5 h-5 text-[#17BFA0]" />
+                <div className="w-10 h-10 bg-accent-mint rounded-lg flex items-center justify-center">
+                  <LinkIcon className="w-5 h-5 text-brand" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-[#123456]">Réseaux Sociaux</h2>
+                  <h2 className="text-xl font-bold text-ink">Réseaux Sociaux</h2>
                   <p className="text-xs text-gray-500">Partager vos contenus</p>
                 </div>
               </div>
@@ -593,11 +593,11 @@ export default function DashboardCommercantPage() {
             >
             <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
-                  <Star className="w-5 h-5 text-[#17BFA0]" />
+                <div className="w-10 h-10 bg-accent-mint rounded-lg flex items-center justify-center">
+                  <Star className="w-5 h-5 text-brand" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-[#123456]">Satisfaction Client</h2>
+                  <h2 className="text-xl font-bold text-ink">Satisfaction Client</h2>
                   <p className="text-xs text-gray-500">Avis et retours</p>
                 </div>
               </div>
@@ -630,11 +630,11 @@ export default function DashboardCommercantPage() {
             >
             <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
-                  <FileText className="w-5 h-5 text-[#17BFA0]" />
+                <div className="w-10 h-10 bg-accent-mint rounded-lg flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-brand" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-[#123456]">Quiz</h2>
+                  <h2 className="text-xl font-bold text-ink">Quiz</h2>
                   <p className="text-xs text-gray-500">Jeux interactifs</p>
                 </div>
               </div>
@@ -667,11 +667,11 @@ export default function DashboardCommercantPage() {
             >
               <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
-                    <MessageSquare className="w-5 h-5 text-[#17BFA0]" />
+                  <div className="w-10 h-10 bg-accent-mint rounded-lg flex items-center justify-center">
+                    <MessageSquare className="w-5 h-5 text-brand" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-[#123456]">Sondages</h2>
+                    <h2 className="text-xl font-bold text-ink">Sondages</h2>
                     <p className="text-xs text-gray-500">Enquêtes et feedback</p>
                   </div>
                 </div>
@@ -704,11 +704,11 @@ export default function DashboardCommercantPage() {
             >
               <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
-                    <Gift className="w-5 h-5 text-[#17BFA0]" />
+                  <div className="w-10 h-10 bg-accent-mint rounded-lg flex items-center justify-center">
+                    <Gift className="w-5 h-5 text-brand" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-[#123456]">Programme Fidélité</h2>
+                    <h2 className="text-xl font-bold text-ink">Programme Fidélité</h2>
                     <p className="text-xs text-gray-500">Cartes et récompenses</p>
                   </div>
                 </div>
@@ -741,11 +741,11 @@ export default function DashboardCommercantPage() {
             >
               <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
-                    <Users className="w-5 h-5 text-[#17BFA0]" />
+                  <div className="w-10 h-10 bg-accent-mint rounded-lg flex items-center justify-center">
+                    <Users className="w-5 h-5 text-brand" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-[#123456]">Mes Clients</h2>
+                    <h2 className="text-xl font-bold text-ink">Mes Clients</h2>
                     <p className="text-xs text-gray-500">Base de données fidèle</p>
                   </div>
                 </div>
@@ -778,11 +778,11 @@ export default function DashboardCommercantPage() {
             >
               <div className="bg-white border-b border-gray-100 p-5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#17BFA0]/10 rounded-lg flex items-center justify-center">
-                    <BarChart3 className="w-5 h-5 text-[#17BFA0]" />
+                  <div className="w-10 h-10 bg-accent-mint rounded-lg flex items-center justify-center">
+                    <BarChart3 className="w-5 h-5 text-brand" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-[#123456]">Statistiques</h2>
+                    <h2 className="text-xl font-bold text-ink">Statistiques</h2>
                     <p className="text-xs text-gray-500">Analytics détaillées</p>
                   </div>
                 </div>
