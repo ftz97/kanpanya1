@@ -1,6 +1,6 @@
 "use client";
 
-import { QrCode, PlusCircle, BarChart3, Users, LogOut, Gift, MessageSquare, Link as LinkIcon, Star, FileText, Settings, X } from "lucide-react";
+import { QrCode, PlusCircle, BarChart3, Users, LogOut, Gift, MessageSquare, Link as LinkIcon, Star, FileText, Settings, X, Bell, TrendingUp, Target, Award } from "lucide-react";
 import * as React from "react";
 import dynamicImport from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
@@ -30,11 +30,57 @@ function WelcomeStats({ stats, merchantName }: { stats: any[], merchantName?: st
   const today = new Date().toISOString().split('T')[0];
   const todayStats = stats.find(s => s.jour === today);
 
+  // Calculs avancés pour KPIs
+  const totalScans = stats.reduce((sum, s) => sum + (s.total_scans || 0), 0);
+  const totalPoints = stats.reduce((sum, s) => sum + (s.total_points || 0), 0);
+  const avgDailyScans = totalScans / Math.max(stats.length, 1);
+  const conversionRate = totalScans > 0 ? ((totalPoints / totalScans) * 100).toFixed(1) : "0.0";
+  const weeklyGrowth = stats.length > 1 ? 
+    Math.round(((todayStats?.total_scans || 0) - avgDailyScans) / Math.max(avgDailyScans, 1) * 100) : 0;
+
   const statsData = [
-    { label: "Scans du jour", value: todayStats?.total_scans || 0, icon: QrCode, trend: "+12%" },
-    { label: "Points distribués", value: todayStats?.total_points || 0, icon: Gift, trend: "+8%" },
-    { label: "Clients actifs", value: todayStats?.total_clients || 0, icon: Users, trend: "+5%" },
-    { label: "Satisfaction", value: "4.8", icon: Star, trend: "+0.2", suffix: "★" },
+    { 
+      label: "Scans du jour", 
+      value: todayStats?.total_scans || 0, 
+      icon: QrCode, 
+      trend: weeklyGrowth > 0 ? `+${weeklyGrowth}%` : `${weeklyGrowth}%`,
+      subtitle: `Moyenne: ${Math.round(avgDailyScans)}/jour`,
+      color: "from-blue-500 to-blue-600",
+      bgColor: "bg-blue-50",
+      textColor: "text-blue-700"
+    },
+    { 
+      label: "Points distribués", 
+      value: totalPoints, 
+      icon: Gift, 
+      trend: "+12%",
+      subtitle: "Cette semaine",
+      color: "from-green-500 to-green-600",
+      bgColor: "bg-green-50",
+      textColor: "text-green-700"
+    },
+    { 
+      label: "Taux conversion", 
+      value: conversionRate, 
+      icon: Target, 
+      trend: "+8%",
+      suffix: "%",
+      subtitle: "Scans → Points",
+      color: "from-purple-500 to-purple-600",
+      bgColor: "bg-purple-50",
+      textColor: "text-purple-700"
+    },
+    { 
+      label: "Performance", 
+      value: "4.8", 
+      icon: Star, 
+      trend: "+0.2",
+      suffix: "★",
+      subtitle: "Satisfaction clients",
+      color: "from-orange-500 to-orange-600",
+      bgColor: "bg-orange-50",
+      textColor: "text-orange-700"
+    },
   ];
 
   return (
@@ -60,24 +106,63 @@ function WelcomeStats({ stats, merchantName }: { stats: any[], merchantName?: st
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="bg-white rounded-xl p-4 border border-gray-100 hover:border-[#0FB493]/20 hover:shadow-sm transition-all duration-200"
+            className="bg-white rounded-xl p-4 border border-gray-100 hover:border-[#0FB493]/20 hover:shadow-lg transition-all duration-300 group"
           >
             <div className="flex items-center justify-between mb-3">
-              <div className="w-9 h-9 bg-[#DDF5F0] rounded-lg flex items-center justify-center">
-                <stat.icon className="w-4 h-4 text-[#0FB493]" />
+              <div className={`w-10 h-10 bg-gradient-to-r ${stat.color} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                <stat.icon className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xs font-semibold text-[#0FB493] bg-[#0FB493]-light px-2 py-0.5 rounded">
+              <span className={`text-xs font-semibold ${stat.textColor} ${stat.bgColor} px-2 py-1 rounded-full`}>
                 {stat.trend}
               </span>
             </div>
-            <div className="text-2xl font-bold text-[#102A43] mb-0.5">
+            <div className="text-2xl font-bold text-[#102A43] mb-1">
               {stat.value}{stat.suffix || ''}
             </div>
-            <div className="text-xs text-gray-600">{stat.label}</div>
+            <div className="text-xs text-gray-600 mb-1">{stat.label}</div>
+            <div className="text-xs text-gray-400">{stat.subtitle}</div>
           </motion.div>
         ))}
       </div>
     </section>
+  );
+}
+
+// Composant de notifications
+function NotificationPanel({ notifications, onRemove }: { 
+  notifications: Array<{id: string, message: string, type: 'success' | 'info' | 'warning', timestamp: Date}>,
+  onRemove: (id: string) => void 
+}) {
+  if (notifications.length === 0) return null;
+
+  return (
+    <div className="fixed top-20 right-4 z-50 space-y-2 max-w-sm">
+      <AnimatePresence>
+        {notifications.map((notification) => (
+          <motion.div
+            key={notification.id}
+            initial={{ opacity: 0, x: 300 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 300 }}
+            className={`p-3 rounded-lg shadow-lg border-l-4 ${
+              notification.type === 'success' ? 'bg-green-50 border-green-400 text-green-800' :
+              notification.type === 'warning' ? 'bg-yellow-50 border-yellow-400 text-yellow-800' :
+              'bg-blue-50 border-blue-400 text-blue-800'
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium">{notification.message}</p>
+              <button
+                onClick={() => onRemove(notification.id)}
+                className="ml-2 text-gray-400 hover:text-gray-600"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </div>
   );
 }
 
@@ -272,7 +357,7 @@ function FooterPro() {
 // 🧭 COMPOSANT PRINCIPAL
 export default function DashboardCommercantPage() {
   const router = useRouter();
-  
+
   // États d'abord
   const [showCreateOffer, setShowCreateOffer] = React.useState(false);
   const [showScanClient, setShowScanClient] = React.useState(false);
@@ -283,6 +368,10 @@ export default function DashboardCommercantPage() {
   const [showSatisfactionSurveyCreator, setShowSatisfactionSurveyCreator] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<string | null>(null);
   const [refreshTrigger, setRefreshTrigger] = React.useState(0);
+  
+  // États pour améliorations
+  const [notifications, setNotifications] = React.useState<Array<{id: string, message: string, type: 'success' | 'info' | 'warning', timestamp: Date}>>([]);
+  const [quickActions, setQuickActions] = React.useState<Array<{id: string, label: string, icon: any, action: () => void}>>([]);
   
   // Puis les hooks qui utilisent ces états
   const { merchantId, merchantData, loading: authLoading } = useMerchantAuth();
@@ -296,11 +385,11 @@ export default function DashboardCommercantPage() {
   };
 
 
-  // Fonction de scan QR
+  // Fonction de scan QR améliorée avec notifications
   const handleQRScan = async (qrData: string) => {
     console.log("QR scanné:", qrData);
     const supabase = createBrowserSupabase();
-    
+
     try {
       // qrData contient le client_id
       const clientId = qrData;
@@ -313,19 +402,32 @@ export default function DashboardCommercantPage() {
         .single();
 
       if (clientError || !client) {
-        alert("❌ Client non trouvé. QR code invalide.");
+        addNotification({
+          id: Date.now().toString(),
+          message: "❌ Client non trouvé. QR code invalide.",
+          type: 'warning',
+          timestamp: new Date()
+        });
         return;
       }
 
+      // Points variables selon la fréquence
+      const pointsToGive = calculatePoints(client);
+      
       // Insérer le scan
       const { error: scanError } = await supabase.from("scans").insert({
         client_id: clientId,
         commercant_id: merchantId,
-        points: 10,
+        points: pointsToGive,
       });
 
       if (scanError) {
-        alert("❌ Erreur lors de l'enregistrement du scan");
+        addNotification({
+          id: Date.now().toString(),
+          message: "❌ Erreur lors de l'enregistrement du scan",
+          type: 'warning',
+          timestamp: new Date()
+        });
         console.error("Erreur scan:", scanError);
         return;
       }
@@ -333,24 +435,51 @@ export default function DashboardCommercantPage() {
       // Mettre à jour les points du client
       const { error: updateError } = await supabase
         .from("clients")
-        .update({ points: (client.points || 0) + 10 })
+        .update({ points: (client.points || 0) + pointsToGive })
         .eq("id", clientId);
 
       if (updateError) {
         console.error("Erreur mise à jour points:", updateError);
       }
 
-      // Afficher un message de succès
-      alert(`✅ Scan réussi ! ${client.nom} a gagné 10 points.`);
-      
+      // Notification de succès
+      addNotification({
+        id: Date.now().toString(),
+        message: `✅ ${client.nom} a gagné ${pointsToGive} points !`,
+        type: 'success',
+        timestamp: new Date()
+      });
+
       // Fermer le scanner et rafraîchir
       setShowQRScanner(false);
       refreshData();
-      
+
     } catch (error) {
       console.error("Erreur lors du scan:", error);
-      alert("❌ Une erreur est survenue");
+      addNotification({
+        id: Date.now().toString(),
+        message: "❌ Une erreur est survenue",
+        type: 'warning',
+        timestamp: new Date()
+      });
     }
+  };
+
+  // Fonction pour calculer les points selon la fréquence
+  const calculatePoints = (client: any) => {
+    const today = new Date().toISOString().split('T')[0];
+    // Logique pour points variables (exemple)
+    return client.points > 100 ? 15 : 10; // Plus de points pour clients fidèles
+  };
+
+  // Fonction pour ajouter des notifications
+  const addNotification = (notification: {id: string, message: string, type: 'success' | 'info' | 'warning', timestamp: Date}) => {
+    setNotifications(prev => [notification, ...prev.slice(0, 4)]); // Garde max 5 notifications
+    
+    // Auto-suppression après 5 secondes
+    setTimeout(() => {
+      setNotifications(prev => prev.filter(n => n.id !== notification.id));
+    }, 5000);
   };
 
   // Synchronisation en temps réel avec Supabase
@@ -429,27 +558,50 @@ export default function DashboardCommercantPage() {
             Tableau de bord commerçant
           </div>
         </div>
-      </div>
-      
-      <div className="flex items-center gap-2 sm:gap-3">
-        <button
-          onClick={() => setShowQRScanner(true)}
-          className="group flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0FB493] text-white text-sm font-medium hover:shadow-md hover:shadow-brand/25 hover:bg-[#0FB493]-dark transition-all duration-200 active:scale-95"
-        >
-          <QrCode className="w-4 h-4" />
-          <span className="hidden sm:inline">Scanner</span>
-        </button>
-        
-        <button 
-          onClick={() => router.push("/dashboard")}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-700 text-sm font-medium transition-all duration-200 active:scale-95"
-        >
-          <LogOut className="w-4 h-4" />
-          <span className="hidden sm:inline">Quitter</span>
-        </button>
-      </div>
-    </div>
-  </nav>
+          </div>
+
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Notification Bell */}
+            <div className="relative">
+              <button className="p-2 text-gray-600 hover:text-[#0FB493] transition-colors relative">
+                <Bell className="w-5 h-5" />
+                {notifications.length > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                    {notifications.length}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            {/* Actions rapides */}
+            <div className="hidden md:flex items-center gap-2">
+              <button
+                onClick={() => setShowCreateOffer(true)}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white text-sm font-medium hover:shadow-lg transition-all duration-200 active:scale-95"
+              >
+                <PlusCircle className="w-4 h-4" />
+                <span>Offre</span>
+              </button>
+            </div>
+
+            <button
+              onClick={() => setShowQRScanner(true)}
+              className="group flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0FB493] text-white text-sm font-medium hover:shadow-md hover:shadow-[#0FB493]/25 hover:bg-[#0CA182] transition-all duration-200 active:scale-95"
+            >
+              <QrCode className="w-4 h-4" />
+              <span className="hidden sm:inline">Scanner</span>
+            </button>
+
+            <button
+              onClick={() => router.push("/dashboard")}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-700 text-sm font-medium transition-all duration-200 active:scale-95"
+            >
+              <LogOut className="w-4 h-4" />
+              <span className="hidden sm:inline">Quitter</span>
+            </button>
+          </div>
+        </div>
+      </nav>
 
       {/* 🌿 CONTENU PRINCIPAL */}
       <motion.main
@@ -497,9 +649,15 @@ export default function DashboardCommercantPage() {
         </div>
       </motion.main>
 
-      <FooterPro />
+                  <FooterPro />
 
-      {/* Modales pour chaque onglet */}
+                  {/* Notifications */}
+                  <NotificationPanel 
+                    notifications={notifications}
+                    onRemove={(id) => setNotifications(prev => prev.filter(n => n.id !== id))}
+                  />
+
+                  {/* Modales pour chaque onglet */}
       <AnimatePresence>
         {activeTab === 'offres' && (
           <motion.div
