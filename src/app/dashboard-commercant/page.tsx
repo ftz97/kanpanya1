@@ -8,8 +8,6 @@ import { useRouter } from "next/navigation";
 import { useMerchantData } from "@/hooks/useMerchantData";
 import { useMerchantAuth } from "@/hooks/useMerchantAuth";
 import { CreateOfferModal, ScanClientModal } from "@/components/merchant/MerchantModals";
-
-export const dynamic = 'force-dynamic';
 import ScannerQR from "@/components/ScannerQR";
 import { QuizCreator } from "@/components/merchant/QuizCreator";
 import { QuizManager } from "@/components/merchant/QuizManager";
@@ -20,6 +18,8 @@ import { SocialLinksManager } from "@/components/merchant/SocialLinksManager";
 import { SatisfactionSurveyCreator } from "@/components/merchant/SatisfactionSurveyCreator";
 import { SatisfactionSurveyManager } from "@/components/merchant/SatisfactionSurveyManager";
 import { createBrowserSupabase } from "@/lib/supabase";
+
+export const dynamic = 'force-dynamic';
 
 // Lazy imports pour perf
 const SponsorCarousel = dynamicImport(() => import("@/components/SponsorCarousel"), { ssr: false });
