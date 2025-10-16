@@ -92,7 +92,7 @@ export default function DashboardPage() {
             </button>
 
             <button 
-              onClick={() => setShowQRPopup(true)}
+              onClick={() => window.location.href = "/client/qr-code"}
               aria-label="Mon QR Code"
               className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#17BFA0] text-white text-sm font-medium hover:bg-[#14a58e] shadow-[0_0_20px_rgba(23,191,160,0.4)] hover:shadow-[0_0_30px_rgba(23,191,160,0.6)] transition-all duration-200 active:scale-95"
             >
