@@ -6,6 +6,8 @@ import ScannerQR from "@/components/ScannerQR";
 import { useMerchantData } from "@/hooks/useMerchantData";
 import { createBrowserSupabase } from "@/lib/supabase";
 
+export const dynamic = 'force-dynamic';
+
 export default function DashboardCommercantPage() {
   const merchantId = "UUID_TEST";
   const [showScanner, setShowScanner] = useState(false);

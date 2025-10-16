@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useMerchantData } from "@/hooks/useMerchantData";
 import { useMerchantAuth } from "@/hooks/useMerchantAuth";
+
+export const dynamic = 'force-dynamic';
 import { CreateOfferModal, ScanClientModal } from "@/components/merchant/MerchantModals";
 import ScannerQR from "@/components/ScannerQR";
 import { QuizCreator } from "@/components/merchant/QuizCreator";
