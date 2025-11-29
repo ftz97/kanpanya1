@@ -25,7 +25,15 @@ export const dynamic = 'force-dynamic';
 const SponsorCarousel = dynamicImport(() => import("@/components/SponsorCarousel"), { ssr: false });
 
 // 🧩 Composants structurants (squelettes)
-function WelcomeStats({ stats, merchantName }: { stats: any[], merchantName?: string }) {
+interface Stat {
+  jour: string;
+  total_scans: number;
+  total_points: number;
+  total_clients: number;
+  commercant_id: string;
+}
+
+function WelcomeStats({ stats, merchantName }: { stats: Stat[], merchantName?: string }) {
   // Calcul des statistiques du jour
   const today = new Date().toISOString().split('T')[0];
   const todayStats = stats.find(s => s.jour === today);
@@ -166,7 +174,16 @@ function NotificationPanel({ notifications, onRemove }: {
   );
 }
 
-function OffersManager({ offers, onCreateOffer }: { offers: any[], onCreateOffer: () => void }) {
+interface Offer {
+  id: string;
+  titre: string;
+  description: string;
+  active: boolean;
+  commercant_id: string;
+  created_at: string;
+}
+
+function OffersManager({ offers, onCreateOffer }: { offers: Offer[], onCreateOffer: () => void }) {
   return (
     <section className="bg-white p-4 rounded-2xl shadow-sm">
       <div className="flex items-center justify-between mb-3">
@@ -228,7 +245,15 @@ function LoyaltyManager() {
   );
 }
 
-function ClientsTracker({ clients }: { clients: any[] }) {
+interface Client {
+  id: string;
+  nom: string;
+  email: string;
+  points: number;
+  created_at: string;
+}
+
+function ClientsTracker({ clients }: { clients: Client[] }) {
   return (
     <section className="bg-white p-4 rounded-2xl shadow-sm">
       <h2 className="text-lg font-semibold text-[#102A43] mb-3">Mes clients</h2>
@@ -268,7 +293,7 @@ function ClientsTracker({ clients }: { clients: any[] }) {
   );
 }
 
-function StatsSectionCommercant({ stats }: { stats: any[] }) {
+function StatsSectionCommercant({ stats }: { stats: Stat[] }) {
   // Calcul des statistiques mensuelles
   const totalScans = stats.reduce((acc, stat) => acc + (stat.total_scans || 0), 0);
   const totalClients = Math.max(...stats.map(stat => stat.total_clients || 0), 0);
@@ -466,7 +491,7 @@ export default function DashboardCommercantPage() {
   };
 
   // Fonction pour calculer les points selon la fréquence
-  const calculatePoints = (client: any) => {
+  const calculatePoints = (client: { points: number }) => {
     const today = new Date().toISOString().split('T')[0];
     // Logique pour points variables (exemple)
     return client.points > 100 ? 15 : 10; // Plus de points pour clients fidèles

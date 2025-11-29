@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import QrScanner from "qr-scanner";
-import { X, Camera, CameraOff, AlertCircle } from "lucide-react";
+import { X, AlertCircle } from "lucide-react";
 
 interface ScannerQRProps {
   onResult: (qrData: string) => void;
@@ -82,9 +82,9 @@ export default function ScannerQR({ onResult, onClose }: ScannerQRProps) {
         try {
           qrScannerRef.current.stop();
           qrScannerRef.current.destroy();
-        } catch (e) {
-          console.log("Scanner déjà arrêté");
-        }
+                    } catch {
+                      console.log("Scanner déjà arrêté");
+                    }
         qrScannerRef.current = null;
       }
     };

@@ -3,7 +3,13 @@ import { createBrowserSupabase } from "@/lib/supabase";
 
 export function useMerchantAuth() {
   const [merchantId, setMerchantId] = useState<string | null>(null);
-  const [merchantData, setMerchantData] = useState<any>(null);
+  const [merchantData, setMerchantData] = useState<{
+    id: string;
+    nom: string;
+    email: string;
+    user_id: string;
+    created_at: string;
+  } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

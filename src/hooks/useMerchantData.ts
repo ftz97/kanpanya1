@@ -1,10 +1,36 @@
 import { useEffect, useState } from "react";
 import { createBrowserSupabase } from "@/lib/supabase";
 
+interface Offer {
+  id: string;
+  titre: string;
+  description: string;
+  active: boolean;
+  commercant_id: string;
+  created_at: string;
+}
+
+interface Client {
+  id: string;
+  nom: string;
+  email: string;
+  points: number;
+  created_at: string;
+  scans?: Array<{ points: number }>;
+}
+
+interface Stat {
+  jour: string;
+  total_scans: number;
+  total_points: number;
+  total_clients: number;
+  commercant_id: string;
+}
+
 export function useMerchantData(merchantId: string, refreshTrigger?: number) {
-  const [offers, setOffers] = useState<any[]>([]);
-  const [clients, setClients] = useState<any[]>([]);
-  const [stats, setStats] = useState<any[]>([]);
+  const [offers, setOffers] = useState<Offer[]>([]);
+  const [clients, setClients] = useState<Client[]>([]);
+  const [stats, setStats] = useState<Stat[]>([]);
 
   useEffect(() => {
     if (!merchantId) return;

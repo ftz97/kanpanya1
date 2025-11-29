@@ -1,6 +1,6 @@
 "use client";
 
-import { Gift, QrCode, LogOut } from "lucide-react";
+import { Gift, QrCode, LogOut, Star } from "lucide-react";
 import * as React from "react";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
@@ -8,6 +8,7 @@ import { useDashboardWelcomeMessage } from "@/hooks/useDashboardWelcomeMessage";
 import { useEmojiAnimation } from "@/hooks/useEmojiAnimation";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { tombolas, actus, flashOffers, fidelityCards, categories, stats } from "@/data/dashboardData";
+import PointsHistoryModal from "@/components/PointsHistoryModal";
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -40,6 +41,7 @@ export default function DashboardPage() {
   // États UI
   const [showQRPopup, setShowQRPopup] = React.useState(false);
   const [showRewardsPopup, setShowRewardsPopup] = React.useState(false);
+  const [showPointsHistory, setShowPointsHistory] = React.useState(false);
   
   // États pour le système de tickets
   const [tickets, setTickets] = React.useState(3);
@@ -92,7 +94,7 @@ export default function DashboardPage() {
             </button>
 
             <button 
-              onClick={() => window.location.href = "/client/qr-code"}
+              onClick={() => setShowQRPopup(true)}
               aria-label="Mon QR Code"
               className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#17BFA0] text-white text-sm font-medium hover:bg-[#14a58e] shadow-[0_0_20px_rgba(23,191,160,0.4)] hover:shadow-[0_0_30px_rgba(23,191,160,0.6)] transition-all duration-200 active:scale-95"
             >
@@ -180,6 +182,40 @@ export default function DashboardPage() {
       {sad && <SadEmojiRain count={35} isWinner={false} />}
       {happy && <HappyEmojiRain count={35} isWinner={true} />}
       {money && <MoneyEmojiRain count={35} isWinner={true} />}
+
+      {/* 🔹 COMPTEUR FLOTTANT DE POINTS */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, type: "spring" }}
+        onClick={() => setShowPointsHistory(true)}
+        className="fixed top-24 right-5 z-40 bg-white shadow-lg rounded-full px-4 py-2 flex items-center gap-2 border-2 border-[#0FB493]/30 backdrop-blur-sm cursor-pointer hover:shadow-[0_0_15px_rgba(15,180,147,0.4)] hover:scale-105 transition-all"
+      >
+        <motion.div
+          animate={{ 
+            rotate: [0, 15, -15, 0],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{ 
+            duration: 2.5, 
+            repeat: Infinity, 
+            ease: "easeInOut" 
+          }}
+          className="flex items-center justify-center"
+        >
+          <Star className="w-5 h-5 text-[#0FB493] fill-[#0FB493]" />
+        </motion.div>
+        <span className="font-bold text-[#0FB493] text-sm tracking-tight">
+          {tickets * 100} pts
+        </span>
+      </motion.div>
+
+      {/* Modal Historique des Points */}
+      <PointsHistoryModal
+        isOpen={showPointsHistory}
+        onClose={() => setShowPointsHistory(false)}
+        totalPoints={tickets * 100}
+      />
     </div>
   );
 }

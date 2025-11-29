@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import QrScanner from "qr-scanner";
-import { Camera, CameraOff, X, CheckCircle, AlertCircle } from "lucide-react";
+import { X, CheckCircle, AlertCircle } from "lucide-react";
 
 interface QRScannerProps {
   onScan: (result: string) => void;
@@ -77,8 +77,8 @@ export function QRScanner({ onScan, onClose, isOpen }: QRScannerProps) {
         setIsScanning(true);
         setError(null);
 
-      } catch (err) {
-        console.error("Erreur lors de l'initialisation du scanner:", err);
+      } catch {
+        console.error("Erreur lors de l'initialisation du scanner");
         setError("Impossible d'accéder à la caméra");
         setHasPermission(false);
       }
@@ -148,14 +148,6 @@ export function QRScanner({ onScan, onClose, isOpen }: QRScannerProps) {
             )}
 
             {/* État de la caméra */}
-            {!isScanning && hasPermission === true && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                <div className="text-center text-white">
-                  <CameraOff className="w-12 h-12 mx-auto mb-2" />
-                  <p>Caméra arrêtée</p>
-                </div>
-              </div>
-            )}
 
             {/* Erreur ou pas de permission */}
             {(error || hasPermission === false) && (

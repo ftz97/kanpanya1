@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, Plus, Trash2, Save, Play } from "lucide-react";
+import { X, Plus, Trash2, Save } from "lucide-react";
 
 interface Question {
   id: string;
@@ -18,7 +18,7 @@ interface QuizCreatorProps {
   onSuccess: () => void;
 }
 
-export function QuizCreator({ isOpen, onClose, merchantId, onSuccess }: QuizCreatorProps) {
+export function QuizCreator({ isOpen, onClose, onSuccess }: QuizCreatorProps) {
   const [quiz, setQuiz] = useState({
     titre: "",
     description: "",

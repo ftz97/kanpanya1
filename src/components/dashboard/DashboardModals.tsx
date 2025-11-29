@@ -41,39 +41,40 @@ export default function DashboardModals({
     <>
       {/* Popup QR Code */}
       {showQRPopup && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl p-5 w-full max-w-xs text-center shadow-md relative">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3 sm:p-4">
+          <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 w-full max-w-[320px] sm:max-w-sm md:max-w-md text-center shadow-xl relative">
             {/* Bouton fermer */}
             <button
               onClick={() => setShowQRPopup(false)}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+              className="absolute top-2 sm:top-3 right-2 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 transition-all text-lg sm:text-xl font-bold"
               aria-label="Fermer"
             >
               ×
             </button>
 
             {/* Titre */}
-            <h3 className="text-lg font-bold text-[#123456] mb-4">Mon QR Code</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-[#123456] mb-3 sm:mb-4">Mon QR Code</h3>
 
             {/* QR code simple (sans déco) */}
-            <div className="flex justify-center mb-4">
-              <StyledQRCode
-                value={`${typeof window !== 'undefined' ? window.location.origin : 'https://kanpanya.com'}/scan?client=kevin`}
-                size={160}
-                type="client"
-                showDecoration={false}
-              />
+            <div className="flex justify-center mb-3 sm:mb-4">
+              <div className="bg-white p-4 rounded-xl shadow-md border-2 border-gray-200">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(typeof window !== 'undefined' ? `${window.location.origin}/scan?client=kevin` : 'https://kanpanya.com/scan?client=kevin')}&format=png&margin=8`}
+                  alt="QR Code Client"
+                  className="w-[240px] h-[240px] sm:w-[260px] sm:h-[260px]"
+                />
+              </div>
             </div>
 
             {/* Texte explicatif */}
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 px-2">
               Montrez ce QR aux commerçants pour gagner des points.
             </p>
 
             {/* Bouton fermer */}
             <button
               onClick={() => setShowQRPopup(false)}
-              className="w-full bg-[#17BFA0] text-white py-2 rounded-lg font-medium hover:bg-[#14a58e] active:scale-95 transition-all duration-200"
+              className="w-full bg-[#17BFA0] text-white py-2 sm:py-2.5 rounded-lg font-medium hover:bg-[#14a58e] active:scale-95 transition-all duration-200 text-sm sm:text-base"
             >
               Fermer
             </button>

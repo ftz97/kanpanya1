@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Trash2, Edit, Eye, Users, TrendingUp, Link as LinkIcon, Youtube, Send } from "lucide-react";
+import { Plus, Trash2, Edit, Eye, Users, Link as LinkIcon, Send } from "lucide-react";
 
 interface SocialLink {
   id: string;

@@ -10,6 +10,9 @@ interface SearchResult {
   address?: string;
   population?: number;
   area?: number;
+  score?: number;
+  relevance?: number;
+  is_martinique?: boolean;
 }
 
 interface SearchBarProps {

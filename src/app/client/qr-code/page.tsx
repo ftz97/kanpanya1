@@ -127,10 +127,10 @@ export default function ClientQRCodePage() {
 
           {/* QR Code */}
           <div className="flex justify-center mb-6">
-            <div className="bg-white p-4 rounded-xl shadow-md">
+            <div className="bg-white p-2 sm:p-4 rounded-xl shadow-md max-w-[90vw] sm:max-w-none">
               <StyledQRCode
                 value={qrValue}
-                size={250}
+                size={200}
                 title={clientData.nom || "Client Kanpanya"}
                 subtitle={`${clientData.points} points`}
                 points={clientData.points}

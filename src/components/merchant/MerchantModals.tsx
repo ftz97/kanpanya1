@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, PlusCircle, QrCode, Camera } from "lucide-react";
+import { X, Camera } from "lucide-react";
 import { MerchantActions, CreateOfferData, ScanClientData } from "@/services/merchantActions";
 import { QRScanner } from "./QRScanner";
 

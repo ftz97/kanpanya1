@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, Save, Link as LinkIcon, Youtube, Bell } from "lucide-react";
+import { X, Save, Link as LinkIcon, Bell } from "lucide-react";
 
 interface SocialLinkCreatorProps {
   isOpen: boolean;

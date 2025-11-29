@@ -1,13 +1,136 @@
 // app/scan/page.tsx
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
+import { createClient } from "@supabase/supabase-js";
 
-export default function ScanLanding() {
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
+function ScanContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  useEffect(() => {
+    const processScan = async () => {
+      const clientId = searchParams.get("client");
+      const merchantId = searchParams.get("merchant");
+      
+      // Si on a des paramètres de QR code, traiter le scan
+      if (clientId || merchantId) {
+        console.log("🔍 Scan détecté:", { clientId, merchantId });
+        
+        try {
+          // Vérifier l'authentification utilisateur actuel
+          const { data: { user } } = await supabase.auth.getUser();
+          
+          if (!user) {
+            console.error("❌ Utilisateur non authentifié");
+            // Rediriger vers la page d'authentification
+            router.push("/login-client");
+            return;
+          }
+          
+          // Déterminer le type de scan et les IDs
+          let scannedClientId: string | null = null;
+          let scannedMerchantId: string | null = null;
+          
+          if (clientId) {
+            // Un client a été scanné (par un commerçant)
+            // Vérifier que l'utilisateur actuel est un commerçant
+            const { data: merchantData } = await supabase
+              .from("commercants")
+              .select("id")
+              .eq("user_id", user.id)
+              .single();
+            
+            if (!merchantData) {
+              console.error("❌ Profil commerçant introuvable");
+              router.push("/dashboard?error=not_merchant");
+              return;
+            }
+            
+            scannedClientId = clientId;
+            scannedMerchantId = merchantData.id;
+          } else if (merchantId) {
+            // Un commerçant a été scanné (par un client)
+            // Vérifier que l'utilisateur actuel est un client
+            const { data: clientData } = await supabase
+              .from("clients")
+              .select("id")
+              .eq("user_id", user.id)
+              .single();
+            
+            if (!clientData) {
+              console.error("❌ Profil client introuvable");
+              router.push("/dashboard?error=not_client");
+              return;
+            }
+            
+            scannedClientId = clientData.id;
+            scannedMerchantId = merchantId;
+          }
+          
+          // Enregistrer le scan dans la table scan_logs
+          // Le trigger handle_scan_rewards() s'exécutera automatiquement
+          const { error: scanError } = await supabase
+            .from("scan_logs")
+            .insert({
+              client_id: scannedClientId,
+              commercant_id: scannedMerchantId,
+              points: 10, // Points de base
+              created_at: new Date().toISOString()
+            });
+          
+          if (scanError) {
+            console.error("❌ Erreur enregistrement scan:", scanError);
+            // Rediriger quand même vers la page reward (même en cas d'erreur)
+            router.push("/reward?error=scan_failed");
+            return;
+          }
+          
+          console.log("✅ Scan enregistré avec succès");
+          
+          // Rediriger vers la page reward pour afficher les récompenses
+          router.push("/reward");
+          
+        } catch (error) {
+          console.error("❌ Erreur lors du traitement du scan:", error);
+          router.push("/reward?error=unknown");
+        }
+        
+        return;
+      }
+    };
+    
+    processScan();
+  }, [searchParams, router]);
 
-  // Étapes du mini pitch
+  const clientId = searchParams.get("client");
+  const merchantId = searchParams.get("merchant");
+  
+  // Si on traite un scan, afficher un loading
+  if (clientId || merchantId) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-50 to-white px-6">
+        <div className="bg-white shadow-lg rounded-2xl p-8 text-center max-w-md w-full">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#17BFA0] mx-auto mb-4"></div>
+          <h2 className="text-xl font-bold text-[#123456] mb-2">
+            Traitement du scan...
+          </h2>
+          <p className="text-gray-600">
+            {clientId ? "Scan client détecté" : "Scan commerçant détecté"}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Page d'accueil normale (pas de paramètres QR)
   const steps = [
     { icon: "🔍", text: "Découvre tes commerçants locaux" },
     { icon: "📲", text: "Scanne ton QR code" },
@@ -59,5 +182,20 @@ export default function ScanLanding() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function ScanLanding() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-50 to-white px-6">
+        <div className="bg-white shadow-lg rounded-2xl p-8 text-center max-w-md w-full">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#17BFA0] mx-auto mb-4"></div>
+          <p className="text-gray-600">Chargement...</p>
+        </div>
+      </div>
+    }>
+      <ScanContent />
+    </Suspense>
   );
 }

@@ -8,7 +8,13 @@ interface Quiz {
   titre: string;
   description: string;
   pointsBonus: number;
-  questions: any[];
+  questions: Array<{
+    id: string;
+    question: string;
+    options: string[];
+    correctAnswer: number;
+    points: number;
+  }>;
   participants: number;
   completed: number;
   active: boolean;
